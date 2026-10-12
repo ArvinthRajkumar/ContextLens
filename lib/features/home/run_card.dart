@@ -3,14 +3,17 @@ import 'package:contextlens/core/theme/colors.dart';
 import 'package:contextlens/core/theme/motion.dart';
 import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/utils/formatters.dart';
+import 'package:contextlens/core/widgets/app_card.dart';
 import 'package:contextlens/core/widgets/info_pill.dart';
 import 'package:contextlens/core/widgets/video_thumbnail.dart';
 import 'package:contextlens/features/report/flag_presentation.dart';
 import 'package:contextlens/features/report/models.dart';
 import 'package:contextlens/features/report/report_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-/// A recent run. Opens its report with a container transform.
+/// A recent run. Opens its report with a container transform, or the live
+/// stages while the check is still running.
 class RunCard extends StatelessWidget {
   const RunCard({required this.job, super.key});
 
@@ -22,6 +25,14 @@ class RunCard extends StatelessWidget {
     final colors = AppColors.of(context);
     final motion = Motion.of(context);
     final border = colors.cardBorder;
+
+    if (job.isActive) {
+      return AppCard(
+        padding: EdgeInsets.zero,
+        onTap: () => context.push('/run/${job.id}'),
+        child: _RunCardContent(job: job),
+      );
+    }
 
     return DecoratedBox(
       decoration: BoxDecoration(

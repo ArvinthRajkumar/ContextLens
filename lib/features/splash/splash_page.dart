@@ -8,9 +8,10 @@ import 'package:flutter/services.dart';
 /// Intro shown over Home on launch. Always dark so it continues the native
 /// splash without a flash, whatever theme the user picked.
 ///
-/// Timeline (1100 ms): ring draws 0 to 600, scan line 300 to 700, wordmark
-/// 600 to 900, then a short rest. If [ready] is still false at the end it
-/// holds on the final frame with a gentle pulse.
+/// Timeline (1100 ms): ring draws 0 to 600, scan line settles 300 to 700,
+/// badge pops 600 to 850, wordmark 600 to 900, then a short rest. If
+/// [ready] is still false at the end it holds on the final frame with a
+/// gentle pulse.
 class SplashPage extends StatefulWidget {
   const SplashPage({
     required this.ready,
@@ -47,6 +48,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   late final Animation<double> _ring = _interval(0, 600, Motion.enter);
   late final Animation<double> _scan = _interval(300, 700, Motion.standard);
   late final Animation<double> _word = _interval(600, 900, Motion.enter);
+  // The verified badge pops in once the ring has closed.
+  late final Animation<double> _badge = _interval(600, 850, Curves.easeOutBack);
 
   bool _introDone = false;
 
@@ -135,9 +138,11 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                             size: const Size.square(SplashPage.markSize),
                             painter: LensMarkPainter(
                               color: scheme.primary,
+                              highlight: scheme.onPrimaryContainer,
                               ring: _ring.value,
                               scan: _scan.value,
                               glint: _word.value,
+                              badge: _badge.value,
                               opacity: pulse,
                             ),
                           ),

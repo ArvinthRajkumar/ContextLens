@@ -1,0 +1,56 @@
+{
+  "burst": {
+    "frames": 294,
+    "budget_ms": 16.666666666666668,
+    "build_ms": {
+      "average": 2.2469523809523793,
+      "p50": 1.82,
+      "p90": 3.828,
+      "p99": 7.552,
+      "worst": 11.034
+    },
+    "raster_ms": {
+      "average": 9.95563265306123,
+      "p50": 6.798,
+      "p90": 22.965,
+      "p99": 34.315,
+      "worst": 56.907
+    },
+    "total_span_ms": {
+      "average": 30.33530612244898,
+      "p50": 28.606,
+      "p90": 44.973,
+      "p99": 97.609,
+      "worst": 162.638
+    },
+    "frames_over_budget_build": 0,
+    "frames_over_budget_raster": 52
+  },
+  "baseline_spinner": {
+    "frames": 202,
+    "budget_ms": 16.666666666666668,
+    "build_ms": {
+      "average": 4.762173267326736,
+      "p50": 3.637,
+      "p90": 8.603,
+      "p99": 18.177,
+      "worst": 28.255
+    },
+    "raster_ms": {
+      "average": 12.211064356435639,
+      "p50": 10.977,
+      "p90": 18.836,
+      "p99": 34.493,
+      "worst": 41.812
+    },
+    "total_span_ms": {
+      "average": 41.64616336633662,
+      "p50": 40.213,
+      "p90": 56.759,
+      "p99": 71.658,
+      "worst": 85.452
+    },
+    "frames_over_budget_build": 4,
+    "frames_over_budget_raster": 34
+  }
+}

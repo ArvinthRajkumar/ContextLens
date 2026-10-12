@@ -15,6 +15,19 @@ abstract final class AppConfig {
   /// Starts mock mode with seeded history instead of an empty account.
   static const bool seedMockData = String.fromEnvironment('MOCK_SEED') == '1';
 
+  /// Simulated upload speed in mock mode, in bytes per second. Lower it to
+  /// watch a small file upload, for example MOCK_UPLOAD_BPS=300000.
+  static const int mockUploadBytesPerSecond = int.fromEnvironment(
+    'MOCK_UPLOAD_BPS',
+    defaultValue: 4 * 1024 * 1024,
+  );
+
+  /// Total time the mock backend spends on the five processing stages.
+  static const int mockStageSeconds = int.fromEnvironment(
+    'MOCK_STAGE_SECONDS',
+    defaultValue: 25,
+  );
+
   static const bool enableFlutterDriver = bool.fromEnvironment(
     'ENABLE_FLUTTER_DRIVER',
   );

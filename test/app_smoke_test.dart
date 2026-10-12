@@ -1,7 +1,6 @@
 import 'package:contextlens/app.dart';
 import 'package:contextlens/features/home/run_card.dart';
-import 'package:contextlens/features/report/fake_job_repository.dart';
-import 'package:contextlens/features/report/job_repository.dart';
+import 'package:contextlens/features/report/mock_backend.dart';
 import 'package:contextlens/features/settings/theme_controller.dart';
 import 'package:contextlens/features/splash/splash_page.dart';
 import 'package:flutter/material.dart';
@@ -14,15 +13,19 @@ Future<Widget> _app(
   bool seeded = false,
   Map<String, Object> prefs = const {},
 }) async {
-  SharedPreferences.setMockInitialValues(prefs);
+  SharedPreferences.setMockInitialValues({
+    ...prefs,
+    if (seeded) 'debug.seedMockData': true,
+  });
   final instance = await SharedPreferences.getInstance();
   // Fixture loading is real I/O, so warm the cache outside fake time.
-  final jobs = FakeJobRepository(seeded: seeded);
-  await tester.runAsync(() => jobs.getJob('warm-up'));
+  final backend = MockBackend();
+  await tester.runAsync(backend.fixtures);
+  addTearDown(backend.dispose);
   return ProviderScope(
     overrides: [
       sharedPreferencesProvider.overrideWithValue(instance),
-      jobRepositoryProvider.overrideWithValue(jobs),
+      mockBackendProvider.overrideWithValue(backend),
     ],
     child: const ContextLensApp(),
   );

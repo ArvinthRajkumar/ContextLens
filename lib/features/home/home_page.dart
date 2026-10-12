@@ -1,8 +1,11 @@
 import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/widgets/lens_mark.dart';
 import 'package:contextlens/core/widgets/section_header.dart';
+import 'package:contextlens/features/home/active_upload_card.dart';
 import 'package:contextlens/features/home/check_video_card.dart';
+import 'package:contextlens/features/home/debug_menu.dart';
 import 'package:contextlens/features/home/recent_runs.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,17 +16,21 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Semantics(
-          header: true,
-          label: 'ContextLens',
-          excludeSemantics: true,
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              LensMark(),
-              SizedBox(width: Spacing.space3),
-              Text('ContextLens'),
-            ],
+        title: GestureDetector(
+          // Debug builds: long-press the logo for the state switcher.
+          onLongPress: kDebugMode ? () => showDebugMenu(context) : null,
+          child: Semantics(
+            header: true,
+            label: 'ContextLens',
+            excludeSemantics: true,
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                LensMark(),
+                SizedBox(width: Spacing.space3),
+                Text('ContextLens'),
+              ],
+            ),
           ),
         ),
         actions: [
@@ -51,6 +58,10 @@ class HomePage extends StatelessWidget {
             sliver: SliverToBoxAdapter(
               child: SectionHeader(title: 'Recent checks'),
             ),
+          ),
+          SliverPadding(
+            padding: Spacing.screenPadding,
+            sliver: SliverToBoxAdapter(child: ActiveUploadCard()),
           ),
           SliverPadding(
             padding: EdgeInsets.fromLTRB(
