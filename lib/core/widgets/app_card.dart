@@ -9,6 +9,7 @@ class AppCard extends StatelessWidget {
     this.onTap,
     this.padding = const EdgeInsets.all(Spacing.space4),
     this.color,
+    this.borderColor,
     super.key,
   });
 
@@ -17,11 +18,14 @@ class AppCard extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final Color? color;
 
+  /// Overrides the theme's hairline, for example to mark an error.
+  final Color? borderColor;
+
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final appColors = AppColors.of(context);
-    final border = appColors.cardBorder;
+    final border = borderColor ?? appColors.cardBorder;
 
     return DecoratedBox(
       decoration: BoxDecoration(

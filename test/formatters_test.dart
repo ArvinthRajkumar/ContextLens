@@ -57,4 +57,12 @@ void main() {
       );
     });
   });
+
+  test('formatBytes picks a readable unit', () {
+    expect(formatBytes(512), '512 B');
+    expect(formatBytes(820 * 1024), '820 KB');
+    expect(formatBytes((24.1 * 1024 * 1024).round()), '24.1 MB');
+    expect(formatBytes(500 * 1024 * 1024), '500 MB');
+    expect(formatBytes((1.2 * 1024 * 1024 * 1024).round()), '1.2 GB');
+  });
 }

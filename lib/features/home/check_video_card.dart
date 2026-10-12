@@ -2,13 +2,15 @@ import 'package:contextlens/core/theme/colors.dart';
 import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/widgets/app_button.dart';
 import 'package:contextlens/core/widgets/app_card.dart';
+import 'package:contextlens/features/compose/compose_controller.dart';
 import 'package:contextlens/features/report/flag_presentation.dart';
 import 'package:contextlens/features/report/models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 /// The primary entry point on Home.
-class CheckVideoCard extends StatelessWidget {
+class CheckVideoCard extends ConsumerWidget {
   const CheckVideoCard({super.key});
 
   static const _categories = [
@@ -20,7 +22,7 @@ class CheckVideoCard extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final colors = AppColors.of(context);
@@ -57,7 +59,10 @@ class CheckVideoCard extends StatelessWidget {
             label: 'Check a video',
             icon: Icons.add,
             expand: true,
-            onPressed: () => context.push('/new'),
+            onPressed: () {
+              ref.read(composeControllerProvider.notifier).reset();
+              context.push('/new');
+            },
           ),
         ],
       ),

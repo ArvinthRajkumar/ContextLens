@@ -1,5 +1,6 @@
 import 'package:contextlens/core/theme/app_theme.dart';
 import 'package:contextlens/features/settings/theme_controller.dart';
+import 'package:contextlens/features/share/share_intake.dart';
 import 'package:contextlens/features/splash/splash_gate.dart';
 import 'package:contextlens/router.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class ContextLensApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
     final settings = ref.watch(themeControllerProvider);
+    ref.watch(shareIntakeProvider);
 
     return MaterialApp.router(
       title: 'ContextLens',

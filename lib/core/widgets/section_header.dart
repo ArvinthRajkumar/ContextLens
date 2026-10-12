@@ -19,9 +19,11 @@ class SectionHeader extends StatelessWidget {
     final action = actionLabel;
 
     return Padding(
-      padding: const EdgeInsets.only(
-        top: Spacing.space6,
-        bottom: Spacing.space2,
+      // An action button makes the row 48dp tall; trim the top padding by
+      // the extra height so the title sits at the same rhythm either way.
+      padding: EdgeInsets.only(
+        top: action == null ? Spacing.space6 : Spacing.space3,
+        bottom: action == null ? Spacing.space2 : 0,
       ),
       child: Row(
         children: [

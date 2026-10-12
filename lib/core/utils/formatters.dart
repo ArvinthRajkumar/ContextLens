@@ -58,3 +58,23 @@ String? titleFromCaption(String caption, {int maxLength = 60}) {
       : cut.substring(0, space);
   return '${head.trimRight()}…';
 }
+
+/// "820 KB", "24.1 MB", "500 MB", "1.2 GB" (binary units; one decimal
+/// below 100 so small sizes keep their precision).
+String formatBytes(int bytes) {
+  const kb = 1024;
+  const mb = kb * 1024;
+  const gb = mb * 1024;
+  String scaled(double value, String unit) =>
+      '${value.toStringAsFixed(value >= 100 ? 0 : 1)} $unit';
+  if (bytes >= gb) return scaled(bytes / gb, 'GB');
+  if (bytes >= mb) return scaled(bytes / mb, 'MB');
+  if (bytes >= kb) return '${(bytes / kb).round()} KB';
+  return '$bytes B';
+}
+
+/// "12 Oct": day and short month, for labels.
+String formatShortDate(DateTime when) {
+  final local = when.toLocal();
+  return '${local.day} ${_months[local.month - 1]}';
+}
