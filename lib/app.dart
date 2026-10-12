@@ -1,3 +1,5 @@
+import 'package:contextlens/core/theme/app_theme.dart';
+import 'package:contextlens/features/settings/theme_controller.dart';
 import 'package:contextlens/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,20 +10,25 @@ class ContextLensApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
+    final settings = ref.watch(themeControllerProvider);
+
     return MaterialApp.router(
       title: 'ContextLens',
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.dark,
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        fontFamily: 'Inter',
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF3DD6C6),
-          brightness: Brightness.dark,
-        ),
-      ),
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: settings.themeMode,
       routerConfig: router,
+      // Folds the in-app override into disableAnimations so every widget
+      // (and Motion.of) honors one signal.
+      builder: (context, child) {
+        if (!settings.reduceMotion) return child!;
+        final media = MediaQuery.of(context);
+        return MediaQuery(
+          data: media.copyWith(disableAnimations: true),
+          child: child!,
+        );
+      },
     );
   }
 }
