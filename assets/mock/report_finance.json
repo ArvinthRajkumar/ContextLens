@@ -1,0 +1,139 @@
+{
+  "id": "job_demo_finance",
+  "ownerUid": "mock-user",
+  "status": "done",
+  "stage": "report",
+  "version": 1,
+  "title": "Is this budgeting app worth it?",
+  "createdAt": "2026-10-12T06:10:00Z",
+  "updatedAt": "2026-10-12T06:12:40Z",
+  "expiresAt": "2026-10-13T06:10:00Z",
+  "video": {
+    "durationMs": 94000,
+    "width": 1080,
+    "height": 1920
+  },
+  "summary": {
+    "total": 7,
+    "byCategory": {
+      "disclosure": 1,
+      "claims": 1,
+      "visuals": 1,
+      "borrowed": 1,
+      "factcheck": 3
+    }
+  },
+  "flags": [
+    {
+      "id": "b1",
+      "fingerprint": "disclosure:affiliate:pennywise",
+      "category": "disclosure",
+      "severity": "high",
+      "startMs": 2000,
+      "endMs": 6500,
+      "title": "Affiliate link is not disclosed",
+      "evidence": "You point to \"the link in my bio\" for a sign-up bonus, but never say you earn a commission.",
+      "citation": {
+        "title": "Disclosures 101 for Social Media Influencers",
+        "url": "https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers",
+        "publisher": "FTC"
+      },
+      "suggestedFix": "Say \"I get a commission if you sign up with my link\" before you mention the link."
+    },
+    {
+      "id": "b2",
+      "fingerprint": "claims:guarantee:savings",
+      "category": "claims",
+      "severity": "medium",
+      "startMs": 12000,
+      "endMs": 16000,
+      "title": "Savings are presented as guaranteed",
+      "evidence": "\"You will save at least 500 a year\" promises a result that depends on how each person spends.",
+      "suggestedFix": "Share what you saved and say results vary."
+    },
+    {
+      "id": "b3",
+      "fingerprint": "visuals:crop:fees",
+      "category": "visuals",
+      "severity": "medium",
+      "startMs": 22000,
+      "endMs": 26500,
+      "title": "Screenshot is cropped above the fees line",
+      "evidence": "The pricing screen is cut off right above the monthly fee, so the plan looks free.",
+      "suggestedFix": "Show the full pricing screen or mention the monthly fee out loud."
+    },
+    {
+      "id": "b4",
+      "fingerprint": "borrowed:clip:news-segment",
+      "category": "borrowed",
+      "severity": "low",
+      "startMs": 30000,
+      "endMs": 36000,
+      "title": "News clip used without credit",
+      "evidence": "A 6 second clip from a TV segment appears without naming the outlet.",
+      "suggestedFix": "Add an on-screen credit for the outlet, or replace the clip with your own footage."
+    },
+    {
+      "id": "b5",
+      "fingerprint": "factcheck:fdic",
+      "category": "factcheck",
+      "severity": "high",
+      "startMs": 41000,
+      "endMs": 45000,
+      "title": "The app itself is not a bank",
+      "evidence": "Deposits are held by a partner bank. The app is not FDIC insured, and coverage depends on the partner.",
+      "citation": {
+        "title": "Banking with third-party apps",
+        "url": "https://www.fdic.gov/resources/deposit-insurance/",
+        "publisher": "FDIC"
+      },
+      "suggestedFix": "Say \"your money is held at a partner bank\" instead of \"the app is FDIC insured\".",
+      "factLabel": "contradicted"
+    },
+    {
+      "id": "b6",
+      "fingerprint": "factcheck:overdraft-average",
+      "category": "factcheck",
+      "severity": "low",
+      "startMs": 52000,
+      "endMs": 56000,
+      "title": "Overdraft fee figure was fact-checked before",
+      "evidence": "A similar figure about average overdraft fees was reviewed by a fact-checker earlier this year.",
+      "citation": {
+        "title": "What banks actually charge for overdrafts",
+        "url": "https://example.com/factcheck/overdraft",
+        "publisher": "PolitiFact"
+      },
+      "suggestedFix": "Check the earlier fact check and quote its figure with the source.",
+      "factLabel": "previously_fact_checked"
+    },
+    {
+      "id": "b7",
+      "fingerprint": "factcheck:users-save-20",
+      "category": "factcheck",
+      "severity": "low",
+      "startMs": 61000,
+      "endMs": 64500,
+      "title": "Not enough evidence for \"users save 20%\"",
+      "evidence": "We couldn't find an independent source for this number. It only appears in the app's own ads.",
+      "suggestedFix": "Attribute it (\"the company says\") or leave it out.",
+      "factLabel": "insufficient_evidence"
+    },
+    {
+      "id": "c2",
+      "fingerprint": "factcheck:hysa-interest",
+      "category": "factcheck",
+      "startMs": 70000,
+      "endMs": 74000,
+      "title": "High-yield savings accounts pay more interest than standard ones",
+      "evidence": "Published rates for high-yield accounts are consistently above the national average for standard savings.",
+      "citation": {
+        "title": "National rates and rate caps",
+        "url": "https://www.fdic.gov/resources/bankers/national-rates/",
+        "publisher": "FDIC"
+      },
+      "suggestedFix": "No change needed.",
+      "factLabel": "supported"
+    }
+  ]
+}

@@ -58,6 +58,32 @@ abstract class Job with _$Job {
       status == JobStatus.uploading ||
       status == JobStatus.queued ||
       status == JobStatus.processing;
+
+  List<Flag> get issues => [
+    for (final flag in flags)
+      if (flag.isIssue) flag,
+  ];
+
+  List<Flag> get checkedClaims => [
+    for (final flag in flags)
+      if (!flag.isIssue) flag,
+  ];
+
+  /// Issue counts by category in display order, skipping empty ones. Falls
+  /// back to the backend summary when the flag list isn't loaded.
+  Map<FlagCategory, int> get issueCounts {
+    if (flags.isEmpty) {
+      return summary?.counts ?? const <FlagCategory, int>{};
+    }
+    final counts = <FlagCategory, int>{};
+    for (final flag in issues) {
+      counts[flag.category] = (counts[flag.category] ?? 0) + 1;
+    }
+    return {
+      for (final c in FlagCategory.values)
+        if (counts[c] != null) c: counts[c]!,
+    };
+  }
 }
 
 @freezed
@@ -67,18 +93,27 @@ abstract class Flag with _$Flag {
     required String fingerprint,
     @JsonKey(unknownEnumValue: FlagCategory.unknown)
     required FlagCategory category,
-    @JsonKey(unknownEnumValue: Severity.unknown) required Severity severity,
     required int startMs,
     required int endMs,
     required String title,
     required String evidence,
     required String suggestedFix,
+
+    /// Absent for checked claims (fact label "supported"), which are not
+    /// issues.
+    @JsonKey(unknownEnumValue: Severity.unknown) Severity? severity,
     Citation? citation,
     @JsonKey(unknownEnumValue: FactLabel.unknown) FactLabel? factLabel,
     TranscriptDiff? diff,
   }) = _Flag;
 
+  const Flag._();
+
   factory Flag.fromJson(Map<String, dynamic> json) => _$FlagFromJson(json);
+
+  /// A fact check that came back "supported" is shown as a checked claim,
+  /// never as an issue, and is excluded from every count.
+  bool get isIssue => factLabel != FactLabel.supported;
 }
 
 @freezed

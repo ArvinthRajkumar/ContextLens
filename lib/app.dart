@@ -1,5 +1,6 @@
 import 'package:contextlens/core/theme/app_theme.dart';
 import 'package:contextlens/features/settings/theme_controller.dart';
+import 'package:contextlens/features/splash/splash_gate.dart';
 import 'package:contextlens/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,14 +20,15 @@ class ContextLensApp extends ConsumerWidget {
       darkTheme: AppTheme.dark,
       themeMode: settings.themeMode,
       routerConfig: router,
-      // Folds the in-app override into disableAnimations so every widget
-      // (and Motion.of) honors one signal.
       builder: (context, child) {
-        if (!settings.reduceMotion) return child!;
         final media = MediaQuery.of(context);
+        // Folds the in-app override into disableAnimations so every widget
+        // (and Motion.of) honors one signal.
         return MediaQuery(
-          data: media.copyWith(disableAnimations: true),
-          child: child!,
+          data: settings.reduceMotion
+              ? media.copyWith(disableAnimations: true)
+              : media,
+          child: SplashGate(child: child!),
         );
       },
     );

@@ -1,6 +1,9 @@
+import 'package:contextlens/core/config.dart';
 import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/widgets/section_header.dart';
+import 'package:contextlens/features/settings/mock_data_controller.dart';
 import 'package:contextlens/features/settings/theme_controller.dart';
+import 'package:contextlens/features/splash/intro_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,12 +71,33 @@ class SettingsPage extends ConsumerWidget {
               applicationVersion: '0.1.0',
             ),
           ),
-          if (kDebugMode)
+          if (kDebugMode) ...[
+            const Padding(
+              padding: Spacing.screenPadding,
+              child: SectionHeader(title: 'Developer'),
+            ),
+            if (AppConfig.isMock)
+              SwitchListTile(
+                title: const Text('Seed mock data'),
+                subtitle: const Text('Show sample checks on Home'),
+                value: ref.watch(mockDataControllerProvider),
+                onChanged: (seeded) => ref
+                    .read(mockDataControllerProvider.notifier)
+                    .setSeeded(seeded: seeded),
+              ),
+            ListTile(
+              leading: const Icon(Icons.replay),
+              title: const Text('Replay intro'),
+              subtitle: const Text('Holds on the last frame until tapped'),
+              onTap: () =>
+                  ref.read(introControllerProvider.notifier).replay(hold: true),
+            ),
             ListTile(
               leading: const Icon(Icons.palette_outlined),
               title: const Text('Component gallery'),
               onTap: () => context.push('/gallery'),
             ),
+          ],
           const SizedBox(height: Spacing.space8),
         ],
       ),

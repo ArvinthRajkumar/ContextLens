@@ -111,13 +111,14 @@ All requests: Authorization: Bearer <Firebase ID token> (getIdToken, auto refres
 Error shape: {error: {code, message, retryable}}
 Firestore jobs/{jobId} (read-only for the client; the backend writes):
   ownerUid string, status "uploading"|"queued"|"processing"|"done"|"failed", stage "extract"|"claims"|"checking"|"evidence"|"report",
-  stageDetail string?, version int (run number, 1 for the first), parentJobId string?, createdAt, updatedAt, expiresAt timestamp (TTL),
+  stageDetail string?, version int (run number, 1 for the first), parentJobId string?, title string? (optional; see amendments), createdAt, updatedAt, expiresAt timestamp (TTL),
   video {durationMs, width, height}, summary {total, byCategory map}, comparison {previousJobId, resolved int, remaining int, newCount int}?,
   error {code, message}?,
   flags: [{id, fingerprint, category "disclosure"|"claims"|"visuals"|"borrowed"|"factcheck", severity "high"|"medium"|"low",
            startMs, endMs, title, evidence, citation {title, url, publisher}?, suggestedFix,
            factLabel "supported"|"contradicted"|"previously_fact_checked"|"insufficient_evidence"?,
            diff {clipTranscript, originalTranscript, segments [{op "equal"|"insert"|"delete", text}]}?}]
+Issues vs checked claims: a fact check labelled "supported" is not an issue. It has no severity, is excluded from summary.total, summary.byCategory and comparison counts, and the app shows it under "Claims checked". Every other flag (including the other three fact labels) is an issue and carries a severity.
 Client parsing: Freezed models with unknown enum values mapped to a fallback, never crashing. If comparison is absent, compute it client-side by matching flag.fingerprint between versions.
 Firestore rules (I will deploy them): allow read if request.auth.uid == resource.data.ownerUid; deny all writes.
 FCM: data payload {type "report_ready", jobId}. Request notification permission only after the first successful submit, with a pre-prompt explaining why.
@@ -231,3 +232,11 @@ Phase 8 Demo polish: 90-second demo path, seeded mock data toggle, empty states,
   VERIFY: record the demo flow on device in mock and real modes.
 
 Start with Phase 0. After every phase, list what you built, what you skipped and why, and anything I need to do manually (Firebase console, GCS CORS/lifecycle, App Check registration).
+
+## Amendments (agreed during the build)
+- Title: `jobs/{jobId}.title` is an optional backend field. When absent, the client uses the first non-empty line of the caption, at most 60 characters, cut at a word boundary with an ellipsis.
+- Supported fact checks are not flags (see section 6). `severity` is optional on flag objects and absent for them.
+- Home shows one card per video: runs are chained by `parentJobId`, the card shows the latest run ("Run 2"), and the report lists the video's other runs.
+- Splash is an overlay over Home (`SplashGate`), not a `/splash` route, so Home builds while the intro plays and deep links skip nothing.
+- Home to Settings: Settings fades through, Home underneath uses the shared axis secondary motion.
+- Fixtures: `report_v1.json` (4 issues plus 1 checked claim, includes the borrowed-clip diff) and `report_v2.json` (3 of 4 resolved) are the supplements video; `report_finance.json` covers every category and every fact label; `run_failed.json` is a failed run.

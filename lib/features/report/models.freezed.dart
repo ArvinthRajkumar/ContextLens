@@ -437,7 +437,9 @@ $JobErrorCopyWith<$Res>? get error {
 /// @nodoc
 mixin _$Flag {
 
- String get id; String get fingerprint;@JsonKey(unknownEnumValue: FlagCategory.unknown) FlagCategory get category;@JsonKey(unknownEnumValue: Severity.unknown) Severity get severity; int get startMs; int get endMs; String get title; String get evidence; String get suggestedFix; Citation? get citation;@JsonKey(unknownEnumValue: FactLabel.unknown) FactLabel? get factLabel; TranscriptDiff? get diff;
+ String get id; String get fingerprint;@JsonKey(unknownEnumValue: FlagCategory.unknown) FlagCategory get category; int get startMs; int get endMs; String get title; String get evidence; String get suggestedFix;/// Absent for checked claims (fact label "supported"), which are not
+/// issues.
+@JsonKey(unknownEnumValue: Severity.unknown) Severity? get severity; Citation? get citation;@JsonKey(unknownEnumValue: FactLabel.unknown) FactLabel? get factLabel; TranscriptDiff? get diff;
 /// Create a copy of Flag
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -451,20 +453,20 @@ $FlagCopyWith<Flag> get copyWith => _$FlagCopyWithImpl<Flag>(this as Flag, _$ide
 @override
 bool operator ==(Object other) {
   final _this = this as Flag;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Flag&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.fingerprint, _this.fingerprint) || other.fingerprint == _this.fingerprint)&&(identical(other.category, _this.category) || other.category == _this.category)&&(identical(other.severity, _this.severity) || other.severity == _this.severity)&&(identical(other.startMs, _this.startMs) || other.startMs == _this.startMs)&&(identical(other.endMs, _this.endMs) || other.endMs == _this.endMs)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.evidence, _this.evidence) || other.evidence == _this.evidence)&&(identical(other.suggestedFix, _this.suggestedFix) || other.suggestedFix == _this.suggestedFix)&&(identical(other.citation, _this.citation) || other.citation == _this.citation)&&(identical(other.factLabel, _this.factLabel) || other.factLabel == _this.factLabel)&&(identical(other.diff, _this.diff) || other.diff == _this.diff));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Flag&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.fingerprint, _this.fingerprint) || other.fingerprint == _this.fingerprint)&&(identical(other.category, _this.category) || other.category == _this.category)&&(identical(other.startMs, _this.startMs) || other.startMs == _this.startMs)&&(identical(other.endMs, _this.endMs) || other.endMs == _this.endMs)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.evidence, _this.evidence) || other.evidence == _this.evidence)&&(identical(other.suggestedFix, _this.suggestedFix) || other.suggestedFix == _this.suggestedFix)&&(identical(other.severity, _this.severity) || other.severity == _this.severity)&&(identical(other.citation, _this.citation) || other.citation == _this.citation)&&(identical(other.factLabel, _this.factLabel) || other.factLabel == _this.factLabel)&&(identical(other.diff, _this.diff) || other.diff == _this.diff));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Flag;
-  return Object.hash(runtimeType,_this.id,_this.fingerprint,_this.category,_this.severity,_this.startMs,_this.endMs,_this.title,_this.evidence,_this.suggestedFix,_this.citation,_this.factLabel,_this.diff);
+  return Object.hash(runtimeType,_this.id,_this.fingerprint,_this.category,_this.startMs,_this.endMs,_this.title,_this.evidence,_this.suggestedFix,_this.severity,_this.citation,_this.factLabel,_this.diff);
 }
 
 @override
 String toString() {
   final _this = this as Flag;
-  return 'Flag(id: ${_this.id}, fingerprint: ${_this.fingerprint}, category: ${_this.category}, severity: ${_this.severity}, startMs: ${_this.startMs}, endMs: ${_this.endMs}, title: ${_this.title}, evidence: ${_this.evidence}, suggestedFix: ${_this.suggestedFix}, citation: ${_this.citation}, factLabel: ${_this.factLabel}, diff: ${_this.diff})';
+  return 'Flag(id: ${_this.id}, fingerprint: ${_this.fingerprint}, category: ${_this.category}, startMs: ${_this.startMs}, endMs: ${_this.endMs}, title: ${_this.title}, evidence: ${_this.evidence}, suggestedFix: ${_this.suggestedFix}, severity: ${_this.severity}, citation: ${_this.citation}, factLabel: ${_this.factLabel}, diff: ${_this.diff})';
 }
 
 
@@ -475,7 +477,7 @@ abstract mixin class $FlagCopyWith<$Res>  {
   factory $FlagCopyWith(Flag value, $Res Function(Flag) _then) = _$FlagCopyWithImpl;
 @useResult
 $Res call({
- String id, String fingerprint,@JsonKey(unknownEnumValue: FlagCategory.unknown) FlagCategory category,@JsonKey(unknownEnumValue: Severity.unknown) Severity severity, int startMs, int endMs, String title, String evidence, String suggestedFix, Citation? citation,@JsonKey(unknownEnumValue: FactLabel.unknown) FactLabel? factLabel, TranscriptDiff? diff
+ String id, String fingerprint,@JsonKey(unknownEnumValue: FlagCategory.unknown) FlagCategory category, int startMs, int endMs, String title, String evidence, String suggestedFix,@JsonKey(unknownEnumValue: Severity.unknown) Severity? severity, Citation? citation,@JsonKey(unknownEnumValue: FactLabel.unknown) FactLabel? factLabel, TranscriptDiff? diff
 });
 
 
@@ -492,18 +494,18 @@ class _$FlagCopyWithImpl<$Res>
 
 /// Create a copy of Flag
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? fingerprint = null,Object? category = null,Object? severity = null,Object? startMs = null,Object? endMs = null,Object? title = null,Object? evidence = null,Object? suggestedFix = null,Object? citation = freezed,Object? factLabel = freezed,Object? diff = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? fingerprint = null,Object? category = null,Object? startMs = null,Object? endMs = null,Object? title = null,Object? evidence = null,Object? suggestedFix = null,Object? severity = freezed,Object? citation = freezed,Object? factLabel = freezed,Object? diff = freezed,}) {
   return _then(Flag(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,fingerprint: null == fingerprint ? _self.fingerprint : fingerprint // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
-as FlagCategory,severity: null == severity ? _self.severity : severity // ignore: cast_nullable_to_non_nullable
-as Severity,startMs: null == startMs ? _self.startMs : startMs // ignore: cast_nullable_to_non_nullable
+as FlagCategory,startMs: null == startMs ? _self.startMs : startMs // ignore: cast_nullable_to_non_nullable
 as int,endMs: null == endMs ? _self.endMs : endMs // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,evidence: null == evidence ? _self.evidence : evidence // ignore: cast_nullable_to_non_nullable
 as String,suggestedFix: null == suggestedFix ? _self.suggestedFix : suggestedFix // ignore: cast_nullable_to_non_nullable
-as String,citation: freezed == citation ? _self.citation : citation // ignore: cast_nullable_to_non_nullable
+as String,severity: freezed == severity ? _self.severity : severity // ignore: cast_nullable_to_non_nullable
+as Severity?,citation: freezed == citation ? _self.citation : citation // ignore: cast_nullable_to_non_nullable
 as Citation?,factLabel: freezed == factLabel ? _self.factLabel : factLabel // ignore: cast_nullable_to_non_nullable
 as FactLabel?,diff: freezed == diff ? _self.diff : diff // ignore: cast_nullable_to_non_nullable
 as TranscriptDiff?,
@@ -615,10 +617,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String fingerprint, @JsonKey(unknownEnumValue: FlagCategory.unknown)  FlagCategory category, @JsonKey(unknownEnumValue: Severity.unknown)  Severity severity,  int startMs,  int endMs,  String title,  String evidence,  String suggestedFix,  Citation? citation, @JsonKey(unknownEnumValue: FactLabel.unknown)  FactLabel? factLabel,  TranscriptDiff? diff)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String fingerprint, @JsonKey(unknownEnumValue: FlagCategory.unknown)  FlagCategory category,  int startMs,  int endMs,  String title,  String evidence,  String suggestedFix, @JsonKey(unknownEnumValue: Severity.unknown)  Severity? severity,  Citation? citation, @JsonKey(unknownEnumValue: FactLabel.unknown)  FactLabel? factLabel,  TranscriptDiff? diff)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Flag() when $default != null:
-return $default(_that.id,_that.fingerprint,_that.category,_that.severity,_that.startMs,_that.endMs,_that.title,_that.evidence,_that.suggestedFix,_that.citation,_that.factLabel,_that.diff);case _:
+return $default(_that.id,_that.fingerprint,_that.category,_that.startMs,_that.endMs,_that.title,_that.evidence,_that.suggestedFix,_that.severity,_that.citation,_that.factLabel,_that.diff);case _:
   return orElse();
 
 }
@@ -636,10 +638,10 @@ return $default(_that.id,_that.fingerprint,_that.category,_that.severity,_that.s
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String fingerprint, @JsonKey(unknownEnumValue: FlagCategory.unknown)  FlagCategory category, @JsonKey(unknownEnumValue: Severity.unknown)  Severity severity,  int startMs,  int endMs,  String title,  String evidence,  String suggestedFix,  Citation? citation, @JsonKey(unknownEnumValue: FactLabel.unknown)  FactLabel? factLabel,  TranscriptDiff? diff)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String fingerprint, @JsonKey(unknownEnumValue: FlagCategory.unknown)  FlagCategory category,  int startMs,  int endMs,  String title,  String evidence,  String suggestedFix, @JsonKey(unknownEnumValue: Severity.unknown)  Severity? severity,  Citation? citation, @JsonKey(unknownEnumValue: FactLabel.unknown)  FactLabel? factLabel,  TranscriptDiff? diff)  $default,) {final _that = this;
 switch (_that) {
 case _Flag():
-return $default(_that.id,_that.fingerprint,_that.category,_that.severity,_that.startMs,_that.endMs,_that.title,_that.evidence,_that.suggestedFix,_that.citation,_that.factLabel,_that.diff);case _:
+return $default(_that.id,_that.fingerprint,_that.category,_that.startMs,_that.endMs,_that.title,_that.evidence,_that.suggestedFix,_that.severity,_that.citation,_that.factLabel,_that.diff);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -656,10 +658,10 @@ return $default(_that.id,_that.fingerprint,_that.category,_that.severity,_that.s
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String fingerprint, @JsonKey(unknownEnumValue: FlagCategory.unknown)  FlagCategory category, @JsonKey(unknownEnumValue: Severity.unknown)  Severity severity,  int startMs,  int endMs,  String title,  String evidence,  String suggestedFix,  Citation? citation, @JsonKey(unknownEnumValue: FactLabel.unknown)  FactLabel? factLabel,  TranscriptDiff? diff)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String fingerprint, @JsonKey(unknownEnumValue: FlagCategory.unknown)  FlagCategory category,  int startMs,  int endMs,  String title,  String evidence,  String suggestedFix, @JsonKey(unknownEnumValue: Severity.unknown)  Severity? severity,  Citation? citation, @JsonKey(unknownEnumValue: FactLabel.unknown)  FactLabel? factLabel,  TranscriptDiff? diff)?  $default,) {final _that = this;
 switch (_that) {
 case _Flag() when $default != null:
-return $default(_that.id,_that.fingerprint,_that.category,_that.severity,_that.startMs,_that.endMs,_that.title,_that.evidence,_that.suggestedFix,_that.citation,_that.factLabel,_that.diff);case _:
+return $default(_that.id,_that.fingerprint,_that.category,_that.startMs,_that.endMs,_that.title,_that.evidence,_that.suggestedFix,_that.severity,_that.citation,_that.factLabel,_that.diff);case _:
   return null;
 
 }
@@ -670,19 +672,21 @@ return $default(_that.id,_that.fingerprint,_that.category,_that.severity,_that.s
 /// @nodoc
 @JsonSerializable()
 
-class _Flag implements Flag {
-  const _Flag({required this.id, required this.fingerprint, @JsonKey(unknownEnumValue: FlagCategory.unknown) required this.category, @JsonKey(unknownEnumValue: Severity.unknown) required this.severity, required this.startMs, required this.endMs, required this.title, required this.evidence, required this.suggestedFix, this.citation, @JsonKey(unknownEnumValue: FactLabel.unknown) this.factLabel, this.diff});
+class _Flag extends Flag {
+  const _Flag({required this.id, required this.fingerprint, @JsonKey(unknownEnumValue: FlagCategory.unknown) required this.category, required this.startMs, required this.endMs, required this.title, required this.evidence, required this.suggestedFix, @JsonKey(unknownEnumValue: Severity.unknown) this.severity, this.citation, @JsonKey(unknownEnumValue: FactLabel.unknown) this.factLabel, this.diff}): super._();
   factory _Flag.fromJson(Map<String, dynamic> json) => _$FlagFromJson(json);
 
 @override final  String id;
 @override final  String fingerprint;
 @override@JsonKey(unknownEnumValue: FlagCategory.unknown) final  FlagCategory category;
-@override@JsonKey(unknownEnumValue: Severity.unknown) final  Severity severity;
 @override final  int startMs;
 @override final  int endMs;
 @override final  String title;
 @override final  String evidence;
 @override final  String suggestedFix;
+/// Absent for checked claims (fact label "supported"), which are not
+/// issues.
+@override@JsonKey(unknownEnumValue: Severity.unknown) final  Severity? severity;
 @override final  Citation? citation;
 @override@JsonKey(unknownEnumValue: FactLabel.unknown) final  FactLabel? factLabel;
 @override final  TranscriptDiff? diff;
@@ -700,18 +704,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Flag&&(identical(other.id, id) || other.id == id)&&(identical(other.fingerprint, fingerprint) || other.fingerprint == fingerprint)&&(identical(other.category, category) || other.category == category)&&(identical(other.severity, severity) || other.severity == severity)&&(identical(other.startMs, startMs) || other.startMs == startMs)&&(identical(other.endMs, endMs) || other.endMs == endMs)&&(identical(other.title, title) || other.title == title)&&(identical(other.evidence, evidence) || other.evidence == evidence)&&(identical(other.suggestedFix, suggestedFix) || other.suggestedFix == suggestedFix)&&(identical(other.citation, citation) || other.citation == citation)&&(identical(other.factLabel, factLabel) || other.factLabel == factLabel)&&(identical(other.diff, diff) || other.diff == diff));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Flag&&(identical(other.id, id) || other.id == id)&&(identical(other.fingerprint, fingerprint) || other.fingerprint == fingerprint)&&(identical(other.category, category) || other.category == category)&&(identical(other.startMs, startMs) || other.startMs == startMs)&&(identical(other.endMs, endMs) || other.endMs == endMs)&&(identical(other.title, title) || other.title == title)&&(identical(other.evidence, evidence) || other.evidence == evidence)&&(identical(other.suggestedFix, suggestedFix) || other.suggestedFix == suggestedFix)&&(identical(other.severity, severity) || other.severity == severity)&&(identical(other.citation, citation) || other.citation == citation)&&(identical(other.factLabel, factLabel) || other.factLabel == factLabel)&&(identical(other.diff, diff) || other.diff == diff));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,fingerprint,category,severity,startMs,endMs,title,evidence,suggestedFix,citation,factLabel,diff);
+    return Object.hash(runtimeType,id,fingerprint,category,startMs,endMs,title,evidence,suggestedFix,severity,citation,factLabel,diff);
 }
 
 @override
 String toString() {
-    return 'Flag(id: $id, fingerprint: $fingerprint, category: $category, severity: $severity, startMs: $startMs, endMs: $endMs, title: $title, evidence: $evidence, suggestedFix: $suggestedFix, citation: $citation, factLabel: $factLabel, diff: $diff)';
+    return 'Flag(id: $id, fingerprint: $fingerprint, category: $category, startMs: $startMs, endMs: $endMs, title: $title, evidence: $evidence, suggestedFix: $suggestedFix, severity: $severity, citation: $citation, factLabel: $factLabel, diff: $diff)';
 }
 
 
@@ -722,7 +726,7 @@ abstract mixin class _$FlagCopyWith<$Res> implements $FlagCopyWith<$Res> {
   factory _$FlagCopyWith(_Flag value, $Res Function(_Flag) _then) = __$FlagCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String fingerprint,@JsonKey(unknownEnumValue: FlagCategory.unknown) FlagCategory category,@JsonKey(unknownEnumValue: Severity.unknown) Severity severity, int startMs, int endMs, String title, String evidence, String suggestedFix, Citation? citation,@JsonKey(unknownEnumValue: FactLabel.unknown) FactLabel? factLabel, TranscriptDiff? diff
+ String id, String fingerprint,@JsonKey(unknownEnumValue: FlagCategory.unknown) FlagCategory category, int startMs, int endMs, String title, String evidence, String suggestedFix,@JsonKey(unknownEnumValue: Severity.unknown) Severity? severity, Citation? citation,@JsonKey(unknownEnumValue: FactLabel.unknown) FactLabel? factLabel, TranscriptDiff? diff
 });
 
 
@@ -739,18 +743,18 @@ class __$FlagCopyWithImpl<$Res>
 
 /// Create a copy of Flag
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? fingerprint = null,Object? category = null,Object? severity = null,Object? startMs = null,Object? endMs = null,Object? title = null,Object? evidence = null,Object? suggestedFix = null,Object? citation = freezed,Object? factLabel = freezed,Object? diff = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? fingerprint = null,Object? category = null,Object? startMs = null,Object? endMs = null,Object? title = null,Object? evidence = null,Object? suggestedFix = null,Object? severity = freezed,Object? citation = freezed,Object? factLabel = freezed,Object? diff = freezed,}) {
   return _then(_Flag(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,fingerprint: null == fingerprint ? _self.fingerprint : fingerprint // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
-as FlagCategory,severity: null == severity ? _self.severity : severity // ignore: cast_nullable_to_non_nullable
-as Severity,startMs: null == startMs ? _self.startMs : startMs // ignore: cast_nullable_to_non_nullable
+as FlagCategory,startMs: null == startMs ? _self.startMs : startMs // ignore: cast_nullable_to_non_nullable
 as int,endMs: null == endMs ? _self.endMs : endMs // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,evidence: null == evidence ? _self.evidence : evidence // ignore: cast_nullable_to_non_nullable
 as String,suggestedFix: null == suggestedFix ? _self.suggestedFix : suggestedFix // ignore: cast_nullable_to_non_nullable
-as String,citation: freezed == citation ? _self.citation : citation // ignore: cast_nullable_to_non_nullable
+as String,severity: freezed == severity ? _self.severity : severity // ignore: cast_nullable_to_non_nullable
+as Severity?,citation: freezed == citation ? _self.citation : citation // ignore: cast_nullable_to_non_nullable
 as Citation?,factLabel: freezed == factLabel ? _self.factLabel : factLabel // ignore: cast_nullable_to_non_nullable
 as FactLabel?,diff: freezed == diff ? _self.diff : diff // ignore: cast_nullable_to_non_nullable
 as TranscriptDiff?,

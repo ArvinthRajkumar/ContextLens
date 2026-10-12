@@ -1,0 +1,21 @@
+{
+  "id": "job_demo_failed",
+  "ownerUid": "mock-user",
+  "status": "failed",
+  "stage": "extract",
+  "version": 1,
+  "title": "Unboxing the new camera, first impressions",
+  "createdAt": "2026-10-11T18:20:00Z",
+  "updatedAt": "2026-10-11T18:21:30Z",
+  "expiresAt": "2026-10-12T18:20:00Z",
+  "video": {
+    "durationMs": 142000,
+    "width": 1920,
+    "height": 1080
+  },
+  "error": {
+    "code": "audio_unreadable",
+    "message": "We couldn't read the audio track. Export the video again as MP4 and try once more."
+  },
+  "flags": []
+}

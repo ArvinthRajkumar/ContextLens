@@ -1,15 +1,29 @@
 import 'package:contextlens/app.dart';
+import 'package:contextlens/features/home/run_card.dart';
+import 'package:contextlens/features/report/fake_job_repository.dart';
+import 'package:contextlens/features/report/job_repository.dart';
 import 'package:contextlens/features/settings/theme_controller.dart';
+import 'package:contextlens/features/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<Widget> _app([Map<String, Object> prefs = const {}]) async {
+Future<Widget> _app(
+  WidgetTester tester, {
+  bool seeded = false,
+  Map<String, Object> prefs = const {},
+}) async {
   SharedPreferences.setMockInitialValues(prefs);
   final instance = await SharedPreferences.getInstance();
+  // Fixture loading is real I/O, so warm the cache outside fake time.
+  final jobs = FakeJobRepository(seeded: seeded);
+  await tester.runAsync(() => jobs.getJob('warm-up'));
   return ProviderScope(
-    overrides: [sharedPreferencesProvider.overrideWithValue(instance)],
+    overrides: [
+      sharedPreferencesProvider.overrideWithValue(instance),
+      jobRepositoryProvider.overrideWithValue(jobs),
+    ],
     child: const ContextLensApp(),
   );
 }
@@ -18,15 +32,39 @@ ThemeMode _themeMode(WidgetTester tester) =>
     tester.widget<MaterialApp>(find.byType(MaterialApp)).themeMode!;
 
 void main() {
-  testWidgets('boots into Home in dark mode by default', (tester) async {
-    await tester.pumpWidget(await _app());
+  testWidgets('intro hands off to an empty Home in dark mode', (tester) async {
+    await tester.pumpWidget(await _app(tester));
     await tester.pumpAndSettle();
-    expect(find.text('ContextLens'), findsOneWidget);
+
+    expect(find.text('Check a video before you post'), findsOneWidget);
+    expect(find.text('No checks yet'), findsOneWidget);
     expect(_themeMode(tester), ThemeMode.dark);
   });
 
+  testWidgets('intro covers the whole screen', (tester) async {
+    await tester.pumpWidget(await _app(tester));
+    await tester.pump(const Duration(milliseconds: 500));
+
+    final screen = tester.view.physicalSize / tester.view.devicePixelRatio;
+    expect(tester.getSize(find.byType(SplashPage)), screen);
+    await tester.pumpAndSettle();
+    expect(find.byType(SplashPage), findsNothing);
+  });
+
+  testWidgets('seeded mock data shows run cards', (tester) async {
+    tester.view.physicalSize = const Size(1080, 3200);
+    addTearDown(tester.view.resetPhysicalSize);
+
+    await tester.pumpWidget(await _app(tester, seeded: true));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(RunCard), findsNWidgets(3));
+    expect(find.text('3 of 4 resolved'), findsOneWidget);
+    expect(find.text('Check failed'), findsOneWidget);
+  });
+
   testWidgets('theme choice persists', (tester) async {
-    await tester.pumpWidget(await _app());
+    await tester.pumpWidget(await _app(tester));
     await tester.pumpAndSettle();
 
     await tester.tap(find.byTooltip('Settings'));
@@ -40,8 +78,20 @@ void main() {
   });
 
   testWidgets('restores a stored theme', (tester) async {
-    await tester.pumpWidget(await _app({'appearance.themeMode': 'system'}));
+    await tester.pumpWidget(
+      await _app(tester, prefs: {'appearance.themeMode': 'system'}),
+    );
     await tester.pumpAndSettle();
     expect(_themeMode(tester), ThemeMode.system);
+  });
+
+  testWidgets('Home survives 2x text scale without overflow', (tester) async {
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+
+    await tester.pumpWidget(await _app(tester, seeded: true));
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
   });
 }

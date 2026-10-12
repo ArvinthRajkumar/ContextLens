@@ -1,5 +1,6 @@
 import 'package:contextlens/core/theme/colors.dart';
 import 'package:contextlens/core/theme/spacing.dart';
+import 'package:contextlens/core/theme/transitions.dart';
 import 'package:contextlens/core/theme/typography.dart';
 import 'package:flutter/material.dart';
 
@@ -60,6 +61,12 @@ abstract final class AppTheme {
       canvasColor: p.background,
       extensions: [AppColors.fromPalette(p)],
       materialTapTargetSize: MaterialTapTargetSize.padded,
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: MotionAwarePageTransitionsBuilder(),
+          TargetPlatform.iOS: MotionAwarePageTransitionsBuilder(),
+        },
+      ),
       appBarTheme: AppBarTheme(
         backgroundColor: p.background,
         foregroundColor: p.onSurface,

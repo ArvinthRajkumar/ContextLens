@@ -1,0 +1,64 @@
+{
+  "id": "job_demo_v2",
+  "ownerUid": "mock-user",
+  "status": "done",
+  "stage": "report",
+  "version": 2,
+  "title": "3 supplements I take every morning",
+  "createdAt": "2026-10-12T09:05:00Z",
+  "updatedAt": "2026-10-12T09:07:02Z",
+  "expiresAt": "2026-10-13T09:05:00Z",
+  "video": {
+    "durationMs": 56000,
+    "width": 1080,
+    "height": 1920
+  },
+  "summary": {
+    "total": 1,
+    "byCategory": {
+      "factcheck": 1
+    }
+  },
+  "flags": [
+    {
+      "id": "c1",
+      "fingerprint": "factcheck:magnesium-sleep",
+      "category": "factcheck",
+      "startMs": 41000,
+      "endMs": 44200,
+      "title": "Magnesium can help some people sleep",
+      "evidence": "Small trials in older adults show modest improvements in sleep quality.",
+      "citation": {
+        "title": "Magnesium: Fact Sheet for Health Professionals",
+        "url": "https://ods.od.nih.gov/factsheets/Magnesium-HealthProfessional/",
+        "publisher": "NIH Office of Dietary Supplements"
+      },
+      "suggestedFix": "No change needed. Linking the source in your caption adds credibility.",
+      "factLabel": "supported"
+    },
+    {
+      "id": "f4",
+      "fingerprint": "factcheck:vitc-cold",
+      "category": "factcheck",
+      "severity": "high",
+      "startMs": 45500,
+      "endMs": 49000,
+      "title": "Vitamin C does not prevent colds",
+      "evidence": "Reviews of regular vitamin C intake found no reduction in how often people catch colds in the general population.",
+      "citation": {
+        "title": "Vitamin C for preventing and treating the common cold",
+        "url": "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD000980.pub4/full",
+        "publisher": "Cochrane"
+      },
+      "suggestedFix": "Change the line to \"it may slightly shorten colds\" or cut it.",
+      "factLabel": "contradicted"
+    }
+  ],
+  "parentJobId": "job_demo_v1",
+  "comparison": {
+    "previousJobId": "job_demo_v1",
+    "resolved": 3,
+    "remaining": 1,
+    "newCount": 0
+  }
+}

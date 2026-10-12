@@ -67,3 +67,11 @@ flutter:
           weight: 400
         - asset: assets/fonts/JetBrainsMono-SemiBold.ttf
           weight: 600
+
+# Images come from tool/render_splash_test.dart.
+flutter_native_splash:
+  color: "#0B0F14"
+  image: assets/splash/lens_mark.png
+  android_12:
+    color: "#0B0F14"
+    image: assets/splash/lens_mark_android12.png
