@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Asked only after the first check, behind an in-app explanation. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
         android:enableOnBackInvokedCallback="true"
         android:label="ContextLens"

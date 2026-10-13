@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:contextlens/core/api_client.dart';
 import 'package:contextlens/core/config.dart';
 import 'package:contextlens/features/compose/declaration.dart';
 import 'package:contextlens/features/compose/video_inspector.dart';
 import 'package:contextlens/features/report/mock_backend.dart';
 import 'package:contextlens/features/upload/fake_upload_repository.dart';
+import 'package:contextlens/features/upload/http_upload_repository.dart';
+import 'package:contextlens/features/upload/upload_session_store.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -125,7 +128,9 @@ final uploadRepositoryProvider = Provider<UploadRepository>((ref) {
       bytesPerSecond: AppConfig.mockUploadBytesPerSecond,
       shouldFail: ref.read(mockFailNextUploadProvider.notifier).consume,
     ),
-    // Phase 6: dio against a GCS resumable session.
-    BackendMode.real => throw UnimplementedError('Real backend not wired yet'),
+    BackendMode.real => HttpUploadRepository(
+      api: ref.watch(apiClientProvider),
+      store: ref.watch(uploadSessionStoreProvider),
+    ),
   };
 });

@@ -9,6 +9,7 @@ import 'package:contextlens/core/widgets/app_button.dart';
 import 'package:contextlens/core/widgets/app_card.dart';
 import 'package:contextlens/core/widgets/video_thumbnail.dart';
 import 'package:contextlens/features/compose/compose_controller.dart';
+import 'package:contextlens/features/push/notify_prompt.dart';
 import 'package:contextlens/features/report/job_repository.dart';
 import 'package:contextlens/features/report/models.dart';
 import 'package:contextlens/features/run/stage_stepper.dart';
@@ -133,7 +134,10 @@ class _RunPageState extends ConsumerState<RunPage>
     if (!mounted) return;
     _morphTo = _rectInStack(_firstDotKey);
     await _morph.forward(from: 0);
-    if (mounted) setState(() => _view = _View.stages);
+    if (!mounted) return;
+    setState(() => _view = _View.stages);
+    // The check is running: the moment a notification is worth asking for.
+    unawaited(maybeAskForNotifications(context, ref));
   }
 
   void _onSuccessTick() {

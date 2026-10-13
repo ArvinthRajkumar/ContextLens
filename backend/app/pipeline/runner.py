@@ -4,6 +4,7 @@ import logging
 from datetime import datetime, timezone
 from typing import Any
 
+from firebase_admin import messaging
 from google.cloud import firestore
 
 from .base import CheckContext, Stage
@@ -46,12 +47,11 @@ async def run_check(
     def update(fields: dict[str, Any]) -> None:
         ref.update({**fields, "updatedAt": datetime.now(timezone.utc)})
 
+    ctx.progress = lambda detail: update({"stageDetail": detail})
     try:
         for stage in stages:
             update({"status": "processing", "stage": stage.name, "stageDetail": None})
-            result = await stage.run(ctx)
-            if result.detail:
-                update({"stageDetail": result.detail})
+            await stage.run(ctx)
 
         done: dict[str, Any] = {
             "status": "done",
@@ -76,3 +76,32 @@ async def run_check(
                 },
             }
         )
+        return
+    try:
+        notify_ready(db, ctx.uid, ctx.job_id, ref.get().get("title"))
+    except Exception:
+        log.warning("Could not send the report notification for %s", ctx.job_id)
+
+
+def notify_ready(db: firestore.Client, uid: str, job_id: str, title: str | None) -> None:
+    """Best effort: a report is fine without its notification."""
+    device = db.collection("devices").document(uid).get()
+    if not device.exists:
+        return
+    try:
+        messaging.send(
+            messaging.Message(
+                token=device.get("fcmToken"),
+                notification=messaging.Notification(
+                    title="Your report is ready",
+                    body=title or "Tap to see what we found.",
+                ),
+                data={"type": "report_ready", "jobId": job_id},
+                android=messaging.AndroidConfig(priority="high"),
+            )
+        )
+    except Exception as error:
+        # An expired or unregistered token: drop it so we stop trying.
+        log.warning("Push failed: %s", type(error).__name__)
+        if isinstance(error, messaging.UnregisteredError):
+            db.collection("devices").document(uid).delete()

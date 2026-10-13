@@ -1,0 +1,18 @@
+PASS  health  [200]
+PASS  anonymous sign-up  [200]
+PASS  uploads without a token is refused  [401]
+PASS  POST /v1/uploads  [201] job 571612a95c2a428c9ad74a1bacee19ad
+PASS  open resumable session with the signed URL  [201]
+PASS  upload the file  [200]
+PASS  POST /v1/jobs/{id}/submit  [202]
+PASS  owner reads the job and it walks the stages  stages ['extract', 'claims', 'checking', 'evidence', 'report']
+PASS  stub flags written  5 flags, pipeline=stub
+PASS  another user cannot read it  [403]
+PASS  the owner cannot write it  [403]
+PASS  GET /v1/jobs/{id}/video-url  [200]
+PASS  playback URL serves the video  [200]
+PASS  POST /v1/devices  [204]
+PASS  DELETE /v1/jobs/{id}  [204]
+PASS  deleted job is gone  [404]
+
+All checks passed (uid IMEYPM...).

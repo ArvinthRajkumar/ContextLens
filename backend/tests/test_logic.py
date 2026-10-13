@@ -28,3 +28,12 @@ def test_title_cuts_at_a_word():
     assert _title("\n  Morning routine \n#ad") == "Morning routine"
     long = "The three supplements I take every single morning and why I stopped the fourth"
     assert _title(long) == "The three supplements I take every single morning and why I…"
+
+
+def test_stub_flags_fit_the_video():
+    from app.pipeline.stub import _fit
+
+    flags = _flags("report_v1.json")
+    fitted = _fit(flags, 58000, 7000)
+    assert max(f["endMs"] for f in fitted) <= 7000
+    assert _fit(flags, 58000, None) == flags

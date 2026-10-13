@@ -1,6 +1,8 @@
 import 'package:contextlens/app.dart';
 import 'package:contextlens/core/config.dart';
 import 'package:contextlens/features/settings/theme_controller.dart';
+import 'package:contextlens/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_driver/driver_extension.dart';
@@ -25,6 +27,11 @@ Future<void> main() async {
   };
 
   final prefs = await SharedPreferences.getInstance();
+  if (!AppConfig.isMock) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
 
   runApp(
     ProviderScope(

@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any, Protocol
 
@@ -17,11 +18,16 @@ class CheckContext:
     data: dict[str, Any] = field(default_factory=dict)
     # Final flags, in the Firestore schema. Set by the report stage.
     flags: list[dict[str, Any]] = field(default_factory=list)
+    # Video length from the app, when known.
+    duration_ms: int | None = None
+    # Shows a live one-line detail under the running stage in the app.
+    progress: Callable[[str], None] = lambda _detail: None
 
 
 @dataclass(frozen=True)
 class StageResult:
-    """Optional one-line live detail shown under the stage in the app."""
+    """What a stage reports when it finishes (kept for the record; the
+    live line comes from `CheckContext.progress`)."""
 
     detail: str | None = None
 

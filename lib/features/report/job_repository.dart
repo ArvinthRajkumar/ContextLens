@@ -1,6 +1,9 @@
+import 'package:contextlens/core/api_client.dart';
 import 'package:contextlens/core/config.dart';
+import 'package:contextlens/features/auth/auth_repository.dart';
 import 'package:contextlens/features/compose/declaration.dart';
 import 'package:contextlens/features/report/fake_job_repository.dart';
+import 'package:contextlens/features/report/firestore_job_repository.dart';
 import 'package:contextlens/features/report/mock_backend.dart';
 import 'package:contextlens/features/report/models.dart';
 import 'package:contextlens/features/report/playback.dart';
@@ -30,8 +33,10 @@ final jobRepositoryProvider = Provider<JobRepository>((ref) {
       seeded: ref.watch(mockDataControllerProvider),
       backend: ref.watch(mockBackendProvider),
     ),
-    // Wired in Phase 6 (Firestore jobs/{jobId}).
-    BackendMode.real => throw UnimplementedError('Real backend not wired yet'),
+    BackendMode.real => FirestoreJobRepository(
+      auth: ref.watch(authRepositoryProvider),
+      api: ref.watch(apiClientProvider),
+    ),
   };
 });
 

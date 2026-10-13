@@ -18,53 +18,57 @@ def _fixture(name: str) -> dict:
 
 class _Waiting:
     name = ""
+    detail = ""
 
-    async def _wait(self) -> None:
+    async def run(self, ctx: CheckContext) -> StageResult:
+        ctx.progress(self.detail)
         await asyncio.sleep(settings.stub_stage_seconds)
+        return StageResult(self.detail)
 
 
 class StubExtract(_Waiting):
     name = "extract"
-
-    async def run(self, ctx: CheckContext) -> StageResult:
-        await self._wait()
-        return StageResult("Transcribing audio and reading on-screen text")
+    detail = "Transcribing audio and reading on-screen text"
 
 
 class StubClaims(_Waiting):
     name = "claims"
-
-    async def run(self, ctx: CheckContext) -> StageResult:
-        await self._wait()
-        return StageResult("14 claims found")
+    detail = "14 claims found"
 
 
 class StubChecking(_Waiting):
     name = "checking"
-
-    async def run(self, ctx: CheckContext) -> StageResult:
-        await self._wait()
-        return StageResult("Checking 8 claims")
+    detail = "Checking 8 claims"
 
 
 class StubEvidence(_Waiting):
     name = "evidence"
-
-    async def run(self, ctx: CheckContext) -> StageResult:
-        await self._wait()
-        return StageResult("Weighing 12 sources")
+    detail = "Weighing 12 sources"
 
 
 class StubReport(_Waiting):
     name = "report"
+    detail = "Writing your report"
 
     async def run(self, ctx: CheckContext) -> StageResult:
-        await self._wait()
+        result = await super().run(ctx)
         # A re-run gets the "fixed" fixture so the comparison has something
         # to show; a first run gets the full one.
         fixture = _fixture("report_v2.json" if ctx.parent else "report_v1.json")
-        ctx.flags = fixture["flags"]
-        return StageResult("Writing your report")
+        ctx.flags = _fit(fixture["flags"], fixture["video"]["durationMs"], ctx.duration_ms)
+        return result
+
+
+def _fit(flags: list[dict], fixture_ms: int, video_ms: int | None) -> list[dict]:
+    """Rescales the fixture's timestamps onto the real video's length so
+    markers land inside it."""
+    if not video_ms or video_ms <= 0:
+        return flags
+    scale = video_ms / fixture_ms
+    return [
+        {**f, "startMs": int(f["startMs"] * scale), "endMs": int(f["endMs"] * scale)}
+        for f in flags
+    ]
 
 
 def stub_stages() -> list:

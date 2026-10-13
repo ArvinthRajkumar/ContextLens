@@ -118,6 +118,7 @@ class UploadController extends Notifier<UploadState?> {
   UploadCancelToken? _cancel;
   Timer? _retryTimer;
   int _attempt = 0;
+  bool _restarted = false;
 
   // Speed sampling.
   int? _lastBytes;
@@ -135,10 +136,14 @@ class UploadController extends Notifier<UploadState?> {
     return null;
   }
 
-  Future<void> start(ComposeSubmission submission) async {
+  Future<void> start(
+    ComposeSubmission submission, {
+    bool restarting = false,
+  }) async {
     _stopTransfer();
     _session = null;
     _attempt = 0;
+    if (!restarting) _restarted = false;
     state = UploadState(submission: submission);
     try {
       final session = await _repository.createSession(submission.video);
@@ -255,6 +260,13 @@ class UploadController extends Notifier<UploadState?> {
   void _onFailure(UploadFailure failure) {
     log('Upload failed: ${failure.runtimeType}');
     _attempt++;
+    final submission = state?.submission;
+    if (failure is UploadExpired && submission != null && !_restarted) {
+      // The session is gone: ask for a new upload link and start over once.
+      _restarted = true;
+      unawaited(start(submission, restarting: true));
+      return;
+    }
     if (failure.isTransient && _attempt < maxAttempts) {
       final delay = retryDelay(_attempt);
       state = state!.copyWith(

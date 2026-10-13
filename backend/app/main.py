@@ -193,6 +193,7 @@ def submit(
         object_name=job["objectName"],
         declaration=clean,
         parent=parent,
+        duration_ms=body.video.durationMs if body.video else None,
     )
     background.add_task(run_check, db, ctx, stub_stages(), pipeline_name="stub")
     return {"jobId": job_id}
