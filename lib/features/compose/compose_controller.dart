@@ -112,6 +112,17 @@ class ComposeController extends Notifier<ComposeState> {
     state = const ComposeState();
   }
 
+  /// Starts a fix of an earlier run: keeps its declaration, asks for the
+  /// edited video.
+  void startFix(DeclarationDraft? declaration) {
+    _pickToken++;
+    final draft = declaration ?? const DeclarationDraft();
+    for (final clip in draft.clips) {
+      if (clip.id >= _nextClipId) _nextClipId = clip.id + 1;
+    }
+    state = ComposeState(declaration: draft);
+  }
+
   Future<void> pickFromGallery() =>
       _pick(ref.read(videoSourceProvider).pickFromGallery, fromGallery: true);
 

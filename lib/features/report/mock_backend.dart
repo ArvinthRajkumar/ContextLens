@@ -1,8 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'dart:io';
+
 import 'package:contextlens/core/config.dart';
+import 'package:contextlens/features/compose/declaration.dart';
+import 'package:contextlens/features/report/comparison.dart';
 import 'package:contextlens/features/report/models.dart';
+import 'package:contextlens/features/report/playback.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -43,7 +48,34 @@ class MockBackend {
   final DateTime Function() _clock;
   final Duration stageDuration;
 
+  static const sampleVideo = 'assets/mock/sample.mp4';
+
+  // What the fixtures were "declared" with, so Fix and re-upload has
+  // something to start from.
+  static const _fixtureDeclarations = {
+    'job_demo_v1': DeclarationDraft(
+      caption:
+          '3 supplements I take every morning\n\n#wellness #morningroutine',
+      isPaid: true,
+      brand: 'VitaBoost',
+      category: ContentCategory.health,
+    ),
+    'job_demo_v2': DeclarationDraft(
+      caption:
+          '3 supplements I take every morning\n\n#wellness #morningroutine #ad',
+      isPaid: true,
+      brand: 'VitaBoost',
+      category: ContentCategory.health,
+    ),
+    'job_demo_finance': DeclarationDraft(
+      caption: 'Is this budgeting app worth it? Honest review after 3 months',
+      category: ContentCategory.finance,
+    ),
+  };
+
   final _created = <String, Job>{};
+  final _declarations = <String, DeclarationDraft>{};
+  final _localPaths = <String, String>{};
   final _timers = <Timer>[];
   final _changes = StreamController<String>.broadcast();
   List<Job>? _fixtures;
@@ -101,13 +133,27 @@ class MockBackend {
     }
   }
 
+  DeclarationDraft? declarationFor(String jobId) =>
+      _declarations[jobId] ?? _fixtureDeclarations[jobId];
+
+  /// The creator's own file for checks made this session, else the sample.
+  PlaybackSource playbackFor(String jobId) {
+    final path = _localPaths[jobId];
+    if (path != null && File(path).existsSync()) return FilePlayback(path);
+    return const AssetPlayback(sampleVideo);
+  }
+
   /// Registers a submitted check and starts processing it.
   Future<void> submit({
     required String jobId,
     required String? title,
     required VideoMeta video,
     String? parentJobId,
+    DeclarationDraft? declaration,
+    String? localPath,
   }) async {
+    if (declaration != null) _declarations[jobId] = declaration;
+    if (localPath != null) _localPaths[jobId] = localPath;
     final parent = parentJobId == null ? null : await find(parentJobId);
     final now = _clock();
     _created[jobId] = Job(
@@ -181,13 +227,7 @@ class MockBackend {
         summary: JobSummary(total: issues.length, byCategory: counts),
         comparison: parent == null
             ? null
-            : RunComparison(
-                previousJobId: parent.id,
-                resolved: parent.issues.length > issues.length
-                    ? parent.issues.length - issues.length
-                    : 0,
-                remaining: issues.length,
-              ),
+            : compareRuns(parent, job.copyWith(flags: template.flags)),
       ),
     );
   }

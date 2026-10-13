@@ -1,6 +1,8 @@
+import 'package:contextlens/features/compose/declaration.dart';
 import 'package:contextlens/features/report/job_repository.dart';
 import 'package:contextlens/features/report/mock_backend.dart';
 import 'package:contextlens/features/report/models.dart';
+import 'package:contextlens/features/report/playback.dart';
 
 /// Jobs from the [MockBackend]: checks created in this session, plus the
 /// bundled fixtures when [seeded] (otherwise a fresh, empty account).
@@ -31,4 +33,12 @@ class FakeJobRepository implements JobRepository {
 
   @override
   Stream<Job> watchJob(String jobId) => backend.watch(jobId);
+
+  @override
+  Future<PlaybackSource> playback(String jobId) async =>
+      backend.playbackFor(jobId);
+
+  @override
+  Future<DeclarationDraft?> declaration(String jobId) async =>
+      backend.declarationFor(jobId);
 }

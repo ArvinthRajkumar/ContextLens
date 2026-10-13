@@ -79,6 +79,8 @@ class FakeUploadRepository implements UploadRepository {
       jobId: session.jobId,
       title: titleFromCaption(declaration.caption),
       parentJobId: parentJobId,
+      declaration: declaration,
+      localPath: video.path,
       video: VideoMeta(
         durationMs: video.duration.inMilliseconds,
         width: video.width,
