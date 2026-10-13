@@ -19,7 +19,7 @@ run, cloudbuild, artifactregistry, firestore, storage, iam, iamcredentials, aipl
 |---|---|
 | Android app | `1:115890664288:android:1a18e65980c62d3ff16405` (package `app.contextlens.contextlens`) |
 | iOS app | `1:115890664288:ios:6544c6bf7a8004f1f16405` (bundle `app.contextlens.contextlens`) |
-| App config | `lib/firebase_options.dart`, `android/app/google-services.json`, `ios/Runner/GoogleService-Info.plist` (flutterfire configure). Client config is public by design. |
+| App config | `lib/firebase_options.dart` and `android/app/google-services.json` (flutterfire configure; iOS uses `firebase_options.dart` only). Client config is public by design. |
 | Auth | Anonymous and Google sign-in, enabled in the Firebase console on 2026-10-13. No Identity Platform upgrade. |
 | App Check | Not registered yet; the API accepts requests without it while `ENFORCE_APP_CHECK=false`. |
 
