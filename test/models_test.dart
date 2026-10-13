@@ -57,6 +57,35 @@ void main() {
     expect(job.summary!.total, job.issues.length);
   });
 
+  test('uncertain flags are listed apart and never counted', () {
+    final job = Job.fromJson(_fixture('report_finance.json'));
+    final uncertain = job.uncertainFlags.single;
+    expect(uncertain.isIssue, isFalse);
+    expect(uncertain.isCheckedClaim, isFalse);
+    expect(job.issues, isNot(contains(uncertain)));
+    expect(job.checkedClaims, isNot(contains(uncertain)));
+    expect(job.issueCounts.values.fold(0, (a, b) => a + b), 7);
+  });
+
+  test('compliance citations carry their clause and authority', () {
+    final job = Job.fromJson(_fixture('report_v1.json'));
+    final rule = job.flags.firstWhere((f) => f.id == 'f2').citation!;
+    expect(rule.clauseLabel, 'Drugs and Magic Remedies Act, s. 3(d)');
+    expect(rule.authority, Authority.statutory);
+    expect(job.flags.first.sourceQuote?.source, contains('1.1(b)'));
+    final podcast = job.flags.firstWhere((f) => f.id == 'f3').citation!;
+    expect(podcast.url, isNull);
+    expect(podcast.clauseLabel, isNull);
+  });
+
+  test('fixtures cite Indian and primary sources', () {
+    for (final name in ['report_v1', 'report_v2', 'report_finance']) {
+      final text = File('assets/mock/$name.json').readAsStringSync();
+      expect(text, isNot(contains('example.com')));
+      expect(text, isNot(contains('FDIC')));
+    }
+  });
+
   test('supported fact checks are checked claims, not issues', () {
     final job = Job.fromJson(_fixture('report_v1.json'));
     expect(job.issues, hasLength(4));

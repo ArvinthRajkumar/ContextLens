@@ -41,4 +41,7 @@ class FakeJobRepository implements JobRepository {
   @override
   Future<DeclarationDraft?> declaration(String jobId) async =>
       backend.declarationFor(jobId);
+
+  @override
+  Future<int> deleteAllJobs() async => backend.deleteCreated();
 }

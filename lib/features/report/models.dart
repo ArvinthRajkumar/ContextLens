@@ -26,6 +26,14 @@ enum FactLabel {
 
 enum DiffOp { equal, insert, delete }
 
+/// Who stands behind a compliance clause.
+enum Authority {
+  @JsonValue('self_regulatory')
+  selfRegulatory,
+  statutory,
+  unknown,
+}
+
 @freezed
 abstract class Job with _$Job {
   const factory Job({
@@ -66,7 +74,14 @@ abstract class Job with _$Job {
 
   List<Flag> get checkedClaims => [
     for (final flag in flags)
-      if (!flag.isIssue) flag,
+      if (flag.isCheckedClaim) flag,
+  ];
+
+  /// Flags the evidence gate couldn't confirm: listed for a human look,
+  /// never counted as issues.
+  List<Flag> get uncertainFlags => [
+    for (final flag in flags)
+      if (flag.uncertain) flag,
   ];
 
   /// Issue counts by category in display order, skipping empty ones. Falls
@@ -103,8 +118,15 @@ abstract class Flag with _$Flag {
     /// issues.
     @JsonKey(unknownEnumValue: Severity.unknown) Severity? severity,
     Citation? citation,
+
+    /// The verbatim passage the evidence gate matched.
+    SourceQuote? sourceQuote,
     @JsonKey(unknownEnumValue: FactLabel.unknown) FactLabel? factLabel,
     TranscriptDiff? diff,
+
+    /// The evidence gate couldn't verify this flag, so it needs a human
+    /// look instead of a fix.
+    @Default(false) bool uncertain,
   }) = _Flag;
 
   const Flag._();
@@ -112,20 +134,53 @@ abstract class Flag with _$Flag {
   factory Flag.fromJson(Map<String, dynamic> json) => _$FlagFromJson(json);
 
   /// A fact check that came back "supported" is shown as a checked claim,
-  /// never as an issue, and is excluded from every count.
-  bool get isIssue => factLabel != FactLabel.supported;
+  /// never as an issue, and is excluded from every count. So is an
+  /// uncertain flag.
+  bool get isIssue => !uncertain && factLabel != FactLabel.supported;
+
+  bool get isCheckedClaim => !uncertain && factLabel == FactLabel.supported;
 }
 
 @freezed
 abstract class Citation with _$Citation {
   const factory Citation({
     required String title,
-    required String url,
+    String? url,
     String? publisher,
+
+    /// Stable ID of the clause in the backend's clause index.
+    String? clauseId,
+
+    /// Short name of the code or law, for example "ASCI Influencer
+    /// Guidelines".
+    String? instrument,
+
+    /// The exact clause, for example "1.2(c)" or "s. 3(d)".
+    String? clause,
+    @JsonKey(unknownEnumValue: Authority.unknown) Authority? authority,
   }) = _Citation;
+
+  const Citation._();
 
   factory Citation.fromJson(Map<String, dynamic> json) =>
       _$CitationFromJson(json);
+
+  /// "ASCI Influencer Guidelines, 1.2(c)", or null when this cites a
+  /// source rather than a rule.
+  String? get clauseLabel {
+    final clause = this.clause;
+    if (clause == null) return null;
+    return '${instrument ?? publisher ?? title}, $clause';
+  }
+}
+
+@freezed
+abstract class SourceQuote with _$SourceQuote {
+  const factory SourceQuote({required String text, required String source}) =
+      _SourceQuote;
+
+  factory SourceQuote.fromJson(Map<String, dynamic> json) =>
+      _$SourceQuoteFromJson(json);
 }
 
 @freezed

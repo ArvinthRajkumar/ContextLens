@@ -22,18 +22,22 @@
   "flags": [
     {
       "id": "c1",
-      "fingerprint": "factcheck:magnesium-sleep",
+      "fingerprint": "factcheck:vitc-duration",
       "category": "factcheck",
       "startMs": 41000,
       "endMs": 44200,
-      "title": "Magnesium can help some people sleep",
-      "evidence": "Small trials in older adults show modest improvements in sleep quality.",
+      "title": "Vitamin C can make colds a little shorter",
+      "evidence": "Trials of regular supplementation found adults had slightly shorter colds.",
       "citation": {
-        "title": "Magnesium: Fact Sheet for Health Professionals",
-        "url": "https://ods.od.nih.gov/factsheets/Magnesium-HealthProfessional/",
-        "publisher": "NIH Office of Dietary Supplements"
+        "title": "Vitamin C for preventing and treating the common cold",
+        "publisher": "Cochrane",
+        "url": "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD000980.pub4/full"
       },
-      "suggestedFix": "No change needed. Linking the source in your caption adds credibility.",
+      "sourceQuote": {
+        "text": "In adults the duration of colds was reduced by 8% (3% to 12%)",
+        "source": "Cochrane review CD000980, main results"
+      },
+      "suggestedFix": "No change needed. Linking the review in your caption adds credibility.",
       "factLabel": "supported"
     },
     {
@@ -44,13 +48,17 @@
       "startMs": 45500,
       "endMs": 49000,
       "title": "Vitamin C does not prevent colds",
-      "evidence": "Reviews of regular vitamin C intake found no reduction in how often people catch colds in the general population.",
+      "evidence": "A review of placebo-controlled trials found regular vitamin C did not reduce how often people in the general population catch colds.",
       "citation": {
         "title": "Vitamin C for preventing and treating the common cold",
-        "url": "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD000980.pub4/full",
-        "publisher": "Cochrane"
+        "publisher": "Cochrane",
+        "url": "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD000980.pub4/full"
       },
-      "suggestedFix": "Change the line to \"it may slightly shorten colds\" or cut it.",
+      "sourceQuote": {
+        "text": "The failure of vitamin C supplementation to reduce the incidence of colds in the general population indicates that routine vitamin C supplementation is not justified",
+        "source": "Cochrane review CD000980, authors' conclusions"
+      },
+      "suggestedFix": "Change the line to \"it may make a cold a little shorter\" or cut it.",
       "factLabel": "contradicted"
     }
   ],

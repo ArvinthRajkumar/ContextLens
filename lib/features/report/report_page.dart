@@ -213,7 +213,9 @@ class _ReportState extends ConsumerState<_Report> {
   Widget build(BuildContext context) {
     final player = _player;
     final issues = job.issues;
+    final uncertain = job.uncertainFlags;
     final checked = job.checkedClaims;
+    final onTimeline = [...issues, ...uncertain];
     final runs = ref.watch(runHistoryProvider(job.id));
     final parentId = job.parentJobId;
     final parent = parentId == null
@@ -243,9 +245,9 @@ class _ReportState extends ConsumerState<_Report> {
                   height: videoHeight,
                   child: const Center(child: CircularProgressIndicator()),
                 ),
-              if (player != null && issues.isNotEmpty)
+              if (player != null && onTimeline.isNotEmpty)
                 FlagTimeline(
-                  flags: issues,
+                  flags: onTimeline,
                   durationMs: _playerDurationMs ?? job.video?.durationMs ?? 0,
                   playback: player.state,
                   selectedId: _selectedId,
@@ -304,6 +306,20 @@ class _ReportState extends ConsumerState<_Report> {
                                 )._rise(
                                   enabled: stagger && i < _maxStaggered,
                                   index: i,
+                                ),
+                                const SizedBox(height: Spacing.space3),
+                              ],
+                            ],
+                            if (uncertain.isNotEmpty) ...[
+                              const SectionHeader(title: 'Needs a human look'),
+                              for (final flag in uncertain) ...[
+                                FlagCard(
+                                  key: _keyFor(flag),
+                                  flag: flag,
+                                  selected: flag.id == _selectedId,
+                                  pulse: _pulses[flag.id] ?? 0,
+                                  onTap: () => _onCardTap(flag),
+                                  onWatch: () => _seek(flag, play: true),
                                 ),
                                 const SizedBox(height: Spacing.space3),
                               ],

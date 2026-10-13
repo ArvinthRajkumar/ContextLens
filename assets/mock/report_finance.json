@@ -4,7 +4,7 @@
   "status": "done",
   "stage": "report",
   "version": 1,
-  "title": "Is this budgeting app worth it?",
+  "title": "Is this savings app worth it?",
   "createdAt": "2026-10-12T06:10:00Z",
   "updatedAt": "2026-10-12T06:12:40Z",
   "expiresAt": "2026-10-13T06:10:00Z",
@@ -26,30 +26,51 @@
   "flags": [
     {
       "id": "b1",
-      "fingerprint": "disclosure:affiliate:pennywise",
+      "fingerprint": "disclosure:affiliate:paisapal",
       "category": "disclosure",
       "severity": "high",
       "startMs": 2000,
       "endMs": 6500,
-      "title": "Affiliate link is not disclosed",
-      "evidence": "You point to \"the link in my bio\" for a sign-up bonus, but never say you earn a commission.",
+      "title": "Referral link is not clearly disclosed",
+      "evidence": "You say \"use my link in bio for ₹250 cashback\", and #affiliate only appears at the end of 14 hashtags.",
       "citation": {
-        "title": "Disclosures 101 for Social Media Influencers",
-        "url": "https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers",
-        "publisher": "FTC"
+        "title": "Guidelines for Influencer Advertising in Digital Media",
+        "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+        "publisher": "ASCI",
+        "clauseId": "asci-ig/1.2(c)",
+        "instrument": "ASCI Influencer Guidelines",
+        "clause": "1.2(c)",
+        "authority": "self_regulatory"
       },
-      "suggestedFix": "Say \"I get a commission if you sign up with my link\" before you mention the link."
+      "sourceQuote": {
+        "text": "Disclosure should not be buried in a group of hashtags or links.",
+        "source": "ASCI Influencer Guidelines, 1.2(c)"
+      },
+      "suggestedFix": "Say \"this is my affiliate link, I earn a commission\" before you mention it, and start your caption with \"Affiliate\"."
     },
     {
       "id": "b2",
-      "fingerprint": "claims:guarantee:savings",
+      "fingerprint": "claims:guarantee:returns",
       "category": "claims",
       "severity": "medium",
       "startMs": 12000,
       "endMs": 16000,
-      "title": "Savings are presented as guaranteed",
-      "evidence": "\"You will save at least 500 a year\" promises a result that depends on how each person spends.",
-      "suggestedFix": "Share what you saved and say results vary."
+      "title": "Returns are presented as guaranteed",
+      "evidence": "\"You will earn a guaranteed 12% a year, better than any FD\" promises a return the app does not guarantee.",
+      "citation": {
+        "title": "The ASCI Code, Chapter I: Truthful and honest representation",
+        "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+        "publisher": "ASCI",
+        "clauseId": "asci-code/I.ex(e)",
+        "instrument": "ASCI Code, Chapter I",
+        "clause": "example (e)",
+        "authority": "self_regulatory"
+      },
+      "sourceQuote": {
+        "text": "Advertisements inviting the public to invest money shall not contain statements which may mislead the consumer in respect of the security offered, rates of return or terms of amortisation",
+        "source": "ASCI Code, Chapter I, example (e)"
+      },
+      "suggestedFix": "Quote the app's current rate, say it can change, and drop \"guaranteed\"."
     },
     {
       "id": "b3",
@@ -59,8 +80,21 @@
       "startMs": 22000,
       "endMs": 26500,
       "title": "Screenshot is cropped above the fees line",
-      "evidence": "The pricing screen is cut off right above the monthly fee, so the plan looks free.",
-      "suggestedFix": "Show the full pricing screen or mention the monthly fee out loud."
+      "evidence": "The plans screen is cut off just above \"₹99 a month\", so the plan looks free.",
+      "citation": {
+        "title": "The ASCI Code, Chapter I: Truthful and honest representation",
+        "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+        "publisher": "ASCI",
+        "clauseId": "asci-code/I.1.4",
+        "instrument": "ASCI Code, Chapter I",
+        "clause": "1.4",
+        "authority": "self_regulatory"
+      },
+      "sourceQuote": {
+        "text": "Advertisements shall not contain statements or visual presentation, which directly, or by implication or by omission or by ambiguity or by exaggeration, are likely to mislead the consumer about the product advertised",
+        "source": "ASCI Code, Chapter I, 1.4"
+      },
+      "suggestedFix": "Show the full plans screen, or say the ₹99 monthly fee out loud."
     },
     {
       "id": "b4",
@@ -70,70 +104,103 @@
       "startMs": 30000,
       "endMs": 36000,
       "title": "News clip used without credit",
-      "evidence": "A 6 second clip from a TV segment appears without naming the outlet.",
-      "suggestedFix": "Add an on-screen credit for the outlet, or replace the clip with your own footage."
+      "evidence": "A 6 second clip from a TV business segment appears without naming the channel.",
+      "suggestedFix": "Add an on-screen credit for the channel, or replace the clip with your own footage."
     },
     {
       "id": "b5",
-      "fingerprint": "factcheck:fdic",
+      "fingerprint": "factcheck:deposit-insurance",
       "category": "factcheck",
       "severity": "high",
       "startMs": 41000,
       "endMs": 45000,
-      "title": "The app itself is not a bank",
-      "evidence": "Deposits are held by a partner bank. The app is not FDIC insured, and coverage depends on the partner.",
+      "title": "Deposit insurance covers ₹5 lakh, not ₹10 lakh",
+      "evidence": "You say \"your money here is insured up to ₹10 lakh\". DICGC insures bank deposits up to ₹5 lakh per depositor in a bank, and the app itself is not a bank.",
       "citation": {
-        "title": "Banking with third-party apps",
-        "url": "https://www.fdic.gov/resources/deposit-insurance/",
-        "publisher": "FDIC"
+        "title": "Deposit insurance FAQs",
+        "publisher": "DICGC, Reserve Bank of India",
+        "url": "https://www.dicgc.org.in/FAQs"
       },
-      "suggestedFix": "Say \"your money is held at a partner bank\" instead of \"the app is FDIC insured\".",
+      "sourceQuote": {
+        "text": "Each depositor in a bank is insured upto a maximum of ₹ 5,00,000 (Rupees Five Lakhs) for both principal and interest",
+        "source": "DICGC FAQs, \"What is the maximum deposit amount insured by the DICGC?\""
+      },
+      "suggestedFix": "Say \"deposits at the partner bank are insured up to ₹5 lakh by DICGC\" and name the bank.",
       "factLabel": "contradicted"
     },
     {
       "id": "b6",
-      "fingerprint": "factcheck:overdraft-average",
+      "fingerprint": "factcheck:rs500-atm",
       "category": "factcheck",
       "severity": "low",
       "startMs": 52000,
       "endMs": 56000,
-      "title": "Overdraft fee figure was fact-checked before",
-      "evidence": "A similar figure about average overdraft fees was reviewed by a fact-checker earlier this year.",
+      "title": "The ₹500 note claim was fact-checked before",
+      "evidence": "You repeat that \"RBI is pulling ₹500 notes from ATMs\". PIB Fact Check called this message fake in July 2025.",
       "citation": {
-        "title": "What banks actually charge for overdrafts",
-        "url": "https://example.com/factcheck/overdraft",
-        "publisher": "PolitiFact"
+        "title": "PIB Fact Check: Has the RBI asked banks to stop dispensing ₹500 notes from ATMs by September?",
+        "publisher": "Angel One",
+        "url": "https://www.angelone.in/news/market-updates/pib-fact-check-has-the-rbi-asked-banks-to-stop-dispensing-500-notes-from-atms-by-september"
       },
-      "suggestedFix": "Check the earlier fact check and quote its figure with the source.",
+      "sourceQuote": {
+        "text": "has debunked this claim, confirming that the RBI has not issued any such instruction",
+        "source": "Angel One, reporting PIB Fact Check, 14 July 2025"
+      },
+      "suggestedFix": "Cut the line, or say it was a viral rumour that PIB Fact Check debunked.",
       "factLabel": "previously_fact_checked"
     },
     {
       "id": "b7",
-      "fingerprint": "factcheck:users-save-20",
+      "fingerprint": "factcheck:users-save-2000",
       "category": "factcheck",
       "severity": "low",
       "startMs": 61000,
       "endMs": 64500,
-      "title": "Not enough evidence for \"users save 20%\"",
+      "title": "Not enough evidence for \"users save ₹2,000 a month\"",
       "evidence": "We couldn't find an independent source for this number. It only appears in the app's own ads.",
       "suggestedFix": "Attribute it (\"the company says\") or leave it out.",
       "factLabel": "insufficient_evidence"
     },
     {
       "id": "c2",
-      "fingerprint": "factcheck:hysa-interest",
+      "fingerprint": "factcheck:no-assured-returns",
       "category": "factcheck",
       "startMs": 70000,
       "endMs": 74000,
-      "title": "High-yield savings accounts pay more interest than standard ones",
-      "evidence": "Published rates for high-yield accounts are consistently above the national average for standard savings.",
+      "title": "No one can guarantee stock market returns",
+      "evidence": "SEBI warns that there can be no guarantee of assured returns in the securities market.",
       "citation": {
-        "title": "National rates and rate caps",
-        "url": "https://www.fdic.gov/resources/bankers/national-rates/",
-        "publisher": "FDIC"
+        "title": "SEBI cautions public against dealing with unregistered entities (PR No. 2/2024)",
+        "publisher": "SEBI",
+        "url": "https://www.sebi.gov.in/media-and-notifications/press-releases/feb-2024/sebi-cautions-public-against-dealing-with-unregistered-entities_81395.html"
+      },
+      "sourceQuote": {
+        "text": "there can be no guarantees of assured returns in the securities market",
+        "source": "SEBI press release PR No. 2/2024, 13 February 2024"
       },
       "suggestedFix": "No change needed.",
       "factLabel": "supported"
+    },
+    {
+      "id": "u1",
+      "fingerprint": "claims:qualification:sebi-registration",
+      "category": "claims",
+      "severity": "medium",
+      "startMs": 78000,
+      "endMs": 82500,
+      "title": "Fund tip may need your SEBI registration number",
+      "evidence": "You name a small-cap fund and say \"start your SIP here\". If that counts as investment advice, ASCI expects your SEBI registration number up front. We could not confirm the clause applies to this line.",
+      "citation": {
+        "title": "Guidelines for Influencer Advertising in Digital Media",
+        "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+        "publisher": "ASCI",
+        "clauseId": "asci-ig/add2-I.1",
+        "instrument": "ASCI Influencer Guidelines",
+        "clause": "Addendum II, I.1",
+        "authority": "self_regulatory"
+      },
+      "suggestedFix": "If you're SEBI registered, show your registration number at the start. If not, keep it general and don't name a fund.",
+      "uncertain": true
     }
   ]
 }

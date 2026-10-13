@@ -1,4 +1,5 @@
 import 'package:contextlens/app.dart';
+import 'package:contextlens/core/app_check.dart';
 import 'package:contextlens/core/config.dart';
 import 'package:contextlens/features/settings/theme_controller.dart';
 import 'package:contextlens/firebase_options.dart';
@@ -31,6 +32,7 @@ Future<void> main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    await activateAppCheck();
   }
 
   runApp(

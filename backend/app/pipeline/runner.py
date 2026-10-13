@@ -1,6 +1,8 @@
 """Drives a check through its stages and records progress in jobs/{jobId}."""
 
+import json
 import logging
+import time
 from datetime import datetime, timezone
 from typing import Any
 
@@ -8,13 +10,17 @@ from firebase_admin import messaging
 from google.cloud import firestore
 
 from .base import CheckContext, Stage
+from .media import MediaError
 
 log = logging.getLogger(__name__)
 
 
 def _issues(flags: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    # Supported fact checks are checked claims, not issues.
-    return [f for f in flags if f.get("factLabel") != "supported"]
+    # Supported fact checks are checked claims, not issues, and flags the
+    # evidence gate downgraded to uncertain need a human look, not a fix.
+    return [
+        f for f in flags if f.get("factLabel") != "supported" and not f.get("uncertain")
+    ]
 
 
 def summarize(flags: list[dict[str, Any]]) -> dict[str, Any]:
@@ -51,7 +57,9 @@ async def run_check(
     try:
         for stage in stages:
             update({"status": "processing", "stage": stage.name, "stageDetail": None})
+            started = time.monotonic()
             await stage.run(ctx)
+            log_stage(ctx, stage.name, started)
 
         done: dict[str, Any] = {
             "status": "done",
@@ -64,23 +72,40 @@ async def run_check(
         if ctx.parent is not None:
             done["comparison"] = compare(ctx.parent, ctx.parent["id"], ctx.flags)
         update(done)
-    except Exception:
+    except Exception as error:
         log.exception("Check failed for job %s", ctx.job_id)
-        update(
-            {
-                "status": "failed",
-                "stageDetail": None,
-                "error": {
-                    "code": "pipeline_error",
-                    "message": "Something went wrong while checking your video. Try again.",
-                },
-            }
-        )
+        code = error.code if isinstance(error, MediaError) else "pipeline_error"
+        update({"status": "failed", "stageDetail": None, "error": {"code": code, "message": _FAILURE_COPY[code]}})
         return
     try:
         notify_ready(db, ctx.uid, ctx.job_id, ref.get().get("title"))
     except Exception:
         log.warning("Could not send the report notification for %s", ctx.job_id)
+
+
+_FAILURE_COPY = {
+    "pipeline_error": "Something went wrong while checking your video. Try again.",
+    "audio_unreadable": "We couldn't read the audio track. Export the video again as MP4 and try once more.",
+    "video_unreadable": "We couldn't read this video. Export it again as MP4 and try once more.",
+}
+
+
+def log_stage(ctx: CheckContext, stage: str, started: float) -> None:
+    """One structured line per stage: latency and model tokens. Never the
+    caption, transcript or URLs."""
+    tokens = ctx.tokens.get(stage, {"input": 0, "output": 0})
+    log.info(
+        json.dumps(
+            {
+                "event": "stage_done",
+                "jobId": ctx.job_id,
+                "stage": stage,
+                "ms": int((time.monotonic() - started) * 1000),
+                "inputTokens": tokens["input"],
+                "outputTokens": tokens["output"],
+            }
+        )
+    )
 
 
 def notify_ready(db: firestore.Client, uid: str, job_id: str, title: str | None) -> None:

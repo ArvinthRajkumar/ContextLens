@@ -1,6 +1,10 @@
 """End-to-end smoke test against the deployed API.
 
-python backend/tests/smoke_api.py https://contextlens-api-....run.app WEB_OR_ANDROID_API_KEY
+python backend/tests/smoke_api.py https://contextlens-api-....run.app ANDROID_API_KEY [--enforced]
+
+Attests with App Check through a registered debug token (env
+APP_CHECK_DEBUG_TOKEN, or the file ~/.contextlens/appcheck-debug-token).
+With --enforced it also checks that a request without App Check is refused.
 
 Signs up a throwaway anonymous user, opens an upload, sends a tiny MP4
 through the GCS resumable protocol, submits, follows the stub stages in
@@ -8,12 +12,14 @@ Firestore as that user, fetches the playback URL, then deletes the job.
 """
 
 import json
+import os
 import sys
 import time
 import urllib.error
 import urllib.request
 
 PROJECT = "contextlens-tekken"
+ANDROID_APP = "1:115890664288:android:1a18e65980c62d3ff16405"
 
 # The smallest valid-looking MP4 header; the stub pipeline never decodes it.
 TINY_MP4 = bytes.fromhex("000000206674797069736f6d0000020069736f6d69736f32617663316d703431") + b"\0" * 2048
@@ -39,7 +45,15 @@ def step(name, ok, detail=""):
         sys.exit(1)
 
 
-def main(api, key):
+def debug_token():
+    token = os.environ.get("APP_CHECK_DEBUG_TOKEN")
+    path = os.path.expanduser("~/.contextlens/appcheck-debug-token")
+    if not token and os.path.exists(path):
+        token = open(path, encoding="utf-8").read().strip()
+    return token
+
+
+def main(api, key, enforced):
     status, _, body = call("GET", f"{api}/health")
     step("health", status == 200 and body.get("ok"), f"[{status}]")
 
@@ -51,6 +65,22 @@ def main(api, key):
     step("anonymous sign-up", status == 200, f"[{status}]")
     token, uid = body["idToken"], body["localId"]
     auth = {"Authorization": f"Bearer {token}"}
+
+    secret = debug_token()
+    if secret:
+        status, _, body = call(
+            "POST",
+            f"https://firebaseappcheck.googleapis.com/v1/projects/{PROJECT}/apps/{ANDROID_APP}:exchangeDebugToken?key={key}",
+            {"debugToken": secret},
+        )
+        step("App Check debug token exchanged", status == 200 and "token" in body, f"[{status}]")
+        bare = dict(auth)
+        auth["X-Firebase-AppCheck"] = body["token"]
+        if enforced:
+            status, _, body = call("POST", f"{api}/v1/uploads", {"fileName": "a.mp4", "contentType": "video/mp4", "sizeBytes": 10}, bare)
+            step("uploads without App Check is refused", status == 401 and body["error"]["code"] == "app_check_failed", f"[{status}]")
+    else:
+        step("App Check debug token available", not enforced, "(none found, sending without App Check)")
 
     status, _, body = call("POST", f"{api}/v1/uploads", {"fileName": "a.mp4", "contentType": "video/mp4", "sizeBytes": 10}, {})
     step("uploads without a token is refused", status == 401 and body["error"]["code"] == "unauthenticated", f"[{status}]")
@@ -120,4 +150,4 @@ def main(api, key):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1].rstrip("/"), sys.argv[2])
+    main(sys.argv[1].rstrip("/"), sys.argv[2], "--enforced" in sys.argv[3:])

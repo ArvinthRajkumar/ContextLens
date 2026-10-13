@@ -1,0 +1,272 @@
+{
+  "instruments": {
+    "asci-ig": {
+      "title": "Guidelines for Influencer Advertising in Digital Media",
+      "short": "ASCI Influencer Guidelines",
+      "publisher": "ASCI",
+      "authority": "self_regulatory",
+      "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf"
+    },
+    "asci-code": {
+      "title": "The ASCI Code, Chapter I: Truthful and honest representation",
+      "short": "ASCI Code, Chapter I",
+      "publisher": "ASCI",
+      "authority": "self_regulatory",
+      "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf"
+    },
+    "dmr-act": {
+      "title": "The Drugs and Magic Remedies (Objectionable Advertisements) Act, 1954",
+      "short": "Drugs and Magic Remedies Act",
+      "publisher": "Government of India",
+      "authority": "statutory",
+      "url": "https://www.indiacode.nic.in/handle/123456789/1412"
+    }
+  },
+  "clauses": [
+    {
+      "id": "asci-ig/1",
+      "instrument": "asci-ig",
+      "clause": "1",
+      "topics": ["disclosure"],
+      "text": "All advertisements published by social media influencers or their representatives, on such influencers' accounts must carry a disclosure label that clearly identifies it as an advertisement."
+    },
+    {
+      "id": "asci-ig/1.1(a)",
+      "instrument": "asci-ig",
+      "clause": "1.1(a)",
+      "topics": ["disclosure", "material_connection"],
+      "text": "Disclosure is required if there is any material connection between the advertiser and the influencer."
+    },
+    {
+      "id": "asci-ig/1.1(b)",
+      "instrument": "asci-ig",
+      "clause": "1.1(b)",
+      "topics": ["disclosure", "material_connection", "free_product"],
+      "text": "Material connection is not limited to monetary compensation. Disclosure is required if there is anything of value given to mention or talk about the advertiser's product or service. For example: If the advertiser or its agents gives free or discounted products or service, or other perks, and then the influencer mentions one of its products or services, a disclosure is needed even if they were not specifically asked to talk about that product or service."
+    },
+    {
+      "id": "asci-ig/1.1(c)",
+      "instrument": "asci-ig",
+      "clause": "1.1(c)",
+      "topics": ["disclosure", "material_connection"],
+      "text": "Disclosures are required even if the evaluations are unbiased or fully originated by the influencer, so long as there is a material connection between the advertiser and influencer."
+    },
+    {
+      "id": "asci-ig/1.1(d)",
+      "instrument": "asci-ig",
+      "clause": "1.1(d)",
+      "topics": ["disclosure", "material_connection"],
+      "text": "If there is no material connection and the influencer is telling people about a product or service they bought and happen to like, that is not considered to be an advertisement and no disclosure is required on such posts."
+    },
+    {
+      "id": "asci-ig/1.2",
+      "instrument": "asci-ig",
+      "clause": "1.2",
+      "topics": ["disclosure", "placement"],
+      "text": "Disclosure must be upfront and prominent so that it is not missed by an average consumer."
+    },
+    {
+      "id": "asci-ig/1.2(a)",
+      "instrument": "asci-ig",
+      "clause": "1.2(a)",
+      "topics": ["disclosure", "placement"],
+      "text": "It should be placed in a manner that is hard to miss."
+    },
+    {
+      "id": "asci-ig/1.2(b)",
+      "instrument": "asci-ig",
+      "clause": "1.2(b)",
+      "topics": ["disclosure", "placement"],
+      "text": "Disclosures are likely to be missed if they appear only on an ABOUT ME or profile page, or bios, at the end of posts or videos, or anywhere that requires a person to click MORE."
+    },
+    {
+      "id": "asci-ig/1.2(c)",
+      "instrument": "asci-ig",
+      "clause": "1.2(c)",
+      "topics": ["disclosure", "placement", "hashtags"],
+      "text": "Disclosure should not be buried in a group of hashtags or links."
+    },
+    {
+      "id": "asci-ig/1.2(d)",
+      "instrument": "asci-ig",
+      "clause": "1.2(d)",
+      "topics": ["disclosure", "on_screen"],
+      "text": "If the advertisement is only a picture or video post without accompanying text (such as Instagram stories or Snapchat), the disclosure label needs to be superimposed over the picture/video, and it should be ensured that the average consumer is able to see it clearly."
+    },
+    {
+      "id": "asci-ig/1.2(d)(I)",
+      "instrument": "asci-ig",
+      "clause": "1.2(d)(I)",
+      "topics": ["disclosure", "on_screen", "duration"],
+      "text": "For videos that last 15 seconds or lesser, the disclosure label must stay for a minimum of 3 seconds."
+    },
+    {
+      "id": "asci-ig/1.2(d)(II)",
+      "instrument": "asci-ig",
+      "clause": "1.2(d)(II)",
+      "topics": ["disclosure", "on_screen", "duration"],
+      "text": "For videos longer than 15 seconds, but less than 2 minutes, the disclosure label should stay for 1/3rd the length of the video."
+    },
+    {
+      "id": "asci-ig/1.2(d)(III)",
+      "instrument": "asci-ig",
+      "clause": "1.2(d)(III)",
+      "topics": ["disclosure", "on_screen", "duration"],
+      "text": "For videos which are 2 minutes or longer, the disclosure label must stay for the entire duration of the section in which the promoted brand or its features, benefits etc., are mentioned."
+    },
+    {
+      "id": "asci-ig/1.2(e)",
+      "instrument": "asci-ig",
+      "clause": "1.2(e)",
+      "topics": ["disclosure", "live"],
+      "text": "In live streams, the disclosure label should be announced at the beginning and the end of the broadcast. If the post continues to be visible after the live stream is over, appropriate disclosure must be added to the text/caption."
+    },
+    {
+      "id": "asci-ig/1.2(f)",
+      "instrument": "asci-ig",
+      "clause": "1.2(f)",
+      "topics": ["disclosure", "audio"],
+      "text": "In the case of audio media, the disclosure must be clearly announced at the beginning and at the end of the audio, and before and after every break that is taken in between."
+    },
+    {
+      "id": "asci-ig/1.3(a)",
+      "instrument": "asci-ig",
+      "clause": "1.3(a)",
+      "topics": ["disclosure", "labels"],
+      "text": "Following is the list of disclosure labels permitted. Any one or more can be used: Advertisement, Ad, Sponsored, Collaboration, Partnership, Employee, Free Gift, Affiliate, Any platform disclosure tool meant for the purpose of disclosure of material connection with brands."
+    },
+    {
+      "id": "asci-ig/1.3(b)",
+      "instrument": "asci-ig",
+      "clause": "1.3(b)",
+      "topics": ["disclosure", "language"],
+      "text": "The disclosure should be in English OR in the language as the advertisement itself, in a way that is easy for an average consumer to understand."
+    },
+    {
+      "id": "asci-ig/1.4",
+      "instrument": "asci-ig",
+      "clause": "1.4",
+      "topics": ["disclosure", "virtual_influencer"],
+      "text": "A virtual influencer must additionally disclose to consumers that they are not interacting with a real human being. This disclosure must be upfront and prominent."
+    },
+    {
+      "id": "asci-ig/2",
+      "instrument": "asci-ig",
+      "clause": "2",
+      "topics": ["claims", "due_diligence"],
+      "text": "The influencers are advised to review and satisfy themselves that the advertiser is in a position to substantiate the claims made in the advertisement."
+    },
+    {
+      "id": "asci-ig/add2-I",
+      "instrument": "asci-ig",
+      "clause": "Addendum II, I",
+      "topics": ["claims", "qualifications", "finance", "health"],
+      "text": "Influencers providing advice and/or promoting and/or commenting on merits or demerits on technical aspects related to commercial goods or services must have the necessary qualifications and certifications in order to provide such information and advice to consumers."
+    },
+    {
+      "id": "asci-ig/add2-I.1",
+      "instrument": "asci-ig",
+      "clause": "Addendum II, I.1",
+      "topics": ["claims", "qualifications", "finance", "sebi"],
+      "text": "In the area of BFSI related to stock or investments, they should be registered with SEBI and their SEBI registration number should be stated with their name & qualifications. For other financial advice, the influencer must have suitable qualifications such as an IRDAI insurance license, CA, CS etc. In addition, they must abide by all disclosure requirements as mandated by financial sector regulators from time to time."
+    },
+    {
+      "id": "asci-ig/add2-I.2",
+      "instrument": "asci-ig",
+      "clause": "Addendum II, I.2",
+      "topics": ["claims", "qualifications", "health"],
+      "text": "For posts related to health and nutrition, the influencer must have relevant qualifications such as a medical degree, or be a certified nurse, nutritionist, dietician, physiotherapist, psychologist etc. depending on the specific advice being given."
+    },
+    {
+      "id": "asci-ig/add2-II.1",
+      "instrument": "asci-ig",
+      "clause": "Addendum II, II.1",
+      "topics": ["claims", "qualifications", "on_screen"],
+      "text": "Superimposed on the visuals prominently and upfront, or mentioned as the opening remark in videos."
+    },
+    {
+      "id": "asci-ig/add2-III",
+      "instrument": "asci-ig",
+      "clause": "Addendum II, III",
+      "topics": ["claims", "qualifications"],
+      "text": "Influencers who do not have the required qualifications can share generic information about products or services that are not in the nature of technical advice."
+    },
+    {
+      "id": "asci-code/I.1.1",
+      "instrument": "asci-code",
+      "clause": "1.1",
+      "topics": ["claims", "substantiation"],
+      "text": "Advertisements must be truthful. All descriptions, claims and comparisons, which relate to matters of objectively ascertainable fact, should be capable of substantiation. Advertisers and advertising agencies are required to produce such substantiation as and when called upon to do so by The Advertising Standards Council of India."
+    },
+    {
+      "id": "asci-code/I.1.2",
+      "instrument": "asci-code",
+      "clause": "1.2",
+      "topics": ["claims", "research"],
+      "text": "Where advertising claims are expressly stated to be based on, or supported by independent research or assessment, its source and date should be indicated in the advertisement."
+    },
+    {
+      "id": "asci-code/I.1.3",
+      "instrument": "asci-code",
+      "clause": "1.3",
+      "topics": ["claims", "references"],
+      "text": "Advertisements shall not, without permission from the person, firm or institution under reference, contain any reference to such person, firm or institution, which confers an unjustified advantage on the product advertised or tends to bring the person, firm or institution into ridicule or disrepute."
+    },
+    {
+      "id": "asci-code/I.1.4",
+      "instrument": "asci-code",
+      "clause": "1.4",
+      "topics": ["claims", "visuals", "omission"],
+      "text": "Advertisements shall neither distort facts nor mislead the consumer by means of implications or omissions. Advertisements shall not contain statements or visual presentation, which directly, or by implication or by omission or by ambiguity or by exaggeration, are likely to mislead the consumer about the product advertised or the advertiser, or about any other product or advertiser."
+    },
+    {
+      "id": "asci-code/I.1.5",
+      "instrument": "asci-code",
+      "clause": "1.5",
+      "topics": ["claims", "exaggeration"],
+      "text": "Advertisements shall not be so framed as to abuse the trust of consumers, or exploit their lack of experience or knowledge. No advertisement shall be permitted to contain any claim so exaggerated as to lead to grave or widespread disappointment in the minds of consumers."
+    },
+    {
+      "id": "asci-code/I.ex(a)",
+      "instrument": "asci-code",
+      "clause": "example (a)",
+      "topics": ["claims", "free"],
+      "text": "Products shall not be described as 'free' where there is any direct cost to the consumer other than the actual cost of any delivery, freight, or postage. Where such costs are payable by the consumer, a clear statement that this is the case shall be made in the advertisement."
+    },
+    {
+      "id": "asci-code/I.ex(d)",
+      "instrument": "asci-code",
+      "clause": "example (d)",
+      "topics": ["claims", "health"],
+      "text": "Special care and restraint has to be exercised in advertisements addressed to those suffering from weakness, any real or perceived inadequacy of any physical attributes such as height or bust development, obesity, illness, impotence, infertility, baldness and the like, to ensure that claims or representations, directly or by implication, do not exceed what is considered prudent by generally accepted standards of medical practice and the actual efficacy of the product."
+    },
+    {
+      "id": "asci-code/I.ex(e)",
+      "instrument": "asci-code",
+      "clause": "example (e)",
+      "topics": ["claims", "finance", "returns"],
+      "text": "Advertisements inviting the public to invest money shall not contain statements which may mislead the consumer in respect of the security offered, rates of return or terms of amortisation; where any of the foregoing elements are contingent upon the continuance of, or change in existing conditions, or any other assumptions, such conditions or assumptions must be clearly indicated in the advertisement."
+    },
+    {
+      "id": "dmr-act/3(d)",
+      "instrument": "dmr-act",
+      "clause": "s. 3(d)",
+      "topics": ["claims", "health", "disease"],
+      "text": "Subject to the provisions of this Act, no person shall take any part in the publication of any advertisement referring to any drug in terms which suggest or are calculated to lead to the use of that drug for the diagnosis, cure, mitigation, treatment or prevention of any disease, disorder or condition specified in the Schedule, or any other disease, disorder or condition (by whatsoever name called) which may be specified in the rules made under this Act."
+    },
+    {
+      "id": "dmr-act/4",
+      "instrument": "dmr-act",
+      "clause": "s. 4",
+      "topics": ["claims", "health"],
+      "text": "Subject to the provisions of this Act, no person shall take any part in the publication of any advertisement relating to a drug if the advertisement contains any matters which (a) directly or indirectly gives a false impression regarding the true character of the drug; or (b) makes a false claim for the drug; or (c) is otherwise false or misleading in any material particular."
+    },
+    {
+      "id": "dmr-act/schedule",
+      "instrument": "dmr-act",
+      "clause": "Schedule",
+      "topics": ["claims", "health", "disease"],
+      "text": "Appendicitis. Arteriosclerosis. Blindness. Blood poisoning. Bright's disease. Cancer. Cataract. Deafness. Diabetes. Diseases and disorders of the brain. Diseases and disorders of the optical system. Diseases and disorders of the uterus. Disorders of menstrual flow. Disorders of the nervous system. Disorders of the prostatic gland. Dropsy. Epilepsy. Female diseases (in general). Fevers (in general). Fits. Forms and structure of the female bust. Gall stones, kidney stones and bladder stones. Gangrene. Glaucoma. Goitre. Heart diseases. High or low blood pressure. Hydrocele. Hysteria. Infantile paralysis. Insanity. Leprosy. Leucoderma. Lockjaw. Locomotor ataxia. Lupus. Nervous debility. Obesity. Paralysis. Plague. Pleurisy. Pneumonia. Rheumatism. Ruptures. Sexual impotence. Smallpox. Stature of persons. Sterility in women. Trachoma. Tuberculosis. Tumours. Typhoid fever. Ulcers of gastrointestinal tracts. Venereal diseases, including syphilis, gonorrhea, soft chancre, venereal granuloma and lympho granuloma."
+    }
+  ]
+}

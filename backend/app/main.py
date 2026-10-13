@@ -22,6 +22,7 @@ from .errors import (
     validation_error_handler,
 )
 from .pipeline.base import CheckContext
+from .pipeline.real import real_stages
 from .pipeline.runner import run_check
 from .pipeline.stub import stub_stages
 
@@ -194,8 +195,12 @@ def submit(
         declaration=clean,
         parent=parent,
         duration_ms=body.video.durationMs if body.video else None,
+        content_type=job.get("contentType", "video/mp4"),
     )
-    background.add_task(run_check, db, ctx, stub_stages(), pipeline_name="stub")
+    if settings.pipeline_mode == "real":
+        background.add_task(run_check, db, ctx, real_stages(), pipeline_name=f"real:{settings.gemini_model}")
+    else:
+        background.add_task(run_check, db, ctx, stub_stages(), pipeline_name="stub")
     return {"jobId": job_id}
 
 
@@ -221,6 +226,12 @@ def delete_job(job_id: str, caller: Caller = Depends(verify_caller)) -> Response
 class DeviceRequest(BaseModel):
     fcmToken: str = Field(min_length=10, max_length=4096)
     platform: Literal["android", "ios"]
+
+
+@app.delete("/v1/devices", status_code=204)
+def unregister_device(caller: Caller = Depends(verify_caller)) -> Response:
+    db.collection("devices").document(caller.uid).delete()
+    return Response(status_code=204)
 
 
 @app.post("/v1/devices", status_code=204)

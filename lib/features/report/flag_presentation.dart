@@ -68,3 +68,26 @@ extension SeverityPresentation on Severity {
     Severity.unknown => 'Severity not set',
   };
 }
+
+extension AuthorityPresentation on Authority {
+  String get label => switch (this) {
+    Authority.selfRegulatory => 'Self-regulatory',
+    Authority.statutory => 'Statutory',
+    Authority.unknown => 'Guidance',
+  };
+
+  IconData get icon => switch (this) {
+    Authority.selfRegulatory => Icons.handshake_outlined,
+    Authority.statutory => Icons.gavel_outlined,
+    Authority.unknown => Icons.info_outline,
+  };
+}
+
+/// Copy and icon for a flag the evidence gate couldn't verify.
+abstract final class UncertainPresentation {
+  static const label = 'Uncertain, needs a human look';
+  static const icon = Icons.help_outline;
+  static const explainer =
+      "We couldn't match this to the source word for word, so treat it as "
+      'a prompt to check, not a verdict.';
+}

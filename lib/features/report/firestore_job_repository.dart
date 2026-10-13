@@ -127,6 +127,23 @@ class FirestoreJobRepository implements JobRepository {
   }
 
   @override
+  Future<int> deleteAllJobs() async {
+    final uid = await _auth.ensureSignedIn();
+    // Every job, unfinished uploads included; the API deletes the video
+    // and the document, so nothing is deleted from here directly.
+    final snapshot = await _jobs.where('ownerUid', isEqualTo: uid).get();
+    for (final doc in snapshot.docs) {
+      try {
+        await _api.delete('/v1/jobs/${doc.id}');
+      } on ApiException catch (e) {
+        // Already gone (the 24 hour cleanup got there first) is fine.
+        if (e.status != 404) rethrow;
+      }
+    }
+    return snapshot.docs.length;
+  }
+
+  @override
   Future<DeclarationDraft?> declaration(String jobId) async {
     await _auth.ensureSignedIn();
     final doc = await _jobs.doc(jobId).get();

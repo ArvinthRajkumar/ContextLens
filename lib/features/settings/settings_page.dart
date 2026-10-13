@@ -1,6 +1,7 @@
 import 'package:contextlens/core/config.dart';
 import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/widgets/section_header.dart';
+import 'package:contextlens/features/settings/delete_data_tile.dart';
 import 'package:contextlens/features/settings/mock_data_controller.dart';
 import 'package:contextlens/features/settings/theme_controller.dart';
 import 'package:contextlens/features/splash/intro_controller.dart';
@@ -51,12 +52,7 @@ class SettingsPage extends ConsumerWidget {
             padding: Spacing.screenPadding,
             child: SectionHeader(title: 'Privacy'),
           ),
-          const ListTile(
-            leading: Icon(Icons.delete_outline),
-            title: Text('Delete my data'),
-            subtitle: Text('Removes your videos and reports'),
-            enabled: false,
-          ),
+          const DeleteDataTile(),
           const ListTile(
             leading: Icon(Icons.shield_outlined),
             title: Text('Privacy policy'),

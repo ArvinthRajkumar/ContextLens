@@ -439,7 +439,10 @@ mixin _$Flag {
 
  String get id; String get fingerprint;@JsonKey(unknownEnumValue: FlagCategory.unknown) FlagCategory get category; int get startMs; int get endMs; String get title; String get evidence; String get suggestedFix;/// Absent for checked claims (fact label "supported"), which are not
 /// issues.
-@JsonKey(unknownEnumValue: Severity.unknown) Severity? get severity; Citation? get citation;@JsonKey(unknownEnumValue: FactLabel.unknown) FactLabel? get factLabel; TranscriptDiff? get diff;
+@JsonKey(unknownEnumValue: Severity.unknown) Severity? get severity; Citation? get citation;/// The verbatim passage the evidence gate matched.
+ SourceQuote? get sourceQuote;@JsonKey(unknownEnumValue: FactLabel.unknown) FactLabel? get factLabel; TranscriptDiff? get diff;/// The evidence gate couldn't verify this flag, so it needs a human
+/// look instead of a fix.
+ bool get uncertain;
 /// Create a copy of Flag
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -453,20 +456,20 @@ $FlagCopyWith<Flag> get copyWith => _$FlagCopyWithImpl<Flag>(this as Flag, _$ide
 @override
 bool operator ==(Object other) {
   final _this = this as Flag;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Flag&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.fingerprint, _this.fingerprint) || other.fingerprint == _this.fingerprint)&&(identical(other.category, _this.category) || other.category == _this.category)&&(identical(other.startMs, _this.startMs) || other.startMs == _this.startMs)&&(identical(other.endMs, _this.endMs) || other.endMs == _this.endMs)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.evidence, _this.evidence) || other.evidence == _this.evidence)&&(identical(other.suggestedFix, _this.suggestedFix) || other.suggestedFix == _this.suggestedFix)&&(identical(other.severity, _this.severity) || other.severity == _this.severity)&&(identical(other.citation, _this.citation) || other.citation == _this.citation)&&(identical(other.factLabel, _this.factLabel) || other.factLabel == _this.factLabel)&&(identical(other.diff, _this.diff) || other.diff == _this.diff));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Flag&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.fingerprint, _this.fingerprint) || other.fingerprint == _this.fingerprint)&&(identical(other.category, _this.category) || other.category == _this.category)&&(identical(other.startMs, _this.startMs) || other.startMs == _this.startMs)&&(identical(other.endMs, _this.endMs) || other.endMs == _this.endMs)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.evidence, _this.evidence) || other.evidence == _this.evidence)&&(identical(other.suggestedFix, _this.suggestedFix) || other.suggestedFix == _this.suggestedFix)&&(identical(other.severity, _this.severity) || other.severity == _this.severity)&&(identical(other.citation, _this.citation) || other.citation == _this.citation)&&(identical(other.sourceQuote, _this.sourceQuote) || other.sourceQuote == _this.sourceQuote)&&(identical(other.factLabel, _this.factLabel) || other.factLabel == _this.factLabel)&&(identical(other.diff, _this.diff) || other.diff == _this.diff)&&(identical(other.uncertain, _this.uncertain) || other.uncertain == _this.uncertain));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Flag;
-  return Object.hash(runtimeType,_this.id,_this.fingerprint,_this.category,_this.startMs,_this.endMs,_this.title,_this.evidence,_this.suggestedFix,_this.severity,_this.citation,_this.factLabel,_this.diff);
+  return Object.hash(runtimeType,_this.id,_this.fingerprint,_this.category,_this.startMs,_this.endMs,_this.title,_this.evidence,_this.suggestedFix,_this.severity,_this.citation,_this.sourceQuote,_this.factLabel,_this.diff,_this.uncertain);
 }
 
 @override
 String toString() {
   final _this = this as Flag;
-  return 'Flag(id: ${_this.id}, fingerprint: ${_this.fingerprint}, category: ${_this.category}, startMs: ${_this.startMs}, endMs: ${_this.endMs}, title: ${_this.title}, evidence: ${_this.evidence}, suggestedFix: ${_this.suggestedFix}, severity: ${_this.severity}, citation: ${_this.citation}, factLabel: ${_this.factLabel}, diff: ${_this.diff})';
+  return 'Flag(id: ${_this.id}, fingerprint: ${_this.fingerprint}, category: ${_this.category}, startMs: ${_this.startMs}, endMs: ${_this.endMs}, title: ${_this.title}, evidence: ${_this.evidence}, suggestedFix: ${_this.suggestedFix}, severity: ${_this.severity}, citation: ${_this.citation}, sourceQuote: ${_this.sourceQuote}, factLabel: ${_this.factLabel}, diff: ${_this.diff}, uncertain: ${_this.uncertain})';
 }
 
 
@@ -477,11 +480,11 @@ abstract mixin class $FlagCopyWith<$Res>  {
   factory $FlagCopyWith(Flag value, $Res Function(Flag) _then) = _$FlagCopyWithImpl;
 @useResult
 $Res call({
- String id, String fingerprint,@JsonKey(unknownEnumValue: FlagCategory.unknown) FlagCategory category, int startMs, int endMs, String title, String evidence, String suggestedFix,@JsonKey(unknownEnumValue: Severity.unknown) Severity? severity, Citation? citation,@JsonKey(unknownEnumValue: FactLabel.unknown) FactLabel? factLabel, TranscriptDiff? diff
+ String id, String fingerprint,@JsonKey(unknownEnumValue: FlagCategory.unknown) FlagCategory category, int startMs, int endMs, String title, String evidence, String suggestedFix,@JsonKey(unknownEnumValue: Severity.unknown) Severity? severity, Citation? citation, SourceQuote? sourceQuote,@JsonKey(unknownEnumValue: FactLabel.unknown) FactLabel? factLabel, TranscriptDiff? diff, bool uncertain
 });
 
 
-$CitationCopyWith<$Res>? get citation;$TranscriptDiffCopyWith<$Res>? get diff;
+$CitationCopyWith<$Res>? get citation;$SourceQuoteCopyWith<$Res>? get sourceQuote;$TranscriptDiffCopyWith<$Res>? get diff;
 
 }
 /// @nodoc
@@ -494,7 +497,7 @@ class _$FlagCopyWithImpl<$Res>
 
 /// Create a copy of Flag
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? fingerprint = null,Object? category = null,Object? startMs = null,Object? endMs = null,Object? title = null,Object? evidence = null,Object? suggestedFix = null,Object? severity = freezed,Object? citation = freezed,Object? factLabel = freezed,Object? diff = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? fingerprint = null,Object? category = null,Object? startMs = null,Object? endMs = null,Object? title = null,Object? evidence = null,Object? suggestedFix = null,Object? severity = freezed,Object? citation = freezed,Object? sourceQuote = freezed,Object? factLabel = freezed,Object? diff = freezed,Object? uncertain = null,}) {
   return _then(Flag(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,fingerprint: null == fingerprint ? _self.fingerprint : fingerprint // ignore: cast_nullable_to_non_nullable
@@ -506,9 +509,11 @@ as String,evidence: null == evidence ? _self.evidence : evidence // ignore: cast
 as String,suggestedFix: null == suggestedFix ? _self.suggestedFix : suggestedFix // ignore: cast_nullable_to_non_nullable
 as String,severity: freezed == severity ? _self.severity : severity // ignore: cast_nullable_to_non_nullable
 as Severity?,citation: freezed == citation ? _self.citation : citation // ignore: cast_nullable_to_non_nullable
-as Citation?,factLabel: freezed == factLabel ? _self.factLabel : factLabel // ignore: cast_nullable_to_non_nullable
+as Citation?,sourceQuote: freezed == sourceQuote ? _self.sourceQuote : sourceQuote // ignore: cast_nullable_to_non_nullable
+as SourceQuote?,factLabel: freezed == factLabel ? _self.factLabel : factLabel // ignore: cast_nullable_to_non_nullable
 as FactLabel?,diff: freezed == diff ? _self.diff : diff // ignore: cast_nullable_to_non_nullable
-as TranscriptDiff?,
+as TranscriptDiff?,uncertain: null == uncertain ? _self.uncertain : uncertain // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 /// Create a copy of Flag
@@ -522,6 +527,18 @@ $CitationCopyWith<$Res>? get citation {
 
   return $CitationCopyWith<$Res>(_self.citation!, (value) {
     return _then(_self.copyWith(citation: value));
+  });
+}/// Create a copy of Flag
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SourceQuoteCopyWith<$Res>? get sourceQuote {
+    if (_self.sourceQuote == null) {
+    return null;
+  }
+
+  return $SourceQuoteCopyWith<$Res>(_self.sourceQuote!, (value) {
+    return _then(_self.copyWith(sourceQuote: value));
   });
 }/// Create a copy of Flag
 /// with the given fields replaced by the non-null parameter values.
@@ -617,10 +634,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String fingerprint, @JsonKey(unknownEnumValue: FlagCategory.unknown)  FlagCategory category,  int startMs,  int endMs,  String title,  String evidence,  String suggestedFix, @JsonKey(unknownEnumValue: Severity.unknown)  Severity? severity,  Citation? citation, @JsonKey(unknownEnumValue: FactLabel.unknown)  FactLabel? factLabel,  TranscriptDiff? diff)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String fingerprint, @JsonKey(unknownEnumValue: FlagCategory.unknown)  FlagCategory category,  int startMs,  int endMs,  String title,  String evidence,  String suggestedFix, @JsonKey(unknownEnumValue: Severity.unknown)  Severity? severity,  Citation? citation,  SourceQuote? sourceQuote, @JsonKey(unknownEnumValue: FactLabel.unknown)  FactLabel? factLabel,  TranscriptDiff? diff,  bool uncertain)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Flag() when $default != null:
-return $default(_that.id,_that.fingerprint,_that.category,_that.startMs,_that.endMs,_that.title,_that.evidence,_that.suggestedFix,_that.severity,_that.citation,_that.factLabel,_that.diff);case _:
+return $default(_that.id,_that.fingerprint,_that.category,_that.startMs,_that.endMs,_that.title,_that.evidence,_that.suggestedFix,_that.severity,_that.citation,_that.sourceQuote,_that.factLabel,_that.diff,_that.uncertain);case _:
   return orElse();
 
 }
@@ -638,10 +655,10 @@ return $default(_that.id,_that.fingerprint,_that.category,_that.startMs,_that.en
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String fingerprint, @JsonKey(unknownEnumValue: FlagCategory.unknown)  FlagCategory category,  int startMs,  int endMs,  String title,  String evidence,  String suggestedFix, @JsonKey(unknownEnumValue: Severity.unknown)  Severity? severity,  Citation? citation, @JsonKey(unknownEnumValue: FactLabel.unknown)  FactLabel? factLabel,  TranscriptDiff? diff)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String fingerprint, @JsonKey(unknownEnumValue: FlagCategory.unknown)  FlagCategory category,  int startMs,  int endMs,  String title,  String evidence,  String suggestedFix, @JsonKey(unknownEnumValue: Severity.unknown)  Severity? severity,  Citation? citation,  SourceQuote? sourceQuote, @JsonKey(unknownEnumValue: FactLabel.unknown)  FactLabel? factLabel,  TranscriptDiff? diff,  bool uncertain)  $default,) {final _that = this;
 switch (_that) {
 case _Flag():
-return $default(_that.id,_that.fingerprint,_that.category,_that.startMs,_that.endMs,_that.title,_that.evidence,_that.suggestedFix,_that.severity,_that.citation,_that.factLabel,_that.diff);case _:
+return $default(_that.id,_that.fingerprint,_that.category,_that.startMs,_that.endMs,_that.title,_that.evidence,_that.suggestedFix,_that.severity,_that.citation,_that.sourceQuote,_that.factLabel,_that.diff,_that.uncertain);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -658,10 +675,10 @@ return $default(_that.id,_that.fingerprint,_that.category,_that.startMs,_that.en
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String fingerprint, @JsonKey(unknownEnumValue: FlagCategory.unknown)  FlagCategory category,  int startMs,  int endMs,  String title,  String evidence,  String suggestedFix, @JsonKey(unknownEnumValue: Severity.unknown)  Severity? severity,  Citation? citation, @JsonKey(unknownEnumValue: FactLabel.unknown)  FactLabel? factLabel,  TranscriptDiff? diff)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String fingerprint, @JsonKey(unknownEnumValue: FlagCategory.unknown)  FlagCategory category,  int startMs,  int endMs,  String title,  String evidence,  String suggestedFix, @JsonKey(unknownEnumValue: Severity.unknown)  Severity? severity,  Citation? citation,  SourceQuote? sourceQuote, @JsonKey(unknownEnumValue: FactLabel.unknown)  FactLabel? factLabel,  TranscriptDiff? diff,  bool uncertain)?  $default,) {final _that = this;
 switch (_that) {
 case _Flag() when $default != null:
-return $default(_that.id,_that.fingerprint,_that.category,_that.startMs,_that.endMs,_that.title,_that.evidence,_that.suggestedFix,_that.severity,_that.citation,_that.factLabel,_that.diff);case _:
+return $default(_that.id,_that.fingerprint,_that.category,_that.startMs,_that.endMs,_that.title,_that.evidence,_that.suggestedFix,_that.severity,_that.citation,_that.sourceQuote,_that.factLabel,_that.diff,_that.uncertain);case _:
   return null;
 
 }
@@ -673,7 +690,7 @@ return $default(_that.id,_that.fingerprint,_that.category,_that.startMs,_that.en
 @JsonSerializable()
 
 class _Flag extends Flag {
-  const _Flag({required this.id, required this.fingerprint, @JsonKey(unknownEnumValue: FlagCategory.unknown) required this.category, required this.startMs, required this.endMs, required this.title, required this.evidence, required this.suggestedFix, @JsonKey(unknownEnumValue: Severity.unknown) this.severity, this.citation, @JsonKey(unknownEnumValue: FactLabel.unknown) this.factLabel, this.diff}): super._();
+  const _Flag({required this.id, required this.fingerprint, @JsonKey(unknownEnumValue: FlagCategory.unknown) required this.category, required this.startMs, required this.endMs, required this.title, required this.evidence, required this.suggestedFix, @JsonKey(unknownEnumValue: Severity.unknown) this.severity, this.citation, this.sourceQuote, @JsonKey(unknownEnumValue: FactLabel.unknown) this.factLabel, this.diff, this.uncertain = false}): super._();
   factory _Flag.fromJson(Map<String, dynamic> json) => _$FlagFromJson(json);
 
 @override final  String id;
@@ -688,8 +705,13 @@ class _Flag extends Flag {
 /// issues.
 @override@JsonKey(unknownEnumValue: Severity.unknown) final  Severity? severity;
 @override final  Citation? citation;
+/// The verbatim passage the evidence gate matched.
+@override final  SourceQuote? sourceQuote;
 @override@JsonKey(unknownEnumValue: FactLabel.unknown) final  FactLabel? factLabel;
 @override final  TranscriptDiff? diff;
+/// The evidence gate couldn't verify this flag, so it needs a human
+/// look instead of a fix.
+@override@JsonKey() final  bool uncertain;
 
 /// Create a copy of Flag
 /// with the given fields replaced by the non-null parameter values.
@@ -704,18 +726,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Flag&&(identical(other.id, id) || other.id == id)&&(identical(other.fingerprint, fingerprint) || other.fingerprint == fingerprint)&&(identical(other.category, category) || other.category == category)&&(identical(other.startMs, startMs) || other.startMs == startMs)&&(identical(other.endMs, endMs) || other.endMs == endMs)&&(identical(other.title, title) || other.title == title)&&(identical(other.evidence, evidence) || other.evidence == evidence)&&(identical(other.suggestedFix, suggestedFix) || other.suggestedFix == suggestedFix)&&(identical(other.severity, severity) || other.severity == severity)&&(identical(other.citation, citation) || other.citation == citation)&&(identical(other.factLabel, factLabel) || other.factLabel == factLabel)&&(identical(other.diff, diff) || other.diff == diff));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Flag&&(identical(other.id, id) || other.id == id)&&(identical(other.fingerprint, fingerprint) || other.fingerprint == fingerprint)&&(identical(other.category, category) || other.category == category)&&(identical(other.startMs, startMs) || other.startMs == startMs)&&(identical(other.endMs, endMs) || other.endMs == endMs)&&(identical(other.title, title) || other.title == title)&&(identical(other.evidence, evidence) || other.evidence == evidence)&&(identical(other.suggestedFix, suggestedFix) || other.suggestedFix == suggestedFix)&&(identical(other.severity, severity) || other.severity == severity)&&(identical(other.citation, citation) || other.citation == citation)&&(identical(other.sourceQuote, sourceQuote) || other.sourceQuote == sourceQuote)&&(identical(other.factLabel, factLabel) || other.factLabel == factLabel)&&(identical(other.diff, diff) || other.diff == diff)&&(identical(other.uncertain, uncertain) || other.uncertain == uncertain));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,fingerprint,category,startMs,endMs,title,evidence,suggestedFix,severity,citation,factLabel,diff);
+    return Object.hash(runtimeType,id,fingerprint,category,startMs,endMs,title,evidence,suggestedFix,severity,citation,sourceQuote,factLabel,diff,uncertain);
 }
 
 @override
 String toString() {
-    return 'Flag(id: $id, fingerprint: $fingerprint, category: $category, startMs: $startMs, endMs: $endMs, title: $title, evidence: $evidence, suggestedFix: $suggestedFix, severity: $severity, citation: $citation, factLabel: $factLabel, diff: $diff)';
+    return 'Flag(id: $id, fingerprint: $fingerprint, category: $category, startMs: $startMs, endMs: $endMs, title: $title, evidence: $evidence, suggestedFix: $suggestedFix, severity: $severity, citation: $citation, sourceQuote: $sourceQuote, factLabel: $factLabel, diff: $diff, uncertain: $uncertain)';
 }
 
 
@@ -726,11 +748,11 @@ abstract mixin class _$FlagCopyWith<$Res> implements $FlagCopyWith<$Res> {
   factory _$FlagCopyWith(_Flag value, $Res Function(_Flag) _then) = __$FlagCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String fingerprint,@JsonKey(unknownEnumValue: FlagCategory.unknown) FlagCategory category, int startMs, int endMs, String title, String evidence, String suggestedFix,@JsonKey(unknownEnumValue: Severity.unknown) Severity? severity, Citation? citation,@JsonKey(unknownEnumValue: FactLabel.unknown) FactLabel? factLabel, TranscriptDiff? diff
+ String id, String fingerprint,@JsonKey(unknownEnumValue: FlagCategory.unknown) FlagCategory category, int startMs, int endMs, String title, String evidence, String suggestedFix,@JsonKey(unknownEnumValue: Severity.unknown) Severity? severity, Citation? citation, SourceQuote? sourceQuote,@JsonKey(unknownEnumValue: FactLabel.unknown) FactLabel? factLabel, TranscriptDiff? diff, bool uncertain
 });
 
 
-@override $CitationCopyWith<$Res>? get citation;@override $TranscriptDiffCopyWith<$Res>? get diff;
+@override $CitationCopyWith<$Res>? get citation;@override $SourceQuoteCopyWith<$Res>? get sourceQuote;@override $TranscriptDiffCopyWith<$Res>? get diff;
 
 }
 /// @nodoc
@@ -743,7 +765,7 @@ class __$FlagCopyWithImpl<$Res>
 
 /// Create a copy of Flag
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? fingerprint = null,Object? category = null,Object? startMs = null,Object? endMs = null,Object? title = null,Object? evidence = null,Object? suggestedFix = null,Object? severity = freezed,Object? citation = freezed,Object? factLabel = freezed,Object? diff = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? fingerprint = null,Object? category = null,Object? startMs = null,Object? endMs = null,Object? title = null,Object? evidence = null,Object? suggestedFix = null,Object? severity = freezed,Object? citation = freezed,Object? sourceQuote = freezed,Object? factLabel = freezed,Object? diff = freezed,Object? uncertain = null,}) {
   return _then(_Flag(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,fingerprint: null == fingerprint ? _self.fingerprint : fingerprint // ignore: cast_nullable_to_non_nullable
@@ -755,9 +777,11 @@ as String,evidence: null == evidence ? _self.evidence : evidence // ignore: cast
 as String,suggestedFix: null == suggestedFix ? _self.suggestedFix : suggestedFix // ignore: cast_nullable_to_non_nullable
 as String,severity: freezed == severity ? _self.severity : severity // ignore: cast_nullable_to_non_nullable
 as Severity?,citation: freezed == citation ? _self.citation : citation // ignore: cast_nullable_to_non_nullable
-as Citation?,factLabel: freezed == factLabel ? _self.factLabel : factLabel // ignore: cast_nullable_to_non_nullable
+as Citation?,sourceQuote: freezed == sourceQuote ? _self.sourceQuote : sourceQuote // ignore: cast_nullable_to_non_nullable
+as SourceQuote?,factLabel: freezed == factLabel ? _self.factLabel : factLabel // ignore: cast_nullable_to_non_nullable
 as FactLabel?,diff: freezed == diff ? _self.diff : diff // ignore: cast_nullable_to_non_nullable
-as TranscriptDiff?,
+as TranscriptDiff?,uncertain: null == uncertain ? _self.uncertain : uncertain // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -772,6 +796,18 @@ $CitationCopyWith<$Res>? get citation {
 
   return $CitationCopyWith<$Res>(_self.citation!, (value) {
     return _then(_self.copyWith(citation: value));
+  });
+}/// Create a copy of Flag
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SourceQuoteCopyWith<$Res>? get sourceQuote {
+    if (_self.sourceQuote == null) {
+    return null;
+  }
+
+  return $SourceQuoteCopyWith<$Res>(_self.sourceQuote!, (value) {
+    return _then(_self.copyWith(sourceQuote: value));
   });
 }/// Create a copy of Flag
 /// with the given fields replaced by the non-null parameter values.
@@ -792,7 +828,11 @@ $TranscriptDiffCopyWith<$Res>? get diff {
 /// @nodoc
 mixin _$Citation {
 
- String get title; String get url; String? get publisher;
+ String get title; String? get url; String? get publisher;/// Stable ID of the clause in the backend's clause index.
+ String? get clauseId;/// Short name of the code or law, for example "ASCI Influencer
+/// Guidelines".
+ String? get instrument;/// The exact clause, for example "1.2(c)" or "s. 3(d)".
+ String? get clause;@JsonKey(unknownEnumValue: Authority.unknown) Authority? get authority;
 /// Create a copy of Citation
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -806,20 +846,20 @@ $CitationCopyWith<Citation> get copyWith => _$CitationCopyWithImpl<Citation>(thi
 @override
 bool operator ==(Object other) {
   final _this = this as Citation;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Citation&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.url, _this.url) || other.url == _this.url)&&(identical(other.publisher, _this.publisher) || other.publisher == _this.publisher));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Citation&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.url, _this.url) || other.url == _this.url)&&(identical(other.publisher, _this.publisher) || other.publisher == _this.publisher)&&(identical(other.clauseId, _this.clauseId) || other.clauseId == _this.clauseId)&&(identical(other.instrument, _this.instrument) || other.instrument == _this.instrument)&&(identical(other.clause, _this.clause) || other.clause == _this.clause)&&(identical(other.authority, _this.authority) || other.authority == _this.authority));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Citation;
-  return Object.hash(runtimeType,_this.title,_this.url,_this.publisher);
+  return Object.hash(runtimeType,_this.title,_this.url,_this.publisher,_this.clauseId,_this.instrument,_this.clause,_this.authority);
 }
 
 @override
 String toString() {
   final _this = this as Citation;
-  return 'Citation(title: ${_this.title}, url: ${_this.url}, publisher: ${_this.publisher})';
+  return 'Citation(title: ${_this.title}, url: ${_this.url}, publisher: ${_this.publisher}, clauseId: ${_this.clauseId}, instrument: ${_this.instrument}, clause: ${_this.clause}, authority: ${_this.authority})';
 }
 
 
@@ -830,7 +870,7 @@ abstract mixin class $CitationCopyWith<$Res>  {
   factory $CitationCopyWith(Citation value, $Res Function(Citation) _then) = _$CitationCopyWithImpl;
 @useResult
 $Res call({
- String title, String url, String? publisher
+ String title, String? url, String? publisher, String? clauseId, String? instrument, String? clause,@JsonKey(unknownEnumValue: Authority.unknown) Authority? authority
 });
 
 
@@ -847,12 +887,16 @@ class _$CitationCopyWithImpl<$Res>
 
 /// Create a copy of Citation
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? url = null,Object? publisher = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? url = freezed,Object? publisher = freezed,Object? clauseId = freezed,Object? instrument = freezed,Object? clause = freezed,Object? authority = freezed,}) {
   return _then(Citation(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
-as String,publisher: freezed == publisher ? _self.publisher : publisher // ignore: cast_nullable_to_non_nullable
-as String?,
+as String,url: freezed == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String?,publisher: freezed == publisher ? _self.publisher : publisher // ignore: cast_nullable_to_non_nullable
+as String?,clauseId: freezed == clauseId ? _self.clauseId : clauseId // ignore: cast_nullable_to_non_nullable
+as String?,instrument: freezed == instrument ? _self.instrument : instrument // ignore: cast_nullable_to_non_nullable
+as String?,clause: freezed == clause ? _self.clause : clause // ignore: cast_nullable_to_non_nullable
+as String?,authority: freezed == authority ? _self.authority : authority // ignore: cast_nullable_to_non_nullable
+as Authority?,
   ));
 }
 
@@ -937,10 +981,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String url,  String? publisher)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String? url,  String? publisher,  String? clauseId,  String? instrument,  String? clause, @JsonKey(unknownEnumValue: Authority.unknown)  Authority? authority)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Citation() when $default != null:
-return $default(_that.title,_that.url,_that.publisher);case _:
+return $default(_that.title,_that.url,_that.publisher,_that.clauseId,_that.instrument,_that.clause,_that.authority);case _:
   return orElse();
 
 }
@@ -958,10 +1002,10 @@ return $default(_that.title,_that.url,_that.publisher);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String url,  String? publisher)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String? url,  String? publisher,  String? clauseId,  String? instrument,  String? clause, @JsonKey(unknownEnumValue: Authority.unknown)  Authority? authority)  $default,) {final _that = this;
 switch (_that) {
 case _Citation():
-return $default(_that.title,_that.url,_that.publisher);case _:
+return $default(_that.title,_that.url,_that.publisher,_that.clauseId,_that.instrument,_that.clause,_that.authority);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -978,10 +1022,10 @@ return $default(_that.title,_that.url,_that.publisher);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String url,  String? publisher)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String? url,  String? publisher,  String? clauseId,  String? instrument,  String? clause, @JsonKey(unknownEnumValue: Authority.unknown)  Authority? authority)?  $default,) {final _that = this;
 switch (_that) {
 case _Citation() when $default != null:
-return $default(_that.title,_that.url,_that.publisher);case _:
+return $default(_that.title,_that.url,_that.publisher,_that.clauseId,_that.instrument,_that.clause,_that.authority);case _:
   return null;
 
 }
@@ -992,13 +1036,21 @@ return $default(_that.title,_that.url,_that.publisher);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _Citation implements Citation {
-  const _Citation({required this.title, required this.url, this.publisher});
+class _Citation extends Citation {
+  const _Citation({required this.title, this.url, this.publisher, this.clauseId, this.instrument, this.clause, @JsonKey(unknownEnumValue: Authority.unknown) this.authority}): super._();
   factory _Citation.fromJson(Map<String, dynamic> json) => _$CitationFromJson(json);
 
 @override final  String title;
-@override final  String url;
+@override final  String? url;
 @override final  String? publisher;
+/// Stable ID of the clause in the backend's clause index.
+@override final  String? clauseId;
+/// Short name of the code or law, for example "ASCI Influencer
+/// Guidelines".
+@override final  String? instrument;
+/// The exact clause, for example "1.2(c)" or "s. 3(d)".
+@override final  String? clause;
+@override@JsonKey(unknownEnumValue: Authority.unknown) final  Authority? authority;
 
 /// Create a copy of Citation
 /// with the given fields replaced by the non-null parameter values.
@@ -1013,18 +1065,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Citation&&(identical(other.title, title) || other.title == title)&&(identical(other.url, url) || other.url == url)&&(identical(other.publisher, publisher) || other.publisher == publisher));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Citation&&(identical(other.title, title) || other.title == title)&&(identical(other.url, url) || other.url == url)&&(identical(other.publisher, publisher) || other.publisher == publisher)&&(identical(other.clauseId, clauseId) || other.clauseId == clauseId)&&(identical(other.instrument, instrument) || other.instrument == instrument)&&(identical(other.clause, clause) || other.clause == clause)&&(identical(other.authority, authority) || other.authority == authority));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,title,url,publisher);
+    return Object.hash(runtimeType,title,url,publisher,clauseId,instrument,clause,authority);
 }
 
 @override
 String toString() {
-    return 'Citation(title: $title, url: $url, publisher: $publisher)';
+    return 'Citation(title: $title, url: $url, publisher: $publisher, clauseId: $clauseId, instrument: $instrument, clause: $clause, authority: $authority)';
 }
 
 
@@ -1035,7 +1087,7 @@ abstract mixin class _$CitationCopyWith<$Res> implements $CitationCopyWith<$Res>
   factory _$CitationCopyWith(_Citation value, $Res Function(_Citation) _then) = __$CitationCopyWithImpl;
 @override @useResult
 $Res call({
- String title, String url, String? publisher
+ String title, String? url, String? publisher, String? clauseId, String? instrument, String? clause,@JsonKey(unknownEnumValue: Authority.unknown) Authority? authority
 });
 
 
@@ -1052,12 +1104,289 @@ class __$CitationCopyWithImpl<$Res>
 
 /// Create a copy of Citation
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? url = null,Object? publisher = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? url = freezed,Object? publisher = freezed,Object? clauseId = freezed,Object? instrument = freezed,Object? clause = freezed,Object? authority = freezed,}) {
   return _then(_Citation(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
-as String,publisher: freezed == publisher ? _self.publisher : publisher // ignore: cast_nullable_to_non_nullable
-as String?,
+as String,url: freezed == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String?,publisher: freezed == publisher ? _self.publisher : publisher // ignore: cast_nullable_to_non_nullable
+as String?,clauseId: freezed == clauseId ? _self.clauseId : clauseId // ignore: cast_nullable_to_non_nullable
+as String?,instrument: freezed == instrument ? _self.instrument : instrument // ignore: cast_nullable_to_non_nullable
+as String?,clause: freezed == clause ? _self.clause : clause // ignore: cast_nullable_to_non_nullable
+as String?,authority: freezed == authority ? _self.authority : authority // ignore: cast_nullable_to_non_nullable
+as Authority?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$SourceQuote {
+
+ String get text; String get source;
+/// Create a copy of SourceQuote
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SourceQuoteCopyWith<SourceQuote> get copyWith => _$SourceQuoteCopyWithImpl<SourceQuote>(this as SourceQuote, _$identity);
+
+  /// Serializes this SourceQuote to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as SourceQuote;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SourceQuote&&(identical(other.text, _this.text) || other.text == _this.text)&&(identical(other.source, _this.source) || other.source == _this.source));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as SourceQuote;
+  return Object.hash(runtimeType,_this.text,_this.source);
+}
+
+@override
+String toString() {
+  final _this = this as SourceQuote;
+  return 'SourceQuote(text: ${_this.text}, source: ${_this.source})';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SourceQuoteCopyWith<$Res>  {
+  factory $SourceQuoteCopyWith(SourceQuote value, $Res Function(SourceQuote) _then) = _$SourceQuoteCopyWithImpl;
+@useResult
+$Res call({
+ String text, String source
+});
+
+
+
+
+}
+/// @nodoc
+class _$SourceQuoteCopyWithImpl<$Res>
+    implements $SourceQuoteCopyWith<$Res> {
+  _$SourceQuoteCopyWithImpl(this._self, this._then);
+
+  final SourceQuote _self;
+  final $Res Function(SourceQuote) _then;
+
+/// Create a copy of SourceQuote
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? text = null,Object? source = null,}) {
+  return _then(SourceQuote(
+text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
+as String,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [SourceQuote].
+extension SourceQuotePatterns on SourceQuote {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SourceQuote value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _SourceQuote() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SourceQuote value)  $default,){
+final _that = this;
+switch (_that) {
+case _SourceQuote():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SourceQuote value)?  $default,){
+final _that = this;
+switch (_that) {
+case _SourceQuote() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String text,  String source)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _SourceQuote() when $default != null:
+return $default(_that.text,_that.source);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String text,  String source)  $default,) {final _that = this;
+switch (_that) {
+case _SourceQuote():
+return $default(_that.text,_that.source);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String text,  String source)?  $default,) {final _that = this;
+switch (_that) {
+case _SourceQuote() when $default != null:
+return $default(_that.text,_that.source);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _SourceQuote implements SourceQuote {
+  const _SourceQuote({required this.text, required this.source});
+  factory _SourceQuote.fromJson(Map<String, dynamic> json) => _$SourceQuoteFromJson(json);
+
+@override final  String text;
+@override final  String source;
+
+/// Create a copy of SourceQuote
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SourceQuoteCopyWith<_SourceQuote> get copyWith => __$SourceQuoteCopyWithImpl<_SourceQuote>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$SourceQuoteToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SourceQuote&&(identical(other.text, text) || other.text == text)&&(identical(other.source, source) || other.source == source));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,text,source);
+}
+
+@override
+String toString() {
+    return 'SourceQuote(text: $text, source: $source)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SourceQuoteCopyWith<$Res> implements $SourceQuoteCopyWith<$Res> {
+  factory _$SourceQuoteCopyWith(_SourceQuote value, $Res Function(_SourceQuote) _then) = __$SourceQuoteCopyWithImpl;
+@override @useResult
+$Res call({
+ String text, String source
+});
+
+
+
+
+}
+/// @nodoc
+class __$SourceQuoteCopyWithImpl<$Res>
+    implements _$SourceQuoteCopyWith<$Res> {
+  __$SourceQuoteCopyWithImpl(this._self, this._then);
+
+  final _SourceQuote _self;
+  final $Res Function(_SourceQuote) _then;
+
+/// Create a copy of SourceQuote
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? text = null,Object? source = null,}) {
+  return _then(_SourceQuote(
+text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
+as String,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

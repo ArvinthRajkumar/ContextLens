@@ -30,25 +30,46 @@
       "severity": "high",
       "startMs": 4200,
       "endMs": 9800,
-      "title": "Brand deal without a paid partnership label",
-      "evidence": "You say \"thanks to VitaBoost for sending these\" and show a discount code, but the caption has no #ad and the paid partnership toggle is off.",
+      "title": "Brand deal without an Ad label",
+      "evidence": "You say \"VitaBoost sent me these\" and show the code PRIYA20 for ₹200 off, but there is no \"Ad\" or \"Collaboration\" label on screen or in the caption.",
       "citation": {
-        "title": "Disclosures 101 for Social Media Influencers",
-        "url": "https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers",
-        "publisher": "FTC"
+        "title": "Guidelines for Influencer Advertising in Digital Media",
+        "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+        "publisher": "ASCI",
+        "clauseId": "asci-ig/1.1(b)",
+        "instrument": "ASCI Influencer Guidelines",
+        "clause": "1.1(b)",
+        "authority": "self_regulatory"
       },
-      "suggestedFix": "Turn on the paid partnership label and say \"this video is sponsored by VitaBoost\" in the first few seconds."
+      "sourceQuote": {
+        "text": "If the advertiser or its agents gives free or discounted products or service, or other perks, and then the influencer mentions one of its products or services, a disclosure is needed even if they were not specifically asked to talk about that product or service.",
+        "source": "ASCI Influencer Guidelines, 1.1(b)"
+      },
+      "suggestedFix": "Put \"Ad\" on screen for at least a third of the video (about 20 seconds here) and start your caption with it."
     },
     {
       "id": "f2",
-      "fingerprint": "claims:cure:immune",
+      "fingerprint": "claims:disease:diabetes",
       "category": "claims",
       "severity": "high",
       "startMs": 15400,
       "endMs": 19900,
-      "title": "Health claim reads as a cure",
-      "evidence": "\"This basically stops you from ever getting sick\" presents a supplement as preventing illness.",
-      "suggestedFix": "Say what you personally noticed instead, for example \"I take it as part of my routine\", and drop the guarantee."
+      "title": "Supplement shown as treating diabetes",
+      "evidence": "\"My sugar is under control since I started this, I barely need my diabetes tablets now\" links the product to treating diabetes, a condition in the Act's Schedule.",
+      "citation": {
+        "title": "The Drugs and Magic Remedies (Objectionable Advertisements) Act, 1954",
+        "url": "https://www.indiacode.nic.in/handle/123456789/1412",
+        "publisher": "Government of India",
+        "clauseId": "dmr-act/3(d)",
+        "instrument": "Drugs and Magic Remedies Act",
+        "clause": "s. 3(d)",
+        "authority": "statutory"
+      },
+      "sourceQuote": {
+        "text": "the diagnosis, cure, mitigation, treatment or prevention of any disease, disorder or condition specified in the Schedule",
+        "source": "Drugs and Magic Remedies Act, s. 3(d)"
+      },
+      "suggestedFix": "Drop the diabetes line. Talk about your routine, not about treating a condition, and never suggest cutting prescribed medicine."
     },
     {
       "id": "f3",
@@ -58,13 +79,16 @@
       "startMs": 31000,
       "endMs": 38500,
       "title": "Podcast clip is trimmed in a way that changes its meaning",
-      "evidence": "The clip ends before the guest adds a condition, so the quote sounds like a general recommendation.",
+      "evidence": "The clip ends before the doctor adds a condition, so the quote sounds like advice for everyone.",
       "citation": {
-        "title": "Episode 212: What supplements actually do",
-        "url": "https://example.com/podcast/212",
-        "publisher": "The Morning Lab"
+        "title": "Episode 212: Do you really need supplements?",
+        "publisher": "The Chai Break podcast"
       },
-      "suggestedFix": "Keep the full sentence, or say in your own words that the guest was talking about people with a diagnosed deficiency.",
+      "sourceQuote": {
+        "text": "Vitamin D is something everyone should be taking daily if a blood test shows they're deficient.",
+        "source": "The Chai Break, episode 212, original audio at 18:42"
+      },
+      "suggestedFix": "Keep the full sentence, or say in your own words that the doctor meant people with a tested deficiency.",
       "diff": {
         "clipTranscript": "Vitamin D is something everyone should be taking daily.",
         "originalTranscript": "Vitamin D is something everyone should be taking daily if a blood test shows they're deficient.",
@@ -86,18 +110,22 @@
     },
     {
       "id": "c1",
-      "fingerprint": "factcheck:magnesium-sleep",
+      "fingerprint": "factcheck:vitc-duration",
       "category": "factcheck",
       "startMs": 41000,
       "endMs": 44200,
-      "title": "Magnesium can help some people sleep",
-      "evidence": "Small trials in older adults show modest improvements in sleep quality.",
+      "title": "Vitamin C can make colds a little shorter",
+      "evidence": "Trials of regular supplementation found adults had slightly shorter colds.",
       "citation": {
-        "title": "Magnesium: Fact Sheet for Health Professionals",
-        "url": "https://ods.od.nih.gov/factsheets/Magnesium-HealthProfessional/",
-        "publisher": "NIH Office of Dietary Supplements"
+        "title": "Vitamin C for preventing and treating the common cold",
+        "publisher": "Cochrane",
+        "url": "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD000980.pub4/full"
       },
-      "suggestedFix": "No change needed. Linking the source in your caption adds credibility.",
+      "sourceQuote": {
+        "text": "In adults the duration of colds was reduced by 8% (3% to 12%)",
+        "source": "Cochrane review CD000980, main results"
+      },
+      "suggestedFix": "No change needed. Linking the review in your caption adds credibility.",
       "factLabel": "supported"
     },
     {
@@ -108,13 +136,17 @@
       "startMs": 45500,
       "endMs": 49000,
       "title": "Vitamin C does not prevent colds",
-      "evidence": "Reviews of regular vitamin C intake found no reduction in how often people catch colds in the general population.",
+      "evidence": "A review of placebo-controlled trials found regular vitamin C did not reduce how often people in the general population catch colds.",
       "citation": {
         "title": "Vitamin C for preventing and treating the common cold",
-        "url": "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD000980.pub4/full",
-        "publisher": "Cochrane"
+        "publisher": "Cochrane",
+        "url": "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD000980.pub4/full"
       },
-      "suggestedFix": "Change the line to \"it may slightly shorten colds\" or cut it.",
+      "sourceQuote": {
+        "text": "The failure of vitamin C supplementation to reduce the incidence of colds in the general population indicates that routine vitamin C supplementation is not justified",
+        "source": "Cochrane review CD000980, authors' conclusions"
+      },
+      "suggestedFix": "Change the line to \"it may make a cold a little shorter\" or cut it.",
       "factLabel": "contradicted"
     }
   ]

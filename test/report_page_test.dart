@@ -143,7 +143,7 @@ void main() {
     expect(players.single.seeks.last, const Duration(milliseconds: 15400));
     final card = tester.widget<FlagCard>(
       find.ancestor(
-        of: find.text('Health claim reads as a cure'),
+        of: find.text('Supplement shown as treating diabetes'),
         matching: find.byType(FlagCard),
       ),
     );
@@ -173,14 +173,14 @@ void main() {
     await tester.pumpAndSettle();
     final detail = find.byType(Scrollable).last;
     await tester.scrollUntilVisible(
-      find.text('Clip compared with the original'),
+      find.byType(TranscriptDiffView),
       200,
       scrollable: detail,
     );
-    expect(find.byType(TranscriptDiffView), findsOneWidget);
+    expect(find.text('Clip compared with the original'), findsOneWidget);
 
     await tester.scrollUntilVisible(
-      find.text('The Morning Lab  ·  example.com'),
+      find.text('The Chai Break podcast'),
       200,
       scrollable: detail,
     );
@@ -189,6 +189,57 @@ void main() {
     await tester.tap(find.text('Watch this part'));
     await tester.pumpAndSettle();
     expect(players.single.playing, isTrue);
+  });
+
+  testWidgets('an uncertain flag is listed but not counted', (tester) async {
+    await pumpRoute(tester, '/report/job_demo_finance');
+
+    expect(find.text('7'), findsOneWidget);
+    expect(find.text('7 flags'), findsOneWidget);
+    expect(
+      find.bySemanticsLabel(RegExp('^Uncertain claims flag at 1:18')),
+      findsOneWidget,
+    );
+    final heading = find.text('Needs a human look', skipOffstage: false);
+    await tester.scrollUntilVisible(heading, 200, scrollable: _reportList());
+    expect(heading, findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text(UncertainPresentation.label),
+      200,
+      scrollable: _reportList(),
+    );
+    expect(find.text(UncertainPresentation.label), findsOneWidget);
+  });
+
+  testWidgets('a compliance flag shows its clause and the source passage', (
+    tester,
+  ) async {
+    await pumpRoute(tester, '/report/job_demo_v1');
+
+    expect(find.text('ASCI Influencer Guidelines, 1.1(b)'), findsOneWidget);
+    expect(find.text('Self-regulatory'), findsOneWidget);
+    expect(find.text('Drugs and Magic Remedies Act, s. 3(d)'), findsOneWidget);
+    expect(find.text('Statutory'), findsOneWidget);
+
+    final card = find.text('Brand deal without an Ad label');
+    await tester.ensureVisible(card);
+    await tester.pumpAndSettle();
+    await tester.tap(card);
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Details'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Details'));
+    await tester.pumpAndSettle();
+    final detail = find.byType(Scrollable).last;
+    await tester.scrollUntilVisible(
+      find.text('From the source'),
+      200,
+      scrollable: detail,
+    );
+    expect(
+      find.textContaining('a disclosure is needed even if'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('run 2 shows 3 of 4 resolved', (tester) async {

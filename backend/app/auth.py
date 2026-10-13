@@ -37,6 +37,7 @@ def _check_app(token: str | None) -> None:
     if not token:
         if settings.enforce_app_check:
             raise ApiError(401, "app_check_failed", "This app couldn't be verified.")
+        log.warning("App Check token missing (not enforced)")
         return
     try:
         app_check.verify_token(token)

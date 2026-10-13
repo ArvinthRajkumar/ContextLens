@@ -26,5 +26,21 @@ class Settings:
     # Seconds the stub pipeline spends per stage.
     stub_stage_seconds: float = float(os.environ.get("STUB_STAGE_SECONDS", "5"))
 
+    # "stub" walks fixture flags; "real" runs the stages that exist so far
+    # and stubs the rest.
+    pipeline_mode: str = os.environ.get("PIPELINE_MODE", "stub")
+    # Pinned: the newest Flash served from our region's endpoint. Newer
+    # Flash models are only on the global endpoint (GEMINI_LOCATION=global).
+    gemini_model: str = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+    gemini_location: str = os.environ.get("GEMINI_LOCATION", "us-central1")
+    # Chirp 3 runs in the "us" multi-region.
+    speech_location: str = os.environ.get("SPEECH_LOCATION", "us")
+    # "auto" keeps Hinglish in Latin script and Hindi in Devanagari; listing
+    # en-IN and hi-IN together transliterates everything to Devanagari.
+    speech_languages: tuple[str, ...] = tuple(
+        os.environ.get("SPEECH_LANGUAGES", "auto").split(",")
+    )
+    ffmpeg: str = os.environ.get("FFMPEG", "ffmpeg")
+
 
 settings = Settings()

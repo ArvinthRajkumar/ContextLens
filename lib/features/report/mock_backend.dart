@@ -55,20 +55,22 @@ class MockBackend {
   static const _fixtureDeclarations = {
     'job_demo_v1': DeclarationDraft(
       caption:
-          '3 supplements I take every morning\n\n#wellness #morningroutine',
+          '3 supplements I take every morning\n\n'
+          'Code PRIYA20 for ₹200 off #wellness #morningroutine',
       isPaid: true,
       brand: 'VitaBoost',
       category: ContentCategory.health,
     ),
     'job_demo_v2': DeclarationDraft(
       caption:
-          '3 supplements I take every morning\n\n#wellness #morningroutine #ad',
+          'Ad: 3 supplements I take every morning\n\n'
+          'Code PRIYA20 for ₹200 off #wellness #morningroutine',
       isPaid: true,
       brand: 'VitaBoost',
       category: ContentCategory.health,
     ),
     'job_demo_finance': DeclarationDraft(
-      caption: 'Is this budgeting app worth it? Honest review after 3 months',
+      caption: 'Is this savings app worth it? Honest review after 3 months',
       category: ContentCategory.finance,
     ),
   };
@@ -87,6 +89,16 @@ class MockBackend {
   Stream<String> get changes => _changes.stream;
 
   List<Job> get createdJobs => _created.values.toList();
+
+  /// Forgets every job created by a mock upload. Returns how many.
+  int deleteCreated() {
+    final count = _created.length;
+    _created.clear();
+    _declarations.clear();
+    _localPaths.clear();
+    _changes.add('');
+    return count;
+  }
 
   Future<List<Job>> fixtures() async {
     final cached = _fixtures;

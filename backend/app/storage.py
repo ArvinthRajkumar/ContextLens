@@ -65,3 +65,19 @@ def object_size(object_name: str) -> int | None:
 def delete_prefix(prefix: str) -> None:
     for blob in _client.list_blobs(settings.bucket, prefix=prefix):
         blob.delete()
+
+
+def gcs_uri(object_name: str) -> str:
+    return f"gs://{settings.bucket}/{object_name}"
+
+
+def download(object_name: str, path: str) -> None:
+    _bucket.blob(object_name).download_to_filename(path)
+
+
+def upload_file(path: str, object_name: str, content_type: str) -> None:
+    _bucket.blob(object_name).upload_from_filename(path, content_type=content_type)
+
+
+def upload_text(text: str, object_name: str, content_type: str = "application/json") -> None:
+    _bucket.blob(object_name).upload_from_string(text, content_type=content_type)

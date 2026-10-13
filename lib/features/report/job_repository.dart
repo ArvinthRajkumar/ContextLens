@@ -25,6 +25,10 @@ abstract interface class JobRepository {
   /// The declaration the check ran with, kept on the device so a fix can
   /// start from it. Null when it is no longer available.
   Future<DeclarationDraft?> declaration(String jobId);
+
+  /// Deletes every job the user owns, with its video and report. Returns
+  /// how many were deleted.
+  Future<int> deleteAllJobs();
 }
 
 final jobRepositoryProvider = Provider<JobRepository>((ref) {

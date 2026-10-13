@@ -7,6 +7,7 @@ import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/theme/typography.dart';
 import 'package:contextlens/core/utils/formatters.dart';
 import 'package:contextlens/core/widgets/info_pill.dart';
+import 'package:contextlens/features/report/clause_chips.dart';
 import 'package:contextlens/features/report/flag_detail_page.dart';
 import 'package:contextlens/features/report/flag_presentation.dart';
 import 'package:contextlens/features/report/models.dart';
@@ -119,7 +120,10 @@ class _FlagCardState extends State<FlagCard>
             transitionType: motion.reduced
                 ? ContainerTransitionType.fadeThrough
                 : ContainerTransitionType.fade,
-            closedColor: scheme.surfaceContainer,
+            // Uncertain flags sit a step back from the issues.
+            closedColor: widget.flag.uncertain
+                ? scheme.surfaceContainerLow
+                : scheme.surfaceContainer,
             openColor: theme.scaffoldBackgroundColor,
             middleColor: theme.scaffoldBackgroundColor,
             closedElevation: 0,
@@ -173,7 +177,11 @@ class _CardBody extends StatelessWidget {
       color: theme.colorScheme.onSurfaceVariant,
     );
     final label = flag.factLabel;
-    final severity = flag.severity;
+    final uncertain = flag.uncertain;
+    final severity = uncertain ? null : flag.severity;
+    final accent = uncertain
+        ? theme.colorScheme.onSurfaceVariant
+        : flag.category.color(colors);
 
     // OpenContainer moves this body into its route while animating, outside
     // any Material, so it brings its own for the ink.
@@ -192,10 +200,17 @@ class _CardBody extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(flag.category.icon, color: flag.category.color(colors)),
+                  Icon(flag.category.icon, color: accent),
                   const SizedBox(width: Spacing.space3),
                   Expanded(
-                    child: Text(flag.title, style: theme.textTheme.titleMedium),
+                    child: Text(
+                      flag.title,
+                      style: uncertain
+                          ? theme.textTheme.titleMedium?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
+                            )
+                          : theme.textTheme.titleMedium,
+                    ),
                   ),
                   const SizedBox(width: Spacing.space2),
                   Text(
@@ -219,7 +234,13 @@ class _CardBody extends StatelessWidget {
                       [flag.category.label, ?severity?.label].join('  ·  '),
                       style: muted,
                     ),
-                    if (label != null)
+                    if (uncertain)
+                      InfoPill(
+                        icon: UncertainPresentation.icon,
+                        label: UncertainPresentation.label,
+                        color: colors.insufficientEvidence,
+                      )
+                    else if (label != null)
                       InfoPill(
                         icon: label.icon,
                         label: label.label,
@@ -228,6 +249,14 @@ class _CardBody extends StatelessWidget {
                   ],
                 ),
               ),
+              if (flag.citation?.clauseLabel != null)
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: Spacing.space8 + Spacing.space1,
+                    top: Spacing.space2,
+                  ),
+                  child: ClauseChips(citation: flag.citation),
+                ),
               AnimatedSize(
                 duration: motion.medium2,
                 curve: Motion.standard,

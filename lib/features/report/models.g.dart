@@ -107,6 +107,9 @@ _Flag _$FlagFromJson(Map<String, dynamic> json) => _Flag(
   citation: json['citation'] == null
       ? null
       : Citation.fromJson(json['citation'] as Map<String, dynamic>),
+  sourceQuote: json['sourceQuote'] == null
+      ? null
+      : SourceQuote.fromJson(json['sourceQuote'] as Map<String, dynamic>),
   factLabel: $enumDecodeNullable(
     _$FactLabelEnumMap,
     json['factLabel'],
@@ -115,6 +118,7 @@ _Flag _$FlagFromJson(Map<String, dynamic> json) => _Flag(
   diff: json['diff'] == null
       ? null
       : TranscriptDiff.fromJson(json['diff'] as Map<String, dynamic>),
+  uncertain: json['uncertain'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$FlagToJson(_Flag instance) => <String, dynamic>{
@@ -128,8 +132,10 @@ Map<String, dynamic> _$FlagToJson(_Flag instance) => <String, dynamic>{
   'suggestedFix': instance.suggestedFix,
   'severity': _$SeverityEnumMap[instance.severity],
   'citation': instance.citation?.toJson(),
+  'sourceQuote': instance.sourceQuote?.toJson(),
   'factLabel': _$FactLabelEnumMap[instance.factLabel],
   'diff': instance.diff?.toJson(),
+  'uncertain': instance.uncertain,
 };
 
 const _$FlagCategoryEnumMap = {
@@ -158,15 +164,41 @@ const _$FactLabelEnumMap = {
 
 _Citation _$CitationFromJson(Map<String, dynamic> json) => _Citation(
   title: json['title'] as String,
-  url: json['url'] as String,
+  url: json['url'] as String?,
   publisher: json['publisher'] as String?,
+  clauseId: json['clauseId'] as String?,
+  instrument: json['instrument'] as String?,
+  clause: json['clause'] as String?,
+  authority: $enumDecodeNullable(
+    _$AuthorityEnumMap,
+    json['authority'],
+    unknownValue: Authority.unknown,
+  ),
 );
 
 Map<String, dynamic> _$CitationToJson(_Citation instance) => <String, dynamic>{
   'title': instance.title,
   'url': instance.url,
   'publisher': instance.publisher,
+  'clauseId': instance.clauseId,
+  'instrument': instance.instrument,
+  'clause': instance.clause,
+  'authority': _$AuthorityEnumMap[instance.authority],
 };
+
+const _$AuthorityEnumMap = {
+  Authority.selfRegulatory: 'self_regulatory',
+  Authority.statutory: 'statutory',
+  Authority.unknown: 'unknown',
+};
+
+_SourceQuote _$SourceQuoteFromJson(Map<String, dynamic> json) => _SourceQuote(
+  text: json['text'] as String,
+  source: json['source'] as String,
+);
+
+Map<String, dynamic> _$SourceQuoteToJson(_SourceQuote instance) =>
+    <String, dynamic>{'text': instance.text, 'source': instance.source};
 
 _TranscriptDiff _$TranscriptDiffFromJson(Map<String, dynamic> json) =>
     _TranscriptDiff(

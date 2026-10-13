@@ -1,0 +1,9 @@
+[extract]
+  ... Transcribing audio and reading on-screen text
+  ... 93 words heard, 7 on-screen texts
+  19047 ms, tokens in 22352 out 1105
+[claims]
+  ... 5 claims found, 1 brand mention, 2 labels
+  15024 ms, tokens in 997 out 3300
+
+Language: en, 93 words, 40400 ms

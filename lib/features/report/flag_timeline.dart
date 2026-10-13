@@ -105,7 +105,9 @@ class FlagTimeline extends StatelessWidget {
                   child:
                       _Marker(
                         flag: flag,
-                        color: flag.category.color(colors),
+                        color: flag.uncertain
+                            ? colors.insufficientEvidence
+                            : flag.category.color(colors),
                         selected: flag.id == selectedId,
                         onTap: () => onSelect(flag),
                       )._dropIn(
@@ -157,8 +159,12 @@ class _Marker extends StatelessWidget {
       button: true,
       selected: selected,
       label: [
-        '${flag.category.label} flag at ${formatDurationMs(flag.startMs)}',
-        ?severity,
+        if (flag.uncertain)
+          'Uncertain ${flag.category.label.toLowerCase()} flag at '
+              '${formatDurationMs(flag.startMs)}'
+        else
+          '${flag.category.label} flag at ${formatDurationMs(flag.startMs)}',
+        if (!flag.uncertain) ?severity,
       ].join(', '),
       excludeSemantics: true,
       child: InkResponse(
@@ -170,11 +176,15 @@ class _Marker extends StatelessWidget {
             curve: Motion.standard,
             width: size,
             height: size,
+            // Uncertain flags are hollow rings, so they never read as
+            // issues even without color.
             decoration: BoxDecoration(
-              color: color,
+              color: flag.uncertain ? scheme.surface : color,
               shape: BoxShape.circle,
               border: Border.all(
-                color: selected ? scheme.onSurface : scheme.surface,
+                color: flag.uncertain
+                    ? color
+                    : (selected ? scheme.onSurface : scheme.surface),
                 width: 2,
               ),
             ),

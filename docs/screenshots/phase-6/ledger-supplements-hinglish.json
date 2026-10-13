@@ -1,0 +1,169 @@
+[
+  {
+    "type": "promo_offer",
+    "source": "screen",
+    "text": "Code PRIYA20: ₹200 off",
+    "startMs": 6000,
+    "endMs": 11500,
+    "subject": "PRIYA20",
+    "checks": [
+      "claims",
+      "disclosure",
+      "visuals"
+    ],
+    "id": "L1"
+  },
+  {
+    "type": "brand_mention",
+    "source": "speech",
+    "text": "Vita Boost",
+    "startMs": 6720,
+    "endMs": 7480,
+    "subject": "Vita Boost",
+    "checks": [
+      "disclosure"
+    ],
+    "id": "L2"
+  },
+  {
+    "type": "material_connection",
+    "source": "speech",
+    "text": "Vita Boost sent me these,",
+    "startMs": 6720,
+    "endMs": 8480,
+    "subject": "Vita Boost",
+    "checks": [
+      "disclosure"
+    ],
+    "id": "L3"
+  },
+  {
+    "type": "promo_offer",
+    "source": "speech",
+    "text": "use code Priya 20 for Rs 200 off.",
+    "startMs": 8640,
+    "endMs": 12040,
+    "subject": "Priya 20",
+    "checks": [
+      "claims",
+      "disclosure"
+    ],
+    "id": "L4"
+  },
+  {
+    "type": "health_claim",
+    "source": "speech",
+    "text": "my sugar is under control since I started this.",
+    "startMs": 14920,
+    "endMs": 18000,
+    "subject": "sugar control",
+    "checks": [
+      "claims",
+      "factcheck"
+    ],
+    "id": "L5"
+  },
+  {
+    "type": "health_claim",
+    "source": "speech",
+    "text": "I barely need my diabetes tablets now.",
+    "startMs": 18040,
+    "endMs": 20760,
+    "subject": "diabetes tablets",
+    "checks": [
+      "claims",
+      "factcheck"
+    ],
+    "id": "L6"
+  },
+  {
+    "type": "health_claim",
+    "source": "speech",
+    "text": "Vitamin C basically stops you from ever catching a cold.",
+    "startMs": 22880,
+    "endMs": 26680,
+    "subject": "Vitamin C",
+    "checks": [
+      "claims",
+      "factcheck"
+    ],
+    "id": "L7"
+  },
+  {
+    "type": "factual_claim",
+    "source": "speech",
+    "text": "most Indians are deficient.",
+    "startMs": 28800,
+    "endMs": 30640,
+    "subject": "Vitamin D deficiency in Indians",
+    "checks": [
+      "claims",
+      "factcheck"
+    ],
+    "id": "L8"
+  },
+  {
+    "type": "health_claim",
+    "source": "speech",
+    "text": "Ek mahine mein mera energy level double ho gaya",
+    "startMs": 30920,
+    "endMs": 34000,
+    "subject": "energy level",
+    "checks": [
+      "claims",
+      "factcheck"
+    ],
+    "id": "L9"
+  },
+  {
+    "type": "promo_offer",
+    "source": "screen",
+    "text": "₹599 for a month's pack",
+    "startMs": 33000,
+    "endMs": 37500,
+    "subject": "price",
+    "checks": [
+      "claims",
+      "disclosure",
+      "visuals"
+    ],
+    "id": "L10"
+  },
+  {
+    "type": "promo_offer",
+    "source": "speech",
+    "text": "it's just Rs 599 for a month's pack.",
+    "startMs": 34440,
+    "endMs": 38200,
+    "subject": "price",
+    "checks": [
+      "claims",
+      "disclosure"
+    ],
+    "id": "L11"
+  },
+  {
+    "type": "disclosure_label",
+    "source": "screen",
+    "text": "#ad",
+    "startMs": 38500,
+    "endMs": 40000,
+    "position": "top",
+    "checks": [
+      "disclosure"
+    ],
+    "id": "L12"
+  },
+  {
+    "type": "disclosure_label",
+    "source": "caption",
+    "text": "#ad",
+    "upFront": false,
+    "hashtagPosition": 4,
+    "hashtagCount": 4,
+    "checks": [
+      "disclosure"
+    ],
+    "id": "L13"
+  }
+]

@@ -20,8 +20,16 @@ class CheckContext:
     flags: list[dict[str, Any]] = field(default_factory=list)
     # Video length from the app, when known.
     duration_ms: int | None = None
+    content_type: str = "video/mp4"
     # Shows a live one-line detail under the running stage in the app.
     progress: Callable[[str], None] = lambda _detail: None
+    # Model tokens spent, per stage, for the per-stage log line.
+    tokens: dict[str, dict[str, int]] = field(default_factory=dict)
+
+    def add_tokens(self, stage: str, prompt: int | None, output: int | None) -> None:
+        spent = self.tokens.setdefault(stage, {"input": 0, "output": 0})
+        spent["input"] += prompt or 0
+        spent["output"] += output or 0
 
 
 @dataclass(frozen=True)

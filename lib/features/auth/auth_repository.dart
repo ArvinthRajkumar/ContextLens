@@ -12,6 +12,10 @@ abstract interface class AuthRepository {
 
   /// A fresh ID token for the API (the SDK refreshes it when needed).
   Future<String> idToken();
+
+  /// Forgets this account on the device. The next [ensureSignedIn] starts
+  /// a new anonymous one.
+  Future<void> signOut();
 }
 
 class FirebaseAuthRepository implements AuthRepository {
@@ -38,6 +42,9 @@ class FirebaseAuthRepository implements AuthRepository {
     if (token == null) throw StateError('No ID token');
     return token;
   }
+
+  @override
+  Future<void> signOut() => _auth.signOut();
 }
 
 class FakeAuthRepository implements AuthRepository {
@@ -51,6 +58,9 @@ class FakeAuthRepository implements AuthRepository {
 
   @override
   Future<String> idToken() async => 'mock-token';
+
+  @override
+  Future<void> signOut() async {}
 }
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {

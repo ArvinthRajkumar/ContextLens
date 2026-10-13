@@ -12,7 +12,7 @@ Everything lives in one Google Cloud / Firebase project. Created on 2026-10-13.
 | Owner account | arvinth2002ra@gmail.com |
 
 ## Enabled APIs
-run, cloudbuild, artifactregistry, firestore, storage, iam, iamcredentials, aiplatform, speech, firebaseappcheck, identitytoolkit, fcm, firebaserules, cloudresourcemanager, billingbudgets, firebase, firebasestorage, serviceusage (plus their defaults). Compute Engine is not enabled and not needed.
+run, cloudbuild, artifactregistry, firestore, storage, iam, iamcredentials, aiplatform, speech, firebaseappcheck, playintegrity (2026-10-13), identitytoolkit, fcm, firebaserules, cloudresourcemanager, billingbudgets, firebase, firebasestorage, serviceusage (plus their defaults). Compute Engine is not enabled and not needed.
 
 ## Firebase
 | Item | Value |
@@ -21,7 +21,8 @@ run, cloudbuild, artifactregistry, firestore, storage, iam, iamcredentials, aipl
 | iOS app | `1:115890664288:ios:6544c6bf7a8004f1f16405` (bundle `app.contextlens.contextlens`) |
 | App config | `lib/firebase_options.dart` and `android/app/google-services.json` (flutterfire configure; iOS uses `firebase_options.dart` only). Client config is public by design. |
 | Auth | Anonymous and Google sign-in, enabled in the Firebase console on 2026-10-13. No Identity Platform upgrade. |
-| App Check | Not registered yet; the API accepts requests without it while `ENFORCE_APP_CHECK=false`. |
+| Android SHA fingerprints | Debug keystore (`~/.android/debug.keystore`): SHA-256 `D1:3D:90:2E:DC:1C:3D:59:3E:0F:31:1B:7B:DF:C2:09:95:5F:D3:1E:21:3F:C0:86:F4:EB:6B:F7:96:13:30:D4`, SHA-1 `1E:D4:16:8D:B6:AC:D0:31:29:15:32:3B:45:21:D4:AC:88:CC:00:02`. Add the release key's SHA-256 when there is one. |
+| App Check | Android registered with Play Integrity (token TTL 1 h, device integrity `NO_INTEGRITY` for now). Debug builds use the debug provider with a registered debug token ("Dev emulator and smoke test"), kept outside the repo in `~/.contextlens/appcheck-debug-token` and passed with `--dart-define=APP_CHECK_DEBUG_TOKEN=...`. Revoke it in the console (App Check, Apps, Manage debug tokens) if it leaks. iOS not registered yet. |
 
 ## Firestore
 | Item | Value |
@@ -38,7 +39,8 @@ run, cloudbuild, artifactregistry, firestore, storage, iam, iamcredentials, aipl
 | Lifecycle | delete objects after 1 day (`firebase/storage-lifecycle.json`) |
 | CORS | `firebase/storage-cors.json` (resumable upload headers) |
 | Rules | `firebase/storage.rules`: no client access; uploads and playback use V4 signed URLs |
-| Object layout | `uploads/{uid}/{jobId}/source` |
+| Object layout | `uploads/{uid}/{jobId}/source`, plus `audio.flac` (long videos), `transcript.json`, `visual.json`, `ledger.json` written by the real pipeline; all go when the job is deleted or after a day |
+| Dev access | `user:arvinth2002ra@gmail.com` has `roles/storage.objectAdmin` on the bucket (2026-10-13) so `backend/tools/run_pipeline.py` can run locally with ADC; basic Owner has no object read under uniform access |
 
 ## Cloud Run
 | Item | Value |
@@ -47,7 +49,7 @@ run, cloudbuild, artifactregistry, firestore, storage, iam, iamcredentials, aipl
 | URL | https://contextlens-api-115890664288.us-central1.run.app |
 | Runtime SA | `contextlens-api@contextlens-tekken.iam.gserviceaccount.com` (no keys) |
 | Settings | CPU always allocated (background stage task), min 0, max 3 instances, 512 MiB, concurrency 40, timeout 300 s, public ingress (auth is Firebase ID tokens) |
-| Env | `GOOGLE_CLOUD_PROJECT`, `BUCKET`, `SERVICE_ACCOUNT`, `ENFORCE_APP_CHECK=false`, `STUB_STAGE_SECONDS=5` |
+| Env | `GOOGLE_CLOUD_PROJECT`, `BUCKET`, `SERVICE_ACCOUNT`, `ENFORCE_APP_CHECK=false`, `STUB_STAGE_SECONDS=5`. Pipeline: `PIPELINE_MODE=stub` (or `real`), `GEMINI_MODEL=gemini-2.5-flash`, `GEMINI_LOCATION=us-central1`, `SPEECH_LOCATION=us`, `SPEECH_LANGUAGES=auto` (defaults in `backend/app/config.py`) |
 
 Runtime SA roles: `roles/datastore.user`, `roles/aiplatform.user`, `roles/speech.client`, `roles/firebaseauth.viewer`, `roles/firebaseappcheck.tokenVerifier`, `roles/firebasecloudmessaging.admin`, `roles/logging.logWriter` (project); `roles/storage.objectAdmin` (bucket); `roles/iam.serviceAccountTokenCreator` on itself, so it can sign V4 URLs through IAM signBlob.
 
@@ -65,10 +67,18 @@ gcloud builds submit backend --config backend/cloudbuild.yaml --region us-centra
 ```bash
 gcloud run deploy contextlens-api --image us-central1-docker.pkg.dev/contextlens-tekken/contextlens/api:latest --region us-central1
 ```
-Smoke test (needs the Android API key from `lib/firebase_options.dart`):
+Smoke test (needs the Android API key from `lib/firebase_options.dart`; attests with the App Check debug token when `~/.contextlens/appcheck-debug-token` exists, and `--enforced` also checks that a request without App Check is refused):
 ```bash
-backend/.venv/Scripts/python.exe backend/tests/smoke_api.py https://contextlens-api-115890664288.us-central1.run.app <API_KEY>
+backend/.venv/Scripts/python.exe backend/tests/smoke_api.py https://contextlens-api-115890664288.us-central1.run.app <API_KEY> [--enforced]
 ```
+
+## Models
+| Use | Model | Where |
+|---|---|---|
+| Speech | Chirp 3 (`chirp_3`), word timestamps, language `auto` | Speech-to-Text v2, `us` multi-region. Recognize inline up to 55 s, BatchRecognize through GCS beyond. |
+| Video and ledger | `gemini-2.5-flash` | Vertex AI, `us-central1`. Probed 2026-10-13: it is the newest Flash on the regional endpoint; gemini-3.5 to 3.8 Flash answer only on the `global` endpoint. |
+
+Language note: `en-IN` and `hi-IN` together made Chirp 3 transliterate an English and Hinglish test video entirely into Devanagari. `auto` and `en-IN` alone both kept it in Latin script, with the Hindi line as spoken.
 
 ## Credentials on the dev machine
 `gcloud auth application-default login` (scopes cloud-platform and firebase). The Firebase CLI and flutterfire use it through `GOOGLE_APPLICATION_CREDENTIALS=%APPDATA%\gcloud\application_default_credentials.json`; there is no separate `firebase login`.

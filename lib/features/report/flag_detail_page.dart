@@ -6,6 +6,7 @@ import 'package:contextlens/core/widgets/app_button.dart';
 import 'package:contextlens/core/widgets/app_card.dart';
 import 'package:contextlens/core/widgets/info_pill.dart';
 import 'package:contextlens/core/widgets/section_header.dart';
+import 'package:contextlens/features/report/clause_chips.dart';
 import 'package:contextlens/features/report/flag_presentation.dart';
 import 'package:contextlens/features/report/models.dart';
 import 'package:contextlens/features/report/transcript_diff.dart';
@@ -47,8 +48,10 @@ class FlagDetailContent extends StatelessWidget {
       color: theme.colorScheme.onSurfaceVariant,
     );
     final label = flag.factLabel;
-    final severity = flag.severity;
+    final uncertain = flag.uncertain;
+    final severity = uncertain ? null : flag.severity;
     final citation = flag.citation;
+    final quote = flag.sourceQuote;
     final diff = flag.diff;
 
     return ListView(
@@ -72,7 +75,13 @@ class FlagDetailContent extends StatelessWidget {
               label: flag.category.label,
               color: flag.category.color(colors),
             ),
-            if (label != null)
+            if (uncertain)
+              InfoPill(
+                icon: UncertainPresentation.icon,
+                label: UncertainPresentation.label,
+                color: colors.insufficientEvidence,
+              )
+            else if (label != null)
               InfoPill(
                 icon: label.icon,
                 label: label.label,
@@ -81,6 +90,14 @@ class FlagDetailContent extends StatelessWidget {
             if (severity != null) Text(severity.label, style: muted),
           ],
         ),
+        if (citation?.clauseLabel != null) ...[
+          const SizedBox(height: Spacing.space2),
+          ClauseChips(citation: citation),
+        ],
+        if (uncertain) ...[
+          const SizedBox(height: Spacing.space4),
+          const _UncertainNote(),
+        ],
         const SizedBox(height: Spacing.space4),
         Row(
           children: [
@@ -106,6 +123,10 @@ class FlagDetailContent extends StatelessWidget {
         ),
         const SectionHeader(title: 'What we found'),
         Text(flag.evidence, style: theme.textTheme.bodyLarge),
+        if (quote != null) ...[
+          const SectionHeader(title: 'From the source'),
+          _SourceQuoteBlock(quote: quote),
+        ],
         const SectionHeader(title: 'Suggested fix'),
         AppCard(
           color: theme.colorScheme.primaryContainer,
@@ -149,7 +170,9 @@ class _CitationTile extends StatelessWidget {
   /// Report text is untrusted: only https links open, and always outside
   /// the app.
   Uri? get _safeUrl {
-    final uri = Uri.tryParse(citation.url);
+    final url = citation.url;
+    if (url == null) return null;
+    final uri = Uri.tryParse(url);
     if (uri == null || uri.scheme != 'https' || uri.host.isEmpty) return null;
     return uri;
   }
@@ -194,6 +217,92 @@ class _CitationTile extends StatelessWidget {
               ),
             ],
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _UncertainNote extends StatelessWidget {
+  const _UncertainNote();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = AppColors.of(context);
+
+    return AppCard(
+      color: theme.colorScheme.surfaceContainerLow,
+      borderColor: colors.insufficientEvidence,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(UncertainPresentation.icon, color: colors.insufficientEvidence),
+          const SizedBox(width: Spacing.space3),
+          Expanded(
+            child: Text(
+              UncertainPresentation.explainer,
+              style: theme.textTheme.bodyMedium,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// The verbatim passage the evidence gate matched, set apart from our own
+/// words with a rule on the left.
+class _SourceQuoteBlock extends StatelessWidget {
+  const _SourceQuoteBlock({required this.quote});
+
+  final SourceQuote quote;
+
+  static const double _rule = 3;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
+    return Semantics(
+      container: true,
+      label: 'Quote from ${quote.source}',
+      child: AppCard(
+        padding: EdgeInsets.zero,
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ColoredBox(
+                color: scheme.primary,
+                child: const SizedBox(width: _rule),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(Spacing.space4),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '\u201c${quote.text}\u201d',
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                      const SizedBox(height: Spacing.space2),
+                      Text(
+                        quote.source,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: scheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

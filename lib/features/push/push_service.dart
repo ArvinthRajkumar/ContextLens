@@ -25,6 +25,9 @@ abstract interface class PushService {
   /// Re-registers when permission already exists, and routes taps on a
   /// notification to its report.
   Future<void> start();
+
+  /// Unregisters this device and forgets the answer to the pre-prompt.
+  Future<void> forget();
 }
 
 class FirebasePushService implements PushService {
@@ -73,6 +76,13 @@ class FirebasePushService implements PushService {
     }
   }
 
+  @override
+  Future<void> forget() async {
+    await _api.delete('/v1/devices');
+    await _messaging.deleteToken();
+    await _prefs.remove(_askedKey);
+  }
+
   void _open(RemoteMessage message) {
     final jobId = message.data['jobId'];
     if (message.data['type'] == 'report_ready' && jobId is String) {
@@ -112,6 +122,9 @@ class NoPushService implements PushService {
 
   @override
   Future<void> start() async {}
+
+  @override
+  Future<void> forget() async {}
 }
 
 final pushServiceProvider = Provider<PushService>((ref) {

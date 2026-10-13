@@ -16,6 +16,13 @@ def test_summary_excludes_supported_claims():
     assert sum(summary["byCategory"].values()) == 4
 
 
+def test_summary_excludes_uncertain_flags():
+    flags = _flags("report_v1.json") + [
+        {"fingerprint": "claims:x", "category": "claims", "uncertain": True}
+    ]
+    assert summarize(flags)["total"] == 4
+
+
 def test_rerun_resolves_three_of_four():
     parent = {"flags": _flags("report_v1.json")}
     result = compare(parent, "job_a", _flags("report_v2.json"))

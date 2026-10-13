@@ -1,3 +1,4 @@
+import 'package:contextlens/core/app_check.dart';
 import 'package:contextlens/core/config.dart';
 import 'package:contextlens/features/auth/auth_repository.dart';
 import 'package:dio/dio.dart';
@@ -46,10 +47,11 @@ class ApiException implements Exception {
   String toString() => 'ApiException($code, $status)';
 }
 
-/// The ContextLens API. Every request carries a Firebase ID token. Nothing
-/// here logs URLs, headers or bodies.
+/// The ContextLens API. Every request carries a Firebase ID token, and an
+/// App Check token when [appCheckToken] gives one. Nothing here logs URLs,
+/// headers or bodies.
 class ApiClient {
-  ApiClient({required this._auth, Dio? dio})
+  ApiClient({required this._auth, this._appCheckToken, Dio? dio})
     : _dio =
           dio ??
           Dio(
@@ -67,6 +69,10 @@ class ApiClient {
           try {
             options.headers['Authorization'] =
                 'Bearer ${await _auth.idToken()}';
+            final appCheck = await _appCheckToken?.call();
+            if (appCheck != null) {
+              options.headers['X-Firebase-AppCheck'] = appCheck;
+            }
             handler.next(options);
           } on Object catch (error) {
             handler.reject(DioException(requestOptions: options, error: error));
@@ -77,6 +83,7 @@ class ApiClient {
   }
 
   final AuthRepository _auth;
+  final Future<String?> Function()? _appCheckToken;
   final Dio _dio;
 
   Future<Map<String, dynamic>> post(String path, Object? body) =>
@@ -101,5 +108,8 @@ class ApiClient {
 }
 
 final apiClientProvider = Provider<ApiClient>(
-  (ref) => ApiClient(auth: ref.watch(authRepositoryProvider)),
+  (ref) => ApiClient(
+    auth: ref.watch(authRepositoryProvider),
+    appCheckToken: AppConfig.isMock ? null : appCheckToken,
+  ),
 );
