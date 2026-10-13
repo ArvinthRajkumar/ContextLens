@@ -27,6 +27,9 @@ from .pipeline.runner import run_check
 from .pipeline.stub import stub_stages
 
 logging.basicConfig(level=logging.INFO)
+# httpx logs every URL at INFO, query strings included: never in our logs.
+for noisy in ("httpx", "httpcore"):
+    logging.getLogger(noisy).setLevel(logging.WARNING)
 
 firebase_admin.initialize_app(options={"projectId": settings.project_id})
 db = firestore.Client(project=settings.project_id)

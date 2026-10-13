@@ -41,6 +41,9 @@ class Settings:
         os.environ.get("SPEECH_LANGUAGES", "auto").split(",")
     )
     ffmpeg: str = os.environ.get("FFMPEG", "ffmpeg")
+    # Vertex Check Grounding support below this makes an interpreted flag
+    # uncertain.
+    grounding_min_support: float = float(os.environ.get("GROUNDING_MIN_SUPPORT", "0.4"))
 
 
 settings = Settings()

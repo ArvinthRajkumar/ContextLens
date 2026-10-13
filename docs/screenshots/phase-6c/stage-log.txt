@@ -1,0 +1,12 @@
+17:24:03  INFO:app.pipeline.runner:{"event": "stage_done", "jobId": "8b1b93601d4546c0920f7d43dd5728b1", "stage": "extract", "ms": 128807, "inputTokens": 22352, "outputTokens": 1105}
+17:24:17  INFO:app.pipeline.runner:{"event": "stage_done", "jobId": "8b1b93601d4546c0920f7d43dd5728b1", "stage": "claims", "ms": 13413, "inputTokens": 997, "outputTokens": 3300}
+17:24:35  INFO:app.pipeline.runner:{"event": "stage_done", "jobId": "8b1b93601d4546c0920f7d43dd5728b1", "stage": "checking", "ms": 17954, "inputTokens": 5945, "outputTokens": 5289}
+17:24:35  INFO:app.pipeline.real:{"event": "gate", "jobId": "8b1b93601d4546c0920f7d43dd5728b1", "n": 0, "category": "claims", "uncertain": false, "notes": ["grounding 0.98"]}
+17:24:35  INFO:app.pipeline.real:{"event": "gate", "jobId": "8b1b93601d4546c0920f7d43dd5728b1", "n": 1, "category": "claims", "uncertain": false, "notes": ["grounding 0.98"]}
+17:24:35  INFO:app.pipeline.real:{"event": "gate", "jobId": "8b1b93601d4546c0920f7d43dd5728b1", "n": 2, "category": "claims", "uncertain": false, "notes": ["grounding 0.97"]}
+17:24:35  INFO:app.pipeline.real:{"event": "gate", "jobId": "8b1b93601d4546c0920f7d43dd5728b1", "n": 3, "category": "disclosure", "uncertain": false, "notes": []}
+17:24:35  INFO:app.pipeline.real:{"event": "gate", "jobId": "8b1b93601d4546c0920f7d43dd5728b1", "n": 4, "category": "disclosure", "uncertain": false, "notes": []}
+17:24:35  INFO:app.pipeline.real:{"event": "gate", "jobId": "8b1b93601d4546c0920f7d43dd5728b1", "n": 5, "category": "factcheck", "uncertain": true, "notes": ["pages fetched: 4/9", "ms: search+verdict 6043, pages 816", "grounding: support 0.18"]}
+17:24:35  INFO:app.pipeline.real:{"event": "gate", "jobId": "8b1b93601d4546c0920f7d43dd5728b1", "n": 6, "category": "factcheck", "uncertain": true, "notes": ["pages fetched: 5/7", "ms: search+verdict 7411, pages 1645", "page: source not available"]}
+17:24:35  INFO:app.pipeline.runner:{"event": "stage_done", "jobId": "8b1b93601d4546c0920f7d43dd5728b1", "stage": "evidence", "ms": 453, "inputTokens": 0, "outputTokens": 0}
+17:24:35  INFO:app.pipeline.runner:{"event": "stage_done", "jobId": "8b1b93601d4546c0920f7d43dd5728b1", "stage": "report", "ms": 89, "inputTokens": 0, "outputTokens": 0}

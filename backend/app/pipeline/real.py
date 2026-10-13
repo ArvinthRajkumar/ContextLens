@@ -1,18 +1,22 @@
-"""Real stages. So far: Extract (Chirp 3 + Gemini) and the claim ledger;
-the checkers, evidence gate and report are still stubs."""
+"""The real pipeline: Extract (Chirp 3 + Gemini), the claim ledger, the
+checkers, the evidence gate and the report."""
 
 import asyncio
 import json
+import logging
 import os
 import tempfile
 
 from .. import storage
 from .base import CheckContext, StageResult
+from .checks import gate, router
+from .checks.candidate import Candidate
 from .ledger import build, summary
 from .media import MediaError, extract_audio, probe
 from .speech import Transcript, transcribe
-from .stub import StubChecking, StubEvidence, StubReport
 from .visual import VisualFacts, analyse
+
+log = logging.getLogger(__name__)
 
 
 def _job_prefix(ctx: CheckContext) -> str:
@@ -71,6 +75,7 @@ class RealLedger:
     async def run(self, ctx: CheckContext) -> StageResult:
         transcript: Transcript = ctx.data["transcript"]
         visual: VisualFacts = ctx.data["visual"]
+        ctx.progress("Listing what you say and show")
         items = await asyncio.to_thread(build, ctx, self.name, transcript, visual, ctx.declaration)
         ctx.data["ledger"] = items
         await asyncio.to_thread(
@@ -81,5 +86,72 @@ class RealLedger:
         return StageResult(detail)
 
 
+class RealChecking:
+    name = "checking"
+
+    async def run(self, ctx: CheckContext) -> StageResult:
+        ledger = ctx.data["ledger"]
+        items = sum(1 for i in ledger if i["type"] not in {"disclosure_label", "product_shot"})
+        ctx.progress(f"Checking {items} {'item' if items == 1 else 'items'}")
+        candidates = await router.run(ctx)
+        ctx.data["candidates"] = candidates
+        detail = f"{len(candidates)} possible {'issue' if len(candidates) == 1 else 'issues'} to verify"
+        ctx.progress(detail)
+        return StageResult(detail)
+
+
+class RealEvidence:
+    """The evidence gate: verbatim spans, then Check Grounding."""
+
+    name = "evidence"
+
+    async def run(self, ctx: CheckContext) -> StageResult:
+        candidates: list[Candidate] = ctx.data["candidates"]
+        transcript: Transcript = ctx.data["transcript"]
+        visual: VisualFacts = ctx.data["visual"]
+        sources = gate.Sources(
+            transcript=transcript.text,
+            screen=" | ".join(t.text for t in visual.screen_text),
+            caption=ctx.declaration.get("caption") or "",
+            pages=ctx.data.get("pages", {}),
+        )
+        spans = sum(len(c.evidence) for c in candidates)
+        ctx.progress(f"Verifying {spans} quoted {'source' if spans == 1 else 'sources'}")
+        flags = await asyncio.gather(*(asyncio.to_thread(gate.apply, c, sources) for c in candidates))
+        for n, (candidate, flag) in enumerate(zip(candidates, flags, strict=True)):
+            log.info(json.dumps({"event": "gate", "jobId": ctx.job_id, "n": n, "category": flag["category"],
+                                 "uncertain": bool(flag.get("uncertain")), "notes": candidate.gate_notes}))
+        ctx.data["flags"] = flags
+        uncertain = sum(1 for f in flags if f.get("uncertain"))
+        detail = f"{len(flags) - uncertain} verified, {uncertain} for a human look"
+        ctx.progress(detail)
+        return StageResult(detail)
+
+
+def dedupe(flags: list[dict]) -> list[dict]:
+    """A fact check that contradicts a line already says it is untrue, so a
+    claims flag on the same line for being unproven or misleading (ASCI
+    Code 1.1, 1.4) goes."""
+    contradicted = {(f["startMs"], f["endMs"]) for f in flags
+                    if f.get("factLabel") == "contradicted" and not f.get("uncertain")}
+    return [f for f in flags if not (
+        f["category"] == "claims"
+        and f.get("citation", {}).get("clauseId") in {"asci-code/I.1.1", "asci-code/I.1.4"}
+        and (f["startMs"], f["endMs"]) in contradicted
+    )]
+
+
+class RealReport:
+    name = "report"
+
+    async def run(self, ctx: CheckContext) -> StageResult:
+        ctx.progress("Writing your report")
+        flags = sorted(dedupe(ctx.data.get("flags", [])), key=lambda f: (f["startMs"], f["category"]))
+        for n, flag in enumerate(flags, start=1):
+            flag["id"] = f"f{n}"
+        ctx.flags = flags
+        return StageResult(f"{len(flags)} flags")
+
+
 def real_stages() -> list:
-    return [RealExtract(), RealLedger(), StubChecking(), StubEvidence(), StubReport()]
+    return [RealExtract(), RealLedger(), RealChecking(), RealEvidence(), RealReport()]

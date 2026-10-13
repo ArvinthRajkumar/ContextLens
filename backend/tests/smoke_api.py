@@ -7,7 +7,7 @@ APP_CHECK_DEBUG_TOKEN, or the file ~/.contextlens/appcheck-debug-token).
 With --enforced it also checks that a request without App Check is refused.
 
 Signs up a throwaway anonymous user, opens an upload, sends a tiny MP4
-through the GCS resumable protocol, submits, follows the stub stages in
+through the GCS resumable protocol, submits, follows the stages in
 Firestore as that user, fetches the playback URL, then deletes the job.
 """
 
@@ -21,7 +21,8 @@ import urllib.request
 PROJECT = "contextlens-tekken"
 ANDROID_APP = "1:115890664288:android:1a18e65980c62d3ff16405"
 
-# The smallest valid-looking MP4 header; the stub pipeline never decodes it.
+# The smallest valid-looking MP4 header: the stub pipeline walks it to a
+# report, the real one fails it as unreadable.
 TINY_MP4 = bytes.fromhex("000000206674797069736f6d0000020069736f6d69736f32617663316d703431") + b"\0" * 2048
 
 
@@ -124,9 +125,14 @@ def main(api, key, enforced):
         if state in ("done", "failed"):
             break
         time.sleep(1.5)
-    step("owner reads the job and it walks the stages", state == "done", f"stages {seen}")
-    flags = doc["fields"]["flags"]["arrayValue"]["values"]
-    step("stub flags written", len(flags) == 5, f"{len(flags)} flags, pipeline={doc['fields']['pipeline']['stringValue']}")
+    error = fields.get("error", {}).get("mapValue", {}).get("fields", {}).get("code", {}).get("stringValue")
+    if state == "failed":
+        # PIPELINE_MODE=real decodes the video, and this one is only a header.
+        step("real pipeline rejects the fake video cleanly", error == "video_unreadable", f"stages {seen}, error {error}")
+    else:
+        step("owner reads the job and it walks the stages", state == "done", f"stages {seen}")
+        flags = doc["fields"]["flags"]["arrayValue"]["values"]
+        step("stub flags written", len(flags) == 5, f"{len(flags)} flags, pipeline={doc['fields']['pipeline']['stringValue']}")
 
     other = call("POST", f"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={key}", {"returnSecureToken": True})[2]["idToken"]
     status, _, _ = call("GET", doc_url, headers={"Authorization": f"Bearer {other}"})
