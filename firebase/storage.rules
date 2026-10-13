@@ -1,0 +1,11 @@
+rules_version = '2';
+
+// No client access. Uploads use V4 signed URLs from the backend and
+// playback uses short-lived signed GET URLs, neither of which reads rules.
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

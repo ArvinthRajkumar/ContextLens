@@ -1,0 +1,15 @@
+# Builds the API image and pushes it to Artifact Registry.
+# gcloud builds submit backend --config backend/cloudbuild.yaml \
+#   --service-account projects/contextlens-tekken/serviceAccounts/contextlens-build@contextlens-tekken.iam.gserviceaccount.com
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args: ["build", "-t", "${_IMAGE}:${BUILD_ID}", "-t", "${_IMAGE}:latest", "."]
+images:
+  - "${_IMAGE}:${BUILD_ID}"
+  - "${_IMAGE}:latest"
+substitutions:
+  _IMAGE: us-central1-docker.pkg.dev/contextlens-tekken/contextlens/api
+options:
+  # A user-managed build service account can't write to the default logs
+  # bucket.
+  logging: CLOUD_LOGGING_ONLY

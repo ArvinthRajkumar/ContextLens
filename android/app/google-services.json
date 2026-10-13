@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "115890664288",
+    "project_id": "contextlens-tekken",
+    "storage_bucket": "contextlens-tekken.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115890664288:android:1a18e65980c62d3ff16405",
+        "android_client_info": {
+          "package_name": "app.contextlens.contextlens"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBopC-CdZL7jS695T9sAA9gMmwmr7_L_cg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,16 @@
+rules_version = '2';
+
+// Clients only read their own jobs. Every write goes through the backend
+// (Admin SDK), which bypasses these rules.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /jobs/{jobId} {
+      allow read: if request.auth != null
+        && resource.data.ownerUid == request.auth.uid;
+      allow write: if false;
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

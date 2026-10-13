@@ -1,0 +1,121 @@
+{
+  "id": "job_demo_v1",
+  "ownerUid": "mock-user",
+  "status": "done",
+  "stage": "report",
+  "version": 1,
+  "title": "3 supplements I take every morning",
+  "createdAt": "2026-10-12T07:40:00Z",
+  "updatedAt": "2026-10-12T07:42:10Z",
+  "expiresAt": "2026-10-13T07:40:00Z",
+  "video": {
+    "durationMs": 58000,
+    "width": 1080,
+    "height": 1920
+  },
+  "summary": {
+    "total": 4,
+    "byCategory": {
+      "disclosure": 1,
+      "claims": 1,
+      "borrowed": 1,
+      "factcheck": 1
+    }
+  },
+  "flags": [
+    {
+      "id": "f1",
+      "fingerprint": "disclosure:brand-mention:vitaboost",
+      "category": "disclosure",
+      "severity": "high",
+      "startMs": 4200,
+      "endMs": 9800,
+      "title": "Brand deal without a paid partnership label",
+      "evidence": "You say \"thanks to VitaBoost for sending these\" and show a discount code, but the caption has no #ad and the paid partnership toggle is off.",
+      "citation": {
+        "title": "Disclosures 101 for Social Media Influencers",
+        "url": "https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers",
+        "publisher": "FTC"
+      },
+      "suggestedFix": "Turn on the paid partnership label and say \"this video is sponsored by VitaBoost\" in the first few seconds."
+    },
+    {
+      "id": "f2",
+      "fingerprint": "claims:cure:immune",
+      "category": "claims",
+      "severity": "high",
+      "startMs": 15400,
+      "endMs": 19900,
+      "title": "Health claim reads as a cure",
+      "evidence": "\"This basically stops you from ever getting sick\" presents a supplement as preventing illness.",
+      "suggestedFix": "Say what you personally noticed instead, for example \"I take it as part of my routine\", and drop the guarantee."
+    },
+    {
+      "id": "f3",
+      "fingerprint": "borrowed:clip:podcast-ep212",
+      "category": "borrowed",
+      "severity": "medium",
+      "startMs": 31000,
+      "endMs": 38500,
+      "title": "Podcast clip is trimmed in a way that changes its meaning",
+      "evidence": "The clip ends before the guest adds a condition, so the quote sounds like a general recommendation.",
+      "citation": {
+        "title": "Episode 212: What supplements actually do",
+        "url": "https://example.com/podcast/212",
+        "publisher": "The Morning Lab"
+      },
+      "suggestedFix": "Keep the full sentence, or say in your own words that the guest was talking about people with a diagnosed deficiency.",
+      "diff": {
+        "clipTranscript": "Vitamin D is something everyone should be taking daily.",
+        "originalTranscript": "Vitamin D is something everyone should be taking daily if a blood test shows they're deficient.",
+        "segments": [
+          {
+            "op": "equal",
+            "text": "Vitamin D is something everyone should be taking daily"
+          },
+          {
+            "op": "delete",
+            "text": " if a blood test shows they're deficient"
+          },
+          {
+            "op": "equal",
+            "text": "."
+          }
+        ]
+      }
+    },
+    {
+      "id": "c1",
+      "fingerprint": "factcheck:magnesium-sleep",
+      "category": "factcheck",
+      "startMs": 41000,
+      "endMs": 44200,
+      "title": "Magnesium can help some people sleep",
+      "evidence": "Small trials in older adults show modest improvements in sleep quality.",
+      "citation": {
+        "title": "Magnesium: Fact Sheet for Health Professionals",
+        "url": "https://ods.od.nih.gov/factsheets/Magnesium-HealthProfessional/",
+        "publisher": "NIH Office of Dietary Supplements"
+      },
+      "suggestedFix": "No change needed. Linking the source in your caption adds credibility.",
+      "factLabel": "supported"
+    },
+    {
+      "id": "f4",
+      "fingerprint": "factcheck:vitc-cold",
+      "category": "factcheck",
+      "severity": "high",
+      "startMs": 45500,
+      "endMs": 49000,
+      "title": "Vitamin C does not prevent colds",
+      "evidence": "Reviews of regular vitamin C intake found no reduction in how often people catch colds in the general population.",
+      "citation": {
+        "title": "Vitamin C for preventing and treating the common cold",
+        "url": "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD000980.pub4/full",
+        "publisher": "Cochrane"
+      },
+      "suggestedFix": "Change the line to \"it may slightly shorten colds\" or cut it.",
+      "factLabel": "contradicted"
+    }
+  ]
+}
