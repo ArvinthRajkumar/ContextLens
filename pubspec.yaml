@@ -54,8 +54,6 @@ flutter:
   assets:
     - assets/mock/
     - assets/sounds/
-  shaders:
-    - shaders/fire_text.frag
 
   fonts:
     - family: Inter

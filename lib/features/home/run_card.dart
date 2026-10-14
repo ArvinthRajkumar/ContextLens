@@ -5,6 +5,7 @@ import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/utils/formatters.dart';
 import 'package:contextlens/core/widgets/app_background.dart';
 import 'package:contextlens/core/widgets/app_card.dart';
+import 'package:contextlens/core/widgets/glass_surface.dart';
 import 'package:contextlens/core/widgets/info_pill.dart';
 import 'package:contextlens/core/widgets/video_thumbnail.dart';
 import 'package:contextlens/features/report/flag_presentation.dart';
@@ -46,16 +47,17 @@ class RunCard extends StatelessWidget {
         transitionType: motion.reduced
             ? ContainerTransitionType.fadeThrough
             : ContainerTransitionType.fade,
-        closedColor: colors.glass,
+        closedColor: Colors.transparent,
         openColor: theme.colorScheme.surface,
         middleColor: theme.colorScheme.surface,
         closedElevation: 0,
         openElevation: 0,
-        closedShape: RoundedRectangleBorder(
+        closedShape: const RoundedRectangleBorder(
           borderRadius: Radii.card,
-          side: BorderSide(color: colors.glassBorder),
+          side: BorderSide.none,
         ),
-        closedBuilder: (context, _) => _RunCardContent(job: job),
+        closedBuilder: (context, _) =>
+            GlassSurface(child: _RunCardContent(job: job)),
         openBuilder: (context, _) =>
             AppBackground(child: ReportPage(jobId: job.id)),
       ),

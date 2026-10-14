@@ -7,6 +7,7 @@ import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/theme/typography.dart';
 import 'package:contextlens/core/utils/formatters.dart';
 import 'package:contextlens/core/widgets/app_background.dart';
+import 'package:contextlens/core/widgets/glass_surface.dart';
 import 'package:contextlens/core/widgets/info_pill.dart';
 import 'package:contextlens/features/report/clause_chips.dart';
 import 'package:contextlens/features/report/flag_detail_page.dart';
@@ -120,31 +121,41 @@ class _FlagCardState extends State<FlagCard>
                 ? ContainerTransitionType.fadeThrough
                 : ContainerTransitionType.fade,
             // Uncertain flags sit a step back from the issues.
-            closedColor: widget.flag.uncertain
-                ? colors.glassFaint
-                : colors.glass,
+            closedColor: Colors.transparent,
             openColor: scheme.surface,
             middleColor: scheme.surface,
             closedElevation: 0,
             openElevation: 0,
             closedShape: RoundedRectangleBorder(
               borderRadius: Radii.card,
-              side: BorderSide(
-                color: Color.lerp(restBorder, scheme.primary, _pulse.value)!,
-                width: widget.selected || _pulse.value > 0 ? 2 : 1,
-              ),
+              // The glass draws its own light edge; selection and the
+              // pulse draw over it.
+              side: widget.selected || _pulse.value > 0
+                  ? BorderSide(
+                      color: Color.lerp(
+                        restBorder,
+                        scheme.primary,
+                        _pulse.value,
+                      )!,
+                      width: 2,
+                    )
+                  : BorderSide.none,
             ),
             onClosed: (watch) {
               if (watch ?? false) widget.onWatch();
             },
             openBuilder: (context, _) =>
                 AppBackground(child: FlagDetailPage(flag: widget.flag)),
-            closedBuilder: (context, open) => _CardBody(
-              flag: widget.flag,
-              expanded: _expanded,
-              onTap: _tap,
-              onPressed: (pressed) => setState(() => _pressed = pressed),
-              onDetails: useSheet ? _openSheet : open,
+            closedBuilder: (context, open) => GlassSurface(
+              // Uncertain flags sit a step back from the issues.
+              faint: widget.flag.uncertain,
+              child: _CardBody(
+                flag: widget.flag,
+                expanded: _expanded,
+                onTap: _tap,
+                onPressed: (pressed) => setState(() => _pressed = pressed),
+                onDetails: useSheet ? _openSheet : open,
+              ),
             ),
           ),
         ),

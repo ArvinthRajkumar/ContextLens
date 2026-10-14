@@ -2,11 +2,12 @@ import 'dart:ui';
 
 import 'package:contextlens/core/theme/colors.dart';
 import 'package:contextlens/core/theme/spacing.dart';
+import 'package:contextlens/core/widgets/glass_surface.dart';
 import 'package:flutter/material.dart';
 
-/// Liquid glass card: translucent white, a white hairline and a soft
-/// shadow. [blur] adds a backdrop blur; keep it for cards that sit over
-/// moving content (video, a scrolled list), since it costs a pass per card.
+/// Liquid glass card ([GlassSurface]) with a soft shadow and an ink ripple.
+/// [blur] adds a backdrop blur; keep it for cards over moving content
+/// (video, a scrolled list), since it costs a pass per card.
 class AppCard extends StatelessWidget {
   const AppCard({
     required this.child,
@@ -14,6 +15,7 @@ class AppCard extends StatelessWidget {
     this.padding = const EdgeInsets.all(Spacing.space4),
     this.color,
     this.borderColor,
+    this.faint = false,
     this.blur = false,
     super.key,
   });
@@ -21,27 +23,32 @@ class AppCard extends StatelessWidget {
   final Widget child;
   final VoidCallback? onTap;
   final EdgeInsetsGeometry padding;
+
+  /// A flat tint instead of the glass gradient, for an accent card.
   final Color? color;
 
-  /// Overrides the white hairline, for example to mark an error.
+  /// Overrides the light edge, for example to mark an error.
   final Color? borderColor;
+  final bool faint;
   final bool blur;
 
   static const double _blurSigma = 20;
 
   @override
   Widget build(BuildContext context) {
-    final colors = AppColors.of(context);
-    Widget card = Material(
-      color: color ?? colors.glass,
-      shape: RoundedRectangleBorder(
-        borderRadius: Radii.card,
-        side: BorderSide(color: borderColor ?? colors.glassBorder),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(padding: padding, child: child),
+    Widget card = ClipRRect(
+      borderRadius: Radii.card,
+      child: GlassSurface(
+        tint: color,
+        faint: faint,
+        edge: borderColor,
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(padding: padding, child: child),
+          ),
+        ),
       ),
     );
     if (blur) {
@@ -56,7 +63,7 @@ class AppCard extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: Radii.card,
-        boxShadow: colors.cardShadows,
+        boxShadow: AppColors.of(context).cardShadows,
       ),
       child: card,
     );

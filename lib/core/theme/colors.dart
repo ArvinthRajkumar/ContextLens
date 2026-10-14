@@ -12,6 +12,11 @@ class AppPalette {
     required this.glassFaint,
     required this.glassBorder,
     required this.glassShadow,
+    required this.glassSheen,
+    required this.glassEdgeFade,
+    required this.blobTeal,
+    required this.blobSky,
+    required this.blobViolet,
     required this.ink,
     required this.onInk,
     required this.outline,
@@ -53,6 +58,16 @@ class AppPalette {
   final Color glassBorder;
   final Color glassShadow;
 
+  /// The lit corner of a glass card (top left) and where its edge fades
+  /// (bottom right).
+  final Color glassSheen;
+  final Color glassEdgeFade;
+
+  /// Soft light behind the glass, so its translucency reads.
+  final Color blobTeal;
+  final Color blobSky;
+  final Color blobViolet;
+
   /// Primary buttons: black with white text.
   final Color ink;
   final Color onInk;
@@ -87,8 +102,9 @@ class AppPalette {
   /// Glass over the darkest part of the sky, the worst case for contrast.
   Color get glassOnSky => Color.alphaBlend(glass, skyTop);
 
-  // Every text color passes 4.5:1 on the sky top, the glass over it and
-  // white. See test/contrast_test.dart.
+  // Every text color passes 4.5:1 on the sky top, the glass over it, the
+  // background light pools and white (about 6:1 on plain sky). See
+  // test/contrast_test.dart.
   static const light = AppPalette(
     skyTop: Color(0xFFCFE4F5),
     skyMid: Color(0xFFE6F1FA),
@@ -98,27 +114,32 @@ class AppPalette {
     glassFaint: Color(0x59FFFFFF),
     glassBorder: Color(0xCCFFFFFF),
     glassShadow: Color(0x1A2B4A6B),
+    glassSheen: Color(0xE6FFFFFF),
+    glassEdgeFade: Color(0x33FFFFFF),
+    blobTeal: Color(0x5C2EC4B6),
+    blobSky: Color(0x4D5AA9FF),
+    blobViolet: Color(0x3B9B7BFF),
     ink: Color(0xFF0B0F14),
     onInk: Color(0xFFFFFFFF),
     outline: Color(0xFFB9C6D3),
     outlineVariant: Color(0x80B9C6D3),
     onSurface: Color(0xFF0B0F14),
-    onSurfaceVariant: Color(0xFF45525F),
-    primary: Color(0xFF00695E),
+    onSurfaceVariant: Color(0xFF3E4A57),
+    primary: Color(0xFF005A50),
     onPrimary: Color(0xFFFFFFFF),
     primaryContainer: Color(0xFFCCF1EC),
     onPrimaryContainer: Color(0xFF00201D),
-    error: Color(0xFFB3261E),
+    error: Color(0xFF9E2019),
     onError: Color(0xFFFFFFFF),
-    disclosure: Color(0xFF8A5100),
-    claims: Color(0xFFB0164F),
-    visuals: Color(0xFF1D55C4),
-    borrowed: Color(0xFF6236B8),
-    factcheck: Color(0xFF00695E),
-    supported: Color(0xFF15642F),
-    contradicted: Color(0xFFB3261E),
-    previouslyFactChecked: Color(0xFF1D55C4),
-    insufficientEvidence: Color(0xFF45525F),
+    disclosure: Color(0xFF734300),
+    claims: Color(0xFF9C1246),
+    visuals: Color(0xFF1A4AAE),
+    borrowed: Color(0xFF5530A3),
+    factcheck: Color(0xFF005A50),
+    supported: Color(0xFF125A2A),
+    contradicted: Color(0xFF9E2019),
+    previouslyFactChecked: Color(0xFF1A4AAE),
+    insufficientEvidence: Color(0xFF3E4A57),
     seekPlayed: Color(0xFFFF0033),
     seekBuffered: Color(0x4D0B0F14),
     seekTrack: Color(0x1F0B0F14),
@@ -134,6 +155,9 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.glassStrong,
     required this.glassFaint,
     required this.glassBorder,
+    required this.glassSheen,
+    required this.glassEdgeFade,
+    required this.blobs,
     required this.ink,
     required this.onInk,
     required this.disclosure,
@@ -163,6 +187,9 @@ class AppColors extends ThemeExtension<AppColors> {
       glassStrong: p.glassStrong,
       glassFaint: p.glassFaint,
       glassBorder: p.glassBorder,
+      glassSheen: p.glassSheen,
+      glassEdgeFade: p.glassEdgeFade,
+      blobs: [p.blobTeal, p.blobSky, p.blobViolet],
       ink: p.ink,
       onInk: p.onInk,
       disclosure: p.disclosure,
@@ -174,11 +201,18 @@ class AppColors extends ThemeExtension<AppColors> {
       contradicted: p.contradicted,
       previouslyFactChecked: p.previouslyFactChecked,
       insufficientEvidence: p.insufficientEvidence,
+      // A wide soft shadow for depth and a tight one that seats the card.
       cardShadows: [
         BoxShadow(
           color: p.glassShadow,
-          offset: const Offset(0, 8),
-          blurRadius: 24,
+          offset: const Offset(0, 12),
+          blurRadius: 32,
+          spreadRadius: -4,
+        ),
+        BoxShadow(
+          color: p.glassShadow,
+          offset: const Offset(0, 1),
+          blurRadius: 3,
         ),
       ],
       seekPlayed: p.seekPlayed,
@@ -193,6 +227,11 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color glassStrong;
   final Color glassFaint;
   final Color glassBorder;
+  final Color glassSheen;
+  final Color glassEdgeFade;
+
+  /// Background light: teal, sky, violet.
+  final List<Color> blobs;
   final Color ink;
   final Color onInk;
   final Color disclosure;
@@ -221,19 +260,21 @@ class AppColors extends ThemeExtension<AppColors> {
       t < 0.5 || other == null ? this : other;
 }
 
-/// The fire on the team name in About. Fixed colors: fire looks the same in
-/// every theme, on its own dark card.
-abstract final class FireColors {
-  static const glowTop = Color(0xFFFFD54F);
-  static const glowBottom = Color(0xFFFF6D00);
-  static const ember = Color(0xFFFFB74D);
+/// The team card in About: an aurora behind glass and a gradient name.
+abstract final class TeamColors {
+  static const auroraTeal = Color(0xFF2EC4B6);
+  static const auroraSky = Color(0xFF5AA9FF);
+  static const auroraViolet = Color(0xFF9B7BFF);
+  static const auroraAlpha = 0.45;
 
-  /// The word as the shader samples it: white, alpha is what counts.
-  static const mask = Color(0xFFFFFFFF);
+  /// The name runs through these; each passes 4.5:1 on the light glass.
+  static const name = [
+    Color(0xFF005A50),
+    Color(0xFF1A4AAE),
+    Color(0xFF5530A3),
+    Color(0xFF005A50),
+  ];
 
-  /// The dark glass card the fire sits on.
-  static const card = Color(0xE6120C0A);
-  static const cardBorder = Color(0x33FFB74D);
-  static const onCard = Color(0xFFF5EDE6);
-  static const onCardMuted = Color(0xB3F5EDE6);
+  /// The glossy band that sweeps across the name.
+  static const sheen = Color(0xB3FFFFFF);
 }

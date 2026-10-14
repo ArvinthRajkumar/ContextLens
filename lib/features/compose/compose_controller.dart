@@ -148,8 +148,10 @@ class ComposeController extends Notifier<ComposeState> {
     final ready = video is VideoReady ? video : null;
     if (ready == null && !hasContent(state.declaration)) return null;
     final at = now ?? DateTime.now();
+    // The form keeps the id it is saved under, so a later save updates the
+    // same draft and running the check deletes it.
     return Draft(
-      id: _draftId ?? 'd${at.microsecondsSinceEpoch}',
+      id: _draftId ??= 'd${at.microsecondsSinceEpoch}',
       updatedAt: at,
       declaration: state.declaration,
       video: ready?.video,

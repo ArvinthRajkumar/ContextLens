@@ -1,4 +1,5 @@
 import 'package:contextlens/core/theme/app_theme.dart';
+import 'package:contextlens/features/compose/compose_controller.dart';
 import 'package:contextlens/features/compose/compose_page.dart';
 import 'package:contextlens/features/compose/declaration.dart';
 import 'package:contextlens/features/drafts/draft.dart';
@@ -75,6 +76,24 @@ void main() {
     final container = await pump(tester, const []);
     await leave(tester);
     expect(titles(container), ['My new reel']);
+  });
+
+  testWidgets('the form keeps its draft, so a check run from it clears it', (
+    tester,
+  ) async {
+    final container = await pump(tester, const []);
+    await leave(tester);
+    final saved = container.read(draftsControllerProvider).value!.single;
+    expect(
+      container.read(composeControllerProvider.notifier).draftId,
+      saved.id,
+    );
+
+    // Reopening New check and leaving again updates the same draft.
+    await tester.tap(find.text('open'));
+    await tester.pumpAndSettle();
+    await leave(tester);
+    expect(container.read(draftsControllerProvider).value!.single.id, saved.id);
   });
 
   testWidgets('at the limit, Save replaces the oldest draft', (tester) async {

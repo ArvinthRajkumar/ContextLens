@@ -25,6 +25,18 @@ void main() {
     'glass on sky': p.glassOnSky,
     'faint glass on sky': Color.alphaBlend(p.glassFaint, p.skyTop),
     'strong glass on sky': Color.alphaBlend(p.glassStrong, p.skyTop),
+    // The background light pools, at their strongest, under faint glass.
+    for (final (name, blob) in [
+      ('teal', p.blobTeal),
+      ('sky', p.blobSky),
+      ('violet', p.blobViolet),
+    ]) ...{
+      '$name light on sky': Color.alphaBlend(blob, p.skyTop),
+      'faint glass on $name light': Color.alphaBlend(
+        p.glassFaint,
+        Color.alphaBlend(blob, p.skyTop),
+      ),
+    },
   };
 
   // Every foreground that renders as text or an icon on app surfaces.
@@ -66,5 +78,27 @@ void main() {
       final (fg, bg) = pair.value;
       expect(contrast(fg, bg), greaterThanOrEqualTo(_text));
     });
+  }
+
+  // The team name sits on faint glass over the aurora, worst case where a
+  // pool of light is at full strength.
+  for (final aurora in [
+    TeamColors.auroraTeal,
+    TeamColors.auroraSky,
+    TeamColors.auroraViolet,
+  ]) {
+    final behind = Color.alphaBlend(
+      p.glassFaint,
+      Color.alphaBlend(
+        aurora.withValues(alpha: TeamColors.auroraAlpha),
+        p.skyBottom,
+      ),
+    );
+    for (final name in TeamColors.name.toSet()) {
+      test('team name $name on aurora $aurora >= 3', () {
+        // Large display text: 3:1 is the WCAG bar.
+        expect(contrast(name, behind), greaterThanOrEqualTo(3));
+      });
+    }
   }
 }
