@@ -18,6 +18,15 @@ class Settings:
     )
     # Off until the app registers Play Integrity / App Attest.
     enforce_app_check: bool = _flag("ENFORCE_APP_CHECK")
+    # Browser origins allowed to call the API: the web build on Firebase Hosting.
+    cors_origins: tuple[str, ...] = tuple(
+        o.strip()
+        for o in os.environ.get(
+            "CORS_ORIGINS",
+            "https://contextlens-tekken.web.app,https://contextlens-tekken.firebaseapp.com",
+        ).split(",")
+        if o.strip()
+    )
     max_upload_bytes: int = 500 * 1024 * 1024
     # 8 MiB: a multiple of 256 KiB, as GCS resumable uploads require.
     chunk_size: int = 8 * 1024 * 1024

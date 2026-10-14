@@ -8,6 +8,7 @@ import 'package:contextlens/features/compose/declaration.dart';
 import 'package:contextlens/features/report/comparison.dart';
 import 'package:contextlens/features/report/models.dart';
 import 'package:contextlens/features/report/playback.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -151,7 +152,9 @@ class MockBackend {
   /// The creator's own file for checks made this session, else the sample.
   PlaybackSource playbackFor(String jobId) {
     final path = _localPaths[jobId];
-    if (path != null && File(path).existsSync()) return FilePlayback(path);
+    if (path != null && (kIsWeb || File(path).existsSync())) {
+      return FilePlayback(path);
+    }
     return const AssetPlayback(sampleVideo);
   }
 

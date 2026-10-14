@@ -8,6 +8,7 @@ from typing import Any, Literal
 
 import firebase_admin
 from fastapi import BackgroundTasks, Depends, FastAPI, Response
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from google.cloud import firestore
 from pydantic import BaseModel, Field
@@ -35,6 +36,13 @@ firebase_admin.initialize_app(options={"projectId": settings.project_id})
 db = firestore.Client(project=settings.project_id)
 
 app = FastAPI(title="ContextLens API", docs_url=None, redoc_url=None)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=list(settings.cors_origins),
+    allow_methods=["GET", "POST", "DELETE"],
+    allow_headers=["Authorization", "Content-Type", "X-Firebase-AppCheck"],
+    max_age=3600,
+)
 app.add_exception_handler(ApiError, api_error_handler)
 app.add_exception_handler(RequestValidationError, validation_error_handler)
 app.add_exception_handler(Exception, unhandled_error_handler)

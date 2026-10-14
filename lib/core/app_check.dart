@@ -5,8 +5,12 @@ import 'package:flutter/foundation.dart';
 
 /// Debug builds attest with a debug token registered in App Check (passed
 /// with --dart-define=APP_CHECK_DEBUG_TOKEN, never committed); release
-/// builds use Play Integrity.
+/// builds use Play Integrity. The web build uses reCAPTCHA Enterprise.
 const _debugToken = String.fromEnvironment('APP_CHECK_DEBUG_TOKEN');
+
+/// Public by design: a reCAPTCHA site key ships in every page that uses it,
+/// and the key only works on the Hosting domains.
+const _recaptchaSiteKey = '6Lch6e4tAAAAAM-XELI7PW5Cl6JU1fO6KNEZrZOV';
 
 Future<void> activateAppCheck() => FirebaseAppCheck.instance.activate(
   providerAndroid: kDebugMode
@@ -14,6 +18,7 @@ Future<void> activateAppCheck() => FirebaseAppCheck.instance.activate(
           debugToken: _debugToken.isEmpty ? null : _debugToken,
         )
       : const AndroidPlayIntegrityProvider(),
+  providerWeb: ReCaptchaEnterpriseProvider(_recaptchaSiteKey),
   providerApple: kDebugMode
       ? const AppleDebugProvider()
       : const AppleAppAttestWithDeviceCheckFallbackProvider(),

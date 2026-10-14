@@ -31,7 +31,7 @@ void main() {
     var call = 0;
     return DeviceVideoInspector(
       thumbnails: false,
-      readMetadata: (file, timeout) async {
+      readMetadata: (path, timeout) async {
         final outcome = outcomes[call++];
         if (outcome is VideoMetadata) return outcome;
         throw outcome;

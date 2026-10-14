@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:contextlens/core/api_client.dart';
 import 'package:contextlens/core/log.dart';
@@ -8,7 +7,9 @@ import 'package:contextlens/features/compose/video_inspector.dart';
 import 'package:contextlens/features/upload/resumable_protocol.dart';
 import 'package:contextlens/features/upload/upload_repository.dart';
 import 'package:contextlens/features/upload/upload_session_store.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 /// The real upload: the API hands out a signed URL that opens a GCS
 /// resumable session, then the file goes up in chunks straight to Cloud
@@ -38,6 +39,19 @@ class HttpUploadRepository implements UploadRepository {
 
   // Open sessions this process knows about, by job id.
   final _sessions = <String, StoredUpload>{};
+
+  // A browser follows a 308 as a redirect, so on the web GCS is asked to
+  // answer 200 and carry the real status in a header instead. Browsers also
+  // set Content-Length themselves and refuse it from code.
+  static const _noRedirect = kIsWeb
+      ? {'X-GUploader-No-308': 'yes'}
+      : <String, String>{};
+
+  static int? _status(Response<void> response) =>
+      int.tryParse(
+        response.headers.value('x-http-status-code-override') ?? '',
+      ) ??
+      response.statusCode;
 
   @override
   Future<UploadSession> createSession(PickedVideo video) async {
@@ -102,11 +116,12 @@ class HttpUploadRepository implements UploadRepository {
         options: Options(
           headers: {
             'Content-Range': statusRange(stored.totalBytes),
-            Headers.contentLengthHeader: 0,
+            ..._noRedirect,
+            if (!kIsWeb) Headers.contentLengthHeader: 0,
           },
         ),
       );
-      if (response.statusCode != kResumeIncomplete) return stored.totalBytes;
+      if (_status(response) != kResumeIncomplete) return stored.totalBytes;
       return committedFromRange(response.headers.value('range'));
     } on DioException catch (e) {
       throw UploadException(_gcsFailure(e));
@@ -125,7 +140,7 @@ class HttpUploadRepository implements UploadRepository {
     unawaited(cancel.whenCancelled.then((_) => dioCancel.cancel()));
 
     Future<void> run() async {
-      final file = File(stored.filePath);
+      final file = XFile(stored.filePath);
       final total = stored.totalBytes;
       var offset = fromByte;
       try {
@@ -139,14 +154,15 @@ class HttpUploadRepository implements UploadRepository {
             options: Options(
               headers: {
                 'Content-Range': chunkRange(start, end, total),
-                Headers.contentLengthHeader: end - start + 1,
+                ..._noRedirect,
+                if (!kIsWeb) Headers.contentLengthHeader: end - start + 1,
               },
             ),
             onSendProgress: (sent, _) {
               if (!controller.isClosed) controller.add(start + sent);
             },
           );
-          offset = response.statusCode == kResumeIncomplete
+          offset = _status(response) == kResumeIncomplete
               ? committedFromRange(response.headers.value('range'))
               : total;
           if (!controller.isClosed) controller.add(offset);
@@ -155,7 +171,8 @@ class HttpUploadRepository implements UploadRepository {
         if (!CancelToken.isCancel(e) && !controller.isClosed) {
           controller.addError(UploadException(_gcsFailure(e)));
         }
-      } on FileSystemException {
+      } on Object catch (error) {
+        log('Upload source unreadable: ${error.runtimeType}');
         if (!controller.isClosed) {
           controller.addError(
             const UploadException(UploadRejected('file_unreadable')),
@@ -213,7 +230,7 @@ class HttpUploadRepository implements UploadRepository {
     for (final (index, clip) in declaration.clips.indexed) {
       final path = clip.filePath;
       if (path == null) continue;
-      final file = File(path);
+      final file = XFile(path);
       final extension = path.split('.').last.toLowerCase();
       final type = _clipTypes[extension] ?? 'video/mp4';
       try {
@@ -234,7 +251,7 @@ class HttpUploadRepository implements UploadRepository {
           options: Options(
             headers: {
               'Content-Range': chunkRange(0, size - 1, size),
-              Headers.contentLengthHeader: size,
+              if (!kIsWeb) Headers.contentLengthHeader: size,
             },
           ),
         );
@@ -242,7 +259,8 @@ class HttpUploadRepository implements UploadRepository {
         throw UploadException(_failureFor(e));
       } on DioException catch (e) {
         throw UploadException(_gcsFailure(e));
-      } on FileSystemException {
+      } on Object catch (error) {
+        log('Clip unreadable: ${error.runtimeType}');
         throw const UploadException(UploadRejected('clip_unreadable'));
       }
     }

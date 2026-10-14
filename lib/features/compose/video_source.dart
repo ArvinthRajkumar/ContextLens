@@ -38,6 +38,7 @@ class DeviceVideoSource implements VideoSource {
 
   @override
   Future<PickedFile?> pickFromFiles() async {
+    if (kIsWeb) return pickFromGallery();
     final files = await FilePicker.pickFiles(type: FileType.video);
     final file = files.firstOrNull;
     final path = file?.path;

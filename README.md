@@ -17,7 +17,8 @@ Lawyers and agency review do not scale to every reel. ContextLens is the pre-pub
 ## Demo
 
 - Demo video: _link to be added_
-- App build: _link to be added_ (Android; the backend runs on Cloud Run)
+- **Web app:** https://contextlens-tekken.web.app (pick a video, resumable upload, live progress, report; no share sheet or push on the web)
+- **Android APK:** https://contextlens-tekken.web.app/download/contextlens.apk (release build, obfuscated; allow installs from your browser, Android 7 or later; SHA-256 `aa9aa012fd70a0226fcc493179a54da1d7a43ce52a0998e2797a4b8ebf740d52`)
 
 | Checking | Report | Flag detail | Borrowed clip |
 |---|---|---|---|

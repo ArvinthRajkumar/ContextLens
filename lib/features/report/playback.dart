@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 
+import 'package:contextlens/core/local_video.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -77,7 +77,7 @@ class VideoReportPlayer implements ReportPlayer {
   VideoReportPlayer(PlaybackSource source)
     : _controller = switch (source) {
         AssetPlayback(:final asset) => VideoPlayerController.asset(asset),
-        FilePlayback(:final path) => VideoPlayerController.file(File(path)),
+        FilePlayback(:final path) => localVideoController(path),
         NetworkPlayback(:final url) => VideoPlayerController.networkUrl(url),
       };
 

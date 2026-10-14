@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 
+import 'package:contextlens/core/local_video.dart';
 import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/theme/typography.dart';
 import 'package:contextlens/core/utils/formatters.dart';
@@ -267,7 +267,7 @@ class _InlinePreviewState extends State<_InlinePreview> {
       return;
     }
     setState(() => _loading = true);
-    final controller = VideoPlayerController.file(File(widget.video.path));
+    final controller = localVideoController(widget.video.path);
     try {
       await controller.initialize();
       await controller.setLooping(true);

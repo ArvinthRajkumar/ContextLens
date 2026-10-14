@@ -10,6 +10,7 @@ dependencies:
   animations: ^3.0.0
   cloud_firestore: ^6.10.0
   connectivity_plus: ^7.3.2
+  cross_file: ^0.3.5+5
   dio: ^5.11.1
   fc_native_video_thumbnail: ^2.1.1
   file_picker: ^13.1.0
@@ -84,6 +85,11 @@ flutter_launcher_icons:
   # The foreground is already scaled to the 66 dp safe zone.
   adaptive_icon_foreground_inset: 0
   adaptive_icon_monochrome: assets/icon/monochrome.png
+  web:
+    generate: true
+    image_path: assets/icon/icon.png
+    background_color: "#E6F1FA"
+    theme_color: "#E6F1FA"
 
 flutter_native_splash:
   color: "#E6F1FA"

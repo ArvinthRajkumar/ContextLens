@@ -23,10 +23,12 @@ def verify_caller(
 ) -> Caller:
     """FastAPI dependency: the signed-in Firebase user making the request."""
     if not authorization or not authorization.startswith("Bearer "):
+        log.warning("auth_rejected reason=id_token_missing")
         raise ApiError(401, "unauthenticated", "Sign in again to continue.")
     try:
         decoded = auth.verify_id_token(authorization.removeprefix("Bearer ").strip())
-    except Exception:
+    except Exception as error:
+        log.warning("auth_rejected reason=id_token_invalid error=%s", type(error).__name__)
         raise ApiError(401, "unauthenticated", "Sign in again to continue.") from None
 
     _check_app(x_firebase_appcheck)
@@ -36,13 +38,15 @@ def verify_caller(
 def _check_app(token: str | None) -> None:
     if not token:
         if settings.enforce_app_check:
+            log.warning("auth_rejected reason=app_check_missing")
             raise ApiError(401, "app_check_failed", "This app couldn't be verified.")
         log.warning("App Check token missing (not enforced)")
         return
     try:
         app_check.verify_token(token)
-    except Exception:
+    except Exception as error:
         if settings.enforce_app_check:
+            log.warning("auth_rejected reason=app_check_invalid error=%s", type(error).__name__)
             raise ApiError(401, "app_check_failed", "This app couldn't be verified.") from None
         # Not enforced yet: note it and let the request through.
         log.warning("App Check token did not verify (not enforced)")

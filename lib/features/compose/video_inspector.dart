@@ -1,12 +1,12 @@
 import 'dart:async';
-import 'dart:io';
 
+import 'package:contextlens/core/local_video.dart';
 import 'package:contextlens/core/log.dart';
 import 'package:contextlens/core/utils/validators.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:fc_native_video_thumbnail/fc_native_video_thumbnail.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:video_player/video_player.dart';
 
 @immutable
 class PickedVideo {
@@ -71,12 +71,12 @@ abstract interface class VideoInspector {
 
 typedef VideoMetadata = ({Duration duration, int width, int height});
 
-/// Reads duration and resolution by starting a player on the file.
+/// Reads duration and resolution by starting a player on the video.
 Future<VideoMetadata> readMetadataWithPlayer(
-  File file,
+  String path,
   Duration timeout,
 ) async {
-  final controller = VideoPlayerController.file(file);
+  final controller = localVideoController(path);
   try {
     await controller.initialize().timeout(timeout);
     final value = controller.value;
@@ -98,7 +98,7 @@ class DeviceVideoInspector implements VideoInspector {
   });
 
   /// Injectable for tests; the default starts a real player.
-  final Future<VideoMetadata> Function(File file, Duration timeout)
+  final Future<VideoMetadata> Function(String path, Duration timeout)
   readMetadata;
   final Duration decodeTimeout;
   final bool thumbnails;
@@ -115,18 +115,16 @@ class DeviceVideoInspector implements VideoInspector {
     required String name,
     String? mimeType,
   }) async {
-    final file = File(path);
+    final file = XFile(path);
     final int size;
     final List<int> header;
     try {
       size = await file.length();
-      final raf = await file.open();
-      try {
-        header = await raf.read(kSniffBytes);
-      } finally {
-        await raf.close();
-      }
-    } on FileSystemException {
+      header = [
+        await for (final chunk in file.openRead(0, kSniffBytes)) ...chunk,
+      ];
+    } on Object catch (error) {
+      log('Video unreadable: ${error.runtimeType}');
       return const InspectionFailed(VideoUnreadable());
     }
 
@@ -142,7 +140,7 @@ class DeviceVideoInspector implements VideoInspector {
     VideoMetadata? metadata;
     for (var attempt = 1; attempt <= _decodeAttempts; attempt++) {
       try {
-        metadata = await readMetadata(file, decodeTimeout);
+        metadata = await readMetadata(path, decodeTimeout);
         break;
       } on TimeoutException {
         log('Video metadata timed out (attempt $attempt of $_decodeAttempts)');
@@ -166,7 +164,8 @@ class DeviceVideoInspector implements VideoInspector {
         duration: duration,
         width: metadata.width,
         height: metadata.height,
-        thumbnail: thumbnails ? await _thumbnail(path) : null,
+        // No native thumbnailer on the web; the placeholder stands in.
+        thumbnail: thumbnails && !kIsWeb ? await _thumbnail(path) : null,
       ),
     );
   }

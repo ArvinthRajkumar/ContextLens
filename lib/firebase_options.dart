@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -64,5 +61,14 @@ class DefaultFirebaseOptions {
     projectId: 'contextlens-tekken',
     storageBucket: 'contextlens-tekken.firebasestorage.app',
     iosBundleId: 'app.contextlens.contextlens',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBpXF8uLl8fP5OTYTlkjwokapMwCDALYP4',
+    appId: '1:115890664288:web:ea8aaffda5342e26f16405',
+    messagingSenderId: '115890664288',
+    projectId: 'contextlens-tekken',
+    authDomain: 'contextlens-tekken.firebaseapp.com',
+    storageBucket: 'contextlens-tekken.firebasestorage.app',
   );
 }

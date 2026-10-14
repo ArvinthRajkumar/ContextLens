@@ -7,6 +7,7 @@ analyzer:
     - ios/**
     - "**/*.g.dart"
     - "**/*.freezed.dart"
+    - web/**
   language:
     strict-casts: true
     strict-raw-types: true

@@ -1,1 +1,63 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"contextlens-tekken","appId":"1:115890664288:android:1a18e65980c62d3ff16405","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"contextlens-tekken","configurations":{"android":"1:115890664288:android:1a18e65980c62d3ff16405","ios":"1:115890664288:ios:6544c6bf7a8004f1f16405"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "contextlens-tekken",
+          "appId": "1:115890664288:android:1a18e65980c62d3ff16405",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "contextlens-tekken",
+          "configurations": {
+            "android": "1:115890664288:android:1a18e65980c62d3ff16405",
+            "ios": "1:115890664288:ios:6544c6bf7a8004f1f16405"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "key": "X-Frame-Options",
+            "value": "DENY"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(js|wasm|mjs|json|ttf|otf|png|frag)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=3600"
+          }
+        ]
+      }
+    ]
+  }
+}

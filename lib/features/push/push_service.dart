@@ -7,6 +7,7 @@ import 'package:contextlens/core/log.dart';
 import 'package:contextlens/core/prefs.dart';
 import 'package:contextlens/router.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -128,7 +129,8 @@ class NoPushService implements PushService {
 }
 
 final pushServiceProvider = Provider<PushService>((ref) {
-  if (AppConfig.isMock) return NoPushService();
+  // Push is not offered on the web build.
+  if (AppConfig.isMock || kIsWeb) return NoPushService();
   final service = FirebasePushService(
     api: ref.watch(apiClientProvider),
     prefs: ref.watch(sharedPreferencesProvider),

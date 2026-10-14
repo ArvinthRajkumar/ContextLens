@@ -1,7 +1,7 @@
 [
   {
-    "origin": ["*"],
-    "method": ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
+    "origin": ["https://contextlens-tekken.web.app", "https://contextlens-tekken.firebaseapp.com"],
+    "method": ["GET", "PUT", "POST", "DELETE"],
     "responseHeader": [
       "Content-Type",
       "Content-Range",
@@ -9,7 +9,9 @@
       "Location",
       "x-goog-resumable",
       "X-Upload-Content-Length",
-      "X-Upload-Content-Type"
+      "X-Upload-Content-Type",
+      "X-GUploader-No-308",
+      "X-Http-Status-Code-Override"
     ],
     "maxAgeSeconds": 3600
   }
