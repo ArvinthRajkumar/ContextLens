@@ -8,6 +8,11 @@ abstract interface class AuthRepository {
   /// Signs in anonymously if nobody is signed in. Returns the uid.
   Future<String> ensureSignedIn();
 
+  /// Like [ensureSignedIn], but also waits until the SDK has announced the
+  /// user, so listeners that read the auth state (Firestore) see it too.
+  /// Use it before any Firestore read.
+  Future<String> whenSignedIn();
+
   String? get uid;
 
   /// A fresh ID token for the API (the SDK refreshes it when needed).
@@ -24,12 +29,31 @@ class FirebaseAuthRepository implements AuthRepository {
 
   final FirebaseAuth _auth;
 
+  /// The sign-in in progress. Callers that arrive while it runs share it:
+  /// two concurrent anonymous sign-ins would create two accounts, and a
+  /// query made for the first one is denied once the second replaces it.
+  Future<String>? _signingIn;
+
   @override
-  Future<String> ensureSignedIn() async {
+  Future<String> ensureSignedIn() {
     final current = _auth.currentUser;
-    if (current != null) return current.uid;
-    final credential = await _auth.signInAnonymously();
-    return credential.user!.uid;
+    if (current != null) return Future.value(current.uid);
+    return _signingIn ??= _auth
+        .signInAnonymously()
+        .then((credential) => credential.user!.uid)
+        .whenComplete(() => _signingIn = null);
+  }
+
+  @override
+  Future<String> whenSignedIn() async {
+    final uid = await ensureSignedIn();
+    // A fresh anonymous sign-in returns before every auth listener has run;
+    // a query sent in that gap reaches Firestore without credentials.
+    final user = await _auth.authStateChanges().firstWhere(
+      (user) => user?.uid == uid,
+    );
+    await user!.getIdToken();
+    return uid;
   }
 
   @override
@@ -52,6 +76,9 @@ class FakeAuthRepository implements AuthRepository {
 
   @override
   Future<String> ensureSignedIn() async => mockUid;
+
+  @override
+  Future<String> whenSignedIn() async => mockUid;
 
   @override
   String? get uid => mockUid;

@@ -76,7 +76,7 @@ class FirestoreJobRepository implements JobRepository {
 
   @override
   Stream<List<Job>> watchRecentJobs() async* {
-    final uid = await _auth.ensureSignedIn();
+    final uid = await _auth.whenSignedIn();
     // Filtered by owner only, sorted here: an orderBy on another field would
     // need a composite index for a list this short.
     yield* _jobs
@@ -96,7 +96,7 @@ class FirestoreJobRepository implements JobRepository {
 
   @override
   Future<Job?> getJob(String jobId) async {
-    await _auth.ensureSignedIn();
+    await _auth.whenSignedIn();
     try {
       final doc = await _jobs.doc(jobId).get();
       final data = doc.data();
@@ -110,7 +110,7 @@ class FirestoreJobRepository implements JobRepository {
 
   @override
   Stream<Job> watchJob(String jobId) async* {
-    await _auth.ensureSignedIn();
+    await _auth.whenSignedIn();
     yield* _jobs
         .doc(jobId)
         .snapshots()
@@ -128,7 +128,7 @@ class FirestoreJobRepository implements JobRepository {
 
   @override
   Future<int> deleteAllJobs() async {
-    final uid = await _auth.ensureSignedIn();
+    final uid = await _auth.whenSignedIn();
     // Every job, unfinished uploads included; the API deletes the video
     // and the document, so nothing is deleted from here directly.
     final snapshot = await _jobs.where('ownerUid', isEqualTo: uid).get();
@@ -145,7 +145,7 @@ class FirestoreJobRepository implements JobRepository {
 
   @override
   Future<DeclarationDraft?> declaration(String jobId) async {
-    await _auth.ensureSignedIn();
+    await _auth.whenSignedIn();
     final doc = await _jobs.doc(jobId).get();
     return declarationFromDocument(doc.data());
   }
