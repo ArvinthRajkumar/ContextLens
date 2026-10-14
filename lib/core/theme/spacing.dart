@@ -14,6 +14,7 @@ abstract final class Spacing {
 
   static const double screen = space5;
   static const double minTouchTarget = 48;
+  static const double buttonHeight = 52;
 
   static const EdgeInsets screenPadding = EdgeInsets.symmetric(
     horizontal: screen,
@@ -28,8 +29,10 @@ abstract final class Radii {
   static const double xl = 28;
   static const double full = 999;
 
-  static const BorderRadius card = BorderRadius.all(Radius.circular(md));
-  static const BorderRadius chip = BorderRadius.all(Radius.circular(sm));
+  static const double glass = 24;
+
+  static const BorderRadius card = BorderRadius.all(Radius.circular(glass));
+  static const BorderRadius chip = BorderRadius.all(Radius.circular(md));
   static const BorderRadius sheet = BorderRadius.vertical(
     top: Radius.circular(xl),
   );

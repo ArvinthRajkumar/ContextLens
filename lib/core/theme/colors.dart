@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 
-/// Raw color tokens for one brightness. Widgets read colors through
-/// [ColorScheme] and [AppColors], never from here directly.
+/// Raw color tokens. Widgets read colors through [ColorScheme] and
+/// [AppColors], never from here directly.
 class AppPalette {
   const AppPalette({
-    required this.brightness,
-    required this.background,
-    required this.surface,
-    required this.surfaceContainer,
-    required this.surfaceContainerHigh,
+    required this.skyTop,
+    required this.skyMid,
+    required this.skyBottom,
+    required this.glass,
+    required this.glassStrong,
+    required this.glassFaint,
+    required this.glassBorder,
+    required this.glassShadow,
+    required this.ink,
+    required this.onInk,
     required this.outline,
     required this.outlineVariant,
     required this.onSurface,
@@ -33,15 +38,31 @@ class AppPalette {
     required this.seekTrack,
   });
 
-  final Brightness brightness;
-  final Color background;
-  final Color surface;
-  final Color surfaceContainer;
-  final Color surfaceContainerHigh;
+  /// The page background runs from a pale sky at the top to white.
+  final Color skyTop;
+  final Color skyMid;
+  final Color skyBottom;
+
+  /// Liquid glass: translucent white over the sky, a white hairline and a
+  /// soft cool shadow. [glassStrong] is for sheets and dialogs.
+  final Color glass;
+  final Color glassStrong;
+
+  /// A step back from [glass], for uncertain flags.
+  final Color glassFaint;
+  final Color glassBorder;
+  final Color glassShadow;
+
+  /// Primary buttons: black with white text.
+  final Color ink;
+  final Color onInk;
+
   final Color outline;
   final Color outlineVariant;
   final Color onSurface;
   final Color onSurfaceVariant;
+
+  /// Teal, the one accent.
   final Color primary;
   final Color onPrimary;
   final Color primaryContainer;
@@ -63,67 +84,44 @@ class AppPalette {
   final Color seekBuffered;
   final Color seekTrack;
 
-  static const dark = AppPalette(
-    brightness: Brightness.dark,
-    background: Color(0xFF0B0F14),
-    surface: Color(0xFF11161D),
-    surfaceContainer: Color(0xFF161C24),
-    surfaceContainerHigh: Color(0xFF1C232D),
-    outline: Color(0xFF2A3340),
-    outlineVariant: Color(0xFF1F2731),
-    onSurface: Color(0xFFE6EBF1),
-    onSurfaceVariant: Color(0xFF9AA6B2),
-    primary: Color(0xFF3DD6C6),
-    onPrimary: Color(0xFF00201D),
-    primaryContainer: Color(0xFF0E3B37),
-    onPrimaryContainer: Color(0xFF9CF2E8),
-    error: Color(0xFFFF6B6B),
-    onError: Color(0xFF3B0A0A),
-    disclosure: Color(0xFFFFB547),
-    claims: Color(0xFFFF7A90),
-    visuals: Color(0xFF8AB4FF),
-    borrowed: Color(0xFFC59BFF),
-    factcheck: Color(0xFF3DD6C6),
-    supported: Color(0xFF4ADE80),
-    contradicted: Color(0xFFFF6B6B),
-    previouslyFactChecked: Color(0xFF8AB4FF),
-    insufficientEvidence: Color(0xFF9AA6B2),
-    seekPlayed: Color(0xFFFF0033),
-    seekBuffered: Color(0x66FFFFFF),
-    seekTrack: Color(0x33FFFFFF),
-  );
+  /// Glass over the darkest part of the sky, the worst case for contrast.
+  Color get glassOnSky => Color.alphaBlend(glass, skyTop);
 
-  // Where the spec's light values fell under 4.5:1 on white (primary,
-  // disclosure, factcheck and the dark-only fact label colors), they are
-  // darkened to the nearest passing shade. See test/contrast_test.dart.
+  // Every text color passes 4.5:1 on the sky top, the glass over it and
+  // white. See test/contrast_test.dart.
   static const light = AppPalette(
-    brightness: Brightness.light,
-    background: Color(0xFFF7F9FB),
-    surface: Color(0xFFFFFFFF),
-    surfaceContainer: Color(0xFFF0F3F6),
-    surfaceContainerHigh: Color(0xFFE8ECF0),
-    outline: Color(0xFFC5CDD6),
-    outlineVariant: Color(0xFFDDE3E9),
-    onSurface: Color(0xFF0E141B),
-    onSurfaceVariant: Color(0xFF4A5663),
-    primary: Color(0xFF00695C),
+    skyTop: Color(0xFFCFE4F5),
+    skyMid: Color(0xFFE6F1FA),
+    skyBottom: Color(0xFFFAFCFE),
+    glass: Color(0x9EFFFFFF),
+    glassStrong: Color(0xEBFFFFFF),
+    glassFaint: Color(0x59FFFFFF),
+    glassBorder: Color(0xCCFFFFFF),
+    glassShadow: Color(0x1A2B4A6B),
+    ink: Color(0xFF0B0F14),
+    onInk: Color(0xFFFFFFFF),
+    outline: Color(0xFFB9C6D3),
+    outlineVariant: Color(0x80B9C6D3),
+    onSurface: Color(0xFF0B0F14),
+    onSurfaceVariant: Color(0xFF45525F),
+    primary: Color(0xFF00695E),
     onPrimary: Color(0xFFFFFFFF),
-    primaryContainer: Color(0xFFC8F3EE),
+    primaryContainer: Color(0xFFCCF1EC),
     onPrimaryContainer: Color(0xFF00201D),
-    error: Color(0xFFC62828),
+    error: Color(0xFFB3261E),
     onError: Color(0xFFFFFFFF),
-    disclosure: Color(0xFF9A5B00),
-    claims: Color(0xFFC2185B),
-    visuals: Color(0xFF1E5BD8),
-    borrowed: Color(0xFF6B3FC4),
-    factcheck: Color(0xFF00695C),
-    supported: Color(0xFF166534),
-    contradicted: Color(0xFFC62828),
-    previouslyFactChecked: Color(0xFF1E5BD8),
-    insufficientEvidence: Color(0xFF4A5663),
+    disclosure: Color(0xFF8A5100),
+    claims: Color(0xFFB0164F),
+    visuals: Color(0xFF1D55C4),
+    borrowed: Color(0xFF6236B8),
+    factcheck: Color(0xFF00695E),
+    supported: Color(0xFF15642F),
+    contradicted: Color(0xFFB3261E),
+    previouslyFactChecked: Color(0xFF1D55C4),
+    insufficientEvidence: Color(0xFF45525F),
     seekPlayed: Color(0xFFFF0033),
-    seekBuffered: Color(0x4D0E141B),
-    seekTrack: Color(0x1F0E141B),
+    seekBuffered: Color(0x4D0B0F14),
+    seekTrack: Color(0x1F0B0F14),
   );
 }
 
@@ -132,6 +130,12 @@ class AppPalette {
 class AppColors extends ThemeExtension<AppColors> {
   const AppColors({
     required this.background,
+    required this.glass,
+    required this.glassStrong,
+    required this.glassFaint,
+    required this.glassBorder,
+    required this.ink,
+    required this.onInk,
     required this.disclosure,
     required this.claims,
     required this.visuals,
@@ -142,16 +146,25 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.previouslyFactChecked,
     required this.insufficientEvidence,
     required this.cardShadows,
-    required this.cardBorder,
     required this.seekPlayed,
     required this.seekBuffered,
     required this.seekTrack,
   });
 
   factory AppColors.fromPalette(AppPalette p) {
-    final isDark = p.brightness == Brightness.dark;
     return AppColors(
-      background: p.background,
+      background: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [p.skyTop, p.skyMid, p.skyBottom],
+        stops: const [0, 0.45, 1],
+      ),
+      glass: p.glass,
+      glassStrong: p.glassStrong,
+      glassFaint: p.glassFaint,
+      glassBorder: p.glassBorder,
+      ink: p.ink,
+      onInk: p.onInk,
       disclosure: p.disclosure,
       claims: p.claims,
       visuals: p.visuals,
@@ -161,25 +174,27 @@ class AppColors extends ThemeExtension<AppColors> {
       contradicted: p.contradicted,
       previouslyFactChecked: p.previouslyFactChecked,
       insufficientEvidence: p.insufficientEvidence,
-      // Dark mode separates surfaces with tone and a hairline, light mode
-      // with a soft shadow.
-      cardShadows: isDark
-          ? const []
-          : const [
-              BoxShadow(
-                color: Color(0x0F000000),
-                offset: Offset(0, 1),
-                blurRadius: 2,
-              ),
-            ],
-      cardBorder: isDark ? p.outlineVariant : null,
+      cardShadows: [
+        BoxShadow(
+          color: p.glassShadow,
+          offset: const Offset(0, 8),
+          blurRadius: 24,
+        ),
+      ],
       seekPlayed: p.seekPlayed,
       seekBuffered: p.seekBuffered,
       seekTrack: p.seekTrack,
     );
   }
 
-  final Color background;
+  /// The page background, behind every route.
+  final Gradient background;
+  final Color glass;
+  final Color glassStrong;
+  final Color glassFaint;
+  final Color glassBorder;
+  final Color ink;
+  final Color onInk;
   final Color disclosure;
   final Color claims;
   final Color visuals;
@@ -190,7 +205,6 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color previouslyFactChecked;
   final Color insufficientEvidence;
   final List<BoxShadow> cardShadows;
-  final Color? cardBorder;
   final Color seekPlayed;
   final Color seekBuffered;
   final Color seekTrack;
@@ -198,73 +212,13 @@ class AppColors extends ThemeExtension<AppColors> {
   static AppColors of(BuildContext context) =>
       Theme.of(context).extension<AppColors>()!;
 
+  // One theme, so copyWith and lerp only need to be well formed.
   @override
-  AppColors copyWith({
-    Color? background,
-    Color? disclosure,
-    Color? claims,
-    Color? visuals,
-    Color? borrowed,
-    Color? factcheck,
-    Color? supported,
-    Color? contradicted,
-    Color? previouslyFactChecked,
-    Color? insufficientEvidence,
-    List<BoxShadow>? cardShadows,
-    Color? cardBorder,
-    Color? seekPlayed,
-    Color? seekBuffered,
-    Color? seekTrack,
-  }) {
-    return AppColors(
-      background: background ?? this.background,
-      disclosure: disclosure ?? this.disclosure,
-      claims: claims ?? this.claims,
-      visuals: visuals ?? this.visuals,
-      borrowed: borrowed ?? this.borrowed,
-      factcheck: factcheck ?? this.factcheck,
-      supported: supported ?? this.supported,
-      contradicted: contradicted ?? this.contradicted,
-      previouslyFactChecked:
-          previouslyFactChecked ?? this.previouslyFactChecked,
-      insufficientEvidence: insufficientEvidence ?? this.insufficientEvidence,
-      cardShadows: cardShadows ?? this.cardShadows,
-      cardBorder: cardBorder ?? this.cardBorder,
-      seekPlayed: seekPlayed ?? this.seekPlayed,
-      seekBuffered: seekBuffered ?? this.seekBuffered,
-      seekTrack: seekTrack ?? this.seekTrack,
-    );
-  }
+  AppColors copyWith() => this;
 
   @override
-  AppColors lerp(AppColors? other, double t) {
-    if (other == null) return this;
-    return AppColors(
-      background: Color.lerp(background, other.background, t)!,
-      disclosure: Color.lerp(disclosure, other.disclosure, t)!,
-      claims: Color.lerp(claims, other.claims, t)!,
-      visuals: Color.lerp(visuals, other.visuals, t)!,
-      borrowed: Color.lerp(borrowed, other.borrowed, t)!,
-      factcheck: Color.lerp(factcheck, other.factcheck, t)!,
-      supported: Color.lerp(supported, other.supported, t)!,
-      contradicted: Color.lerp(contradicted, other.contradicted, t)!,
-      previouslyFactChecked: Color.lerp(
-        previouslyFactChecked,
-        other.previouslyFactChecked,
-        t,
-      )!,
-      insufficientEvidence: Color.lerp(
-        insufficientEvidence,
-        other.insufficientEvidence,
-        t,
-      )!,
-      cardShadows: BoxShadow.lerpList(cardShadows, other.cardShadows, t)!,
-      cardBorder: Color.lerp(cardBorder, other.cardBorder, t),
-      seekPlayed: Color.lerp(seekPlayed, other.seekPlayed, t)!,
-      seekBuffered: Color.lerp(seekBuffered, other.seekBuffered, t)!,
-      seekTrack: Color.lerp(seekTrack, other.seekTrack, t)!,
-    );
-  }
+  AppColors lerp(AppColors? other, double t) =>
+      t < 0.5 || other == null ? this : other;
 }
 
 /// The fire on the team name in About. Fixed colors: fire looks the same in

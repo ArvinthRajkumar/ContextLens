@@ -178,17 +178,14 @@ class LensMark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final isDark = scheme.brightness == Brightness.dark;
     return ExcludeSemantics(
       child: CustomPaint(
         size: Size.square(size),
         painter: LensMarkPainter(
           color: scheme.primary,
-          // The brand highlight is a pale tint; on light surfaces a
+          // The brand highlight is a pale tint; on the light sky a
           // translucent primary keeps the arc visible.
-          highlight: isDark
-              ? scheme.onPrimaryContainer
-              : scheme.primary.withValues(alpha: 0.55),
+          highlight: scheme.primary.withValues(alpha: 0.55),
         ),
       ),
     );

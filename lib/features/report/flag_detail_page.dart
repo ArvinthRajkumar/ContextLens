@@ -232,7 +232,7 @@ class _UncertainNote extends StatelessWidget {
     final colors = AppColors.of(context);
 
     return AppCard(
-      color: theme.colorScheme.surfaceContainerLow,
+      color: colors.glassFaint,
       borderColor: colors.insufficientEvidence,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

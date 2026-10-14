@@ -2,11 +2,11 @@ import 'dart:math';
 
 import 'package:contextlens/app.dart';
 import 'package:contextlens/core/connectivity.dart';
+import 'package:contextlens/core/prefs.dart';
 import 'package:contextlens/core/utils/validators.dart';
 import 'package:contextlens/features/compose/video_inspector.dart';
 import 'package:contextlens/features/compose/video_source.dart';
 import 'package:contextlens/features/report/mock_backend.dart';
-import 'package:contextlens/features/settings/theme_controller.dart';
 import 'package:contextlens/features/splash/splash_page.dart';
 import 'package:contextlens/features/upload/fake_upload_repository.dart';
 import 'package:contextlens/features/upload/upload_repository.dart';

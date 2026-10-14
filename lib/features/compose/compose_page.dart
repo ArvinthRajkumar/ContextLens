@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:contextlens/core/theme/colors.dart';
 import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/widgets/app_button.dart';
 import 'package:contextlens/core/widgets/app_card.dart';
@@ -150,9 +151,9 @@ class _ComposePageState extends ConsumerState<ComposePage> {
         ),
         bottomNavigationBar: DecoratedBox(
           decoration: BoxDecoration(
-            color: theme.scaffoldBackgroundColor,
+            color: AppColors.of(context).glassStrong,
             border: Border(
-              top: BorderSide(color: theme.colorScheme.outlineVariant),
+              top: BorderSide(color: AppColors.of(context).glassBorder),
             ),
           ),
           child: SafeArea(

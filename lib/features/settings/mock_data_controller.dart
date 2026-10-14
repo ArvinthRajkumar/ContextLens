@@ -1,5 +1,5 @@
 import 'package:contextlens/core/config.dart';
-import 'package:contextlens/features/settings/theme_controller.dart';
+import 'package:contextlens/core/prefs.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Whether mock mode serves seeded history. Defaults to the MOCK_SEED

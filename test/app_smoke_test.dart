@@ -1,7 +1,7 @@
 import 'package:contextlens/app.dart';
+import 'package:contextlens/core/prefs.dart';
 import 'package:contextlens/features/home/run_card.dart';
 import 'package:contextlens/features/report/mock_backend.dart';
-import 'package:contextlens/features/settings/theme_controller.dart';
 import 'package:contextlens/features/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,13 +35,13 @@ ThemeMode _themeMode(WidgetTester tester) =>
     tester.widget<MaterialApp>(find.byType(MaterialApp)).themeMode!;
 
 void main() {
-  testWidgets('intro hands off to an empty Home in dark mode', (tester) async {
+  testWidgets('intro hands off to an empty Home in light mode', (tester) async {
     await tester.pumpWidget(await _app(tester));
     await tester.pumpAndSettle();
 
     expect(find.text('Check a video before you post'), findsOneWidget);
     expect(find.text('No checks yet'), findsOneWidget);
-    expect(_themeMode(tester), ThemeMode.dark);
+    expect(_themeMode(tester), ThemeMode.light);
   });
 
   testWidgets('intro covers the whole screen', (tester) async {
@@ -66,7 +66,7 @@ void main() {
     expect(find.text('Check failed'), findsOneWidget);
   });
 
-  testWidgets('theme choice persists', (tester) async {
+  testWidgets('Settings has no theme choice', (tester) async {
     await tester.pumpWidget(await _app(tester));
     await tester.pumpAndSettle();
 
@@ -75,20 +75,20 @@ void main() {
     for (var i = 0; i < 20; i++) {
       await tester.pump(const Duration(milliseconds: 50));
     }
-    await tester.tap(find.text('Light'));
-    await tester.pump(const Duration(milliseconds: 50));
-
-    expect(_themeMode(tester), ThemeMode.light);
-    final prefs = await SharedPreferences.getInstance();
-    expect(prefs.getString('appearance.themeMode'), 'light');
+    expect(find.text('Appearance'), findsNothing);
+    expect(find.text('Dark'), findsNothing);
   });
 
-  testWidgets('restores a stored theme', (tester) async {
-    await tester.pumpWidget(
-      await _app(tester, prefs: {'appearance.themeMode': 'system'}),
-    );
-    await tester.pumpAndSettle();
-    expect(_themeMode(tester), ThemeMode.system);
+  test('retired settings are cleared', () async {
+    SharedPreferences.setMockInitialValues({
+      'appearance.themeMode': 'dark',
+      'appearance.reduceMotion': true,
+    });
+    final prefs = await SharedPreferences.getInstance();
+    clearRetiredPrefs(prefs);
+    await Future<void>.delayed(Duration.zero);
+    expect(prefs.containsKey('appearance.themeMode'), isFalse);
+    expect(prefs.containsKey('appearance.reduceMotion'), isFalse);
   });
 
   testWidgets('Home survives 2x text scale without overflow', (tester) async {

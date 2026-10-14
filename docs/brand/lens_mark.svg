@@ -6,12 +6,12 @@
       <circle cx="740.35" cy="643.84" r="119.81" fill="#000000"/>
     </mask>
   </defs>
-  <rect width="1024" height="1024" fill="#0B0F14"/>
+  <rect width="1024" height="1024" fill="#CFE4F5"/>
   <g mask="url(#badge-cut)" fill="none" stroke-linecap="round">
-    <circle cx="512" cy="512" r="263.68" stroke="#3DD6C6" stroke-width="66.56"/>
-    <path d="M 346.44 458.21 A 174.08 174.08 0 0 1 490.18 339.29" stroke="#9CF2E8" stroke-width="35.84"/>
-    <line x1="338.60" y1="527.36" x2="685.40" y2="527.36" stroke="#3DD6C6" stroke-opacity="0.6" stroke-width="12.29"/>
+    <circle cx="512" cy="512" r="263.68" stroke="#00695E" stroke-width="66.56"/>
+    <path d="M 346.44 458.21 A 174.08 174.08 0 0 1 490.18 339.29" stroke="#5DA0A2" stroke-width="35.84"/>
+    <line x1="338.60" y1="527.36" x2="685.40" y2="527.36" stroke="#00695E" stroke-opacity="0.6" stroke-width="12.29"/>
   </g>
-  <circle cx="740.35" cy="643.84" r="89.09" fill="#3DD6C6"/>
-  <polyline points="702.94,645.62 729.66,672.35 779.55,618.90" fill="none" stroke="#0B0F14" stroke-width="22.53" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="740.35" cy="643.84" r="89.09" fill="#00695E"/>
+  <polyline points="702.94,645.62 729.66,672.35 779.55,618.90" fill="none" stroke="#CFE4F5" stroke-width="22.53" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

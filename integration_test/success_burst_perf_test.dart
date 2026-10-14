@@ -107,7 +107,7 @@ void main() {
     late AnimationController controller;
     await tester.pumpWidget(
       MaterialApp(
-        theme: AppTheme.dark,
+        theme: AppTheme.light,
         home: _Harness(onReady: (c) => controller = c),
       ),
     );
@@ -126,7 +126,7 @@ void main() {
   testWidgets('baseline frame timings', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        theme: AppTheme.dark,
+        theme: AppTheme.light,
         home: const Scaffold(body: Center(child: CircularProgressIndicator())),
       ),
     );

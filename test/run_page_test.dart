@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:contextlens/core/connectivity.dart';
+import 'package:contextlens/core/prefs.dart';
 import 'package:contextlens/core/theme/app_theme.dart';
 import 'package:contextlens/core/utils/validators.dart';
 import 'package:contextlens/features/compose/compose_controller.dart';
@@ -11,7 +12,6 @@ import 'package:contextlens/features/run/lens_orbit.dart';
 import 'package:contextlens/features/run/processing_view.dart';
 import 'package:contextlens/features/run/run_page.dart';
 import 'package:contextlens/features/run/success_burst.dart';
-import 'package:contextlens/features/settings/theme_controller.dart';
 import 'package:contextlens/features/upload/fake_upload_repository.dart';
 import 'package:contextlens/features/upload/upload_repository.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +79,7 @@ void main() {
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: MaterialApp.router(theme: AppTheme.dark, routerConfig: router),
+        child: MaterialApp.router(theme: AppTheme.light, routerConfig: router),
       ),
     );
     await tester.pump();

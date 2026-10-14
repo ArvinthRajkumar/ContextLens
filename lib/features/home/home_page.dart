@@ -29,7 +29,9 @@ class HomePage extends StatelessWidget {
               children: [
                 LensMark(),
                 SizedBox(width: Spacing.space3),
-                Text('ContextLens'),
+                Flexible(
+                  child: Text('ContextLens', overflow: TextOverflow.ellipsis),
+                ),
               ],
             ),
           ),

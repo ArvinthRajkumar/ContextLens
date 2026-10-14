@@ -22,9 +22,11 @@ abstract final class AppTypography {
     }
 
     return TextTheme(
-      displaySmall: style(36, 44, FontWeight.w600, -0.5),
-      headlineSmall: style(24, 32, FontWeight.w600),
-      titleLarge: style(20, 28, FontWeight.w600),
+      // Large and light headings, firm labels.
+      displaySmall: style(40, 48, FontWeight.w400, -1),
+      headlineMedium: style(32, 40, FontWeight.w400, -0.8),
+      headlineSmall: style(26, 34, FontWeight.w400, -0.5),
+      titleLarge: style(22, 30, FontWeight.w500, -0.3),
       titleMedium: style(16, 24, FontWeight.w600),
       titleSmall: style(14, 20, FontWeight.w600),
       bodyLarge: style(16, 24, FontWeight.w400),

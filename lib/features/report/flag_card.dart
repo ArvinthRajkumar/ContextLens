@@ -6,6 +6,7 @@ import 'package:contextlens/core/theme/motion.dart';
 import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/theme/typography.dart';
 import 'package:contextlens/core/utils/formatters.dart';
+import 'package:contextlens/core/widgets/app_background.dart';
 import 'package:contextlens/core/widgets/info_pill.dart';
 import 'package:contextlens/features/report/clause_chips.dart';
 import 'package:contextlens/features/report/flag_detail_page.dart';
@@ -96,9 +97,7 @@ class _FlagCardState extends State<FlagCard>
     final motion = Motion.of(context);
     final useSheet =
         MediaQuery.sizeOf(context).height < FlagCard.fullPageMinHeight;
-    final restBorder = widget.selected
-        ? scheme.primary
-        : (colors.cardBorder ?? Colors.transparent);
+    final restBorder = widget.selected ? scheme.primary : colors.glassBorder;
 
     return AnimatedScale(
       scale: _pressed ? _pressedScale : 1,
@@ -122,10 +121,10 @@ class _FlagCardState extends State<FlagCard>
                 : ContainerTransitionType.fade,
             // Uncertain flags sit a step back from the issues.
             closedColor: widget.flag.uncertain
-                ? scheme.surfaceContainerLow
-                : scheme.surfaceContainer,
-            openColor: theme.scaffoldBackgroundColor,
-            middleColor: theme.scaffoldBackgroundColor,
+                ? colors.glassFaint
+                : colors.glass,
+            openColor: scheme.surface,
+            middleColor: scheme.surface,
             closedElevation: 0,
             openElevation: 0,
             closedShape: RoundedRectangleBorder(
@@ -138,7 +137,8 @@ class _FlagCardState extends State<FlagCard>
             onClosed: (watch) {
               if (watch ?? false) widget.onWatch();
             },
-            openBuilder: (context, _) => FlagDetailPage(flag: widget.flag),
+            openBuilder: (context, _) =>
+                AppBackground(child: FlagDetailPage(flag: widget.flag)),
             closedBuilder: (context, open) => _CardBody(
               flag: widget.flag,
               expanded: _expanded,

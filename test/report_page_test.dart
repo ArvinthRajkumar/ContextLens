@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:contextlens/core/prefs.dart';
 import 'package:contextlens/core/theme/app_theme.dart';
 import 'package:contextlens/features/compose/compose_controller.dart';
 import 'package:contextlens/features/compose/compose_page.dart';
@@ -13,7 +14,6 @@ import 'package:contextlens/features/report/models.dart';
 import 'package:contextlens/features/report/playback.dart';
 import 'package:contextlens/features/report/report_page.dart';
 import 'package:contextlens/features/report/transcript_diff.dart';
-import 'package:contextlens/features/settings/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -95,7 +95,7 @@ void main() {
             return player;
           }),
         ],
-        child: MaterialApp.router(theme: AppTheme.dark, routerConfig: router),
+        child: MaterialApp.router(theme: AppTheme.light, routerConfig: router),
       ),
     );
     await tester.pumpAndSettle();
@@ -254,18 +254,26 @@ void main() {
     final initial = order();
     expect(initial.first, 'b1');
 
-    await tester.tap(find.bySemanticsLabel(RegExp('^3 fact check flags')));
+    final chip = find.bySemanticsLabel(RegExp('^3 fact check flags'));
+    final disclosure = find.bySemanticsLabel(RegExp('^1 disclosure flag'));
+    await tester.ensureVisible(chip);
+    await tester.pumpAndSettle();
+    await tester.tap(chip);
     await tester.pump(const Duration(milliseconds: 100));
     expect(order().take(3), ['b5', 'b6', 'b7']);
     expect(order().skip(3), ['b1', 'b2', 'b3', 'b4']);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.bySemanticsLabel(RegExp('^1 disclosure flag')));
+    await tester.ensureVisible(disclosure);
+    await tester.pumpAndSettle();
+    await tester.tap(disclosure);
     await tester.pumpAndSettle();
     expect(order().first, 'b1');
     expect(order()[1], 'b2');
 
-    await tester.tap(find.bySemanticsLabel(RegExp('^1 disclosure flag')));
+    await tester.ensureVisible(disclosure);
+    await tester.pumpAndSettle();
+    await tester.tap(disclosure);
     await tester.pumpAndSettle();
     expect(order(), initial);
   });
@@ -303,7 +311,7 @@ void main() {
         .diff!;
     await tester.pumpWidget(
       MaterialApp(
-        theme: AppTheme.dark,
+        theme: AppTheme.light,
         home: Scaffold(body: TranscriptDiffView(diff: diff)),
       ),
     );

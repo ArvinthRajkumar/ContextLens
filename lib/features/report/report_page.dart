@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:contextlens/core/theme/colors.dart';
 import 'package:contextlens/core/theme/motion.dart';
 import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/utils/formatters.dart';
@@ -512,13 +513,11 @@ class _FixBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = AppColors.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: theme.scaffoldBackgroundColor,
-        border: Border(
-          top: BorderSide(color: theme.colorScheme.outlineVariant),
-        ),
+        color: colors.glassStrong,
+        border: Border(top: BorderSide(color: colors.glassBorder)),
       ),
       child: SafeArea(
         child: Padding(

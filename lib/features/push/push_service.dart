@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:contextlens/core/api_client.dart';
 import 'package:contextlens/core/config.dart';
 import 'package:contextlens/core/log.dart';
-import 'package:contextlens/features/settings/theme_controller.dart';
+import 'package:contextlens/core/prefs.dart';
 import 'package:contextlens/router.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

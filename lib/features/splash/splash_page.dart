@@ -1,6 +1,7 @@
 import 'package:contextlens/core/theme/app_theme.dart';
 import 'package:contextlens/core/theme/motion.dart';
 import 'package:contextlens/core/theme/spacing.dart';
+import 'package:contextlens/core/widgets/app_background.dart';
 import 'package:contextlens/core/widgets/lens_mark.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -108,64 +109,68 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final theme = AppTheme.dark;
+    final theme = AppTheme.light;
     final scheme = theme.colorScheme;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      // Light status bar icons on the always-dark splash.
-      value: SystemUiOverlayStyle.light,
+      // Dark status bar icons on the light sky.
+      value: SystemUiOverlayStyle.dark,
       child: Theme(
         data: theme,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: widget.hold ? widget.onFinished : null,
           child: Material(
-            color: theme.scaffoldBackgroundColor,
-            child: Semantics(
-              label: 'ContextLens',
-              container: true,
-              excludeSemantics: true,
-              child: AnimatedBuilder(
-                animation: Listenable.merge([_intro, _pulse]),
-                builder: (context, _) {
-                  final pulse = 1 - _pulse.value * (1 - _pulseMin);
-                  return SizedBox.expand(
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        RepaintBoundary(
-                          child: CustomPaint(
-                            size: const Size.square(SplashPage.markSize),
-                            painter: LensMarkPainter(
-                              color: scheme.primary,
-                              highlight: scheme.onPrimaryContainer,
-                              ring: _ring.value,
-                              scan: _scan.value,
-                              glint: _word.value,
-                              badge: _badge.value,
-                              opacity: pulse,
+            type: MaterialType.transparency,
+            child: AppBackground(
+              child: Semantics(
+                label: 'ContextLens',
+                container: true,
+                excludeSemantics: true,
+                child: AnimatedBuilder(
+                  animation: Listenable.merge([_intro, _pulse]),
+                  builder: (context, _) {
+                    final pulse = 1 - _pulse.value * (1 - _pulseMin);
+                    return SizedBox.expand(
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          RepaintBoundary(
+                            child: CustomPaint(
+                              size: const Size.square(SplashPage.markSize),
+                              painter: LensMarkPainter(
+                                color: scheme.primary,
+                                highlight: scheme.primary.withValues(
+                                  alpha: 0.55,
+                                ),
+                                ring: _ring.value,
+                                scan: _scan.value,
+                                glint: _word.value,
+                                badge: _badge.value,
+                                opacity: pulse,
+                              ),
                             ),
                           ),
-                        ),
-                        Transform.translate(
-                          offset: Offset(
-                            0,
-                            SplashPage.markSize / 2 +
-                                Spacing.space10 +
-                                _wordmarkRise * (1 - _word.value),
-                          ),
-                          child: Opacity(
-                            opacity: _word.value,
-                            child: Text(
-                              'ContextLens',
-                              style: theme.textTheme.headlineSmall,
+                          Transform.translate(
+                            offset: Offset(
+                              0,
+                              SplashPage.markSize / 2 +
+                                  Spacing.space10 +
+                                  _wordmarkRise * (1 - _word.value),
+                            ),
+                            child: Opacity(
+                              opacity: _word.value,
+                              child: Text(
+                                'ContextLens',
+                                style: theme.textTheme.headlineSmall,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ),

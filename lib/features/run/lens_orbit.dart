@@ -118,8 +118,6 @@ class _LensOrbitState extends State<LensOrbit> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final motion = Motion.of(context);
-    final isDark = scheme.brightness == Brightness.dark;
-
     return SizedBox.square(
       dimension: LensOrbit.side,
       child: Stack(
@@ -139,9 +137,7 @@ class _LensOrbitState extends State<LensOrbit> with TickerProviderStateMixin {
                 track: scheme.outlineVariant,
                 accent: scheme.primary,
                 error: scheme.error,
-                highlight: isDark
-                    ? scheme.onPrimaryContainer
-                    : scheme.primary.withValues(alpha: 0.55),
+                highlight: scheme.primary.withValues(alpha: 0.55),
               ),
             ),
           ),

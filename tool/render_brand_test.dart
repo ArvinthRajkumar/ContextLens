@@ -12,9 +12,15 @@ import 'package:flutter_test/flutter_test.dart';
 // Run: flutter test tool/render_brand_test.dart
 // Then: dart run flutter_launcher_icons && dart run flutter_native_splash:create
 
-const _ring = Color(0xFF3DD6C6);
-const _highlight = Color(0xFF9CF2E8);
-const _background = Color(0xFF0B0F14);
+// The light brand: teal mark on the pale sky. The highlight is the app's
+// translucent primary, flattened onto the sky so the SVG needs no alpha.
+const _palette = AppPalette.light;
+final _ring = _palette.primary;
+final _highlight = Color.alphaBlend(
+  _palette.primary.withValues(alpha: 0.55),
+  _palette.skyTop,
+);
+final _background = _palette.skyTop;
 const _white = Color(0xFFFFFFFF);
 
 /// Android's adaptive icon keeps a 66 of 108 dp circle visible; the mark
@@ -27,8 +33,8 @@ Future<void> _png(
   int canvas, {
   Color? background,
   double scale = 1,
-  Color ring = _ring,
-  Color highlight = _highlight,
+  Color? ring,
+  Color? highlight,
   bool circleMask = false,
 }) async {
   final recorder = ui.PictureRecorder();
@@ -51,8 +57,8 @@ Future<void> _png(
     ..save()
     ..translate((size - side) / 2, (size - side) / 2);
   LensMarkPainter(
-    color: ring,
-    highlight: highlight,
+    color: ring ?? _ring,
+    highlight: highlight ?? _highlight,
   ).paint(c, ui.Size.square(side));
   c.restore();
 
@@ -128,17 +134,12 @@ void main() {
 
     // Native splash, 4x of the 96 dp intro mark, on the splash background.
     const mark = SplashPage.markSize * 4;
-    await _png(
-      'assets/splash/lens_mark.png',
-      mark.toInt(),
-      ring: AppPalette.dark.primary,
-    );
+    await _png('assets/splash/lens_mark.png', mark.toInt());
     // Android 12 shows a 768 px circle of this 1152 px image.
     await _png(
       'assets/splash/lens_mark_android12.png',
       1152,
       scale: mark / 1152,
-      ring: AppPalette.dark.primary,
     );
 
     // Previews at launcher sizes, drawn natively at each size.

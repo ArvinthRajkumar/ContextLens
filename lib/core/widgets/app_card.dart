@@ -1,8 +1,12 @@
+import 'dart:ui';
+
 import 'package:contextlens/core/theme/colors.dart';
 import 'package:contextlens/core/theme/spacing.dart';
 import 'package:flutter/material.dart';
 
-/// Tonal card: hairline border in dark mode, soft shadow in light mode.
+/// Liquid glass card: translucent white, a white hairline and a soft
+/// shadow. [blur] adds a backdrop blur; keep it for cards that sit over
+/// moving content (video, a scrolled list), since it costs a pass per card.
 class AppCard extends StatelessWidget {
   const AppCard({
     required this.child,
@@ -10,6 +14,7 @@ class AppCard extends StatelessWidget {
     this.padding = const EdgeInsets.all(Spacing.space4),
     this.color,
     this.borderColor,
+    this.blur = false,
     super.key,
   });
 
@@ -18,32 +23,42 @@ class AppCard extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final Color? color;
 
-  /// Overrides the theme's hairline, for example to mark an error.
+  /// Overrides the white hairline, for example to mark an error.
   final Color? borderColor;
+  final bool blur;
+
+  static const double _blurSigma = 20;
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final appColors = AppColors.of(context);
-    final border = borderColor ?? appColors.cardBorder;
-
+    final colors = AppColors.of(context);
+    Widget card = Material(
+      color: color ?? colors.glass,
+      shape: RoundedRectangleBorder(
+        borderRadius: Radii.card,
+        side: BorderSide(color: borderColor ?? colors.glassBorder),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(padding: padding, child: child),
+      ),
+    );
+    if (blur) {
+      card = ClipRRect(
+        borderRadius: Radii.card,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: _blurSigma, sigmaY: _blurSigma),
+          child: card,
+        ),
+      );
+    }
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: Radii.card,
-        boxShadow: appColors.cardShadows,
+        boxShadow: colors.cardShadows,
       ),
-      child: Material(
-        color: color ?? scheme.surfaceContainer,
-        shape: RoundedRectangleBorder(
-          borderRadius: Radii.card,
-          side: border == null ? BorderSide.none : BorderSide(color: border),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          child: Padding(padding: padding, child: child),
-        ),
-      ),
+      child: card,
     );
   }
 }

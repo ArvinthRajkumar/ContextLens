@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:contextlens/core/widgets/app_background.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,15 +20,16 @@ class MotionAwarePageTransitionsBuilder extends PageTransitionsBuilder {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
+    final page = AppBackground(child: child);
     if (MediaQuery.disableAnimationsOf(context)) {
-      return FadeTransition(opacity: animation, child: child);
+      return FadeTransition(opacity: animation, child: page);
     }
     return _sharedAxis.buildTransitions(
       route,
       context,
       animation,
       secondaryAnimation,
-      child,
+      page,
     );
   }
 }
@@ -40,7 +42,7 @@ CustomTransitionPage<void> fadeThroughPage({
 }) {
   return CustomTransitionPage<void>(
     key: key,
-    child: child,
+    child: AppBackground(child: child),
     transitionDuration: Durations.medium2,
     reverseTransitionDuration: Durations.medium2,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -50,7 +52,7 @@ CustomTransitionPage<void> fadeThroughPage({
       return FadeThroughTransition(
         animation: animation,
         secondaryAnimation: secondaryAnimation,
-        fillColor: Theme.of(context).scaffoldBackgroundColor,
+        fillColor: Theme.of(context).colorScheme.surface,
         child: child,
       );
     },

@@ -78,16 +78,16 @@ flutter_launcher_icons:
   ios: true
   image_path: assets/icon/icon.png
   remove_alpha_ios: true
-  background_color_ios: "#0B0F14"
-  adaptive_icon_background: "#0B0F14"
+  background_color_ios: "#CFE4F5"
+  adaptive_icon_background: "#CFE4F5"
   adaptive_icon_foreground: assets/icon/foreground.png
   # The foreground is already scaled to the 66 dp safe zone.
   adaptive_icon_foreground_inset: 0
   adaptive_icon_monochrome: assets/icon/monochrome.png
 
 flutter_native_splash:
-  color: "#0B0F14"
+  color: "#E6F1FA"
   image: assets/splash/lens_mark.png
   android_12:
-    color: "#0B0F14"
+    color: "#E6F1FA"
     image: assets/splash/lens_mark_android12.png

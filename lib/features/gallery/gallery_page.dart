@@ -7,7 +7,6 @@ import 'package:contextlens/core/widgets/empty_state.dart';
 import 'package:contextlens/core/widgets/section_header.dart';
 import 'package:contextlens/features/report/flag_presentation.dart';
 import 'package:contextlens/features/report/models.dart';
-import 'package:contextlens/features/settings/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,21 +18,8 @@ class GalleryPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Gallery'),
-        actions: [
-          IconButton(
-            tooltip: 'Toggle theme',
-            icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
-            onPressed: () => ref
-                .read(themeControllerProvider.notifier)
-                .setThemeMode(isDark ? ThemeMode.light : ThemeMode.dark),
-          ),
-        ],
-      ),
+      appBar: AppBar(title: const Text('Gallery')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(
           Spacing.screen,

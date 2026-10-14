@@ -3,6 +3,7 @@ import 'package:contextlens/core/theme/colors.dart';
 import 'package:contextlens/core/theme/motion.dart';
 import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/utils/formatters.dart';
+import 'package:contextlens/core/widgets/app_background.dart';
 import 'package:contextlens/core/widgets/app_card.dart';
 import 'package:contextlens/core/widgets/info_pill.dart';
 import 'package:contextlens/core/widgets/video_thumbnail.dart';
@@ -24,7 +25,6 @@ class RunCard extends StatelessWidget {
     final theme = Theme.of(context);
     final colors = AppColors.of(context);
     final motion = Motion.of(context);
-    final border = colors.cardBorder;
 
     if (job.isActive) {
       return AppCard(
@@ -46,17 +46,18 @@ class RunCard extends StatelessWidget {
         transitionType: motion.reduced
             ? ContainerTransitionType.fadeThrough
             : ContainerTransitionType.fade,
-        closedColor: theme.colorScheme.surfaceContainer,
-        openColor: theme.scaffoldBackgroundColor,
-        middleColor: theme.scaffoldBackgroundColor,
+        closedColor: colors.glass,
+        openColor: theme.colorScheme.surface,
+        middleColor: theme.colorScheme.surface,
         closedElevation: 0,
         openElevation: 0,
         closedShape: RoundedRectangleBorder(
           borderRadius: Radii.card,
-          side: border == null ? BorderSide.none : BorderSide(color: border),
+          side: BorderSide(color: colors.glassBorder),
         ),
         closedBuilder: (context, _) => _RunCardContent(job: job),
-        openBuilder: (context, _) => ReportPage(jobId: job.id),
+        openBuilder: (context, _) =>
+            AppBackground(child: ReportPage(jobId: job.id)),
       ),
     );
   }

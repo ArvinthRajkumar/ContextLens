@@ -1,9 +1,9 @@
+import 'package:contextlens/core/prefs.dart';
 import 'package:contextlens/core/theme/app_theme.dart';
 import 'package:contextlens/features/drafts/draft_repository.dart';
 import 'package:contextlens/features/report/job_repository.dart';
 import 'package:contextlens/features/settings/delete_data_tile.dart';
 import 'package:contextlens/features/settings/mock_data_controller.dart';
-import 'package:contextlens/features/settings/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -28,7 +28,7 @@ void main() {
       UncontrolledProviderScope(
         container: container,
         child: MaterialApp(
-          theme: AppTheme.dark,
+          theme: AppTheme.light,
           home: const Scaffold(body: DeleteDataTile()),
         ),
       ),

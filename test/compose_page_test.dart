@@ -59,7 +59,7 @@ void main() {
           videoSourceProvider.overrideWithValue(source),
           videoInspectorProvider.overrideWithValue(inspector),
         ],
-        child: MaterialApp(theme: AppTheme.dark, home: const ComposePage()),
+        child: MaterialApp(theme: AppTheme.light, home: const ComposePage()),
       ),
     );
   }
