@@ -1,7 +1,7 @@
 import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/utils/formatters.dart';
 import 'package:contextlens/core/widgets/app_card.dart';
-import 'package:contextlens/features/run/run_page.dart';
+import 'package:contextlens/features/run/processing_view.dart';
 import 'package:contextlens/features/upload/upload_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

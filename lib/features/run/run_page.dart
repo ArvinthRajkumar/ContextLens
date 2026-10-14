@@ -4,7 +4,6 @@ import 'dart:math' as math;
 import 'package:contextlens/core/theme/motion.dart';
 import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/theme/typography.dart';
-import 'package:contextlens/core/utils/formatters.dart';
 import 'package:contextlens/core/widgets/app_button.dart';
 import 'package:contextlens/core/widgets/app_card.dart';
 import 'package:contextlens/core/widgets/video_thumbnail.dart';
@@ -12,7 +11,7 @@ import 'package:contextlens/features/compose/compose_controller.dart';
 import 'package:contextlens/features/push/notify_prompt.dart';
 import 'package:contextlens/features/report/job_repository.dart';
 import 'package:contextlens/features/report/models.dart';
-import 'package:contextlens/features/run/stage_stepper.dart';
+import 'package:contextlens/features/run/processing_view.dart';
 import 'package:contextlens/features/run/success_burst.dart';
 import 'package:contextlens/features/run/upload_ring.dart';
 import 'package:contextlens/features/run/upload_stats.dart';
@@ -22,9 +21,6 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-/// Route id for a check that is still uploading and has no job id yet.
-const pendingRunId = 'pending';
 
 enum _View { upload, success, stages }
 
@@ -56,7 +52,7 @@ class _RunPageState extends ConsumerState<RunPage>
     duration: Durations.medium4,
   );
 
-  final _firstDotKey = GlobalKey();
+  final _lensKey = GlobalKey();
   final _ringKey = GlobalKey();
   final _stackKey = GlobalKey();
 
@@ -132,7 +128,7 @@ class _RunPageState extends ConsumerState<RunPage>
 
     await _success.forward(from: 0);
     if (!mounted) return;
-    _morphTo = _rectInStack(_firstDotKey);
+    _morphTo = _rectInStack(_lensKey);
     await _morph.forward(from: 0);
     if (!mounted) return;
     setState(() => _view = _View.stages);
@@ -233,7 +229,7 @@ class _RunPageState extends ConsumerState<RunPage>
       },
       child: Scaffold(
         appBar: AppBar(
-          // Stays "Uploading" until the disc has landed in the stepper.
+          // Stays "Uploading" until the disc has landed on the lens.
           title: Text(_view == _View.stages ? 'Checking' : 'Uploading'),
         ),
         body: LayoutBuilder(
@@ -249,9 +245,9 @@ class _RunPageState extends ConsumerState<RunPage>
                 if (jobId != null && _view != _View.upload)
                   _StagesLayer(
                     jobId: jobId,
-                    firstDotKey: _firstDotKey,
+                    lensKey: _lensKey,
                     reveal: _view == _View.stages ? null : _morph,
-                    hideFirstDot: _view == _View.success,
+                    hideLens: _view == _View.success,
                   ),
                 if (_view == _View.upload) _UploadLayer(ringKey: _ringKey),
                 if (_view == _View.success) ...[
@@ -611,26 +607,27 @@ class _SuccessCaption extends StatelessWidget {
 class _StagesLayer extends ConsumerWidget {
   const _StagesLayer({
     required this.jobId,
-    required this.firstDotKey,
+    required this.lensKey,
     required this.reveal,
-    required this.hideFirstDot,
+    required this.hideLens,
   });
 
   final String jobId;
-  final GlobalKey firstDotKey;
+  final GlobalKey lensKey;
 
-  /// Fades the stepper in while the success disc flies; null when settled.
+  /// Fades the processing view in while the success disc flies; null when
+  /// settled.
   final Animation<double>? reveal;
-  final bool hideFirstDot;
+  final bool hideLens;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final job = ref.watch(jobStreamProvider(jobId));
     final content = switch (job) {
-      AsyncData(:final value) => _Stages(
+      AsyncData(:final value) => ProcessingView(
         job: value,
-        firstDotKey: firstDotKey,
-        hideFirstDot: hideFirstDot,
+        lensKey: lensKey,
+        hideLens: hideLens,
       ),
       AsyncError() => const Center(child: Text("Couldn't load this check.")),
       _ => const Center(child: CircularProgressIndicator()),
@@ -641,125 +638,6 @@ class _StagesLayer extends ConsumerWidget {
       animation: fade,
       builder: (context, child) => Opacity(opacity: fade.value, child: child),
       child: content,
-    );
-  }
-}
-
-class _Stages extends ConsumerWidget {
-  const _Stages({
-    required this.job,
-    required this.firstDotKey,
-    required this.hideFirstDot,
-  });
-
-  final Job job;
-  final GlobalKey firstDotKey;
-  final bool hideFirstDot;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    final muted = theme.textTheme.bodyMedium?.copyWith(
-      color: theme.colorScheme.onSurfaceVariant,
-    );
-    final error = job.error;
-
-    return ListView(
-      padding: const EdgeInsets.fromLTRB(
-        Spacing.screen,
-        Spacing.space2,
-        Spacing.screen,
-        Spacing.space8,
-      ),
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Text(
-                job.title ?? 'Your video',
-                style: theme.textTheme.titleLarge,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            const SizedBox(width: Spacing.space3),
-            if (job.isActive) _Elapsed(since: job.createdAt),
-          ],
-        ),
-        const SizedBox(height: Spacing.space1),
-        Text(
-          'Usually 1 to 3 minutes. You can leave, we will notify you.',
-          style: muted,
-        ),
-        const SizedBox(height: Spacing.space6),
-        StageStepper(
-          job: job,
-          firstDotKey: firstDotKey,
-          hideFirstDot: hideFirstDot,
-        ),
-        if (error != null) ...[
-          const SizedBox(height: Spacing.space6),
-          AppCard(
-            borderColor: theme.colorScheme.error,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Check failed', style: theme.textTheme.titleMedium),
-                const SizedBox(height: Spacing.space1),
-                Text(error.message),
-                const SizedBox(height: Spacing.space3),
-                AppButton(
-                  label: 'Try again',
-                  icon: Icons.refresh,
-                  onPressed: () {
-                    final submission = ref
-                        .read(uploadControllerProvider)
-                        ?.submission;
-                    if (submission == null) {
-                      context.go('/');
-                      return;
-                    }
-                    ref
-                        .read(pendingSubmissionProvider.notifier)
-                        .set(submission);
-                    unawaited(
-                      ref
-                          .read(uploadControllerProvider.notifier)
-                          .start(submission),
-                    );
-                    context.pushReplacement('/run/$pendingRunId');
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ],
-    );
-  }
-}
-
-/// Time since the check started, ticking each second.
-class _Elapsed extends StatelessWidget {
-  const _Elapsed({required this.since});
-
-  final DateTime since;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return StreamBuilder<int>(
-      stream: Stream.periodic(const Duration(seconds: 1), (i) => i),
-      builder: (context, _) {
-        final elapsed = DateTime.now().difference(since);
-        return Text(
-          formatDurationMs(elapsed.isNegative ? 0 : elapsed.inMilliseconds),
-          style: AppTypography.monoOf(theme.textTheme.titleMedium)
-              .copyWith(color: theme.colorScheme.onSurfaceVariant),
-          semanticsLabel: 'Elapsed ${elapsed.inSeconds} seconds',
-        );
-      },
     );
   }
 }

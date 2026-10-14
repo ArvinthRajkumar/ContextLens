@@ -7,8 +7,9 @@ import 'package:contextlens/features/compose/compose_controller.dart';
 import 'package:contextlens/features/compose/declaration.dart';
 import 'package:contextlens/features/compose/video_inspector.dart';
 import 'package:contextlens/features/report/mock_backend.dart';
+import 'package:contextlens/features/run/lens_orbit.dart';
+import 'package:contextlens/features/run/processing_view.dart';
 import 'package:contextlens/features/run/run_page.dart';
-import 'package:contextlens/features/run/stage_stepper.dart';
 import 'package:contextlens/features/run/success_burst.dart';
 import 'package:contextlens/features/settings/theme_controller.dart';
 import 'package:contextlens/features/upload/fake_upload_repository.dart';
@@ -99,7 +100,7 @@ void main() {
     );
 
     // Stages stay hidden until the disc flies in.
-    final stepper = find.byType(StageStepper);
+    final stepper = find.byType(ProcessingView);
     if (stepper.evaluate().isNotEmpty) {
       final opacity = tester.widget<Opacity>(
         find.ancestor(of: stepper, matching: find.byType(Opacity)).first,
@@ -110,7 +111,8 @@ void main() {
     await tester.pump(const Duration(milliseconds: 1500));
     await tester.pump(const Duration(milliseconds: 500));
     expect(find.byType(SuccessBurst), findsNothing);
-    expect(find.byType(StageStepper), findsOneWidget);
+    expect(find.byType(ProcessingView), findsOneWidget);
+    expect(find.byType(LensOrbit), findsOneWidget);
     expect(
       find.descendant(of: find.byType(AppBar), matching: find.text('Checking')),
       findsOneWidget,
