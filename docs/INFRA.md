@@ -9,6 +9,7 @@ Everything lives in one Google Cloud / Firebase project. Created on 2026-10-13.
 | Project number | `115890664288` |
 | Billing account | `01FA9C-7BE321-D68E71` ("My Billing Account", INR), linked |
 | Budget | "contextlens-tekken 1000 INR", id `bf3e279e-1730-4d31-b510-f3087d789813`, alerts at 50%, 90%, 100% |
+| Budget alerts (2026-10-14) | "contextlens-tekken-alert-INR-500" (`5ed999d1-a2e7-44df-8deb-62a6b24d5319`) and "contextlens-tekken-alert-INR-750" (`c1d4f0ce-3f94-4b8d-a3cd-0085194e312f`), filtered to this project, one alert at 100% each, emailed to the billing account's admins (the owner). Budgets only warn: they do not cap or stop spending. |
 | Owner account | arvinth2002ra@gmail.com |
 
 ## Enabled APIs
@@ -48,7 +49,9 @@ run, cloudbuild, artifactregistry, firestore, storage, iam, iamcredentials, aipl
 | Service | `contextlens-api`, `us-central1` |
 | URL | https://contextlens-api-115890664288.us-central1.run.app |
 | Runtime SA | `contextlens-api@contextlens-tekken.iam.gserviceaccount.com` (no keys) |
-| Settings | CPU always allocated (background stage task), min 0, max 3 instances, 512 MiB, concurrency 40, timeout 300 s, public ingress (auth is Firebase ID tokens) |
+| Settings | CPU always allocated, min 0 (set explicitly 2026-10-14), max 3 instances, 1 vCPU, 2 GiB, concurrency 40, timeout 300 s, public ingress (auth is Firebase ID tokens) |
+| Why CPU always allocated | The check runs as a background task after `submit` has already returned 202. With request-based CPU, Cloud Run throttles the CPU once the response is sent and the pipeline would stall, so it must stay on. |
+| Expected cost | Idle: zero per day, because min instances is 0 and the service scales to zero with no traffic. Per check: Cloud Run instance time is about 1 vCPU and 2 GiB for the check (30 to 90 s) plus up to about 15 minutes kept warm afterwards, roughly USD 0.002 active and at most about USD 0.02 if the instance idles out alone (list price about USD 0.08 per hour at 1 vCPU and 2 GiB, before the monthly free tier, which covered all Cloud Run usage so far). Models and APIs add about USD 0.05 per check (benchmark/RESULTS.md). So about USD 0.05 to 0.07, or roughly INR 4 to 6, per check. |
 | Env | `GOOGLE_CLOUD_PROJECT`, `BUCKET`, `SERVICE_ACCOUNT`, `ENFORCE_APP_CHECK=true` (since revision 00007, 2026-10-13), `STUB_STAGE_SECONDS=5`. Memory 2 GiB (videos are downloaded to the in-memory /tmp). `FACTCHECK_API_KEY` from Secret Manager `factcheck-api-key:latest`. Pipeline: `PIPELINE_MODE=real` (since revision 00008; `stub` walks fixtures), `GEMINI_MODEL=gemini-2.5-flash`, `GEMINI_LOCATION=us-central1`, `SPEECH_LOCATION=us`, `SPEECH_LANGUAGES=auto` (defaults in `backend/app/config.py`) |
 
 Runtime SA roles: custom `projects/contextlens-tekken/roles/groundingChecker` (only `discoveryengine.groundingConfigs.check`, for Vertex Check Grounding), `roles/datastore.user`, `roles/aiplatform.user`, `roles/speech.client`, `roles/firebaseauth.viewer`, `roles/firebaseappcheck.tokenVerifier`, `roles/firebasecloudmessaging.admin`, `roles/logging.logWriter` (project); `roles/storage.objectAdmin` (bucket); `roles/iam.serviceAccountTokenCreator` on itself, so it can sign V4 URLs through IAM signBlob.
