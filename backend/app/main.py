@@ -109,6 +109,34 @@ def create_upload(body: UploadRequest, caller: Caller = Depends(verify_caller)) 
     }
 
 
+CLIP_TYPES = {"video/mp4", "video/quicktime", "video/webm", "audio/mpeg", "audio/mp4", "audio/aac", "audio/wav", "audio/x-wav"}
+MAX_CLIP_BYTES = 200 * 1024 * 1024
+
+
+class ClipUploadRequest(BaseModel):
+    index: int = Field(ge=0, lt=20)
+    contentType: str
+    sizeBytes: int = Field(gt=0)
+
+
+@app.post("/v1/jobs/{job_id}/clips", status_code=201)
+def create_clip_upload(job_id: str, body: ClipUploadRequest, caller: Caller = Depends(verify_caller)) -> dict:
+    """A resumable upload URL for the original of a borrowed clip, so the
+    pipeline can compare the creator's cut with it. Only before submit."""
+    _, job = _owned_job(job_id, caller)
+    if job.get("status") != "uploading":
+        raise ApiError(409, "already_submitted", "This check has already started.")
+    if body.contentType not in CLIP_TYPES:
+        raise ApiError(400, "unsupported_type", "Attach the clip as a video or audio file.")
+    if body.sizeBytes > MAX_CLIP_BYTES:
+        raise ApiError(413, "too_large", "Clips can be up to 200 MB.")
+    object_name = storage.clip_object(caller.uid, job_id, body.index)
+    return {
+        "uploadUrl": storage.resumable_start_url(object_name, body.contentType, body.sizeBytes),
+        "uploadUrlExpiresAt": _iso(_now() + timedelta(minutes=settings.signed_url_minutes)),
+    }
+
+
 class VideoInfo(BaseModel):
     durationMs: int = Field(ge=0)
     width: int = Field(ge=0)
@@ -171,6 +199,12 @@ def submit(
     clean["caption"] = _clean(clean["caption"])
     if clean.get("brandName"):
         clean["brandName"] = _clean(clean["brandName"])
+
+    for index, clip in enumerate(clean.get("borrowedClips") or []):
+        if clip.get("fileName"):
+            if storage.object_size(storage.clip_object(caller.uid, job_id, index)) is None:
+                raise ApiError(409, "clip_missing", "An attached clip didn't finish uploading. Try again.", retryable=True)
+            clip["objectName"] = storage.clip_object(caller.uid, job_id, index)
 
     parent = None
     if body.parentJobId:

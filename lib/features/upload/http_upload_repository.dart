@@ -177,6 +177,7 @@ class HttpUploadRepository implements UploadRepository {
     required DeclarationDraft declaration,
     String? parentJobId,
   }) async {
+    await _uploadClips(session.jobId, declaration);
     try {
       await _api.post('/v1/jobs/${session.jobId}/submit', {
         'declaration': declaration.toJson(),
@@ -193,6 +194,58 @@ class HttpUploadRepository implements UploadRepository {
     _sessions.remove(session.jobId);
     await _store.clear();
     return session.jobId;
+  }
+
+  static const _clipTypes = {
+    'mp4': 'video/mp4',
+    'mov': 'video/quicktime',
+    'webm': 'video/webm',
+    'mp3': 'audio/mpeg',
+    'm4a': 'audio/mp4',
+    'aac': 'audio/aac',
+    'wav': 'audio/wav',
+  };
+
+  /// Sends each attached clip original to `clips/{index}` before submit, so
+  /// the backend can compare the creator's cut with it. Clips are small,
+  /// so each goes in one request.
+  Future<void> _uploadClips(String jobId, DeclarationDraft declaration) async {
+    for (final (index, clip) in declaration.clips.indexed) {
+      final path = clip.filePath;
+      if (path == null) continue;
+      final file = File(path);
+      final extension = path.split('.').last.toLowerCase();
+      final type = _clipTypes[extension] ?? 'video/mp4';
+      try {
+        final size = await file.length();
+        final created = await _api.post('/v1/jobs/$jobId/clips', {
+          'index': index,
+          'contentType': type,
+          'sizeBytes': size,
+        });
+        final sessionUri = await _openSession(
+          Uri.parse(created['uploadUrl'] as String),
+          type,
+          size,
+        );
+        await _gcs.put<void>(
+          sessionUri,
+          data: file.openRead(),
+          options: Options(
+            headers: {
+              'Content-Range': chunkRange(0, size - 1, size),
+              Headers.contentLengthHeader: size,
+            },
+          ),
+        );
+      } on ApiException catch (e) {
+        throw UploadException(_failureFor(e));
+      } on DioException catch (e) {
+        throw UploadException(_gcsFailure(e));
+      } on FileSystemException {
+        throw const UploadException(UploadRejected('clip_unreadable'));
+      }
+    }
   }
 
   @override

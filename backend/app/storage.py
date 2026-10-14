@@ -22,6 +22,11 @@ def source_object(uid: str, job_id: str) -> str:
     return f"uploads/{uid}/{job_id}/source"
 
 
+def clip_object(uid: str, job_id: str, index: int) -> str:
+    """The original of borrowed clip `index`, when the creator attached it."""
+    return f"uploads/{uid}/{job_id}/clips/{index}"
+
+
 def _signing_kwargs() -> dict:
     if not _credentials.valid:
         _credentials.refresh(google_requests.Request())

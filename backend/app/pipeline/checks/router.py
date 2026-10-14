@@ -2,6 +2,8 @@
 and collects their candidate flags."""
 
 import asyncio
+import json
+import logging
 import operator
 from typing import Annotated, TypedDict
 
@@ -12,6 +14,7 @@ from . import borrowed, claims, disclosure, factcheck
 from .candidate import Candidate
 
 STAGE = "checking"
+log = logging.getLogger(__name__)
 
 
 class CheckState(TypedDict):
@@ -30,13 +33,29 @@ def routes(ctx: CheckContext) -> list[str]:
     wanted: list[str] = []
     if ctx.declaration.get("isPaid") or any(i["type"] in {"material_connection", "promo_offer"} for i in ledger):
         wanted.append("disclosure")
-    if any(i["type"] in claims.CLAIM_TYPES and "claims" in i.get("checks", []) for i in ledger):
+    if any(claims.wants(i) for i in ledger):
         wanted.append("claims")
-    if any(i["type"] in factcheck.FACT_TYPES and "factcheck" in i.get("checks", []) for i in ledger):
+    if any(i["type"] in factcheck.FACT_TYPES and "startMs" in i for i in ledger):
         wanted.append("factcheck")
-    if any(c.get("url") for c in ctx.declaration.get("borrowedClips") or []):
+    if any(borrowed.has_source(c) for c in ctx.declaration.get("borrowedClips") or []):
         wanted.append("borrowed")
     return wanted or [END]
+
+
+def _guarded(name: str, node):
+    """One checker failing (model capacity, a bad page) must not sink the
+    report: its flags are missing, and the job says which checker skipped."""
+
+    async def run(state: CheckState) -> dict:
+        try:
+            return await node(state)
+        except Exception as error:  # noqa: BLE001
+            log.warning(json.dumps({"event": "checker_failed", "jobId": state["ctx"].job_id, "checker": name,
+                                    "error": type(error).__name__}))
+            state["ctx"].data.setdefault("skipped", []).append(name)
+            return {"candidates": []}
+
+    return run
 
 
 async def _disclosure(state: CheckState) -> dict:
@@ -61,10 +80,10 @@ async def _borrowed(state: CheckState) -> dict:
 
 def _build():
     graph = StateGraph(CheckState)
-    graph.add_node("disclosure", _disclosure)
-    graph.add_node("claims", _claims)
-    graph.add_node("factcheck", _factcheck)
-    graph.add_node("borrowed", _borrowed)
+    graph.add_node("disclosure", _guarded("disclosure", _disclosure))
+    graph.add_node("claims", _guarded("claims", _claims))
+    graph.add_node("factcheck", _guarded("factcheck", _factcheck))
+    graph.add_node("borrowed", _guarded("borrowed", _borrowed))
     graph.add_conditional_edges(
         START,
         lambda state: routes(state["ctx"]),

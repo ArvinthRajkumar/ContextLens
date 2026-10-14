@@ -47,6 +47,9 @@ _Job _$JobFromJson(Map<String, dynamic> json) => _Job(
           ?.map((e) => Flag.fromJson(e as Map<String, dynamic>))
           .toList() ??
       const <Flag>[],
+  skipped:
+      (json['skipped'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const <String>[],
 );
 
 Map<String, dynamic> _$JobToJson(_Job instance) => <String, dynamic>{
@@ -66,6 +69,7 @@ Map<String, dynamic> _$JobToJson(_Job instance) => <String, dynamic>{
   'comparison': instance.comparison?.toJson(),
   'error': instance.error?.toJson(),
   'flags': instance.flags.map((e) => e.toJson()).toList(),
+  'skipped': instance.skipped,
 };
 
 const _$JobStatusEnumMap = {

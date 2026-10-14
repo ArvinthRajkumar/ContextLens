@@ -113,13 +113,17 @@ def align(clip_text: str, source_text: str) -> Alignment | None:
         if gap >= _SPLICE_WORDS and nxt.b == prev.b + prev.size:
             splices.append(" ".join(window_shown[prev.a + prev.size : nxt.a]))
     for op, a0, a1, b0, b1 in matcher.get_opcodes():
+        # Shared words are shown as the source wrote them; segments carry
+        # their own leading space so the app can join them as they are.
         if op == "equal":
-            segments.append({"op": "equal", "text": " ".join(clip_shown[b0:b1])})
+            segments.append({"op": "equal", "text": " ".join(window_shown[a0:a1])})
         else:
             if a1 > a0:
                 segments.append({"op": "delete", "text": " ".join(window_shown[a0:a1])})
             if b1 > b0:
                 segments.append({"op": "insert", "text": " ".join(clip_shown[b0:b1])})
+    for segment in segments[1:]:
+        segment["text"] = " " + segment["text"]
 
     matched_end = lo + (blocks[-1].a + blocks[-1].size if blocks else 0)
     cut_mid = bool(last) and matched_end < hi and hi - matched_end >= _SPLICE_WORDS

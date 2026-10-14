@@ -19,6 +19,7 @@ import 'package:contextlens/features/report/playback.dart';
 import 'package:contextlens/features/report/report_video.dart';
 import 'package:contextlens/features/report/run_comparison.dart';
 import 'package:contextlens/features/report/run_history.dart';
+import 'package:contextlens/features/report/skipped_notice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -273,6 +274,10 @@ class _ReportState extends ConsumerState<_Report> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             _Summary(job: job, reveal: stagger),
+                            if (job.skipped.isNotEmpty) ...[
+                              const SizedBox(height: Spacing.space4),
+                              SkippedNotice(skipped: job.skipped),
+                            ],
                             if (comparison != null) ...[
                               const SizedBox(height: Spacing.space4),
                               RunComparisonCard(

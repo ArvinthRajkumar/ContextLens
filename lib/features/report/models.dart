@@ -56,6 +56,10 @@ abstract class Job with _$Job {
     RunComparison? comparison,
     JobError? error,
     @Default(<Flag>[]) List<Flag> flags,
+
+    /// Checkers that couldn't run this time ("factcheck", ...): the report
+    /// is partial and says so.
+    @Default(<String>[]) List<String> skipped,
   }) = _Job;
 
   const Job._();

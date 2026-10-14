@@ -43,7 +43,7 @@ def haystack(ev: Evidence, sources: Sources) -> str | None:
             return sources.screen
         case "caption":
             return sources.caption
-        case "page" | "factcheck" | "source_transcript":
+        case "page" | "grounding" | "factcheck" | "source_transcript":
             return sources.pages.get(ev.ref)
     return None
 

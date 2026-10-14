@@ -1,0 +1,226 @@
+{
+  "_about": "Synthetic recreations: every reel is generated (Gemini TTS voice, stock footage, burned-in overlays) from a script modelled on a type of case ASCI handles, not a real creator's video. Times are seconds. 'end' in an overlay means the video's last second.",
+  "compliance": [
+    {
+      "id": "C01",
+      "decisionType": "Paid promotion with no disclosure anywhere",
+      "voice": "Kore",
+      "script": "Hey guys! I have been using GlowLeaf vitamin C serum for two weeks and my skin looks so fresh. GlowLeaf paid me to try it, and honestly I love it. It is just four hundred and ninety nine rupees on their website. Use my code ANJALI15 for fifteen percent off. Link in bio!",
+      "overlays": [{"text": "GlowLeaf serum", "start": 1, "end": 5, "pos": "top"}, {"text": "Code ANJALI15", "start": 12, "end": 18, "pos": "bottom"}],
+      "declaration": {"caption": "My new skincare favourite ✨ #skincare #glowup #serum", "isPaid": true, "brandName": "GlowLeaf", "category": "general"},
+      "expect": {"flags": [
+        {"category": "disclosure", "clauses": ["asci-ig/1", "asci-ig/1.1(a)", "asci-ig/1.1(b)"]},
+        {"category": "disclosure", "clauses": ["asci-ig/1.2(d)(I)", "asci-ig/1.2(d)(II)", "asci-ig/1.2(d)(III)"]}
+      ]}
+    },
+    {
+      "id": "C02",
+      "decisionType": "Disclosure label shown too late and too briefly",
+      "voice": "Puck",
+      "script": "This is my honest review of the Rockerz headphones from SoundNest. SoundNest partnered with me for this video. The bass is punchy, the battery lasted me almost three days, and the call quality is clear even on a busy road. For the price, these are a solid pick if you commute a lot. That's my review, see you in the next one.",
+      "overlays": [{"text": "SoundNest Rockerz review", "start": 0.5, "end": 4, "pos": "top"}, {"text": "#ad", "start": "end-2", "end": "end", "pos": "top", "size": 22}],
+      "declaration": {"caption": "Ad: SoundNest Rockerz, my honest review #tech #headphones", "isPaid": true, "brandName": "SoundNest", "category": "general"},
+      "expect": {"flags": [{"category": "disclosure", "clauses": ["asci-ig/1.2(d)(II)", "asci-ig/1.2(d)(I)"]}]}
+    },
+    {
+      "id": "C03",
+      "decisionType": "Label buried in a block of hashtags",
+      "voice": "Aoede",
+      "script": "Packing for Goa with the new TripTote cabin bag. TripTote sent this to me as a collaboration. It has a separate shoe pocket, a laptop sleeve and it fits under the seat of every airline I tried. Let me show you how I pack five days of clothes in it.",
+      "overlays": [{"text": "Collaboration with TripTote", "start": 0.5, "end": "end", "pos": "top", "size": 26}],
+      "declaration": {"caption": "Five days in one cabin bag! #travel #goa #packing #carryon #travelhacks #triptote #collab", "isPaid": true, "brandName": "TripTote", "category": "general"},
+      "expect": {"flags": [{"category": "disclosure", "clauses": ["asci-ig/1.2(c)", "asci-ig/1.2(b)"]}]}
+    },
+    {
+      "id": "C04",
+      "decisionType": "Gifted product presented as a personal find",
+      "voice": "Kore",
+      "script": "Okay so FitNest sent me their whey protein for free and I have been drinking it after every workout. The chocolate flavour actually tastes like a milkshake. Twenty four grams of protein per scoop. I'll put the link in my bio.",
+      "overlays": [{"text": "FitNest whey", "start": 1, "end": 6, "pos": "bottom"}],
+      "declaration": {"caption": "Post workout routine 💪 #fitness #protein #gym", "isPaid": false, "category": "health"},
+      "expect": {"flags": [
+        {"category": "disclosure", "clauses": ["asci-ig/1", "asci-ig/1.1(a)", "asci-ig/1.1(b)"]},
+        {"category": "disclosure", "clauses": ["asci-ig/1.2(d)(I)", "asci-ig/1.2(d)(II)", "asci-ig/1.2(d)(III)"]}
+      ]}
+    },
+    {
+      "id": "C05",
+      "decisionType": "Health product promising the user will never fall ill",
+      "voice": "Charon",
+      "script": "Namaste friends. This is my grandmother's kadha recipe, now available as AyurBoost capsules. Take two capsules every morning and you will never fall sick again, not even once. Your immunity becomes one hundred percent strong. Everyone in my family takes it.",
+      "overlays": [{"text": "AyurBoost capsules", "start": 2, "end": 7, "pos": "bottom"}],
+      "declaration": {"caption": "Ad: AyurBoost, our family secret #ayurveda #immunity", "isPaid": true, "brandName": "AyurBoost", "category": "health"},
+      "expect": {"flags": [{"category": "claims", "clauses": ["asci-code/I.1.1", "asci-code/I.1.4", "asci-code/I.1.5", "asci-code/I.ex(d)", "asci-ig/2", "asci-ig/add2-I", "asci-ig/add2-I.2"]}], "allow": ["disclosure", "factcheck"]}
+    },
+    {
+      "id": "C06",
+      "decisionType": "Product claimed to reverse diabetes (Drugs and Magic Remedies Act)",
+      "voice": "Puck",
+      "script": "My father had diabetes for ten years. Then he started drinking SugarFree Karela juice every morning. In three months his diabetes reversed completely and he stopped taking insulin. If you have diabetes, try this juice before any medicine.",
+      "overlays": [{"text": "SugarFree Karela juice", "start": 1, "end": 6, "pos": "top"}],
+      "declaration": {"caption": "Ad: How my father beat diabetes #diabetes #health", "isPaid": true, "brandName": "SugarFree Karela", "category": "health"},
+      "expect": {"flags": [{"category": "claims", "clauses": ["dmr-act/3(d)", "dmr-act/4"]}], "allow": ["disclosure", "factcheck", "claims"]}
+    },
+    {
+      "id": "C07",
+      "decisionType": "Investment app promising guaranteed returns",
+      "voice": "Fenrir",
+      "script": "Stop keeping money in a savings account. With the GrowFast app you get guaranteed fifteen percent returns every year with zero risk. My money doubled in five years. Download GrowFast from my link and start with just one hundred rupees.",
+      "overlays": [{"text": "Guaranteed 15% returns", "start": 3, "end": 9, "pos": "middle"}],
+      "declaration": {"caption": "Ad: How I grow my money #finance #investing", "isPaid": true, "brandName": "GrowFast", "category": "finance"},
+      "expect": {"flags": [{"category": "claims", "clauses": ["asci-code/I.ex(e)", "asci-code/I.1.5", "asci-code/I.1.4", "asci-code/I.1.1", "asci-ig/add2-I.1", "asci-ig/add2-I"]}], "allow": ["disclosure", "factcheck", "visuals"]}
+    },
+    {
+      "id": "C08",
+      "decisionType": "Before and after weight loss claim",
+      "voice": "Aoede",
+      "script": "Look at my before and after. I lost ten kilos in just seven days with SlimLeaf tea. No gym, no diet, just one cup at night. This tea melts belly fat while you sleep.",
+      "overlays": [{"text": "BEFORE", "start": 0.5, "end": 4, "pos": "middle", "size": 48}, {"text": "AFTER 7 DAYS", "start": 4, "end": 8, "pos": "middle", "size": 48}],
+      "declaration": {"caption": "Ad: SlimLeaf changed my life #weightloss", "isPaid": true, "brandName": "SlimLeaf", "category": "health"},
+      "expect": {"flags": [{"category": "claims", "clauses": ["asci-code/I.1.1", "asci-code/I.1.4", "asci-code/I.1.5", "asci-code/I.ex(d)", "dmr-act/3(d)", "dmr-act/4"]}], "allow": ["disclosure", "factcheck", "visuals"]}
+    },
+    {
+      "id": "C09",
+      "decisionType": "Affiliate link and code with no label",
+      "voice": "Puck",
+      "script": "These are the three gadgets I use every single day at my desk. A mechanical keyboard, a monitor light bar and a cable organiser. All three are on Amazon and the links are in my bio. Use my code RAHUL10 at checkout.",
+      "overlays": [{"text": "Links in bio, code RAHUL10", "start": 8, "end": 13, "pos": "bottom"}],
+      "declaration": {"caption": "Desk setup essentials #desksetup #tech", "isPaid": true, "brandName": "Amazon affiliate", "category": "general"},
+      "expect": {"flags": [
+        {"category": "disclosure", "clauses": ["asci-ig/1", "asci-ig/1.1(a)", "asci-ig/1.1(b)"]},
+        {"category": "disclosure", "clauses": ["asci-ig/1.2(d)(I)", "asci-ig/1.2(d)(II)", "asci-ig/1.2(d)(III)"]}
+      ]}
+    },
+    {
+      "id": "C10",
+      "decisionType": "Short reel with a one second label",
+      "voice": "Kore",
+      "script": "Quick look at the new PeachPop lip tint. PeachPop sent it over. One swipe, lasts all day.",
+      "overlays": [{"text": "Ad", "start": 1, "end": 2, "pos": "top", "size": 24}],
+      "declaration": {"caption": "Ad: PeachPop lip tint #beauty", "isPaid": true, "brandName": "PeachPop", "category": "general"},
+      "expect": {"flags": [{"category": "disclosure", "clauses": ["asci-ig/1.2(d)(I)"]}]}
+    },
+    {
+      "id": "C11",
+      "decisionType": "Unregistered stock tip framed as advice",
+      "voice": "Fenrir",
+      "script": "Listen carefully. Buy Kaveri Infra shares tomorrow morning before the market opens. This small cap stock will double in one month, I am one hundred percent sure. I have put my entire savings in it. Do not miss this chance.",
+      "overlays": [{"text": "Stock tip: Kaveri Infra", "start": 1, "end": 6, "pos": "top"}],
+      "declaration": {"caption": "My top pick this month #stocks #sharemarket", "isPaid": false, "category": "finance"},
+      "expect": {"flags": [{"category": "claims", "clauses": ["asci-ig/add2-I.1", "asci-ig/add2-I", "asci-code/I.ex(e)", "asci-code/I.1.5", "asci-code/I.1.4", "asci-code/I.1.1"]}], "allow": ["factcheck", "disclosure"]}
+    },
+    {
+      "id": "C12",
+      "decisionType": "Oil claimed to normalise blood pressure (Drugs and Magic Remedies Act)",
+      "voice": "Charon",
+      "script": "My blood pressure was always high. Since I started cooking only in HeartPure oil, my BP is normal and I do not need my blood pressure tablets anymore. Switch to HeartPure and say goodbye to BP medicines.",
+      "overlays": [{"text": "HeartPure oil", "start": 1, "end": 6, "pos": "bottom"}],
+      "declaration": {"caption": "Ad: The oil that fixed my BP #health #cooking", "isPaid": true, "brandName": "HeartPure", "category": "health"},
+      "expect": {"flags": [{"category": "claims", "clauses": ["dmr-act/3(d)", "dmr-act/4"]}], "allow": ["disclosure", "factcheck", "claims"]}
+    }
+  ],
+  "controls": [
+    {
+      "id": "K1",
+      "decisionType": "Control: home recipe, no brand, no claims",
+      "voice": "Kore",
+      "script": "Today I'm making simple jeera rice. Heat a spoon of ghee, add cumin seeds, let them splutter, then add washed basmati rice and two cups of water. Cook on low for fifteen minutes and fluff it with a fork.",
+      "overlays": [{"text": "Jeera rice in 15 minutes", "start": 0.5, "end": 5, "pos": "top"}],
+      "declaration": {"caption": "Easy jeera rice for busy weeknights #recipe #indianfood", "isPaid": false, "category": "general"},
+      "expect": {"flags": []}
+    },
+    {
+      "id": "K2",
+      "decisionType": "Control: paid post disclosed properly",
+      "voice": "Aoede",
+      "script": "This video is a paid partnership with ChaiCraft. I tried their masala chai premix this week. It takes two minutes, the cardamom comes through nicely, and it's not too sweet. If you like strong chai, it's worth a try.",
+      "overlays": [{"text": "Ad: Paid partnership with ChaiCraft", "start": 0, "end": "end", "pos": "top", "size": 24}],
+      "declaration": {"caption": "Ad: Paid partnership with ChaiCraft. Trying their masala chai premix #chai", "isPaid": true, "brandName": "ChaiCraft", "category": "general"},
+      "expect": {"flags": []}
+    },
+    {
+      "id": "K3",
+      "decisionType": "Control: travel vlog with general facts",
+      "voice": "Puck",
+      "script": "Welcome to Jaipur, the capital of Rajasthan. It is called the Pink City because many buildings in the old city are painted pink. Today we are visiting Hawa Mahal and then having dal baati churma for lunch.",
+      "overlays": [{"text": "Jaipur day 1", "start": 0.5, "end": 4, "pos": "top"}],
+      "declaration": {"caption": "Jaipur diaries, day 1 #travel #jaipur", "isPaid": false, "category": "general"},
+      "expect": {"flags": []}
+    },
+    {
+      "id": "K4",
+      "decisionType": "Control: personal book review, bought by the creator",
+      "voice": "Charon",
+      "script": "I bought this novel last month and finished it in two days. The story follows three friends growing up in Kolkata. Some chapters were slow, but the ending stayed with me. I'd give it four out of five.",
+      "overlays": [{"text": "Book review", "start": 0.5, "end": 4, "pos": "top"}],
+      "declaration": {"caption": "What I read this month #booktok #books", "isPaid": false, "category": "general"},
+      "expect": {"flags": []}
+    }
+  ],
+  "borrowed": [
+    {
+      "id": "B01",
+      "kind": "splice",
+      "voice": "Charon",
+      "label": "Health Matters podcast, Dr. Meera Iyer",
+      "source": "Thanks for having me. People often ask me about intermittent fasting. Fasting for sixteen hours can help some adults lose weight. But if you have diabetes, you should never try it without your doctor. Low blood sugar can be dangerous. Most people see results in about a month. Drink enough water and sleep well.",
+      "keep": [[2, 2], [5, 5]],
+      "expect": {"flag": true}
+    },
+    {
+      "id": "B02",
+      "kind": "cut_mid_sentence",
+      "voice": "Fenrir",
+      "label": "Money Talks show, episode 40",
+      "source": "Let's talk about mutual funds. Small cap funds have given high returns over the last five years, but only for investors who could stay invested through big falls. Past returns do not guarantee future returns. Please read the scheme documents carefully.",
+      "keep": [[1, 1, 11]],
+      "expect": {"flag": true}
+    },
+    {
+      "id": "B03",
+      "kind": "omitted_next",
+      "voice": "Aoede",
+      "label": "City news bulletin",
+      "source": "Good evening. The city corporation says tap water in the northern wards is safe to drink. However, residents of ward twelve should boil water for one more week. Repairs to the main pipeline will finish by Friday.",
+      "keep": [[1, 1]],
+      "expect": {"flag": true}
+    },
+    {
+      "id": "B04",
+      "kind": "splice",
+      "voice": "Puck",
+      "label": "Cricket post-match interview",
+      "source": "It was a tough game today. Our bowlers did well in the first ten overs. I don't think we deserved to win this match. The pitch was slow in the second half. The fielding let us down badly. We will work on it before the next game.",
+      "keep": [[0, 0], [2, 2]],
+      "expect": {"flag": false, "note": "Splice that keeps the meaning; a lenient system may still flag it."}
+    },
+    {
+      "id": "B05",
+      "kind": "faithful",
+      "voice": "Kore",
+      "label": "Cooking show, episode 8",
+      "source": "Welcome back to the kitchen. Today we are making poha. Rinse the flattened rice quickly so it does not turn mushy. Add mustard seeds, curry leaves and onions to hot oil. Finish with lemon juice and fresh coriander.",
+      "keep": [[2, 3]],
+      "expect": {"flag": false}
+    },
+    {
+      "id": "B06",
+      "kind": "faithful",
+      "voice": "Charon",
+      "label": "Science explainer, monsoon",
+      "source": "Every year the monsoon reaches Kerala in early June. It is driven by the difference in temperature between land and sea. The rains then move north over the following weeks. Farmers across India plan their sowing around it.",
+      "keep": [[0, 1]],
+      "expect": {"flag": false}
+    }
+  ],
+  "factchecks": [
+    {"id": "F01", "voice": "Puck", "script": "Big news guys. From April, all UPI payments above two thousand rupees will be charged one point one percent. So use cash for big payments.", "claim": "All UPI payments above Rs 2000 will be charged 1.1 percent", "rating": "False", "publisher": "The Quint", "url": "https://www.thequint.com/news/webqoof/upi-transactions-users-will-not-have-to-pay-11-inter"},
+    {"id": "F02", "voice": "Kore", "script": "Reminder for everyone. As per the new RBI rule, banks will be closed every Saturday and Sunday from now on. Plan your bank visits.", "claim": "As per a new RBI rule, banks will be closed every Saturday and Sunday", "rating": "False", "publisher": "FACTLY", "url": "https://factly.in/rbi-has-not-implemented-a-new-rule-mandating-a-holiday-for-banks-every-saturday/"},
+    {"id": "F03", "voice": "Aoede", "script": "My grandmother's tip for this season. Keep a cut onion in every room. Onions absorb bacteria from the air and prevent the flu.", "claim": "Onions absorb bacteria and prevent the flu", "rating": "False", "publisher": "Vishvas News", "url": "https://www.vishvasnews.com/english/health/fact-check-post-claiming-onions-absorb-bacteria"},
+    {"id": "F04", "voice": "Charon", "script": "Start your day with hot lemon water. Drinking hot lemon water kills cancer cells, doctors don't tell you this.", "claim": "Drinking hot lemon water kills cancer cells", "rating": "False", "publisher": "FACTLY / BOOM", "url": "https://factly.in/no-scientific-basis-for-claims-of-curing-cancer-with-a-sugar-free-diet-drinking-ho"},
+    {"id": "F05", "voice": "Fenrir", "script": "Withdraw your cash now. RBI has asked banks to stop giving five hundred rupee notes from ATMs by September.", "claim": "RBI has asked banks to stop dispensing Rs 500 notes from ATMs", "rating": "False", "publisher": "PIB Fact Check / The Quint", "url": "https://www.angelone.in/news/market-updates/pib-fact-check-has-the-rbi-asked-banks-to-stop-dispensing-500-notes-from-atms-by-september"},
+    {"id": "F06", "voice": "Kore", "script": "This is an ancient remedy. Turmeric juice mixed with cow urine in the right proportion can cure cancer completely.", "claim": "Turmeric juice and cow urine can cure cancer completely", "rating": "False", "publisher": "Vishvas News", "url": "https://www.vishvasnews.com/english/health/fact-check-post-claiming-that-consuming-turmeric-juice-co"},
+    {"id": "F07", "voice": "Puck", "script": "If someone has dengue, give them papaya leaf juice. Papaya leaves increase platelets in just twelve hours.", "claim": "Papaya leaves can increase platelet count in just 12 hours", "rating": "Half True", "publisher": "THIP Media", "url": "https://www.thip.media/health-news-fact-check/fact-check-do-papaya-leaves-increase-platelet-in-just-"},
+    {"id": "F08", "voice": "Aoede", "script": "Good news for dengue patients. Medicines made from papaya leaf extract cure dengue, so you don't need the hospital.", "claim": "Medicines from papaya leaf extract cure dengue", "rating": "Misleading", "publisher": "BOOM", "url": "https://www.boomlive.in/do-pepaero-and-caripill-cure-dengue-a-factcheck"}
+  ]
+}

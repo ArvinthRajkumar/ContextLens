@@ -69,8 +69,9 @@ Times are seconds from the start of the video. Return empty lists when there is 
 
 
 def analyse(ctx: CheckContext, stage: str, video_uri: str, mime_type: str, duration_ms: int | None) -> VisualFacts:
-    # Two frames a second keeps label durations accurate on short videos;
-    # long ones drop to one to bound the token cost.
+    # Two frames a second keeps label durations accurate to half a second on
+    # reels; long videos drop to one. Low resolution is plenty for overlay
+    # text and cuts the tokens (and the wait) by about four.
     fps = 2.0 if (duration_ms or 0) <= 180_000 else 1.0
     video = types.Part(
         file_data=types.FileData(file_uri=video_uri, mime_type=mime_type),
@@ -82,4 +83,7 @@ def analyse(ctx: CheckContext, stage: str, video_uri: str, mime_type: str, durat
         [types.Content(role="user", parts=[video, types.Part(text="List what is on screen.")])],
         VisualFacts,
         _SYSTEM,
+        thinking_budget=0,
+        media_resolution=types.MediaResolution.MEDIA_RESOLUTION_LOW,
+        attempt_seconds=45,
     )

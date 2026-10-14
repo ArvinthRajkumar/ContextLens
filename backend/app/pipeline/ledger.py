@@ -225,7 +225,9 @@ def build(
     sents = sentences(transcript)
     picks: list[Pick] = []
     if sents or visual.screen_text:
-        picks = generate(ctx, stage, [_prompt(sents, visual, declaration)], Picks, _SYSTEM).items
+        picks = generate(
+            ctx, stage, [_prompt(sents, visual, declaration)], Picks, _SYSTEM, thinking_budget=1024
+        ).items
 
     items: list[dict] = []
     seen: set[tuple] = set()

@@ -6,6 +6,7 @@ import json
 import logging
 import os
 import tempfile
+import time
 
 from .. import storage
 from .base import CheckContext, StageResult
@@ -17,6 +18,14 @@ from .speech import Transcript, transcribe
 from .visual import VisualFacts, analyse
 
 log = logging.getLogger(__name__)
+
+
+async def _timed(timings: dict, key: str, work):
+    started = time.monotonic()
+    try:
+        return await work
+    finally:
+        timings[key] = int((time.monotonic() - started) * 1000)
 
 
 def _job_prefix(ctx: CheckContext) -> str:
@@ -31,26 +40,36 @@ class RealExtract:
 
     async def run(self, ctx: CheckContext) -> StageResult:
         ctx.progress("Transcribing audio and reading on-screen text")
-        with tempfile.TemporaryDirectory() as tmp:
-            video = os.path.join(tmp, "source")
-            await asyncio.to_thread(storage.download, ctx.object_name, video)
-            duration_ms, has_audio = await asyncio.to_thread(probe, video)
-            if duration_ms is None:
-                raise MediaError("video_unreadable")
-            ctx.duration_ms = ctx.duration_ms or duration_ms
-
-            transcript, visual = await asyncio.gather(
-                self._speech(ctx, video, tmp, duration_ms, has_audio),
-                asyncio.to_thread(
-                    analyse, ctx, self.name, storage.gcs_uri(ctx.object_name), ctx.content_type, duration_ms
-                ),
-            )
+        timings = ctx.data.setdefault("timings", {})
+        # Gemini reads the video straight from GCS, so it starts before the
+        # download that speech needs. The app sends the duration; probing
+        # only fills it in for clients that don't.
+        visual_task = asyncio.create_task(
+            _timed(timings, "visualMs", asyncio.to_thread(
+                analyse, ctx, self.name, storage.gcs_uri(ctx.object_name), ctx.content_type, ctx.duration_ms
+            ))
+        )
+        try:
+            with tempfile.TemporaryDirectory() as tmp:
+                video = os.path.join(tmp, "source")
+                await asyncio.to_thread(storage.download, ctx.object_name, video)
+                duration_ms, has_audio = await asyncio.to_thread(probe, video)
+                if duration_ms is None:
+                    raise MediaError("video_unreadable")
+                ctx.duration_ms = ctx.duration_ms or duration_ms
+                transcript = await _timed(timings, "speechMs", self._speech(ctx, video, tmp, duration_ms, has_audio))
+            visual = await visual_task
+        finally:
+            if not visual_task.done():
+                visual_task.cancel()
 
         ctx.data["transcript"] = transcript
         ctx.data["visual"] = visual
         prefix = _job_prefix(ctx)
-        await asyncio.to_thread(storage.upload_text, json.dumps(transcript.to_json()), f"{prefix}/transcript.json")
-        await asyncio.to_thread(storage.upload_text, visual.model_dump_json(), f"{prefix}/visual.json")
+        await asyncio.gather(
+            asyncio.to_thread(storage.upload_text, json.dumps(transcript.to_json()), f"{prefix}/transcript.json"),
+            asyncio.to_thread(storage.upload_text, visual.model_dump_json(), f"{prefix}/visual.json"),
+        )
         words = len(transcript.words)
         detail = f"{words} words heard, {len(visual.screen_text)} on-screen texts"
         ctx.progress(detail)

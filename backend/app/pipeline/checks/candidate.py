@@ -3,7 +3,9 @@
 from dataclasses import dataclass, field
 from typing import Literal
 
-EvidenceKind = Literal["clause", "transcript", "screen", "caption", "page", "factcheck", "source_transcript"]
+EvidenceKind = Literal[
+    "clause", "transcript", "screen", "caption", "page", "grounding", "factcheck", "source_transcript"
+]
 
 
 @dataclass(frozen=True)

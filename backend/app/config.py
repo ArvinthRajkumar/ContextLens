@@ -33,6 +33,9 @@ class Settings:
     # Flash models are only on the global endpoint (GEMINI_LOCATION=global).
     gemini_model: str = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
     gemini_location: str = os.environ.get("GEMINI_LOCATION", "us-central1")
+    # Last-round fallback when the regional endpoint keeps answering 429 or
+    # 504 (shared capacity); empty turns it off.
+    gemini_fallback_location: str = os.environ.get("GEMINI_FALLBACK_LOCATION", "global")
     # Chirp 3 runs in the "us" multi-region.
     speech_location: str = os.environ.get("SPEECH_LOCATION", "us")
     # "auto" keeps Hinglish in Latin script and Hindi in Devanagari; listing

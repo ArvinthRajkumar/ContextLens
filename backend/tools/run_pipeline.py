@@ -69,6 +69,8 @@ async def main() -> None:
             await stage.run(ctx)
             tokens = ctx.tokens.get(stage.name, {"input": 0, "output": 0})
             print(f"  {int((time.monotonic() - started) * 1000)} ms, tokens in {tokens['input']} out {tokens['output']}")
+            if stage.name == "extract":
+                print(f"  {ctx.data.get('timings')}")
     finally:
         storage.delete_prefix(f"{prefix}/")
 
@@ -79,7 +81,9 @@ async def main() -> None:
                        "visual": ctx.data["visual"].model_dump(), "ledger": ctx.data["ledger"]}, f, ensure_ascii=False)
     print(f"\nLanguage: {transcript.language}, {len(transcript.words)} words, {ctx.duration_ms} ms")
     for candidate in ctx.data.get("candidates", []):
-        print(f"gate: {candidate.flag['category']:<10} {candidate.flag['title'][:50]:<50} {candidate.gate_notes}")
+        print(f"gate: {candidate.flag['category']:<10} {candidate.flag.get('factLabel') or '':<12} "
+              f"{'U' if any('grounding:' in n or 'not' in n for n in candidate.gate_notes) else '-'} "
+              f"{candidate.flag['title'][:50]:<50} {candidate.gate_notes}")
         if os.environ.get("SHOW_GROUNDING") and candidate.grounding_facts:
             print(f"      answer: {candidate.grounding_answer or candidate.flag['evidence']}")
             for fact in candidate.grounding_facts:

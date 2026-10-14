@@ -9,14 +9,15 @@ import os
 import re
 import time
 from typing import Literal
+from urllib.parse import urlparse
 
 import httpx
 from pydantic import BaseModel, Field
 from rapidfuzz import fuzz
 
 from ..base import CheckContext
-from ..gemini import generate, generate_grounded
-from ..textmatch import contains
+from ..gemini import Support, generate, generate_grounded
+from ..textmatch import contains, tokens
 from .candidate import Candidate, Evidence
 from .pages import Page, fetch
 
@@ -28,6 +29,22 @@ _FACTCHECK_URL = "https://factchecktools.googleapis.com/v1alpha1/claims:search"
 # same claim.
 _REVIEW_MATCH = 70
 _FETCH_SECONDS = 12
+_MAX_SOURCES = 6
+_SUPPORT_CONFIDENCE = 0.7
+_NO_PAGE = Page("", "", "")
+
+# Sources the verdict should lean on: Indian government and regulators,
+# health bodies, and IFCN signatory fact-checkers working in India.
+_TRUSTED = (
+    "gov.in", "nic.in", "who.int", "nih.gov", "cochrane.org", "cochranelibrary.com",
+    "rbi.org.in", "sebi.gov.in", "boomlive.in", "altnews.in", "factly.in", "newschecker.in",
+    "vishvasnews.com", "thequint.com", "factcrescendo.com", "newsmeter.in", "indiatoday.in",
+)
+
+
+def trusted(url_or_domain: str) -> bool:
+    host = (urlparse(url_or_domain).hostname if "://" in url_or_domain else url_or_domain) or ""
+    return any(host == d or host.endswith("." + d) for d in _TRUSTED)
 
 
 class Checkable(BaseModel):
@@ -49,15 +66,16 @@ deficient in vitamin D")."""
 
 _VERDICT = """You fact-check one claim from an Indian creator's video. Always run Google Search
 first and base the verdict only on pages you found.
-Prefer primary or authoritative sources: ICMR, WHO, Cochrane, PubMed reviews, RBI, SEBI, DICGC,
-government sites, established fact-checkers. Answer with JSON only:
+Prefer, in order: Indian government and regulators (gov.in, pib.gov.in, icmr.gov.in, rbi.org.in,
+sebi.gov.in), WHO, NIH and Cochrane, then IFCN fact-checkers (BOOM, Alt News, Factly, Newschecker,
+Vishvas News). Copy the quote exactly from a page you found and repeat it in the explanation. Answer with JSON only:
 {"verdict": "supported" | "contradicted" | "insufficient_evidence",
  "quote": "one sentence copied word for word from the best source page",
  "source_title": "...", "publisher": "...",
  "title": "under 60 characters, sentence case, what is true",
  "explanation": "one or two sentences to the creator, second person, no dashes as punctuation",
  "suggested_fix": "one concrete rewording or cut",
- "sources_say": "one or two sentences stating only what the sources say about the claim, without mentioning the creator"}
+ "sources_say": "one sentence stating only what the sources say about the claim, without mentioning the creator"}
 Use insufficient_evidence when sources disagree or none address the claim."""
 
 
@@ -134,23 +152,39 @@ async def _judge(ctx: CheckContext, stage: str, item: dict, check: Checkable) ->
             [spoken, Evidence("factcheck", claim.get("text", ""), key)],
         )
 
-    data, sources = await asyncio.to_thread(generate_grounded, ctx, stage, f"Claim: {check.claim}", _VERDICT)
+    data, sources, supports = await asyncio.to_thread(
+        generate_grounded, ctx, stage, f"Search Google, then fact-check. Claim: {check.claim}", _VERDICT
+    )
     if not sources:
         # Answered from memory: ask again, the gate needs pages to check.
-        data, sources = await asyncio.to_thread(
-            generate_grounded, ctx, stage, f"Search Google, then fact-check. Claim: {check.claim}", _VERDICT
+        data, sources, supports = await asyncio.to_thread(
+            generate_grounded, ctx, stage, f"Use Google Search for this. Claim: {check.claim}", _VERDICT
         )
     verdict = data.get("verdict")
     if verdict not in {"supported", "contradicted", "insufficient_evidence"}:
         return None
     quote = (data.get("quote") or "").strip()
     judged = time.monotonic()
-    pages = [p for p in await asyncio.gather(*(_fetch(s.uri) for s in sources[:5])) if p]
+    fetched = list(await asyncio.gather(*(_fetch(s.uri) for s in sources[:_MAX_SOURCES])))
     store = ctx.data.setdefault("pages", {})
-    for fetched in pages:
-        store[fetched.url] = fetched.text
-    page = _page_with(quote, pages) if quote else None
-    source_page = page or (pages[0] if pages else None)
+    for page in fetched:
+        if page and page.text:
+            store[page.url] = page.text
+
+    # Where the quote is backed: word for word on a page we fetched (trusted
+    # sites first), else a span of the answer that Google Search grounding
+    # attributes to a retrieved page. Either way the URL is one Gemini
+    # actually retrieved.
+    def rank(i: int) -> bool:
+        return not trusted(sources[i].domain or (fetched[i] or _NO_PAGE).url)
+
+    order = sorted(range(len(fetched)), key=rank)
+    verbatim = next((i for i in order if quote and fetched[i] and contains(fetched[i].text, quote)), None)
+    attributed = None if verbatim is not None or not quote else _attributed(quote, supports, len(fetched))
+    chosen = verbatim if verbatim is not None else attributed
+    source_page = fetched[chosen] if chosen is not None else None
+    url = (source_page.url if source_page else sources[chosen].uri) if chosen is not None else None
+
     flag = {
         **base,
         "title": _clean(data.get("title") or check.claim)[:80],
@@ -160,53 +194,93 @@ async def _judge(ctx: CheckContext, stage: str, item: dict, check: Checkable) ->
     }
     if verdict != "supported":
         flag["severity"] = "low" if verdict == "insufficient_evidence" else severity
-    if source_page:
+    if chosen is not None:
         flag["citation"] = {
-            "title": data.get("source_title") or source_page.title or source_page.url,
-            "url": source_page.url,
-            "publisher": data.get("publisher") or None,
+            "title": data.get("source_title") or (source_page.title if source_page else "") or sources[chosen].title or url,
+            "url": url,
+            "publisher": data.get("publisher") or sources[chosen].domain or None,
         }
     evidence = [spoken]
+    notes = [f"pages read: {sum(1 for p in fetched if p and p.text)}/{len(sources)}"]
     if verdict != "insufficient_evidence" or quote:
-        flag["sourceQuote"] = {"text": quote, "source": flag.get("citation", {}).get("title", "Web source")}
-        # Page "" fails the gate on purpose: no fetched page holds the quote.
-        evidence.append(Evidence("page", quote, page.url if page else ""))
-    # Grounding checks the explanation against what the sources say, around
-    # the quote on the page that holds it, then the start of the others.
+        source_name = flag.get("citation", {}).get("title", "Web source")
+        if verbatim is not None:
+            evidence.append(Evidence("page", quote, url))
+            flag["sourceQuote"] = {"text": quote, "source": source_name}
+        elif attributed is not None:
+            # Not on a page we could read, but Google's grounding ties it to
+            # one it retrieved: verified against that span, labelled as such.
+            key = f"grounding:{url}"
+            store[key] = " ".join(s.text for s in supports)
+            evidence.append(Evidence("grounding", quote, key))
+            flag["sourceQuote"] = {"text": quote, "source": f"{source_name}, as matched by Google Search grounding"}
+            notes.append("quote matched by grounding support")
+        else:
+            # "" fails the gate on purpose: nothing retrieved backs the quote.
+            evidence.append(Evidence("page", quote, ""))
+            flag["sourceQuote"] = {"text": quote, "source": source_name}
+
+    # Check Grounding tests what the sources say against the pages, around
+    # the quote on the page that holds it and where the others discuss the
+    # claim. Without readable pages there is nothing independent to test.
     context = []
-    terms = [w for w in re.findall(r"[a-z]{5,}", check.claim.lower())]
-    for fetched in ([page] if page else []) + [p for p in pages if p is not page]:
-        lowered = fetched.text.lower()
-        at = lowered.find(quote.lower()[:40]) if fetched is page else -1
+    terms = re.findall(r"[a-z]{5,}", check.claim.lower())
+    readable = [p for p in fetched if p and p.text]
+    for page in sorted(readable, key=lambda p: p is not source_page):
+        lowered = page.text.lower()
+        at = lowered.find(quote.lower()[:40]) if quote else -1
         if at < 0:
-            # Skip the navigation: start where the page first talks about the claim.
             hits = [h for h in (lowered.find(t) for t in terms) if h >= 0]
             at = min(hits) if hits else 0
-        context.append(fetched.text[max(0, at - 3000) : at + 5000])
+        context.append(page.text[max(0, at - 3000) : at + 5000])
+    notes.append(f"ms: search+verdict {int((judged - started) * 1000)}, pages {int((time.monotonic() - judged) * 1000)}")
     return Candidate(
         flag,
         evidence,
-        grounding_facts=context if page else [],
+        grounding_facts=context if chosen is not None else [],
         grounding_answer=_clean(data.get("sources_say") or "") or None,
-        gate_notes=[
-            f"pages fetched: {len(pages)}/{len(sources)}",
-            f"ms: search+verdict {int((judged - started) * 1000)}, pages {int((time.monotonic() - judged) * 1000)}",
-        ],
+        gate_notes=notes,
     )
+
+
+def _attributed(quote: str, supports: list[Support], count: int) -> int | None:
+    """The retrieved source a grounding support ties the quote to, when the
+    support's span and the quote match after normalizing (one contains the
+    other, 40 characters or more) with confidence of 0.7 or more."""
+    wanted = " ".join(tokens(quote))
+    best: tuple[float, int] | None = None
+    for support in supports:
+        span = " ".join(tokens(support.text))
+        if len(span) < 40 or not (span in wanted or wanted in span):
+            continue
+        scores = support.confidence or (1.0,) * len(support.sources)
+        for index, score in zip(support.sources, scores, strict=False):
+            if index < count and score >= _SUPPORT_CONFIDENCE and (best is None or score > best[0]):
+                best = (score, index)
+    return best[1] if best else None
 
 
 async def check(ctx: CheckContext, stage: str, ledger: list[dict]) -> list[Candidate]:
     """Fetched pages and review responses go to ctx.data["pages"], keyed
     by URL, for the gate."""
-    items = [i for i in ledger if i["type"] in FACT_TYPES and "factcheck" in i.get("checks", []) and "startMs" in i]
+    # Every factual, health or money claim goes to the filter, whatever the
+    # ledger's checks list says: the filter decides what is checkable.
+    items = [i for i in ledger if i["type"] in FACT_TYPES and "startMs" in i]
     if not items:
         return []
-    prompt = "\n".join(f'{i["id"]}: "{i["text"]}"' + (f' [about: {i["subject"]}]' if i.get("subject") else "") for i in items)
-    picks = await asyncio.to_thread(generate, ctx, stage, [prompt], Checkables, _FILTER)
+    # The whole transcript rides along: "most Indians are deficient" only
+    # becomes a checkable claim once the filter sees the line before it.
+    transcript = ctx.data.get("transcript")
+    context = f"Full transcript: {transcript.text}\n\n" if transcript and transcript.words else ""
+    lines = "\n".join(f'{i["id"]}: "{i["text"]}"' + (f' [about: {i["subject"]}]' if i.get("subject") else "") for i in items)
+    prompt = f"{context}Statements:\n{lines}"
+    picks = await asyncio.to_thread(generate, ctx, stage, [prompt], Checkables, _FILTER, thinking_budget=0)
     by_id = {i["id"]: i for i in items}
     jobs = [_judge(ctx, stage, by_id[p.item_id], p) for p in picks.items if p.checkable and p.item_id in by_id]
     results = await asyncio.gather(*jobs, return_exceptions=True)
     for r in results:
         if isinstance(r, Exception):
-            log.warning("Fact check failed for one claim: %s", type(r).__name__)
+            log.warning(json.dumps({"event": "factcheck_claim_failed", "jobId": ctx.job_id, "error": type(r).__name__}))
+            # The report must say a fact check is missing, not look clean.
+            ctx.data.setdefault("skipped", []).append("factcheck")
     return [r for r in results if isinstance(r, Candidate)]

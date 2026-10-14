@@ -67,7 +67,9 @@ def _public(url: str) -> bool:
 
 
 def fetch(url: str) -> Page | None:
-    """None when the page can't be fetched or isn't HTML or text."""
+    """None when the URL can't be reached at all. A page that answers but
+    can't be read (403, PDF) comes back with its final URL and no text, so
+    a search redirect still resolves to the real address."""
     if not _public(url):
         return None
     try:
@@ -76,8 +78,10 @@ def fetch(url: str) -> Page | None:
     except httpx.HTTPError:
         return None
     final = str(response.url)
-    if response.status_code != 200 or not _public(final):
+    if not _public(final):
         return None
+    if response.status_code != 200:
+        return Page(final, "", "")
     kind = response.headers.get("content-type", "")
     body = response.content[:_MAX_BYTES].decode(response.encoding or "utf-8", errors="replace")
     if "html" in kind:
@@ -87,5 +91,5 @@ def fetch(url: str) -> Page | None:
     elif kind.startswith("text/"):
         text, title = body, ""
     else:
-        return None
+        return Page(final, "", "")
     return Page(final, html.unescape(title), _SPACE.sub(" ", html.unescape(text)).strip())

@@ -49,6 +49,14 @@ shown, breaks one of them. Rules:
 - Write to the creator in second person, short sentences, no jargon, never use dashes as punctuation."""
 
 
+def wants(item: dict) -> bool:
+    """Claims always go to the judge; routing must not hang on the model's
+    optional checks list. Offers only when the ledger asked for it."""
+    if "startMs" not in item or item["type"] not in CLAIM_TYPES:
+        return False
+    return item["type"] != "promo_offer" or "claims" in item.get("checks", [])
+
+
 def _candidates(item: dict, retrieved: list[str], category: str) -> list[str]:
     forced: list[str] = []
     if item["type"] in {"health_claim", "personal_result"} or category == "health":
@@ -93,7 +101,7 @@ def _slug(text: str) -> str:
 
 
 def check(ctx: CheckContext, stage: str, ledger: list[dict], declaration: dict) -> list[Candidate]:
-    items = [i for i in ledger if i["type"] in CLAIM_TYPES and "claims" in i.get("checks", []) and "startMs" in i]
+    items = [i for i in ledger if wants(i)]
     if not items:
         return []
     retrieved = retrieve([i["text"] if not i.get("subject") else f'{i["text"]} ({i["subject"]})' for i in items])
@@ -101,7 +109,7 @@ def check(ctx: CheckContext, stage: str, ledger: list[dict], declaration: dict) 
         item["id"]: _candidates(item, hits, declaration.get("category") or "general")
         for item, hits in zip(items, retrieved, strict=True)
     }
-    findings = generate(ctx, stage, [_prompt(items, options, declaration)], Findings, _SYSTEM).findings
+    findings = generate(ctx, stage, [_prompt(items, options, declaration)], Findings, _SYSTEM, thinking_budget=1024).findings
 
     by_id = {i["id"]: i for i in items}
     out: list[Candidate] = []

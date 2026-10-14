@@ -18,7 +18,9 @@ mixin _$Job {
 
  String get id;@JsonKey(unknownEnumValue: JobStatus.unknown) JobStatus get status; DateTime get createdAt; String? get ownerUid;@JsonKey(unknownEnumValue: JobStage.unknown) JobStage? get stage; String? get stageDetail; int get version; String? get parentJobId;/// Client-side label (first line of the caption). Not part of the
 /// backend schema yet.
- String? get title; DateTime? get updatedAt; DateTime? get expiresAt; VideoMeta? get video; JobSummary? get summary; RunComparison? get comparison; JobError? get error; List<Flag> get flags;
+ String? get title; DateTime? get updatedAt; DateTime? get expiresAt; VideoMeta? get video; JobSummary? get summary; RunComparison? get comparison; JobError? get error; List<Flag> get flags;/// Checkers that couldn't run this time ("factcheck", ...): the report
+/// is partial and says so.
+ List<String> get skipped;
 /// Create a copy of Job
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -32,20 +34,20 @@ $JobCopyWith<Job> get copyWith => _$JobCopyWithImpl<Job>(this as Job, _$identity
 @override
 bool operator ==(Object other) {
   final _this = this as Job;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Job&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.ownerUid, _this.ownerUid) || other.ownerUid == _this.ownerUid)&&(identical(other.stage, _this.stage) || other.stage == _this.stage)&&(identical(other.stageDetail, _this.stageDetail) || other.stageDetail == _this.stageDetail)&&(identical(other.version, _this.version) || other.version == _this.version)&&(identical(other.parentJobId, _this.parentJobId) || other.parentJobId == _this.parentJobId)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt)&&(identical(other.expiresAt, _this.expiresAt) || other.expiresAt == _this.expiresAt)&&(identical(other.video, _this.video) || other.video == _this.video)&&(identical(other.summary, _this.summary) || other.summary == _this.summary)&&(identical(other.comparison, _this.comparison) || other.comparison == _this.comparison)&&(identical(other.error, _this.error) || other.error == _this.error)&&const DeepCollectionEquality().equals(other.flags, _this.flags));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Job&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.ownerUid, _this.ownerUid) || other.ownerUid == _this.ownerUid)&&(identical(other.stage, _this.stage) || other.stage == _this.stage)&&(identical(other.stageDetail, _this.stageDetail) || other.stageDetail == _this.stageDetail)&&(identical(other.version, _this.version) || other.version == _this.version)&&(identical(other.parentJobId, _this.parentJobId) || other.parentJobId == _this.parentJobId)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt)&&(identical(other.expiresAt, _this.expiresAt) || other.expiresAt == _this.expiresAt)&&(identical(other.video, _this.video) || other.video == _this.video)&&(identical(other.summary, _this.summary) || other.summary == _this.summary)&&(identical(other.comparison, _this.comparison) || other.comparison == _this.comparison)&&(identical(other.error, _this.error) || other.error == _this.error)&&const DeepCollectionEquality().equals(other.flags, _this.flags)&&const DeepCollectionEquality().equals(other.skipped, _this.skipped));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Job;
-  return Object.hash(runtimeType,_this.id,_this.status,_this.createdAt,_this.ownerUid,_this.stage,_this.stageDetail,_this.version,_this.parentJobId,_this.title,_this.updatedAt,_this.expiresAt,_this.video,_this.summary,_this.comparison,_this.error,const DeepCollectionEquality().hash(_this.flags));
+  return Object.hash(runtimeType,_this.id,_this.status,_this.createdAt,_this.ownerUid,_this.stage,_this.stageDetail,_this.version,_this.parentJobId,_this.title,_this.updatedAt,_this.expiresAt,_this.video,_this.summary,_this.comparison,_this.error,const DeepCollectionEquality().hash(_this.flags),const DeepCollectionEquality().hash(_this.skipped));
 }
 
 @override
 String toString() {
   final _this = this as Job;
-  return 'Job(id: ${_this.id}, status: ${_this.status}, createdAt: ${_this.createdAt}, ownerUid: ${_this.ownerUid}, stage: ${_this.stage}, stageDetail: ${_this.stageDetail}, version: ${_this.version}, parentJobId: ${_this.parentJobId}, title: ${_this.title}, updatedAt: ${_this.updatedAt}, expiresAt: ${_this.expiresAt}, video: ${_this.video}, summary: ${_this.summary}, comparison: ${_this.comparison}, error: ${_this.error}, flags: ${_this.flags})';
+  return 'Job(id: ${_this.id}, status: ${_this.status}, createdAt: ${_this.createdAt}, ownerUid: ${_this.ownerUid}, stage: ${_this.stage}, stageDetail: ${_this.stageDetail}, version: ${_this.version}, parentJobId: ${_this.parentJobId}, title: ${_this.title}, updatedAt: ${_this.updatedAt}, expiresAt: ${_this.expiresAt}, video: ${_this.video}, summary: ${_this.summary}, comparison: ${_this.comparison}, error: ${_this.error}, flags: ${_this.flags}, skipped: ${_this.skipped})';
 }
 
 
@@ -56,7 +58,7 @@ abstract mixin class $JobCopyWith<$Res>  {
   factory $JobCopyWith(Job value, $Res Function(Job) _then) = _$JobCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(unknownEnumValue: JobStatus.unknown) JobStatus status, DateTime createdAt, String? ownerUid,@JsonKey(unknownEnumValue: JobStage.unknown) JobStage? stage, String? stageDetail, int version, String? parentJobId, String? title, DateTime? updatedAt, DateTime? expiresAt, VideoMeta? video, JobSummary? summary, RunComparison? comparison, JobError? error, List<Flag> flags
+ String id,@JsonKey(unknownEnumValue: JobStatus.unknown) JobStatus status, DateTime createdAt, String? ownerUid,@JsonKey(unknownEnumValue: JobStage.unknown) JobStage? stage, String? stageDetail, int version, String? parentJobId, String? title, DateTime? updatedAt, DateTime? expiresAt, VideoMeta? video, JobSummary? summary, RunComparison? comparison, JobError? error, List<Flag> flags, List<String> skipped
 });
 
 
@@ -73,7 +75,7 @@ class _$JobCopyWithImpl<$Res>
 
 /// Create a copy of Job
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? status = null,Object? createdAt = null,Object? ownerUid = freezed,Object? stage = freezed,Object? stageDetail = freezed,Object? version = null,Object? parentJobId = freezed,Object? title = freezed,Object? updatedAt = freezed,Object? expiresAt = freezed,Object? video = freezed,Object? summary = freezed,Object? comparison = freezed,Object? error = freezed,Object? flags = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? status = null,Object? createdAt = null,Object? ownerUid = freezed,Object? stage = freezed,Object? stageDetail = freezed,Object? version = null,Object? parentJobId = freezed,Object? title = freezed,Object? updatedAt = freezed,Object? expiresAt = freezed,Object? video = freezed,Object? summary = freezed,Object? comparison = freezed,Object? error = freezed,Object? flags = null,Object? skipped = null,}) {
   return _then(Job(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
@@ -91,7 +93,8 @@ as VideoMeta?,summary: freezed == summary ? _self.summary : summary // ignore: c
 as JobSummary?,comparison: freezed == comparison ? _self.comparison : comparison // ignore: cast_nullable_to_non_nullable
 as RunComparison?,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as JobError?,flags: null == flags ? _self.flags : flags // ignore: cast_nullable_to_non_nullable
-as List<Flag>,
+as List<Flag>,skipped: null == skipped ? _self.skipped : skipped // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 /// Create a copy of Job
@@ -224,10 +227,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(unknownEnumValue: JobStatus.unknown)  JobStatus status,  DateTime createdAt,  String? ownerUid, @JsonKey(unknownEnumValue: JobStage.unknown)  JobStage? stage,  String? stageDetail,  int version,  String? parentJobId,  String? title,  DateTime? updatedAt,  DateTime? expiresAt,  VideoMeta? video,  JobSummary? summary,  RunComparison? comparison,  JobError? error,  List<Flag> flags)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(unknownEnumValue: JobStatus.unknown)  JobStatus status,  DateTime createdAt,  String? ownerUid, @JsonKey(unknownEnumValue: JobStage.unknown)  JobStage? stage,  String? stageDetail,  int version,  String? parentJobId,  String? title,  DateTime? updatedAt,  DateTime? expiresAt,  VideoMeta? video,  JobSummary? summary,  RunComparison? comparison,  JobError? error,  List<Flag> flags,  List<String> skipped)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Job() when $default != null:
-return $default(_that.id,_that.status,_that.createdAt,_that.ownerUid,_that.stage,_that.stageDetail,_that.version,_that.parentJobId,_that.title,_that.updatedAt,_that.expiresAt,_that.video,_that.summary,_that.comparison,_that.error,_that.flags);case _:
+return $default(_that.id,_that.status,_that.createdAt,_that.ownerUid,_that.stage,_that.stageDetail,_that.version,_that.parentJobId,_that.title,_that.updatedAt,_that.expiresAt,_that.video,_that.summary,_that.comparison,_that.error,_that.flags,_that.skipped);case _:
   return orElse();
 
 }
@@ -245,10 +248,10 @@ return $default(_that.id,_that.status,_that.createdAt,_that.ownerUid,_that.stage
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(unknownEnumValue: JobStatus.unknown)  JobStatus status,  DateTime createdAt,  String? ownerUid, @JsonKey(unknownEnumValue: JobStage.unknown)  JobStage? stage,  String? stageDetail,  int version,  String? parentJobId,  String? title,  DateTime? updatedAt,  DateTime? expiresAt,  VideoMeta? video,  JobSummary? summary,  RunComparison? comparison,  JobError? error,  List<Flag> flags)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(unknownEnumValue: JobStatus.unknown)  JobStatus status,  DateTime createdAt,  String? ownerUid, @JsonKey(unknownEnumValue: JobStage.unknown)  JobStage? stage,  String? stageDetail,  int version,  String? parentJobId,  String? title,  DateTime? updatedAt,  DateTime? expiresAt,  VideoMeta? video,  JobSummary? summary,  RunComparison? comparison,  JobError? error,  List<Flag> flags,  List<String> skipped)  $default,) {final _that = this;
 switch (_that) {
 case _Job():
-return $default(_that.id,_that.status,_that.createdAt,_that.ownerUid,_that.stage,_that.stageDetail,_that.version,_that.parentJobId,_that.title,_that.updatedAt,_that.expiresAt,_that.video,_that.summary,_that.comparison,_that.error,_that.flags);case _:
+return $default(_that.id,_that.status,_that.createdAt,_that.ownerUid,_that.stage,_that.stageDetail,_that.version,_that.parentJobId,_that.title,_that.updatedAt,_that.expiresAt,_that.video,_that.summary,_that.comparison,_that.error,_that.flags,_that.skipped);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -265,10 +268,10 @@ return $default(_that.id,_that.status,_that.createdAt,_that.ownerUid,_that.stage
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(unknownEnumValue: JobStatus.unknown)  JobStatus status,  DateTime createdAt,  String? ownerUid, @JsonKey(unknownEnumValue: JobStage.unknown)  JobStage? stage,  String? stageDetail,  int version,  String? parentJobId,  String? title,  DateTime? updatedAt,  DateTime? expiresAt,  VideoMeta? video,  JobSummary? summary,  RunComparison? comparison,  JobError? error,  List<Flag> flags)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(unknownEnumValue: JobStatus.unknown)  JobStatus status,  DateTime createdAt,  String? ownerUid, @JsonKey(unknownEnumValue: JobStage.unknown)  JobStage? stage,  String? stageDetail,  int version,  String? parentJobId,  String? title,  DateTime? updatedAt,  DateTime? expiresAt,  VideoMeta? video,  JobSummary? summary,  RunComparison? comparison,  JobError? error,  List<Flag> flags,  List<String> skipped)?  $default,) {final _that = this;
 switch (_that) {
 case _Job() when $default != null:
-return $default(_that.id,_that.status,_that.createdAt,_that.ownerUid,_that.stage,_that.stageDetail,_that.version,_that.parentJobId,_that.title,_that.updatedAt,_that.expiresAt,_that.video,_that.summary,_that.comparison,_that.error,_that.flags);case _:
+return $default(_that.id,_that.status,_that.createdAt,_that.ownerUid,_that.stage,_that.stageDetail,_that.version,_that.parentJobId,_that.title,_that.updatedAt,_that.expiresAt,_that.video,_that.summary,_that.comparison,_that.error,_that.flags,_that.skipped);case _:
   return null;
 
 }
@@ -280,7 +283,7 @@ return $default(_that.id,_that.status,_that.createdAt,_that.ownerUid,_that.stage
 @JsonSerializable()
 
 class _Job extends Job {
-  const _Job({required this.id, @JsonKey(unknownEnumValue: JobStatus.unknown) required this.status, required this.createdAt, this.ownerUid, @JsonKey(unknownEnumValue: JobStage.unknown) this.stage, this.stageDetail, this.version = 1, this.parentJobId, this.title, this.updatedAt, this.expiresAt, this.video, this.summary, this.comparison, this.error,  List<Flag> flags = const <Flag>[]}): _flags = flags,super._();
+  const _Job({required this.id, @JsonKey(unknownEnumValue: JobStatus.unknown) required this.status, required this.createdAt, this.ownerUid, @JsonKey(unknownEnumValue: JobStage.unknown) this.stage, this.stageDetail, this.version = 1, this.parentJobId, this.title, this.updatedAt, this.expiresAt, this.video, this.summary, this.comparison, this.error,  List<Flag> flags = const <Flag>[],  List<String> skipped = const <String>[]}): _flags = flags,_skipped = skipped,super._();
   factory _Job.fromJson(Map<String, dynamic> json) => _$JobFromJson(json);
 
 @override final  String id;
@@ -307,6 +310,17 @@ class _Job extends Job {
   return EqualUnmodifiableListView(_flags);
 }
 
+/// Checkers that couldn't run this time ("factcheck", ...): the report
+/// is partial and says so.
+ final  List<String> _skipped;
+/// Checkers that couldn't run this time ("factcheck", ...): the report
+/// is partial and says so.
+@override@JsonKey() List<String> get skipped {
+  if (_skipped is EqualUnmodifiableListView) return _skipped;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_skipped);
+}
+
 
 /// Create a copy of Job
 /// with the given fields replaced by the non-null parameter values.
@@ -321,18 +335,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Job&&(identical(other.id, id) || other.id == id)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.ownerUid, ownerUid) || other.ownerUid == ownerUid)&&(identical(other.stage, stage) || other.stage == stage)&&(identical(other.stageDetail, stageDetail) || other.stageDetail == stageDetail)&&(identical(other.version, version) || other.version == version)&&(identical(other.parentJobId, parentJobId) || other.parentJobId == parentJobId)&&(identical(other.title, title) || other.title == title)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.video, video) || other.video == video)&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.comparison, comparison) || other.comparison == comparison)&&(identical(other.error, error) || other.error == error)&&const DeepCollectionEquality().equals(other.flags, _flags));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Job&&(identical(other.id, id) || other.id == id)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.ownerUid, ownerUid) || other.ownerUid == ownerUid)&&(identical(other.stage, stage) || other.stage == stage)&&(identical(other.stageDetail, stageDetail) || other.stageDetail == stageDetail)&&(identical(other.version, version) || other.version == version)&&(identical(other.parentJobId, parentJobId) || other.parentJobId == parentJobId)&&(identical(other.title, title) || other.title == title)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.video, video) || other.video == video)&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.comparison, comparison) || other.comparison == comparison)&&(identical(other.error, error) || other.error == error)&&const DeepCollectionEquality().equals(other.flags, _flags)&&const DeepCollectionEquality().equals(other.skipped, _skipped));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,status,createdAt,ownerUid,stage,stageDetail,version,parentJobId,title,updatedAt,expiresAt,video,summary,comparison,error,const DeepCollectionEquality().hash(_flags));
+    return Object.hash(runtimeType,id,status,createdAt,ownerUid,stage,stageDetail,version,parentJobId,title,updatedAt,expiresAt,video,summary,comparison,error,const DeepCollectionEquality().hash(_flags),const DeepCollectionEquality().hash(_skipped));
 }
 
 @override
 String toString() {
-    return 'Job(id: $id, status: $status, createdAt: $createdAt, ownerUid: $ownerUid, stage: $stage, stageDetail: $stageDetail, version: $version, parentJobId: $parentJobId, title: $title, updatedAt: $updatedAt, expiresAt: $expiresAt, video: $video, summary: $summary, comparison: $comparison, error: $error, flags: $flags)';
+    return 'Job(id: $id, status: $status, createdAt: $createdAt, ownerUid: $ownerUid, stage: $stage, stageDetail: $stageDetail, version: $version, parentJobId: $parentJobId, title: $title, updatedAt: $updatedAt, expiresAt: $expiresAt, video: $video, summary: $summary, comparison: $comparison, error: $error, flags: $flags, skipped: $skipped)';
 }
 
 
@@ -343,7 +357,7 @@ abstract mixin class _$JobCopyWith<$Res> implements $JobCopyWith<$Res> {
   factory _$JobCopyWith(_Job value, $Res Function(_Job) _then) = __$JobCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(unknownEnumValue: JobStatus.unknown) JobStatus status, DateTime createdAt, String? ownerUid,@JsonKey(unknownEnumValue: JobStage.unknown) JobStage? stage, String? stageDetail, int version, String? parentJobId, String? title, DateTime? updatedAt, DateTime? expiresAt, VideoMeta? video, JobSummary? summary, RunComparison? comparison, JobError? error, List<Flag> flags
+ String id,@JsonKey(unknownEnumValue: JobStatus.unknown) JobStatus status, DateTime createdAt, String? ownerUid,@JsonKey(unknownEnumValue: JobStage.unknown) JobStage? stage, String? stageDetail, int version, String? parentJobId, String? title, DateTime? updatedAt, DateTime? expiresAt, VideoMeta? video, JobSummary? summary, RunComparison? comparison, JobError? error, List<Flag> flags, List<String> skipped
 });
 
 
@@ -360,7 +374,7 @@ class __$JobCopyWithImpl<$Res>
 
 /// Create a copy of Job
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? status = null,Object? createdAt = null,Object? ownerUid = freezed,Object? stage = freezed,Object? stageDetail = freezed,Object? version = null,Object? parentJobId = freezed,Object? title = freezed,Object? updatedAt = freezed,Object? expiresAt = freezed,Object? video = freezed,Object? summary = freezed,Object? comparison = freezed,Object? error = freezed,Object? flags = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? status = null,Object? createdAt = null,Object? ownerUid = freezed,Object? stage = freezed,Object? stageDetail = freezed,Object? version = null,Object? parentJobId = freezed,Object? title = freezed,Object? updatedAt = freezed,Object? expiresAt = freezed,Object? video = freezed,Object? summary = freezed,Object? comparison = freezed,Object? error = freezed,Object? flags = null,Object? skipped = null,}) {
   return _then(_Job(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
@@ -378,7 +392,8 @@ as VideoMeta?,summary: freezed == summary ? _self.summary : summary // ignore: c
 as JobSummary?,comparison: freezed == comparison ? _self.comparison : comparison // ignore: cast_nullable_to_non_nullable
 as RunComparison?,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as JobError?,flags: null == flags ? _self._flags : flags // ignore: cast_nullable_to_non_nullable
-as List<Flag>,
+as List<Flag>,skipped: null == skipped ? _self._skipped : skipped // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 

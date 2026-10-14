@@ -69,6 +69,9 @@ async def run_check(
             "summary": summarize(ctx.flags),
             "pipeline": pipeline_name,
         }
+        if ctx.data.get("skipped"):
+            # Checkers that couldn't run; the app says the report is partial.
+            done["skipped"] = sorted(set(ctx.data["skipped"]))
         if ctx.parent is not None:
             done["comparison"] = compare(ctx.parent, ctx.parent["id"], ctx.flags)
         update(done)
@@ -103,6 +106,7 @@ def log_stage(ctx: CheckContext, stage: str, started: float) -> None:
                 "ms": int((time.monotonic() - started) * 1000),
                 "inputTokens": tokens["input"],
                 "outputTokens": tokens["output"],
+                **(ctx.data.get("timings", {}) if stage == "extract" else {}),
             }
         )
     )

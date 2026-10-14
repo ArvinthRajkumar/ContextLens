@@ -156,8 +156,8 @@ SOURCE = (
 def test_trimmed_condition_shows_as_a_deletion():
     result = align("Vitamin D is something everyone should be taking daily.", SOURCE)
     assert result is not None and result.cut_mid_sentence
-    assert {"op": "delete", "text": "if a blood test shows they're deficient."} in result.segments
-    assert result.segments[0] == {"op": "equal", "text": "Vitamin D is something everyone should be taking daily."}
+    assert {"op": "delete", "text": " if a blood test shows they're deficient."} in result.segments
+    assert result.segments[0] == {"op": "equal", "text": "Vitamin D is something everyone should be taking daily"}
     assert result.changes_meaning
 
 
@@ -195,3 +195,62 @@ def test_contradicted_fact_check_replaces_the_substantiation_flag():
     assert dedupe([substantiation, statutory, contradicted]) == [statutory, contradicted]
     uncertain = {**contradicted, "uncertain": True}
     assert dedupe([substantiation, uncertain]) == [substantiation, uncertain]
+
+
+# Fact check sources
+
+
+def test_quote_attributed_by_grounding_support():
+    from app.pipeline.checks.factcheck import _attributed
+    from app.pipeline.gemini import Support
+
+    quote = "Regular vitamin C supplementation did not reduce the incidence of colds in the general population."
+    supports = [
+        Support('"quote": "Regular vitamin C supplementation did not reduce the incidence of colds in the general population.",', (1, 2), (0.62, 0.91)),
+        Support("Vitamin C may shorten colds a little.", (0,), (0.99,)),
+    ]
+    assert _attributed(quote, supports, 3) == 2
+    assert _attributed(quote, supports, 2) is None  # source 2 was never retrieved
+    weak = [Support(supports[0].text, (1,), (0.5,))]
+    assert _attributed(quote, weak, 3) is None
+    assert _attributed("Vitamin C cures colds instantly in every single person who takes it daily.", supports, 3) is None
+
+
+def test_trusted_sources():
+    from app.pipeline.checks.factcheck import trusted
+
+    assert trusted("pib.gov.in") and trusted("https://www.icmr.gov.in/x") and trusted("www.boomlive.in")
+    assert not trusted("example.org") and not trusted("https://notgov.in.evil.com/")
+
+
+def test_gate_accepts_a_grounding_span():
+    span = "Grounding text: regular vitamin C did not reduce the incidence of colds in the general population."
+    sources = gate.Sources("", "", "", {"grounding:https://www.nih.gov/x": span})
+    candidate = _candidate(Evidence("grounding", "did not reduce the incidence of colds", "grounding:https://www.nih.gov/x"))
+    assert "uncertain" not in gate.apply(candidate, sources, grounding=lambda *_: None)
+
+
+def test_routing_does_not_depend_on_the_models_checks_list():
+    from app.pipeline.base import CheckContext
+    from app.pipeline.checks.router import routes
+
+    ctx = CheckContext("j", "u", "o", {"isPaid": False})
+    ctx.data["ledger"] = [{"type": "health_claim", "text": "Vitamin C stops colds", "startMs": 0, "endMs": 1, "checks": ["claims"]}]
+    assert routes(ctx) == ["claims", "factcheck"]
+    ctx.data["ledger"] = [{"type": "promo_offer", "text": "Rs 599", "startMs": 0, "endMs": 1, "checks": ["disclosure"]}]
+    assert routes(ctx) == ["disclosure"]
+
+
+def test_a_failing_checker_is_skipped_not_fatal():
+    import asyncio
+
+    from app.pipeline.base import CheckContext
+    from app.pipeline.checks.router import _guarded
+
+    async def broken(state):
+        raise RuntimeError("model unavailable")
+
+    ctx = CheckContext("j", "u", "o", {})
+    result = asyncio.run(_guarded("factcheck", broken)({"ctx": ctx, "candidates": []}))
+    assert result == {"candidates": []}
+    assert ctx.data["skipped"] == ["factcheck"]

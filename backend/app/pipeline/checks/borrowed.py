@@ -2,15 +2,19 @@
 quote with it, and flag splices and trimmed context."""
 
 import asyncio
+import os
 import re
+import tempfile
 from urllib.parse import urlparse
 
 from google.genai import types
 from pydantic import BaseModel, Field
 
+from ... import storage
 from ..base import CheckContext
 from ..gemini import generate
-from ..speech import Transcript
+from ..media import extract_audio, probe
+from ..speech import Transcript, transcribe
 from .alignment import Alignment, align
 from .candidate import Candidate, Evidence
 
@@ -36,14 +40,31 @@ def _source_transcript(ctx: CheckContext, stage: str, url: str) -> str:
     return result.text
 
 
+def _file_transcript(object_name: str) -> str:
+    """The attached original, transcribed with Chirp like the video itself."""
+    with tempfile.TemporaryDirectory() as tmp:
+        source = os.path.join(tmp, "clip")
+        storage.download(object_name, source)
+        duration_ms, has_audio = probe(source)
+        if not has_audio:
+            return ""
+        audio = os.path.join(tmp, "clip.flac")
+        extract_audio(source, audio)
+        gcs_audio = None
+        if (duration_ms or 0) > 55_000:
+            storage.upload_file(audio, f"{object_name}.flac", "audio/flac")
+            gcs_audio = storage.gcs_uri(f"{object_name}.flac")
+        return transcribe(audio, duration_ms, gcs_audio).text
+
+
 def _clip_items(ledger: list[dict], transcript: Transcript) -> list[dict]:
-    quotes = [i for i in ledger if i["type"] == "quote_of_others" and "startMs" in i]
-    if quotes:
-        return quotes
-    # No quote marked: compare the whole voiceover.
-    if not transcript.words:
-        return []
-    return [{"text": transcript.text, "startMs": transcript.words[0].start_ms, "endMs": transcript.words[-1].end_ms}]
+    """What the creator said that may come from the source: spoken quotes
+    the ledger marked, and the whole voiceover (a reposted clip often has no
+    quote marked at all). Overlays are not speech and are left out."""
+    items = [i for i in ledger if i["type"] == "quote_of_others" and i["source"] == "speech" and "startMs" in i]
+    if transcript.words:
+        items.append({"text": transcript.text, "startMs": transcript.words[0].start_ms, "endMs": transcript.words[-1].end_ms})
+    return items
 
 
 def _flag(item: dict, label: str, url: str, result: Alignment) -> Candidate:
@@ -67,7 +88,7 @@ def _flag(item: dict, label: str, url: str, result: Alignment) -> Candidate:
             "endMs": item["endMs"],
             "title": title,
             "evidence": evidence,
-            "citation": {"title": label, "url": url},
+            "citation": {"title": label, **({"url": url} if url.startswith("https://") else {})},
             "sourceQuote": {"text": original, "source": f"{label}, original"},
             "suggestedFix": "Use the full passage, or say in your own words what the speaker added.",
             "diff": {"clipTranscript": item["text"], "originalTranscript": original, "segments": result.segments},
@@ -76,19 +97,32 @@ def _flag(item: dict, label: str, url: str, result: Alignment) -> Candidate:
     )
 
 
+def has_source(clip: dict) -> bool:
+    return bool(clip.get("objectName")) or _youtube(clip.get("url"))
+
+
 async def check(ctx: CheckContext, stage: str, ledger: list[dict], transcript: Transcript, clips: list[dict]) -> list[Candidate]:
-    sources = [c for c in clips if _youtube(c.get("url"))]
+    sources = [c for c in clips if has_source(c)]
     items = _clip_items(ledger, transcript)
     if not sources or not items:
         return []
     out: list[Candidate] = []
-    texts = await asyncio.gather(*(asyncio.to_thread(_source_transcript, ctx, stage, c["url"]) for c in sources))
+    # An attached file wins over a link: it is exactly what the creator cut.
+    texts = await asyncio.gather(*(
+        asyncio.to_thread(_file_transcript, c["objectName"]) if c.get("objectName")
+        else asyncio.to_thread(_source_transcript, ctx, stage, c["url"])
+        for c in sources
+    ))
     store = ctx.data.setdefault("pages", {})
     for clip, source_text in zip(sources, texts, strict=True):
-        store[clip["url"]] = source_text
-        for item in items:
-            result = await asyncio.to_thread(align, item["text"], source_text)
-            if result and result.changes_meaning:
+        key = f"clip:{clip['objectName']}" if clip.get("objectName") else clip["url"]
+        clip = {**clip, "url": key}
+        store[key] = source_text
+        # The span that matches the source best decides.
+        aligned = [(await asyncio.to_thread(align, item["text"], source_text), item) for item in items]
+        aligned = [(result, item) for result, item in aligned if result]
+        if aligned:
+            result, item = max(aligned, key=lambda pair: pair[0].score)
+            if result.changes_meaning:
                 out.append(_flag(item, clip.get("label") or "the source", clip["url"], result))
-                break
     return out
