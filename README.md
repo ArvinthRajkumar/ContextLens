@@ -101,22 +101,23 @@ Every compliance citation names its clause and says whether it is **statutory** 
 
 ## Benchmark
 
-30 synthetic cases sent through the deployed pipeline; full method and caveats in [benchmark/RESULTS.md](benchmark/RESULTS.md). The reels are recreations of ASCI case types, not real creator videos, and the set is small.
+34 synthetic cases sent through the deployed pipeline; full method and caveats in [benchmark/RESULTS.md](benchmark/RESULTS.md). The reels are recreations of ASCI case types, not real creator videos, and the set is small.
 
 | Metric | Result |
 |---|---|
 | Disclosure precision / recall | 1.00 / 1.00 |
-| Claims precision / recall | 0.43 / 1.00 (over-flags: duplicate or minor claims) |
+| Claims precision / recall | 1.00 / 1.00 (up from 0.43 after merging and stricter gating) |
 | Clause citation accuracy | 0.93 |
 | Borrowed clips precision / recall | 1.00 / 1.00; alignment within 2 s: 4 of 4 |
 | Fact-check agreement with Indian fact-checkers | 8 of 8 (7 via the Fact Check Tools lookup) |
-| Abstention (flags marked uncertain) | 21% |
-| Evidence-gate failures on recheck | 0 of 65 |
+| Fresh claims with no published fact check | 2 of 4 agree, 2 abstain, 0 wrong |
+| Abstention (flags marked uncertain) | 26% |
+| Evidence-gate failures on recheck | 0 of 55 |
 
 ## Latency and cost
 
-- Median 26 s from submit to report on the benchmark reels (p90 40 s); the 40 s supplements reel takes 39 to 87 s.
-- Median by stage: extract 4.7 s, claim ledger 6.4 s, checking 11.2 s, evidence gate 0.4 s.
+- Median 36 s from submit to report on the benchmark reels (p90 65 s); the 40 s supplements reel takes 39 to 87 s.
+- Median by stage: extract 6.3 s, claim ledger 8.3 s, checking 14.8 s, evidence gate 0.3 s.
 - About USD 0.05 per reel at list prices (about 5,100 input and 3,100 output Gemini tokens, one search-grounded call, Chirp audio). Check Grounding is not included.
 - The slow tail is Vertex returning 429 or 504 under shared capacity. Model calls are hedged (a second request after 35% of the deadline), retried with backoff, and fall back to the global endpoint; a checker that still fails is skipped and the report says so.
 

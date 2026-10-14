@@ -99,8 +99,11 @@ def apply(
     failures = verbatim_failures(candidate, sources)
     if not failures and candidate.grounding_facts:
         score = grounding(candidate.grounding_answer or flag["evidence"], candidate.grounding_facts)
-        if score is not None and score < settings.grounding_min_support:
+        floor = settings.claims_min_support if candidate.drop_if_weak else settings.grounding_min_support
+        if score is not None and score < floor:
             failures.append(f"grounding: support {score:.2f}")
+            if candidate.drop_if_weak:
+                flag["dropped"] = True
         elif score is not None:
             candidate.gate_notes.append(f"grounding {score:.2f}")
     candidate.gate_notes += failures

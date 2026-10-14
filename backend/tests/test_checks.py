@@ -261,3 +261,67 @@ def test_a_failing_checker_is_skipped_not_fatal():
     result = asyncio.run(_guarded("factcheck", broken)({"ctx": ctx, "candidates": []}))
     assert result == {"candidates": []}
     assert ctx.data["skipped"] == ["factcheck"]
+
+
+# Claims precision
+
+
+def _finding(clause, items, severity="medium", quote="never fall sick again"):
+    from app.pipeline.checks.claims import Finding
+
+    return Finding(item_ids=items, violates=True, clause_id=clause, clause_quote="x", claim_quote=quote,
+                   title="t", evidence="e", severity=severity, suggested_fix="f")
+
+
+def test_one_flag_per_claim_with_the_most_specific_clause():
+    from app.pipeline.checks.claims import merge
+
+    a = {"id": "L1", "text": "you will never fall sick again", "startMs": 1000, "endMs": 2000, "subject": "AyurBoost"}
+    b = {"id": "L2", "text": "your immunity becomes 100 percent strong", "startMs": 3000, "endMs": 4000, "subject": "AyurBoost"}
+    c = {"id": "L3", "text": "it is just 499 rupees", "startMs": 20000, "endMs": 21000, "subject": "price"}
+    merged = merge([
+        (_finding("asci-code/I.1.1", ["L1"]), [a]),
+        (_finding("asci-ig/add2-I.2", ["L1"]), [a]),
+        (_finding("asci-code/I.1.5", ["L2"]), [b]),
+        (_finding("asci-code/I.1.4", ["L3"]), [c]),
+    ])
+    assert len(merged) == 2
+    best, covered = merged[0]
+    assert best.clause_id == "asci-ig/add2-I.2"
+    assert [i["id"] for i in covered] == ["L1", "L2"]
+
+
+def test_statute_wins_the_merge():
+    from app.pipeline.checks.claims import merge
+
+    a = {"id": "L1", "text": "my diabetes reversed completely", "startMs": 0, "endMs": 1}
+    merged = merge([(_finding("asci-code/I.1.1", ["L1"], "high"), [a]), (_finding("dmr-act/3(d)", ["L1"], "low"), [a])])
+    assert merged[0][0].clause_id == "dmr-act/3(d)"
+
+
+def test_a_finding_needs_a_concrete_claim_span():
+    from app.pipeline.checks.claims import concrete
+
+    item = {"id": "L1", "text": "Take two capsules and you will never fall sick again, not even once."}
+    assert concrete(_finding("asci-code/I.1.1", ["L1"]), [item])
+    assert not concrete(_finding("asci-code/I.1.1", ["L1"], quote="sick"), [item])
+    assert not concrete(_finding("asci-code/I.1.1", ["L1"], quote="cures every illness"), [item])
+
+
+def test_weak_claims_flags_are_dropped_not_shown():
+    flag = {"category": "claims", "evidence": "e", "sourceQuote": {"text": "Advertisements must be truthful.", "source": "x"}}
+    candidate = Candidate(flag, [Evidence("clause", "Advertisements must be truthful.", "asci-code/I.1.1")],
+                          grounding_facts=["f"], drop_if_weak=True)
+    out = gate.apply(candidate, SOURCES, grounding=lambda *_: 0.5)
+    assert out["uncertain"] is True and out["dropped"] is True
+    strong = Candidate(dict(flag), list(candidate.evidence), grounding_facts=["f"], drop_if_weak=True)
+    assert "uncertain" not in gate.apply(strong, SOURCES, grounding=lambda *_: 0.9)
+
+
+def test_generic_and_specific_moments_apart_merge():
+    from app.pipeline.checks.claims import merge
+
+    a = {"id": "L1", "text": "you will never fall sick again", "startMs": 1000, "endMs": 2000, "subject": "capsules"}
+    b = {"id": "L2", "text": "everyone in my family takes it", "startMs": 4000, "endMs": 5000, "subject": "family"}
+    merged = merge([(_finding("dmr-act/3(d)", ["L1"]), [a]), (_finding("asci-code/I.1.1", ["L2"]), [b])])
+    assert len(merged) == 1 and merged[0][0].clause_id == "dmr-act/3(d)"

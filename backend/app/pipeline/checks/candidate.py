@@ -30,5 +30,7 @@ class Candidate:
     # The statement Check Grounding tests against those facts; the flag's
     # evidence line when not set.
     grounding_answer: str | None = None
+    # Dropped instead of marked uncertain when grounding is weak.
+    drop_if_weak: bool = False
     # Why the gate downgraded it, for the log.
     gate_notes: list[str] = field(default_factory=list)

@@ -309,7 +309,8 @@
               "asci-code/I.1.5",
               "asci-code/I.ex(d)",
               "dmr-act/3(d)",
-              "dmr-act/4"
+              "dmr-act/4",
+              "dmr-act/schedule"
             ]
           }
         ],
@@ -734,5 +735,40 @@
       "url": "https://www.boomlive.in/do-pepaero-and-caripill-cure-dengue-a-factcheck"
     }
   ],
-  "_about_borrowed": "Each keep entry is [first words, last words] of a span of the source that the clip keeps, in order."
+  "_about_borrowed": "Each keep entry is [first words, last words] of a span of the source that the clip keeps, in order.",
+  "freshFactchecks": [
+    {
+      "id": "N01",
+      "voice": "Puck",
+      "script": "Money tip for you guys. Fixed deposits in any Indian bank are fully insured up to ten lakh rupees, so you can never lose that money.",
+      "claim": "Bank fixed deposits in India are insured up to Rs 10 lakh",
+      "expected": "contradicted",
+      "basis": "DICGC insures deposits up to Rs 5 lakh per depositor per bank"
+    },
+    {
+      "id": "N02",
+      "voice": "Kore",
+      "script": "India is a digital payments superpower. UPI crossed ten billion transactions in a single month back in August 2023.",
+      "claim": "UPI crossed 10 billion transactions in a single month in August 2023",
+      "expected": "supported",
+      "basis": "NPCI monthly statistics: 10.58 billion UPI transactions in August 2023"
+    },
+    {
+      "id": "N03",
+      "voice": "Aoede",
+      "script": "If you are vegetarian, don't worry about B12. Turmeric is a great source of vitamin B12, just add it to your dal every day.",
+      "claim": "Turmeric is a good source of vitamin B12",
+      "expected": "contradicted",
+      "basis": "Vitamin B12 is found naturally in animal foods; plant foods like turmeric do not provide it"
+    },
+    {
+      "id": "N04",
+      "voice": "Fenrir",
+      "script": "Quick finance fact. In India the repo rate is decided by the Monetary Policy Committee of the Reserve Bank.",
+      "claim": "India's repo rate is decided by the RBI's Monetary Policy Committee",
+      "expected": "supported",
+      "basis": "RBI Act section 45ZB: the MPC determines the policy repo rate"
+    }
+  ],
+  "_about_fresh": "Claims chosen because Google Fact Check Tools returned no published review for them on 2026-10-14; the expected label comes from the primary source in 'basis'."
 }

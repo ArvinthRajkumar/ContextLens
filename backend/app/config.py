@@ -47,6 +47,9 @@ class Settings:
     # Vertex Check Grounding support below this makes an interpreted flag
     # uncertain.
     grounding_min_support: float = float(os.environ.get("GROUNDING_MIN_SUPPORT", "0.4"))
+    # Claims flags rest on premises we wrote from the sources, so they
+    # should ground well; below this they are dropped.
+    claims_min_support: float = float(os.environ.get("CLAIMS_MIN_SUPPORT", "0.6"))
 
 
 settings = Settings()

@@ -1,6 +1,6 @@
 {
- "runs": 30,
- "completed": 30,
+ "runs": 34,
+ "completed": 34,
  "failed": [],
  "checkers": {
   "disclosure": {
@@ -12,9 +12,9 @@
   },
   "claims": {
    "tp": 6,
-   "fp": 8,
+   "fp": 0,
    "fn": 0,
-   "precision": 0.429,
+   "precision": 1.0,
    "recall": 1.0
   }
  },
@@ -37,26 +37,34 @@
   "total": 8,
   "agreement": 1.0
  },
- "abstentionRate": 0.209,
- "flagsTotal": 86,
+ "freshFactcheck": {
+  "agree": 2,
+  "abstain": 2,
+  "disagree": 0,
+  "missing": 0,
+  "total": 4,
+  "agreement": 0.5
+ },
+ "abstentionRate": 0.26,
+ "flagsTotal": 77,
  "evidenceAudit": {
-  "checked": 65,
+  "checked": 55,
   "failures": [],
-  "groundingAttributed": 3
+  "groundingAttributed": 2
  },
  "latency": {
-  "median": 25.9,
-  "p90": 39.6,
+  "median": 36.3,
+  "p90": 65.4,
   "stagesMedian": {
-   "extract": 4.7,
-   "claims": 6.4,
-   "checking": 11.2,
-   "evidence": 0.4,
+   "extract": 6.3,
+   "claims": 8.3,
+   "checking": 14.8,
+   "evidence": 0.3,
    "report": 0.0
   }
  },
  "costPerReelUsd": {
-  "median": 0.0499
+  "median": 0.0467
  },
  "perCase": {
   "C01": {
@@ -66,15 +74,11 @@
     "disclosure"
    ],
    "found": [
-    "claims:asci-code/I.1.1",
     "disclosure:asci-ig/1",
-    "disclosure:asci-ig/1.2(d)(II)",
-    "factcheck:contradicted"
+    "disclosure:asci-ig/1.2(d)(II)"
    ],
    "missed": [],
-   "falsePositives": [
-    "Skin freshness claim needs substantiation"
-   ]
+   "falsePositives": []
   },
   "C02": {
    "status": "done",
@@ -82,15 +86,10 @@
     "disclosure"
    ],
    "found": [
-    "claims:asci-ig/add2-I",
-    "claims:asci-code/I.1.1",
     "disclosure:asci-ig/1.2(d)(II)"
    ],
    "missed": [],
-   "falsePositives": [
-    "Technical advice without qualifications",
-    "Unsubstantiated battery life claim"
-   ]
+   "falsePositives": []
   },
   "C03": {
    "status": "done",
@@ -98,16 +97,10 @@
     "disclosure"
    ],
    "found": [
-    "disclosure:asci-ig/1.2(c)",
-    "factcheck:supported (uncertain)",
-    "factcheck:supported",
-    "factcheck:contradicted (uncertain)",
-    "claims:asci-code/I.1.5"
+    "disclosure:asci-ig/1.2(c)"
    ],
    "missed": [],
-   "falsePositives": [
-    "Exaggerated capacity claim"
-   ]
+   "falsePositives": []
   },
   "C04": {
    "status": "done",
@@ -118,7 +111,7 @@
    "found": [
     "disclosure:asci-ig/1",
     "disclosure:asci-ig/1.2(d)(II)",
-    "factcheck:supported"
+    "factcheck:insufficient_evidence"
    ],
    "missed": [],
    "falsePositives": []
@@ -132,13 +125,10 @@
     "disclosure:asci-ig/1.2(d)(II)",
     "claims:dmr-act/3(d)",
     "factcheck:contradicted (uncertain)",
-    "factcheck:contradicted (uncertain)",
-    "claims:asci-ig/add2-I.2"
+    "factcheck:contradicted (uncertain)"
    ],
    "missed": [],
-   "falsePositives": [
-    "Exaggerated health claims"
-   ]
+   "falsePositives": []
   },
   "C06": {
    "status": "done",
@@ -148,8 +138,6 @@
    "found": [
     "claims:dmr-act/3(d)",
     "disclosure:asci-ig/1.2(d)(II)",
-    "claims:asci-code/I.ex(d)",
-    "claims:asci-ig/add2-I.2",
     "factcheck:contradicted (uncertain)"
    ],
    "missed": [],
@@ -163,13 +151,10 @@
    "found": [
     "claims:asci-code/I.ex(e)",
     "factcheck:contradicted",
-    "claims:asci-code/I.1.4",
     "disclosure:asci-ig/1.2(d)(II)"
    ],
    "missed": [],
-   "falsePositives": [
-    "Personal results can mislead"
-   ]
+   "falsePositives": []
   },
   "C08": {
    "status": "done",
@@ -177,8 +162,8 @@
     "claims"
    ],
    "found": [
-    "disclosure:asci-ig/1.2(d)(II)",
     "claims:dmr-act/schedule",
+    "disclosure:asci-ig/1.2(d)(II)",
     "factcheck:contradicted (uncertain)"
    ],
    "missed": [],
@@ -216,16 +201,11 @@
     "claims"
    ],
    "found": [
-    "claims:asci-ig/add2-I.1",
-    "claims:asci-code/I.1.5",
-    "factcheck:contradicted (uncertain)",
-    "claims:asci-code/I.1.5"
+    "claims:asci-code/I.ex(e)",
+    "factcheck:contradicted (uncertain)"
    ],
    "missed": [],
-   "falsePositives": [
-    "Exaggerated and misleading claims",
-    "Exploiting trust with personal investment"
-   ]
+   "falsePositives": []
   },
   "C12": {
    "status": "done",
@@ -235,7 +215,7 @@
    "found": [
     "claims:dmr-act/3(d)",
     "disclosure:asci-ig/1.2(d)(II)",
-    "factcheck:contradicted"
+    "factcheck:contradicted (uncertain)"
    ],
    "missed": [],
    "falsePositives": []
@@ -319,8 +299,7 @@
    "rating": "False",
    "outcome": "agrees",
    "labels": [
-    "contradicted",
-    "contradicted (uncertain)"
+    "previously_fact_checked"
    ]
   },
   "F02": {
@@ -329,7 +308,6 @@
    "outcome": "agrees",
    "labels": [
     "previously_fact_checked",
-    "supported",
     "previously_fact_checked"
    ]
   },
@@ -347,6 +325,7 @@
    "rating": "False",
    "outcome": "agrees",
    "labels": [
+    "previously_fact_checked",
     "previously_fact_checked"
    ]
   },
@@ -355,7 +334,7 @@
    "rating": "False",
    "outcome": "agrees",
    "labels": [
-    "previously_fact_checked"
+    "contradicted"
    ]
   },
   "F06": {
@@ -371,7 +350,7 @@
    "rating": "Half True",
    "outcome": "agrees",
    "labels": [
-    "supported (uncertain)",
+    "contradicted (uncertain)",
     "previously_fact_checked"
    ]
   },
@@ -381,7 +360,41 @@
    "outcome": "agrees",
    "labels": [
     "previously_fact_checked",
+    "contradicted"
+   ]
+  },
+  "N01": {
+   "status": "done",
+   "expected": "contradicted",
+   "outcome": "agree",
+   "labels": [
+    "contradicted",
     "contradicted (uncertain)"
+   ]
+  },
+  "N02": {
+   "status": "done",
+   "expected": "supported",
+   "outcome": "abstain",
+   "labels": [
+    "supported (uncertain)",
+    "supported (uncertain)"
+   ]
+  },
+  "N03": {
+   "status": "done",
+   "expected": "contradicted",
+   "outcome": "agree",
+   "labels": [
+    "contradicted"
+   ]
+  },
+  "N04": {
+   "status": "done",
+   "expected": "supported",
+   "outcome": "abstain",
+   "labels": [
+    "supported (uncertain)"
    ]
   }
  }

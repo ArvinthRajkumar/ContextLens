@@ -140,6 +140,10 @@ class RealEvidence:
         for n, (candidate, flag) in enumerate(zip(candidates, flags, strict=True)):
             log.info(json.dumps({"event": "gate", "jobId": ctx.job_id, "n": n, "category": flag["category"],
                                  "uncertain": bool(flag.get("uncertain")), "notes": candidate.gate_notes}))
+        dropped = sum(1 for f in flags if f.pop("dropped", False))
+        flags = [f for f, c in zip(flags, candidates, strict=True) if not (c.drop_if_weak and f.get("uncertain"))]
+        if dropped:
+            log.info(json.dumps({"event": "gate_dropped", "jobId": ctx.job_id, "count": dropped}))
         ctx.data["flags"] = flags
         uncertain = sum(1 for f in flags if f.get("uncertain"))
         detail = f"{len(flags) - uncertain} verified, {uncertain} for a human look"

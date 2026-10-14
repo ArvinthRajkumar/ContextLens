@@ -178,7 +178,7 @@ def main() -> None:
         if not only or case["id"] in only:
             reel(case, case.get("overlays", []))
             print("ok", case["id"])
-    for case in cases["factchecks"]:
+    for case in cases["factchecks"] + cases.get("freshFactchecks", []):
         if not only or case["id"] in only:
             reel(case, [])
             print("ok", case["id"])

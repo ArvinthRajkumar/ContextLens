@@ -37,7 +37,7 @@ def jobs(cases: dict) -> list[dict]:
     for case in cases["compliance"] + cases["controls"]:
         out.append({"id": case["id"], "group": "compliance" if case["id"].startswith("C") else "control",
                     "video": MEDIA / f"{case['id']}.mp4", "declaration": case["declaration"]})
-    for case in cases["factchecks"]:
+    for case in cases["factchecks"] + cases.get("freshFactchecks", []):
         out.append({"id": case["id"], "group": "factcheck", "video": MEDIA / f"{case['id']}.mp4",
                     "declaration": {"caption": "Sharing something useful #info", "isPaid": False, "category": "general"}})
     for case in cases["borrowed"]:
@@ -48,9 +48,9 @@ def jobs(cases: dict) -> list[dict]:
     return out
 
 
-def run_all(cases: dict) -> dict:
+def run_all(cases: dict, only: tuple[str, ...] | None = None) -> dict:
     client = Client(api_key())
-    todo = jobs(cases)
+    todo = [j for j in jobs(cases) if not only or j["id"].startswith(only)]
 
     def one(job: dict) -> tuple[str, Result]:
         clips = {0: str(job["clip"])} if job.get("clip") else None
@@ -80,6 +80,8 @@ def run_all(cases: dict) -> dict:
             minutes += probe(str(job["clip"]))[0] / 60000
         raw[job["id"]]["audioMinutes"] = round(minutes, 3)
     RESULTS.mkdir(exist_ok=True)
+    if only and (RESULTS / "raw.json").exists():
+        raw = {**json.loads((RESULTS / "raw.json").read_text(encoding="utf-8")), **raw}
     (RESULTS / "raw.json").write_text(json.dumps(raw, indent=1, ensure_ascii=False), encoding="utf-8")
     return raw
 
@@ -191,6 +193,27 @@ def score(cases: dict, raw: dict) -> dict:
         per_case[case["id"]] = {"status": result["status"], "rating": case["rating"], "outcome": outcome,
                                 "labels": [f"{f.get('factLabel')}{' (uncertain)' if f.get('uncertain') else ''}" for f in checks]}
 
+    # Fresh fact checks: no published review exists, so Gemini with Search
+    # has to judge them itself.
+    fresh = {"agree": 0, "abstain": 0, "disagree": 0, "missing": 0, "total": 0}
+    for case in cases.get("freshFactchecks", []):
+        result = raw[case["id"]]
+        all_flags += result["flags"]
+        checks = [f for f in result["flags"] if f["category"] == "factcheck"]
+        decided = [f for f in checks if not f.get("uncertain")]
+        fresh["total"] += 1
+        if any(f.get("factLabel") == case["expected"] for f in decided):
+            outcome = "agree"
+        elif any(f.get("factLabel") in {"supported", "contradicted"} for f in decided):
+            outcome = "disagree"
+        elif checks:
+            outcome = "abstain"
+        else:
+            outcome = "missing"
+        fresh[outcome] += 1
+        per_case[case["id"]] = {"status": result["status"], "expected": case["expected"], "outcome": outcome,
+                                "labels": [f"{f.get('factLabel')}{' (uncertain)' if f.get('uncertain') else ''}" for f in checks]}
+
     # Evidence audit: every verified quote, checked again here, independently.
     audit = {"checked": 0, "failures": [], "groundingAttributed": 0}
     truths = {c["id"]: json.loads((MEDIA / f"{c['id']}_truth.json").read_text(encoding="utf-8")) for c in cases["borrowed"]}
@@ -245,6 +268,7 @@ def score(cases: dict, raw: dict) -> dict:
         "alignmentCases": aligned,
         "factcheck": {"agree": agree, "abstain": abstain, "missing": missing, "total": len(cases["factchecks"]),
                       "agreement": ratio(agree, len(cases["factchecks"]))},
+        "freshFactcheck": {**fresh, "agreement": ratio(fresh["agree"], fresh["total"])},
         "abstentionRate": ratio(uncertain, len(all_flags)),
         "flagsTotal": len(all_flags),
         "evidenceAudit": audit,
@@ -280,9 +304,13 @@ def _cost(result: dict) -> float:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--score", action="store_true", help="Only score the saved raw results.")
+    parser.add_argument("--only", help="Comma separated case ID prefixes to rerun; the rest are kept from raw.json.")
     args = parser.parse_args()
     cases = json.loads((HERE / "cases.json").read_text(encoding="utf-8"))
-    raw = json.loads((RESULTS / "raw.json").read_text(encoding="utf-8")) if args.score else run_all(cases)
+    if args.score:
+        raw = json.loads((RESULTS / "raw.json").read_text(encoding="utf-8"))
+    else:
+        raw = run_all(cases, tuple(args.only.split(",")) if args.only else None)
     metrics = score(cases, raw)
     (RESULTS / "metrics.json").write_text(json.dumps(metrics, indent=1, ensure_ascii=False), encoding="utf-8")
     print(json.dumps({k: v for k, v in metrics.items() if k != "perCase"}, indent=1))
