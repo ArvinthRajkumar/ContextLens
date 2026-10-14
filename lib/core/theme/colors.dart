@@ -28,6 +28,9 @@ class AppPalette {
     required this.contradicted,
     required this.previouslyFactChecked,
     required this.insufficientEvidence,
+    required this.seekPlayed,
+    required this.seekBuffered,
+    required this.seekTrack,
   });
 
   final Brightness brightness;
@@ -55,6 +58,11 @@ class AppPalette {
   final Color previouslyFactChecked;
   final Color insufficientEvidence;
 
+  /// The video seek bar: played (video-player red), buffered, the rest.
+  final Color seekPlayed;
+  final Color seekBuffered;
+  final Color seekTrack;
+
   static const dark = AppPalette(
     brightness: Brightness.dark,
     background: Color(0xFF0B0F14),
@@ -80,6 +88,9 @@ class AppPalette {
     contradicted: Color(0xFFFF6B6B),
     previouslyFactChecked: Color(0xFF8AB4FF),
     insufficientEvidence: Color(0xFF9AA6B2),
+    seekPlayed: Color(0xFFFF0033),
+    seekBuffered: Color(0x66FFFFFF),
+    seekTrack: Color(0x33FFFFFF),
   );
 
   // Where the spec's light values fell under 4.5:1 on white (primary,
@@ -110,6 +121,9 @@ class AppPalette {
     contradicted: Color(0xFFC62828),
     previouslyFactChecked: Color(0xFF1E5BD8),
     insufficientEvidence: Color(0xFF4A5663),
+    seekPlayed: Color(0xFFFF0033),
+    seekBuffered: Color(0x4D0E141B),
+    seekTrack: Color(0x1F0E141B),
   );
 }
 
@@ -129,6 +143,9 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.insufficientEvidence,
     required this.cardShadows,
     required this.cardBorder,
+    required this.seekPlayed,
+    required this.seekBuffered,
+    required this.seekTrack,
   });
 
   factory AppColors.fromPalette(AppPalette p) {
@@ -156,6 +173,9 @@ class AppColors extends ThemeExtension<AppColors> {
               ),
             ],
       cardBorder: isDark ? p.outlineVariant : null,
+      seekPlayed: p.seekPlayed,
+      seekBuffered: p.seekBuffered,
+      seekTrack: p.seekTrack,
     );
   }
 
@@ -171,6 +191,9 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color insufficientEvidence;
   final List<BoxShadow> cardShadows;
   final Color? cardBorder;
+  final Color seekPlayed;
+  final Color seekBuffered;
+  final Color seekTrack;
 
   static AppColors of(BuildContext context) =>
       Theme.of(context).extension<AppColors>()!;
@@ -189,6 +212,9 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? insufficientEvidence,
     List<BoxShadow>? cardShadows,
     Color? cardBorder,
+    Color? seekPlayed,
+    Color? seekBuffered,
+    Color? seekTrack,
   }) {
     return AppColors(
       background: background ?? this.background,
@@ -204,6 +230,9 @@ class AppColors extends ThemeExtension<AppColors> {
       insufficientEvidence: insufficientEvidence ?? this.insufficientEvidence,
       cardShadows: cardShadows ?? this.cardShadows,
       cardBorder: cardBorder ?? this.cardBorder,
+      seekPlayed: seekPlayed ?? this.seekPlayed,
+      seekBuffered: seekBuffered ?? this.seekBuffered,
+      seekTrack: seekTrack ?? this.seekTrack,
     );
   }
 
@@ -231,6 +260,26 @@ class AppColors extends ThemeExtension<AppColors> {
       )!,
       cardShadows: BoxShadow.lerpList(cardShadows, other.cardShadows, t)!,
       cardBorder: Color.lerp(cardBorder, other.cardBorder, t),
+      seekPlayed: Color.lerp(seekPlayed, other.seekPlayed, t)!,
+      seekBuffered: Color.lerp(seekBuffered, other.seekBuffered, t)!,
+      seekTrack: Color.lerp(seekTrack, other.seekTrack, t)!,
     );
   }
+}
+
+/// The fire on the team name in About. Fixed colors: fire looks the same in
+/// every theme, on its own dark card.
+abstract final class FireColors {
+  static const glowTop = Color(0xFFFFD54F);
+  static const glowBottom = Color(0xFFFF6D00);
+  static const ember = Color(0xFFFFB74D);
+
+  /// The word as the shader samples it: white, alpha is what counts.
+  static const mask = Color(0xFFFFFFFF);
+
+  /// The dark glass card the fire sits on.
+  static const card = Color(0xE6120C0A);
+  static const cardBorder = Color(0x33FFB74D);
+  static const onCard = Color(0xFFF5EDE6);
+  static const onCardMuted = Color(0xB3F5EDE6);
 }

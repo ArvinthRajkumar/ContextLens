@@ -1,17 +1,16 @@
 import 'dart:async';
 
-import 'package:contextlens/core/theme/colors.dart';
 import 'package:contextlens/core/theme/motion.dart';
 import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/utils/formatters.dart';
 import 'package:contextlens/core/widgets/app_button.dart';
 import 'package:contextlens/core/widgets/app_card.dart';
 import 'package:contextlens/core/widgets/empty_state.dart';
-import 'package:contextlens/core/widgets/info_pill.dart';
+import 'package:contextlens/core/widgets/reorder_slide.dart';
 import 'package:contextlens/core/widgets/section_header.dart';
+import 'package:contextlens/features/report/category_chip.dart';
 import 'package:contextlens/features/report/comparison.dart';
 import 'package:contextlens/features/report/flag_card.dart';
-import 'package:contextlens/features/report/flag_presentation.dart';
 import 'package:contextlens/features/report/flag_timeline.dart';
 import 'package:contextlens/features/report/job_repository.dart';
 import 'package:contextlens/features/report/models.dart';
@@ -129,6 +128,9 @@ class _ReportState extends ConsumerState<_Report> {
   ReportPlayer? _player;
   String? _selectedId;
 
+  /// The category chosen in the summary: its flags come first.
+  FlagCategory? _focus;
+
   /// The video's real length once the player knows it; markers and the
   /// playhead must share one scale.
   int? _playerDurationMs;
@@ -186,6 +188,22 @@ class _ReportState extends ConsumerState<_Report> {
     if (play) await player.play();
   }
 
+  void _onFocus(FlagCategory category) {
+    setState(() => _focus = _focus == category ? null : category);
+  }
+
+  /// [flags] with the focused category first; both parts keep their order.
+  List<Flag> _ordered(List<Flag> flags) {
+    final focus = _focus;
+    if (focus == null) return flags;
+    return [
+      for (final flag in flags)
+        if (flag.category == focus) flag,
+      for (final flag in flags)
+        if (flag.category != focus) flag,
+    ];
+  }
+
   void _onCardTap(Flag flag) {
     setState(() => _selectedId = flag.id);
     unawaited(_seek(flag));
@@ -213,9 +231,9 @@ class _ReportState extends ConsumerState<_Report> {
   @override
   Widget build(BuildContext context) {
     final player = _player;
-    final issues = job.issues;
-    final uncertain = job.uncertainFlags;
-    final checked = job.checkedClaims;
+    final issues = _ordered(job.issues);
+    final uncertain = _ordered(job.uncertainFlags);
+    final checked = _ordered(job.checkedClaims);
     final onTimeline = [...issues, ...uncertain];
     final runs = ref.watch(runHistoryProvider(job.id));
     final parentId = job.parentJobId;
@@ -253,7 +271,8 @@ class _ReportState extends ConsumerState<_Report> {
                   playback: player.state,
                   selectedId: _selectedId,
                   onSelect: _onMarkerTap,
-                  reveal: _reveal,
+                  onSeek: (position) => unawaited(player.seekTo(position)),
+                  focus: _focus,
                 ),
               const Divider(height: 1),
               Expanded(
@@ -273,7 +292,12 @@ class _ReportState extends ConsumerState<_Report> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            _Summary(job: job, reveal: stagger),
+                            _Summary(
+                              job: job,
+                              reveal: stagger,
+                              focus: _focus,
+                              onFocus: _onFocus,
+                            ),
                             if (job.skipped.isNotEmpty) ...[
                               const SizedBox(height: Spacing.space4),
                               SkippedNotice(skipped: job.skipped),
@@ -301,13 +325,17 @@ class _ReportState extends ConsumerState<_Report> {
                                     : '${issues.length} flags',
                               ),
                               for (final (i, flag) in issues.indexed) ...[
-                                FlagCard(
-                                  key: _keyFor(flag),
-                                  flag: flag,
-                                  selected: flag.id == _selectedId,
-                                  pulse: _pulses[flag.id] ?? 0,
-                                  onTap: () => _onCardTap(flag),
-                                  onWatch: () => _seek(flag, play: true),
+                                ReorderSlide(
+                                  key: ValueKey('slide-${flag.id}'),
+                                  order: _focus ?? 'default',
+                                  child: FlagCard(
+                                    key: _keyFor(flag),
+                                    flag: flag,
+                                    selected: flag.id == _selectedId,
+                                    pulse: _pulses[flag.id] ?? 0,
+                                    onTap: () => _onCardTap(flag),
+                                    onWatch: () => _seek(flag, play: true),
+                                  ),
                                 )._rise(
                                   enabled: stagger && i < _maxStaggered,
                                   index: i,
@@ -318,13 +346,17 @@ class _ReportState extends ConsumerState<_Report> {
                             if (uncertain.isNotEmpty) ...[
                               const SectionHeader(title: 'Needs a human look'),
                               for (final flag in uncertain) ...[
-                                FlagCard(
-                                  key: _keyFor(flag),
-                                  flag: flag,
-                                  selected: flag.id == _selectedId,
-                                  pulse: _pulses[flag.id] ?? 0,
-                                  onTap: () => _onCardTap(flag),
-                                  onWatch: () => _seek(flag, play: true),
+                                ReorderSlide(
+                                  key: ValueKey('slide-${flag.id}'),
+                                  order: _focus ?? 'default',
+                                  child: FlagCard(
+                                    key: _keyFor(flag),
+                                    flag: flag,
+                                    selected: flag.id == _selectedId,
+                                    pulse: _pulses[flag.id] ?? 0,
+                                    onTap: () => _onCardTap(flag),
+                                    onWatch: () => _seek(flag, play: true),
+                                  ),
                                 ),
                                 const SizedBox(height: Spacing.space3),
                               ],
@@ -332,13 +364,17 @@ class _ReportState extends ConsumerState<_Report> {
                             if (checked.isNotEmpty) ...[
                               const SectionHeader(title: 'Claims checked'),
                               for (final claim in checked) ...[
-                                FlagCard(
-                                  key: _keyFor(claim),
-                                  flag: claim,
-                                  selected: claim.id == _selectedId,
-                                  pulse: _pulses[claim.id] ?? 0,
-                                  onTap: () => _onCardTap(claim),
-                                  onWatch: () => _seek(claim, play: true),
+                                ReorderSlide(
+                                  key: ValueKey('slide-${claim.id}'),
+                                  order: _focus ?? 'default',
+                                  child: FlagCard(
+                                    key: _keyFor(claim),
+                                    flag: claim,
+                                    selected: claim.id == _selectedId,
+                                    pulse: _pulses[claim.id] ?? 0,
+                                    onTap: () => _onCardTap(claim),
+                                    onWatch: () => _seek(claim, play: true),
+                                  ),
                                 ),
                                 const SizedBox(height: Spacing.space3),
                               ],
@@ -391,15 +427,21 @@ extension on Widget {
 }
 
 class _Summary extends StatelessWidget {
-  const _Summary({required this.job, required this.reveal});
+  const _Summary({
+    required this.job,
+    required this.reveal,
+    required this.focus,
+    required this.onFocus,
+  });
 
   final Job job;
   final bool reveal;
+  final FlagCategory? focus;
+  final ValueChanged<FlagCategory> onFocus;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = AppColors.of(context);
     final counts = job.issueCounts;
     final total = job.issues.length;
 
@@ -449,15 +491,11 @@ class _Summary extends StatelessWidget {
             children: [
               for (final MapEntry(key: category, value: count)
                   in counts.entries)
-                InfoPill(
-                  icon: category.icon,
-                  // "Claims 2" reads right for every category; "2 claims"
-                  // breaks for "fact check" and singulars.
-                  label: '${category.label} $count',
-                  semanticsLabel:
-                      '$count ${category.label.toLowerCase()} '
-                      '${count == 1 ? 'flag' : 'flags'}',
-                  color: category.color(colors),
+                CategoryChip(
+                  category: category,
+                  count: count,
+                  selected: focus == category,
+                  onTap: () => onFocus(category),
                 ),
             ],
           ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,27 +11,20 @@ final sharedPreferencesProvider = Provider<SharedPreferences>(
 
 @immutable
 class AppearanceSettings {
-  const AppearanceSettings({
-    this.themeMode = ThemeMode.dark,
-    this.reduceMotion = false,
-  });
+  const AppearanceSettings({this.themeMode = ThemeMode.dark});
 
   final ThemeMode themeMode;
 
-  /// Forces reduced motion on top of the system setting.
-  final bool reduceMotion;
-
-  AppearanceSettings copyWith({ThemeMode? themeMode, bool? reduceMotion}) {
-    return AppearanceSettings(
-      themeMode: themeMode ?? this.themeMode,
-      reduceMotion: reduceMotion ?? this.reduceMotion,
-    );
+  AppearanceSettings copyWith({ThemeMode? themeMode}) {
+    return AppearanceSettings(themeMode: themeMode ?? this.themeMode);
   }
 }
 
 class ThemeController extends Notifier<AppearanceSettings> {
   static const _themeKey = 'appearance.themeMode';
-  static const _motionKey = 'appearance.reduceMotion';
+  // The in-app "Reduce motion" switch is gone; only the system setting
+  // counts now. Clears the old stored choice.
+  static const _legacyMotionKey = 'appearance.reduceMotion';
 
   SharedPreferences get _prefs => ref.read(sharedPreferencesProvider);
 
@@ -37,23 +32,20 @@ class ThemeController extends Notifier<AppearanceSettings> {
   AppearanceSettings build() {
     final prefs = ref.watch(sharedPreferencesProvider);
     final storedMode = prefs.getString(_themeKey);
+    if (prefs.containsKey(_legacyMotionKey)) {
+      unawaited(prefs.remove(_legacyMotionKey));
+    }
     return AppearanceSettings(
       themeMode: ThemeMode.values.firstWhere(
         (m) => m.name == storedMode,
         orElse: () => ThemeMode.dark,
       ),
-      reduceMotion: prefs.getBool(_motionKey) ?? false,
     );
   }
 
   Future<void> setThemeMode(ThemeMode mode) async {
     state = state.copyWith(themeMode: mode);
     await _prefs.setString(_themeKey, mode.name);
-  }
-
-  Future<void> setReduceMotion({required bool enabled}) async {
-    state = state.copyWith(reduceMotion: enabled);
-    await _prefs.setBool(_motionKey, enabled);
   }
 }
 

@@ -41,6 +41,7 @@ class PlaybackState {
     this.isReady = false,
     this.hasError = false,
     this.aspectRatio = 9 / 16,
+    this.buffered = Duration.zero,
   });
 
   final Duration position;
@@ -49,6 +50,9 @@ class PlaybackState {
   final bool isReady;
   final bool hasError;
   final double aspectRatio;
+
+  /// How far the video has loaded, for the seek bar.
+  final Duration buffered;
 }
 
 /// The report's video. Position changes go through [state], so widgets that
@@ -104,6 +108,10 @@ class VideoReportPlayer implements ReportPlayer {
       isReady: v.isInitialized,
       hasError: v.hasError,
       aspectRatio: v.isInitialized ? v.aspectRatio : 9 / 16,
+      buffered: v.buffered.fold(
+        Duration.zero,
+        (end, range) => range.end > end ? range.end : end,
+      ),
     );
   }
 

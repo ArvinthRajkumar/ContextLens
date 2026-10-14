@@ -1,4 +1,5 @@
 import 'package:contextlens/core/theme/app_theme.dart';
+import 'package:contextlens/features/drafts/draft_repository.dart';
 import 'package:contextlens/features/report/job_repository.dart';
 import 'package:contextlens/features/settings/delete_data_tile.dart';
 import 'package:contextlens/features/settings/mock_data_controller.dart';
@@ -17,7 +18,10 @@ void main() {
     FlutterSecureStorage.setMockInitialValues({});
     final prefs = await SharedPreferences.getInstance();
     container = ProviderContainer(
-      overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(prefs),
+        draftRepositoryProvider.overrideWithValue(MemoryDraftRepository()),
+      ],
     );
     addTearDown(container.dispose);
     await tester.pumpWidget(

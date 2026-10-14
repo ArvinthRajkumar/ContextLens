@@ -153,3 +153,13 @@ docs/           Build spec, infrastructure record (INFRA.md), screenshots
 - **Fact checks depend on search results**: verdicts on claims no fact-checker has covered can vary between runs; when the evidence cannot be verified the flag stays uncertain.
 - **Claims over-flagging**: merging duplicate findings and a stricter judge are next.
 - **In progress**: Google sign-in linking, a resume banner for uploads interrupted by an app restart, borrowed clips from links other than YouTube, iOS.
+
+## Team Tekken
+
+| Member |
+|---|
+| Arvinth |
+| Anju Priya Manam |
+| Akash |
+
+Built for the Google Cloud AI Builder Cup 2026.

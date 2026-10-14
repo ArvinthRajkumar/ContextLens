@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:contextlens/core/config.dart';
 import 'package:contextlens/features/auth/auth_repository.dart';
+import 'package:contextlens/features/drafts/drafts_controller.dart';
 import 'package:contextlens/features/push/push_service.dart';
 import 'package:contextlens/features/report/job_repository.dart';
 import 'package:contextlens/features/settings/mock_data_controller.dart';
@@ -28,6 +29,7 @@ class DeleteDataController extends AsyncNotifier<int?> {
       final count = await ref.read(jobRepositoryProvider).deleteAllJobs();
       await ref.read(pushServiceProvider).forget();
       await ref.read(uploadSessionStoreProvider).clear();
+      await ref.read(draftsControllerProvider.notifier).deleteAll();
       ref.read(uploadControllerProvider.notifier).clear();
       if (AppConfig.isMock) {
         await ref

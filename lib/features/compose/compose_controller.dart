@@ -3,6 +3,7 @@ import 'package:contextlens/core/utils/validators.dart';
 import 'package:contextlens/features/compose/declaration.dart';
 import 'package:contextlens/features/compose/video_inspector.dart';
 import 'package:contextlens/features/compose/video_source.dart';
+import 'package:contextlens/features/drafts/draft.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -83,6 +84,14 @@ class ComposeSubmission {
 class ComposeController extends Notifier<ComposeState> {
   int _nextClipId = 0;
 
+  /// The draft this check was opened from, if any.
+  String? _draftId;
+
+  /// Set once "Run check" hands the check over: nothing left to save.
+  bool _submitted = false;
+
+  String? get draftId => _draftId;
+
   // Bumped per pick so a slow inspection can't overwrite a newer pick.
   int _pickToken = 0;
 
@@ -109,13 +118,51 @@ class ComposeController extends Notifier<ComposeState> {
   /// Starts a fresh check.
   void reset() {
     _pickToken++;
+    _draftId = null;
+    _submitted = false;
     state = const ComposeState();
+  }
+
+  /// Opens a saved draft with its video and declaration.
+  void restore(Draft draft) {
+    _pickToken++;
+    _draftId = draft.id;
+    _submitted = false;
+    for (final clip in draft.declaration.clips) {
+      if (clip.id >= _nextClipId) _nextClipId = clip.id + 1;
+    }
+    final video = draft.video;
+    state = ComposeState(
+      video: video == null
+          ? const VideoEmpty()
+          : VideoReady(video, draft.videoName ?? video.name),
+      declaration: draft.declaration,
+    );
+  }
+
+  /// What leaving now would keep, or null when there is nothing worth a
+  /// draft (or the check already ran).
+  Draft? currentDraft({DateTime? now}) {
+    if (_submitted) return null;
+    final video = state.video;
+    final ready = video is VideoReady ? video : null;
+    if (ready == null && !hasContent(state.declaration)) return null;
+    final at = now ?? DateTime.now();
+    return Draft(
+      id: _draftId ?? 'd${at.microsecondsSinceEpoch}',
+      updatedAt: at,
+      declaration: state.declaration,
+      video: ready?.video,
+      videoName: ready?.name,
+    );
   }
 
   /// Starts a fix of an earlier run: keeps its declaration, asks for the
   /// edited video.
   void startFix(DeclarationDraft? declaration) {
     _pickToken++;
+    _draftId = null;
+    _submitted = false;
     final draft = declaration ?? const DeclarationDraft();
     for (final clip in draft.clips) {
       if (clip.id >= _nextClipId) _nextClipId = clip.id + 1;
@@ -212,6 +259,7 @@ class ComposeController extends Notifier<ComposeState> {
   ComposeSubmission? buildSubmission({String? parentJobId}) {
     final video = state.video;
     if (!state.canSubmit || video is! VideoReady) return null;
+    _submitted = true;
     return ComposeSubmission(
       video: video.video,
       declaration: state.declaration,

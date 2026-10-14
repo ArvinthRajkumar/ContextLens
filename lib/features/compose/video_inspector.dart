@@ -29,6 +29,18 @@ class PickedVideo {
   final int width;
   final int height;
   final Uint8List? thumbnail;
+
+  /// The same video at another path (a draft's private copy).
+  PickedVideo atPath(String path) => PickedVideo(
+    path: path,
+    name: name,
+    sizeBytes: sizeBytes,
+    container: container,
+    duration: duration,
+    width: width,
+    height: height,
+    thumbnail: thumbnail,
+  );
 }
 
 sealed class Inspection {

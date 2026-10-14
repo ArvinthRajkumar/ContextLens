@@ -3,6 +3,7 @@ import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/widgets/section_header.dart';
 import 'package:contextlens/features/settings/delete_data_tile.dart';
 import 'package:contextlens/features/settings/mock_data_controller.dart';
+import 'package:contextlens/features/settings/team_card.dart';
 import 'package:contextlens/features/settings/theme_controller.dart';
 import 'package:contextlens/features/splash/intro_controller.dart';
 import 'package:flutter/foundation.dart';
@@ -41,13 +42,6 @@ class SettingsPage extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: Spacing.space2),
-          SwitchListTile(
-            title: const Text('Reduce motion'),
-            subtitle: const Text('Replace animations with simple fades'),
-            value: settings.reduceMotion,
-            onChanged: (enabled) =>
-                controller.setReduceMotion(enabled: enabled),
-          ),
           const Padding(
             padding: Spacing.screenPadding,
             child: SectionHeader(title: 'Privacy'),
@@ -58,13 +52,20 @@ class SettingsPage extends ConsumerWidget {
             title: Text('Privacy policy'),
             subtitle: Text('Videos and reports are deleted after 24 hours'),
           ),
+          const Padding(
+            padding: Spacing.screenPadding,
+            child: SectionHeader(title: 'About'),
+          ),
+          const Padding(padding: Spacing.screenPadding, child: TeamCard()),
           ListTile(
             leading: const Icon(Icons.info_outline),
-            title: const Text('About'),
+            title: const Text('Version and licences'),
             onTap: () => showAboutDialog(
               context: context,
               applicationName: 'ContextLens',
               applicationVersion: '0.1.0',
+              applicationLegalese:
+                  'Team Tekken: ${TeamCard.members.join(', ')}',
             ),
           ),
           if (kDebugMode) ...[

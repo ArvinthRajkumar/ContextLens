@@ -71,9 +71,12 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.tap(find.byTooltip('Settings'));
-    await tester.pumpAndSettle();
+    // The team card's fire never settles; pump past the transition.
+    for (var i = 0; i < 20; i++) {
+      await tester.pump(const Duration(milliseconds: 50));
+    }
     await tester.tap(find.text('Light'));
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 50));
 
     expect(_themeMode(tester), ThemeMode.light);
     final prefs = await SharedPreferences.getInstance();

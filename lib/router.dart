@@ -21,8 +21,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         routes: [
           GoRoute(
             path: 'new',
-            builder: (context, state) =>
-                ComposePage(parentJobId: state.uri.queryParameters['parent']),
+            builder: (context, state) => ComposePage(
+              parentJobId: state.uri.queryParameters['parent'],
+              draftId: state.uri.queryParameters['draft'],
+            ),
           ),
           GoRoute(
             path: 'run/:jobId',

@@ -4,6 +4,7 @@ import 'package:contextlens/core/widgets/section_header.dart';
 import 'package:contextlens/features/home/active_upload_card.dart';
 import 'package:contextlens/features/home/check_video_card.dart';
 import 'package:contextlens/features/home/debug_menu.dart';
+import 'package:contextlens/features/home/drafts_section.dart';
 import 'package:contextlens/features/home/recent_runs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +53,10 @@ class HomePage extends StatelessWidget {
               0,
             ),
             sliver: SliverToBoxAdapter(child: CheckVideoCard()),
+          ),
+          SliverPadding(
+            padding: Spacing.screenPadding,
+            sliver: SliverToBoxAdapter(child: DraftsSection()),
           ),
           SliverPadding(
             padding: Spacing.screenPadding,

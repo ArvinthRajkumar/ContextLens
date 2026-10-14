@@ -25,17 +25,9 @@ class ContextLensApp extends ConsumerWidget {
       darkTheme: AppTheme.dark,
       themeMode: settings.themeMode,
       routerConfig: router,
-      builder: (context, child) {
-        final media = MediaQuery.of(context);
-        // Folds the in-app override into disableAnimations so every widget
-        // (and Motion.of) honors one signal.
-        return MediaQuery(
-          data: settings.reduceMotion
-              ? media.copyWith(disableAnimations: true)
-              : media,
-          child: SplashGate(child: child!),
-        );
-      },
+      // The system "remove animations" setting reaches every widget (and
+      // Motion.of) through MediaQuery.disableAnimations.
+      builder: (context, child) => SplashGate(child: child!),
     );
   }
 }

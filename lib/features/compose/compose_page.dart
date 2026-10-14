@@ -7,6 +7,7 @@ import 'package:contextlens/core/widgets/section_header.dart';
 import 'package:contextlens/features/compose/compose_controller.dart';
 import 'package:contextlens/features/compose/declaration_form.dart';
 import 'package:contextlens/features/compose/video_preview_card.dart';
+import 'package:contextlens/features/drafts/drafts_controller.dart';
 import 'package:contextlens/features/report/job_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,10 +16,13 @@ import 'package:go_router/go_router.dart';
 /// Video preview and declaration on one scrolling page, with a sticky
 /// "Run check" that stays disabled until everything is valid.
 class ComposePage extends ConsumerStatefulWidget {
-  const ComposePage({this.parentJobId, super.key});
+  const ComposePage({this.parentJobId, this.draftId, super.key});
 
   /// Set when fixing a previous run; the new run is compared against it.
   final String? parentJobId;
+
+  /// Set when reopening a draft.
+  final String? draftId;
 
   @override
   ConsumerState<ComposePage> createState() => _ComposePageState();
@@ -29,13 +33,51 @@ class _ComposePageState extends ConsumerState<ComposePage> {
 
   /// False while a fix loads the earlier run's declaration; the form reads
   /// its starting values once, so it waits.
-  late bool _ready = widget.parentJobId == null;
+  late bool _ready = widget.parentJobId == null && widget.draftId == null;
 
   @override
   void initState() {
     super.initState();
     final parent = widget.parentJobId;
     if (parent != null) unawaited(_prefill(parent));
+    final draft = widget.draftId;
+    if (draft != null) unawaited(_restore(draft));
+  }
+
+  Future<void> _restore(String draftId) async {
+    await ref.read(draftsControllerProvider.future);
+    if (!mounted) return;
+    final draft = ref.read(draftsControllerProvider.notifier).byId(draftId);
+    final compose = ref.read(composeControllerProvider.notifier);
+    if (draft == null) {
+      compose.reset();
+    } else {
+      compose.restore(draft);
+    }
+    setState(() => _ready = true);
+  }
+
+  /// Leaving with something worth keeping saves it as a draft. At the
+  /// limit, the creator chooses whether to replace the oldest one.
+  Future<void> _leave() async {
+    final draft = ref.read(composeControllerProvider.notifier).currentDraft();
+    final drafts = ref.read(draftsControllerProvider.notifier);
+    if (draft != null) {
+      await ref.read(draftsControllerProvider.future);
+      final evict = drafts.evictionFor(draft);
+      var save = true;
+      if (evict != null) {
+        if (!mounted) return;
+        final choice = await showDialog<bool>(
+          context: context,
+          builder: (context) => _ReplaceDraftDialog(oldest: evict.title),
+        );
+        if (choice == null) return;
+        save = choice;
+      }
+      if (save) await drafts.save(draft);
+    }
+    if (mounted) context.pop();
   }
 
   Future<void> _prefill(String parentJobId) async {
@@ -53,6 +95,10 @@ class _ComposePageState extends ConsumerState<ComposePage> {
         .read(composeControllerProvider.notifier)
         .buildSubmission(parentJobId: widget.parentJobId);
     if (submission == null) return;
+    final draftId = ref.read(composeControllerProvider.notifier).draftId;
+    if (draftId != null) {
+      unawaited(ref.read(draftsControllerProvider.notifier).delete(draftId));
+    }
     ref.read(pendingSubmissionProvider.notifier).set(submission);
     context.push('/run/pending');
   }
@@ -64,74 +110,82 @@ class _ComposePageState extends ConsumerState<ComposePage> {
       composeControllerProvider.select((s) => s.blocker),
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.parentJobId == null ? 'New check' : 'Check the fix'),
-      ),
-      body: Form(
-        key: _formKey,
-        autovalidateMode: AutovalidateMode.onUnfocus,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(
-            Spacing.screen,
-            Spacing.space2,
-            Spacing.screen,
-            Spacing.space8,
-          ),
-          children: [
-            if (widget.parentJobId case final parent?) ...[
-              _FixBanner(parentJobId: parent),
-              const SizedBox(height: Spacing.space4),
-            ],
-            const VideoPreviewCard(),
-            const SectionHeader(title: 'About this video'),
-            if (_ready)
-              const DeclarationForm()
-            else
-              const Padding(
-                padding: EdgeInsets.all(Spacing.space6),
-                child: Center(child: CircularProgressIndicator()),
-              ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: DecoratedBox(
-        decoration: BoxDecoration(
-          color: theme.scaffoldBackgroundColor,
-          border: Border(
-            top: BorderSide(color: theme.colorScheme.outlineVariant),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) unawaited(_leave());
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            widget.parentJobId == null ? 'New check' : 'Check the fix',
           ),
         ),
-        child: SafeArea(
-          child: Padding(
+        body: Form(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.onUnfocus,
+          child: ListView(
             padding: const EdgeInsets.fromLTRB(
               Spacing.screen,
               Spacing.space2,
               Spacing.screen,
-              Spacing.space3,
+              Spacing.space8,
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (blocker != null) ...[
-                  Semantics(
-                    liveRegion: true,
-                    child: Text(
-                      blocker,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  const SizedBox(height: Spacing.space2),
-                ],
-                AppButton(
-                  label: 'Run check',
-                  expand: true,
-                  onPressed: blocker == null ? _submit : null,
-                ),
+            children: [
+              if (widget.parentJobId case final parent?) ...[
+                _FixBanner(parentJobId: parent),
+                const SizedBox(height: Spacing.space4),
               ],
+              const VideoPreviewCard(),
+              const SectionHeader(title: 'About this video'),
+              if (_ready)
+                const DeclarationForm()
+              else
+                const Padding(
+                  padding: EdgeInsets.all(Spacing.space6),
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: DecoratedBox(
+          decoration: BoxDecoration(
+            color: theme.scaffoldBackgroundColor,
+            border: Border(
+              top: BorderSide(color: theme.colorScheme.outlineVariant),
+            ),
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                Spacing.screen,
+                Spacing.space2,
+                Spacing.screen,
+                Spacing.space3,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (blocker != null) ...[
+                    Semantics(
+                      liveRegion: true,
+                      child: Text(
+                        blocker,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    const SizedBox(height: Spacing.space2),
+                  ],
+                  AppButton(
+                    label: 'Run check',
+                    expand: true,
+                    onPressed: blocker == null ? _submit : null,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -174,6 +228,33 @@ class _FixBanner extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ReplaceDraftDialog extends StatelessWidget {
+  const _ReplaceDraftDialog({required this.oldest});
+
+  final String oldest;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Save as a draft?'),
+      content: Text(
+        'You can keep ${DraftsController.limit} drafts. Saving this will '
+        "delete your oldest draft, '$oldest'.",
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: const Text('Discard'),
+        ),
+        FilledButton(
+          onPressed: () => Navigator.pop(context, true),
+          child: const Text('Save'),
+        ),
+      ],
     );
   }
 }

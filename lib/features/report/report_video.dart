@@ -1,11 +1,9 @@
 import 'package:contextlens/core/theme/spacing.dart';
-import 'package:contextlens/core/theme/typography.dart';
-import 'package:contextlens/core/utils/formatters.dart';
 import 'package:contextlens/features/report/playback.dart';
 import 'package:flutter/material.dart';
 
 /// The report's video, letterboxed on a dark band, with tap to play or
-/// pause and a mono timecode. Only the overlay listens to playback ticks;
+/// pause; the seek bar below it shows the time. Only the overlay listens to playback ticks;
 /// the video surface itself never rebuilds on progress.
 class ReportVideo extends StatelessWidget {
   const ReportVideo({required this.player, required this.height, super.key});
@@ -19,8 +17,6 @@ class ReportVideo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return SizedBox(
       height: height,
       child: ColoredBox(
@@ -69,20 +65,6 @@ class ReportVideo extends StatelessWidget {
                           ),
                         ),
                       ),
-                    Positioned(
-                      right: Spacing.space3,
-                      bottom: Spacing.space2,
-                      child: Text(
-                        '${formatDurationMs(state.position.inMilliseconds)}'
-                        ' / ${formatDurationMs(state.duration.inMilliseconds)}',
-                        style: AppTypography.monoOf(theme.textTheme.labelMedium)
-                            .copyWith(color: _onBand),
-                        // An overlay on the picture: grows a little, never
-                        // enough to cover it.
-                        textScaler: MediaQuery.textScalerOf(context)
-                            .clamp(maxScaleFactor: 1.3),
-                      ),
-                    ),
                   ],
                 ),
               ),

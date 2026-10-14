@@ -242,6 +242,34 @@ void main() {
     );
   });
 
+  testWidgets('a category chip brings its flags to the top and back', (
+    tester,
+  ) async {
+    await pumpRoute(tester, '/report/job_demo_finance');
+    List<String> order() => tester
+        .widgetList<FlagCard>(find.byType(FlagCard, skipOffstage: false))
+        .where((card) => card.flag.isIssue)
+        .map((card) => card.flag.id)
+        .toList();
+    final initial = order();
+    expect(initial.first, 'b1');
+
+    await tester.tap(find.bySemanticsLabel(RegExp('^3 fact check flags')));
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(order().take(3), ['b5', 'b6', 'b7']);
+    expect(order().skip(3), ['b1', 'b2', 'b3', 'b4']);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.bySemanticsLabel(RegExp('^1 disclosure flag')));
+    await tester.pumpAndSettle();
+    expect(order().first, 'b1');
+    expect(order()[1], 'b2');
+
+    await tester.tap(find.bySemanticsLabel(RegExp('^1 disclosure flag')));
+    await tester.pumpAndSettle();
+    expect(order(), initial);
+  });
+
   testWidgets('run 2 shows 3 of 4 resolved', (tester) async {
     await pumpRoute(tester, '/report/job_demo_v2');
     expect(find.text('3 of 4 issues resolved'), findsOneWidget);
