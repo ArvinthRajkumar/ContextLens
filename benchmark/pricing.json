@@ -1,0 +1,8 @@
+{
+  "_about": "List prices assumed for the cost estimate (USD). Check current Google Cloud pricing before quoting; the estimate is only as good as these numbers.",
+  "geminiInputPerM": 0.30,
+  "geminiOutputPerM": 2.50,
+  "searchGroundingPerPrompt": 0.035,
+  "chirpPerMinute": 0.016,
+  "checkGroundingPerFlag": 0.0
+}

@@ -72,7 +72,9 @@ class Result:
     stages: dict = field(default_factory=dict)
     tokens: dict = field(default_factory=dict)
     gate: list = field(default_factory=list)
+    calls: list = field(default_factory=list)
     pipeline: str = ""
+    skipped: list = field(default_factory=list)
 
 
 class Client:
@@ -143,7 +145,8 @@ class Client:
             fields = {k: firestore_value(v) for k, v in doc.get("fields", {}).items()} if status == 200 else {}
             if fields.get("status") in ("done", "failed"):
                 return Result(job, fields["status"], fields.get("flags") or [], fields.get("error"),
-                              int((time.monotonic() - started) * 1000), pipeline=fields.get("pipeline") or "")
+                              int((time.monotonic() - started) * 1000), pipeline=fields.get("pipeline") or "",
+                              skipped=fields.get("skipped") or [])
             time.sleep(1.0)
         return Result(job, "timeout", total_ms=int((time.monotonic() - started) * 1000))
 
@@ -187,6 +190,8 @@ def stage_logs(results: list[Result], minutes: int = 60) -> None:
                 result.stages[event["stage"]] = {k: v for k, v in event.items() if k not in {"event", "jobId", "stage"}}
             elif event.get("event") == "gate":
                 result.gate.append(event)
+            elif event.get("event") == "model_call":
+                result.calls.append(event)
         page = data.get("nextPageToken") if status == 200 else None
         if not page:
             break

@@ -105,6 +105,7 @@ def _call(ctx: CheckContext, stage: str, contents: list, config: types.GenerateC
                     usage = response.usage_metadata
                     log.info(json.dumps({
                         "event": "model_call", "jobId": ctx.job_id, "stage": stage, "requests": sent, "round": round_,
+                        "search": not hedge,
                         "ms": int((time.monotonic() - started) * 1000),
                         "inputTokens": (usage.prompt_token_count or 0) if usage else 0,
                         "outputTokens": ((usage.candidates_token_count or 0) + (usage.thoughts_token_count or 0))

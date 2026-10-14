@@ -71,6 +71,9 @@ def _flag(item: dict, label: str, url: str, result: Alignment) -> Candidate:
     if result.splices:
         title, severity = "Clip joins parts said at different moments", "high"
         evidence = f'Your clip of {label} skips "{result.splices[0]}" between two parts, so it sounds like one statement.'
+    elif result.cut_start:
+        title, severity = "Clip starts after words that change the meaning", "high"
+        evidence = f'Your clip of {label} starts after "{result.cut_start}", which changes what the speaker said.'
     elif result.cut_mid_sentence:
         title, severity = "Clip stops before the sentence ends", "medium"
         evidence = f"Your clip of {label} cuts the speaker off mid-sentence, which changes what they meant."

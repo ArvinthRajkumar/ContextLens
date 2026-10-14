@@ -174,6 +174,13 @@ def test_omitted_qualifier_sentence():
     assert not result.splices and not result.cut_mid_sentence
 
 
+def test_dropped_words_at_the_start_are_caught():
+    source = "It was a tough game today. I don't think we deserved to win this match. The pitch was slow."
+    result = align("we deserved to win this match.", source)
+    assert result is not None and result.cut_start == "I don't think"
+    assert result.changes_meaning
+
+
 def test_faithful_clip_is_not_flagged():
     result = align("We also talked about sleep.", SOURCE)
     assert result is not None and not result.changes_meaning

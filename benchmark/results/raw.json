@@ -1,0 +1,5834 @@
+{
+ "C01": {
+  "job_id": "1e5ea8260f154468b97502a86da5ef39",
+  "status": "done",
+  "flags": [
+   {
+    "fingerprint": "claims:asci-code-i-1-1:skin-freshness",
+    "startMs": 5920,
+    "endMs": 8240,
+    "sourceQuote": {
+     "text": "Advertisements must be truthful. All descriptions, claims and comparisons, which relate to matters of objectively ascertainable fact, should be capable of substantiation. Advertisers and advertising agencies are required to produce such substantiation as and when called upon to do so by The Advertising Standards Council of India.",
+     "source": "ASCI Code, Chapter I, 1.1"
+    },
+    "title": "Skin freshness claim needs substantiation",
+    "id": "f1",
+    "category": "claims",
+    "citation": {
+     "authority": "self_regulatory",
+     "clauseId": "asci-code/I.1.1",
+     "title": "The ASCI Code, Chapter I: Truthful and honest representation",
+     "instrument": "ASCI Code, Chapter I",
+     "publisher": "ASCI",
+     "clause": "1.1",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf"
+    },
+    "suggestedFix": "Provide evidence or data to support the claim that your skin looks fresh due to the product, or rephrase it as a purely subjective opinion without implying a product benefit.",
+    "severity": "medium",
+    "evidence": "You said, \"my skin looks so fresh.\" This claim implies a factual benefit and must be capable of substantiation, as per ASCI Code 1.1."
+   },
+   {
+    "fingerprint": "disclosure:caption-label:glowleaf",
+    "evidence": "You say \"Glowleaf paid me to try it\", but the caption has no label such as Ad, Sponsored or Collaboration.",
+    "severity": "high",
+    "id": "f2",
+    "suggestedFix": "Start your caption with \"Ad:\" or \"Collaboration with GlowLeaf:\".",
+    "category": "disclosure",
+    "citation": {
+     "authority": "self_regulatory",
+     "instrument": "ASCI Influencer Guidelines",
+     "title": "Guidelines for Influencer Advertising in Digital Media",
+     "clauseId": "asci-ig/1",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "clause": "1",
+     "publisher": "ASCI"
+    },
+    "endMs": 10240,
+    "sourceQuote": {
+     "source": "ASCI Influencer Guidelines, 1",
+     "text": "All advertisements published by social media influencers or their representatives, on such influencers' accounts must carry a disclosure label that clearly identifies it as an advertisement."
+    },
+    "title": "No Ad label for your GlowLeaf connection",
+    "startMs": 8320
+   },
+   {
+    "evidence": "You say \"Glowleaf paid me to try it\", but no label such as Ad appears on screen. ASCI expects it on screen for at least a third of the video (7.4 s here).",
+    "endMs": 10240,
+    "severity": "high",
+    "suggestedFix": "Put \"Ad\" on screen from 0:08, when you first mention GlowLeaf, and keep it up for at least a third of the video (7.4 s here).",
+    "citation": {
+     "instrument": "ASCI Influencer Guidelines",
+     "authority": "self_regulatory",
+     "clauseId": "asci-ig/1.2(d)(II)",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "publisher": "ASCI",
+     "clause": "1.2(d)(II)",
+     "title": "Guidelines for Influencer Advertising in Digital Media"
+    },
+    "category": "disclosure",
+    "fingerprint": "disclosure:screen-label:glowleaf",
+    "id": "f3",
+    "title": "No Ad label on screen",
+    "startMs": 8320,
+    "sourceQuote": {
+     "source": "ASCI Influencer Guidelines, 1.2(d)(II)",
+     "text": "For videos longer than 15 seconds, but less than 2 minutes, the disclosure label should stay for 1/3rd the length of the video."
+    }
+   },
+   {
+    "sourceQuote": {
+     "text": "GlowLeaf Vitamin C Serum 30ml. Rs 1,599.",
+     "source": "Beauty & Health"
+    },
+    "evidence": "The claim that Glowleaf Vitamin C serum costs Rs 499 is contradicted by available information. A product explicitly named 'GlowLeaf Vitamin C Serum' is listed for Rs 1,599. Other similar products like 'Glowelle Vitamin C Face Serum' are found at various prices, including ₹399, but these are different brands.",
+    "endMs": 14840,
+    "severity": "high",
+    "citation": {
+     "publisher": "shopina.pk",
+     "url": "https://www.shopina.pk/category/beauty-health",
+     "title": "Beauty & Health"
+    },
+    "category": "factcheck",
+    "fingerprint": "factcheck:the-glowleaf-vitamin-c-serum-is-rs-499",
+    "suggestedFix": "You should state that Glowleaf Vitamin C serum costs Rs 1,599.",
+    "factLabel": "contradicted",
+    "id": "f4",
+    "title": "Glowleaf Vitamin C serum costs Rs 1,599",
+    "startMs": 12480
+   }
+  ],
+  "error": null,
+  "total_ms": 34923,
+  "stages": {
+   "extract": {
+    "ms": 6146,
+    "inputTokens": 3883,
+    "outputTokens": 184,
+    "speechMs": 2854,
+    "visualMs": 5874
+   },
+   "claims": {
+    "ms": 14193,
+    "inputTokens": 711,
+    "outputTokens": 1618
+   },
+   "checking": {
+    "ms": 13028,
+    "inputTokens": 2522,
+    "outputTokens": 1888
+   },
+   "evidence": {
+    "ms": 380,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 250,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "1e5ea8260f154468b97502a86da5ef39",
+    "n": 0,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.98"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "1e5ea8260f154468b97502a86da5ef39",
+    "n": 1,
+    "category": "disclosure",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "1e5ea8260f154468b97502a86da5ef39",
+    "n": 2,
+    "category": "disclosure",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "1e5ea8260f154468b97502a86da5ef39",
+    "n": 3,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": [
+     "pages read: 1/3",
+     "ms: search+verdict 8835, pages 2877",
+     "grounding 0.99"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "1e5ea8260f154468b97502a86da5ef39",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 5874,
+    "inputTokens": 3883,
+    "outputTokens": 184
+   },
+   {
+    "event": "model_call",
+    "jobId": "1e5ea8260f154468b97502a86da5ef39",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 13955,
+    "inputTokens": 711,
+    "outputTokens": 1618
+   },
+   {
+    "event": "model_call",
+    "jobId": "1e5ea8260f154468b97502a86da5ef39",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1219,
+    "inputTokens": 267,
+    "outputTokens": 107
+   },
+   {
+    "event": "model_call",
+    "jobId": "1e5ea8260f154468b97502a86da5ef39",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 7507,
+    "inputTokens": 1964,
+    "outputTokens": 982
+   },
+   {
+    "event": "model_call",
+    "jobId": "1e5ea8260f154468b97502a86da5ef39",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 8392,
+    "inputTokens": 291,
+    "outputTokens": 799
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.369
+ },
+ "C02": {
+  "job_id": "e7ac04b1d28546db96a2ed11ea0df979",
+  "status": "done",
+  "flags": [
+   {
+    "endMs": 18720,
+    "category": "claims",
+    "suggestedFix": "Either remove these specific technical claims or ensure you have the required qualifications and certifications to make them. Alternatively, rephrase them as purely subjective opinions without implying technical expertise.",
+    "startMs": 7800,
+    "severity": "medium",
+    "fingerprint": "claims:asci-ig-add2-i:the-bass-is-punchy",
+    "sourceQuote": {
+     "source": "ASCI Influencer Guidelines, Addendum II, I",
+     "text": "Influencers providing advice and/or promoting and/or commenting on merits or demerits on technical aspects related to commercial goods or services must have the necessary qualifications and certifications in order to provide such information and advice to consumers."
+    },
+    "title": "Technical advice without qualifications",
+    "id": "f1",
+    "evidence": "You said, \"The bass is punchy,\" \"the call quality is clear even on a busy road,\" and suggested the product is a \"solid pick if you commute a lot.\" These are technical assessments or advice. You must have the necessary qualifications to provide such information to consumers.",
+    "citation": {
+     "authority": "self_regulatory",
+     "clauseId": "asci-ig/add2-I",
+     "clause": "Addendum II, I",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "publisher": "ASCI",
+     "instrument": "ASCI Influencer Guidelines",
+     "title": "Guidelines for Influencer Advertising in Digital Media"
+    }
+   },
+   {
+    "evidence": "You claimed, \"the battery lasted me almost 3 days.\" This is an objectively ascertainable fact that needs to be substantiated. You must be able to provide proof of this claim if asked by ASCI.",
+    "title": "Unsubstantiated battery life claim",
+    "citation": {
+     "clauseId": "asci-code/I.1.1",
+     "clause": "1.1",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "authority": "self_regulatory",
+     "instrument": "ASCI Code, Chapter I",
+     "title": "The ASCI Code, Chapter I: Truthful and honest representation",
+     "publisher": "ASCI"
+    },
+    "suggestedFix": "Provide clear substantiation for the 3-day battery life claim, or rephrase it to indicate it is based on specific, non-typical usage conditions, or remove the specific duration.",
+    "severity": "high",
+    "id": "f2",
+    "startMs": 9480,
+    "fingerprint": "claims:asci-code-i-1-1:the-battery-lasted-me-almost-3-days",
+    "sourceQuote": {
+     "source": "ASCI Code, Chapter I, 1.1",
+     "text": "Advertisements must be truthful. All descriptions, claims and comparisons, which relate to matters of objectively ascertainable fact, should be capable of substantiation. Advertisers and advertising agencies are required to produce such substantiation as and when called upon to do so by The Advertising Standards Council of India."
+    },
+    "endMs": 11960,
+    "category": "claims"
+   },
+   {
+    "id": "f3",
+    "endMs": 21000,
+    "severity": "high",
+    "citation": {
+     "authority": "self_regulatory",
+     "instrument": "ASCI Influencer Guidelines",
+     "clauseId": "asci-ig/1.2(d)(II)",
+     "clause": "1.2(d)(II)",
+     "title": "Guidelines for Influencer Advertising in Digital Media",
+     "publisher": "ASCI",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf"
+    },
+    "evidence": "\"#ad\" shows for 2 s, but ASCI expects at least a third of the video (7.3 s here) and only appears at 0:19, at the end.",
+    "category": "disclosure",
+    "startMs": 19000,
+    "title": "On-screen Ad label is too short and too late",
+    "suggestedFix": "Put \"Ad\" on screen from 0:05, when you first mention SoundNest, and keep it up for at least a third of the video (7.3 s here).",
+    "fingerprint": "disclosure:screen-label-timing:soundnest",
+    "sourceQuote": {
+     "text": "For videos longer than 15 seconds, but less than 2 minutes, the disclosure label should stay for 1/3rd the length of the video.",
+     "source": "ASCI Influencer Guidelines, 1.2(d)(II)"
+    }
+   }
+  ],
+  "error": null,
+  "total_ms": 27179,
+  "stages": {
+   "extract": {
+    "ms": 5747,
+    "inputTokens": 3883,
+    "outputTokens": 163,
+    "speechMs": 3576,
+    "visualMs": 5322
+   },
+   "claims": {
+    "ms": 7946,
+    "inputTokens": 730,
+    "outputTokens": 1607
+   },
+   "checking": {
+    "ms": 10700,
+    "inputTokens": 2292,
+    "outputTokens": 1259
+   },
+   "evidence": {
+    "ms": 391,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 56,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "e7ac04b1d28546db96a2ed11ea0df979",
+    "n": 0,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.99"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "e7ac04b1d28546db96a2ed11ea0df979",
+    "n": 1,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.98"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "e7ac04b1d28546db96a2ed11ea0df979",
+    "n": 2,
+    "category": "disclosure",
+    "uncertain": false,
+    "notes": []
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "e7ac04b1d28546db96a2ed11ea0df979",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 5321,
+    "inputTokens": 3883,
+    "outputTokens": 163
+   },
+   {
+    "event": "model_call",
+    "jobId": "e7ac04b1d28546db96a2ed11ea0df979",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 7479,
+    "inputTokens": 730,
+    "outputTokens": 1607
+   },
+   {
+    "event": "model_call",
+    "jobId": "e7ac04b1d28546db96a2ed11ea0df979",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 9993,
+    "inputTokens": 2292,
+    "outputTokens": 1259
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.363
+ },
+ "C03": {
+  "job_id": "0c7cb27a4b70476d91652e58c809395a",
+  "status": "done",
+  "flags": [
+   {
+    "startMs": 4240,
+    "severity": "medium",
+    "title": "Ad label is buried in your caption",
+    "category": "disclosure",
+    "suggestedFix": "Start your caption with \"Ad:\" or \"Collaboration with TripTote:\" before any other text.",
+    "citation": {
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "publisher": "ASCI",
+     "instrument": "ASCI Influencer Guidelines",
+     "clauseId": "asci-ig/1.2(c)",
+     "title": "Guidelines for Influencer Advertising in Digital Media",
+     "clause": "1.2(c)",
+     "authority": "self_regulatory"
+    },
+    "id": "f1",
+    "fingerprint": "disclosure:caption-label:triptote",
+    "evidence": "You say \"Trip tote send this to me as a collaboration\", but \"#collab\" appears as hashtag 7 of 7, where people can miss it.",
+    "sourceQuote": {
+     "source": "ASCI Influencer Guidelines, 1.2(c)",
+     "text": "Disclosure should not be buried in a group of hashtags or links."
+    },
+    "endMs": 6880
+   },
+   {
+    "category": "factcheck",
+    "fingerprint": "factcheck:the-trip-tote-cabin-bag-has-a-separate-shoe-pocket",
+    "id": "f2",
+    "startMs": 7040,
+    "title": "The Trip tote cabin bag includes a separate shoe pocket",
+    "suggestedFix": "You can confidently state that The Trip tote cabin bag features a separate shoe pocket.",
+    "factLabel": "supported",
+    "evidence": "Your claim that The Trip tote cabin bag has a separate shoe pocket is supported by product descriptions. The bag is designed with an independent bottom shoe compartment to keep footwear separate from other belongings.",
+    "endMs": 9000,
+    "uncertain": true
+   },
+   {
+    "citation": {
+     "publisher": "BEIS Travel",
+     "url": "https://beistravel.com/products/the-travel-tote-in-maple",
+     "title": "The Travel Tote in Black"
+    },
+    "factLabel": "supported",
+    "evidence": "Your claim that 'The Trip tote cabin bag has a laptop sleeve' is supported, assuming you are referring to 'The Travel Tote' by BEIS. This specific bag features a padded laptop pocket designed to fit up to a 15-inch laptop.",
+    "title": "The Beis Travel Tote includes a laptop sleeve",
+    "suggestedFix": "The BEIS Travel Tote cabin bag has a laptop sleeve.",
+    "sourceQuote": {
+     "text": "Padded laptop pocket with magnetic closure fits up to a 15\" laptop.",
+     "source": "The Travel Tote in Black, as matched by Google Search grounding"
+    },
+    "id": "f3",
+    "category": "factcheck",
+    "startMs": 9040,
+    "endMs": 10360,
+    "fingerprint": "factcheck:the-trip-tote-cabin-bag-has-a-laptop-sleeve"
+   },
+   {
+    "category": "factcheck",
+    "uncertain": true,
+    "suggestedFix": "Rephrase the claim to specify which airlines the bag has successfully fit under, or state that it fits under most common airline seats.",
+    "title": "Airline under-seat bag dimensions vary",
+    "factLabel": "contradicted",
+    "severity": "medium",
+    "startMs": 10560,
+    "endMs": 13960,
+    "evidence": "Your claim that 'The Trip tote cabin bag fits under the seat of every airline the creator tried' is contradicted because airline personal item dimensions vary significantly, and a bag that fits one airline's requirements may not fit another's. It is generally recommended to check the specific airline's rules before flying.",
+    "id": "f4",
+    "fingerprint": "factcheck:the-trip-tote-cabin-bag-fits-under-the-seat-of-eve"
+   },
+   {
+    "startMs": 15040,
+    "citation": {
+     "publisher": "ASCI",
+     "authority": "self_regulatory",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "title": "The ASCI Code, Chapter I: Truthful and honest representation",
+     "instrument": "ASCI Code, Chapter I",
+     "clauseId": "asci-code/I.1.5",
+     "clause": "1.5"
+    },
+    "title": "Exaggerated capacity claim",
+    "evidence": "You said, \"I pack 5 days of clothes in it.\" This claim about the bag's capacity could be seen as exaggerated and may lead to disappointment for consumers.",
+    "id": "f5",
+    "severity": "medium",
+    "sourceQuote": {
+     "source": "ASCI Code, Chapter I, 1.5",
+     "text": "No advertisement shall be permitted to contain any claim so exaggerated as to lead to grave or widespread disappointment in the minds of consumers."
+    },
+    "suggestedFix": "Remove the specific claim about packing 5 days of clothes or qualify it with details about how you achieve this.",
+    "fingerprint": "claims:asci-code-i-1-5:trip-tote-cabin-bag",
+    "endMs": 17160,
+    "category": "claims"
+   }
+  ],
+  "error": null,
+  "total_ms": 30943,
+  "stages": {
+   "extract": {
+    "ms": 5556,
+    "inputTokens": 3255,
+    "outputTokens": 113,
+    "visualMs": 4746,
+    "speechMs": 3236
+   },
+   "claims": {
+    "ms": 8281,
+    "inputTokens": 681,
+    "outputTokens": 1351
+   },
+   "checking": {
+    "ms": 16055,
+    "inputTokens": 2314,
+    "outputTokens": 4382
+   },
+   "evidence": {
+    "ms": 373,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 48,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "0c7cb27a4b70476d91652e58c809395a",
+    "n": 0,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.99"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "0c7cb27a4b70476d91652e58c809395a",
+    "n": 1,
+    "category": "disclosure",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "0c7cb27a4b70476d91652e58c809395a",
+    "n": 2,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 0/1",
+     "ms: search+verdict 14056, pages 354",
+     "page: source not available"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "0c7cb27a4b70476d91652e58c809395a",
+    "n": 3,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": [
+     "pages read: 0/1",
+     "quote matched by grounding support",
+     "ms: search+verdict 7649, pages 735"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "0c7cb27a4b70476d91652e58c809395a",
+    "n": 4,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 2/3",
+     "ms: search+verdict 7569, pages 763",
+     "page: source not available"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "0c7cb27a4b70476d91652e58c809395a",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4736,
+    "inputTokens": 3255,
+    "outputTokens": 113
+   },
+   {
+    "event": "model_call",
+    "jobId": "0c7cb27a4b70476d91652e58c809395a",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 8017,
+    "inputTokens": 681,
+    "outputTokens": 1351
+   },
+   {
+    "event": "model_call",
+    "jobId": "0c7cb27a4b70476d91652e58c809395a",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1331,
+    "inputTokens": 285,
+    "outputTokens": 113
+   },
+   {
+    "event": "model_call",
+    "jobId": "0c7cb27a4b70476d91652e58c809395a",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 6429,
+    "inputTokens": 289,
+    "outputTokens": 553
+   },
+   {
+    "event": "model_call",
+    "jobId": "0c7cb27a4b70476d91652e58c809395a",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 8392,
+    "inputTokens": 871,
+    "outputTokens": 1035
+   },
+   {
+    "event": "model_call",
+    "jobId": "0c7cb27a4b70476d91652e58c809395a",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 7030,
+    "inputTokens": 294,
+    "outputTokens": 1026
+   },
+   {
+    "event": "model_call",
+    "jobId": "0c7cb27a4b70476d91652e58c809395a",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 7254,
+    "inputTokens": 288,
+    "outputTokens": 905
+   },
+   {
+    "event": "model_call",
+    "jobId": "0c7cb27a4b70476d91652e58c809395a",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 7245,
+    "inputTokens": 287,
+    "outputTokens": 750
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.297
+ },
+ "C04": {
+  "job_id": "d54c334eb85c4eb68e8f5cbc71677b1a",
+  "status": "done",
+  "flags": [
+   {
+    "suggestedFix": "Start your caption with \"Ad:\" or \"Collaboration with Fitnest whey protein:\".",
+    "category": "disclosure",
+    "title": "No Ad label for your Fitnest whey protein connection",
+    "sourceQuote": {
+     "source": "ASCI Influencer Guidelines, 1",
+     "text": "All advertisements published by social media influencers or their representatives, on such influencers' accounts must carry a disclosure label that clearly identifies it as an advertisement."
+    },
+    "severity": "high",
+    "fingerprint": "disclosure:caption-label:fitnest-whey-protein",
+    "evidence": "You say \"send me their whey protein for free\", but the caption has no label such as Ad, Sponsored or Collaboration.",
+    "id": "f1",
+    "endMs": 4560,
+    "citation": {
+     "clauseId": "asci-ig/1",
+     "clause": "1",
+     "publisher": "ASCI",
+     "instrument": "ASCI Influencer Guidelines",
+     "authority": "self_regulatory",
+     "title": "Guidelines for Influencer Advertising in Digital Media",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf"
+    },
+    "startMs": 2280
+   },
+   {
+    "evidence": "You say \"send me their whey protein for free\", but no label such as Ad appears on screen. ASCI expects it on screen for at least a third of the video (5.5 s here).",
+    "sourceQuote": {
+     "text": "For videos longer than 15 seconds, but less than 2 minutes, the disclosure label should stay for 1/3rd the length of the video.",
+     "source": "ASCI Influencer Guidelines, 1.2(d)(II)"
+    },
+    "citation": {
+     "clause": "1.2(d)(II)",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "title": "Guidelines for Influencer Advertising in Digital Media",
+     "instrument": "ASCI Influencer Guidelines",
+     "clauseId": "asci-ig/1.2(d)(II)",
+     "authority": "self_regulatory",
+     "publisher": "ASCI"
+    },
+    "title": "No Ad label on screen",
+    "suggestedFix": "Put \"Ad\" on screen from 0:02, when you first mention Fitnest whey protein, and keep it up for at least a third of the video (5.5 s here).",
+    "fingerprint": "disclosure:screen-label:fitnest-whey-protein",
+    "category": "disclosure",
+    "id": "f2",
+    "severity": "high",
+    "startMs": 2280,
+    "endMs": 4560
+   },
+   {
+    "evidence": "Your claim that Fitnest whey protein contains 24 grams of protein per scoop is supported by information from Women's Best, which states their Fit Pro Whey Protein has 24g of protein per serving.",
+    "factLabel": "supported",
+    "sourceQuote": {
+     "text": "24g of protein per serving.",
+     "source": "Fit Pro Whey Protein, as matched by Google Search grounding"
+    },
+    "startMs": 11440,
+    "id": "f3",
+    "title": "Fitnest whey protein contains 24 grams of protein per serving",
+    "citation": {
+     "title": "Fit Pro Whey Protein",
+     "publisher": "Women's Best",
+     "url": "https://www.womensbest.com/products/fit-whey"
+    },
+    "suggestedFix": "You could specify that this refers to Women's Best Fit Pro Whey Protein.",
+    "category": "factcheck",
+    "endMs": 14160,
+    "fingerprint": "factcheck:fitnest-whey-protein-contains-24-grams-of-protein-"
+   }
+  ],
+  "error": null,
+  "total_ms": 39553,
+  "stages": {
+   "extract": {
+    "ms": 9283,
+    "inputTokens": 3032,
+    "outputTokens": 108,
+    "speechMs": 2190,
+    "visualMs": 9033
+   },
+   "claims": {
+    "ms": 20967,
+    "inputTokens": 663,
+    "outputTokens": 1356
+   },
+   "checking": {
+    "ms": 7779,
+    "inputTokens": 1408,
+    "outputTokens": 1707
+   },
+   "evidence": {
+    "ms": 157,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 58,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "d54c334eb85c4eb68e8f5cbc71677b1a",
+    "n": 0,
+    "category": "disclosure",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "d54c334eb85c4eb68e8f5cbc71677b1a",
+    "n": 1,
+    "category": "disclosure",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "d54c334eb85c4eb68e8f5cbc71677b1a",
+    "n": 2,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": [
+     "pages read: 0/2",
+     "quote matched by grounding support",
+     "ms: search+verdict 6487, pages 368"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "d54c334eb85c4eb68e8f5cbc71677b1a",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 9032,
+    "inputTokens": 3032,
+    "outputTokens": 108
+   },
+   {
+    "event": "model_call",
+    "jobId": "d54c334eb85c4eb68e8f5cbc71677b1a",
+    "stage": "claims",
+    "requests": 2,
+    "round": 1,
+    "search": false,
+    "ms": 20726,
+    "inputTokens": 663,
+    "outputTokens": 1356
+   },
+   {
+    "event": "model_call",
+    "jobId": "d54c334eb85c4eb68e8f5cbc71677b1a",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 852,
+    "inputTokens": 235,
+    "outputTokens": 64
+   },
+   {
+    "event": "model_call",
+    "jobId": "d54c334eb85c4eb68e8f5cbc71677b1a",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 5794,
+    "inputTokens": 881,
+    "outputTokens": 934
+   },
+   {
+    "event": "model_call",
+    "jobId": "d54c334eb85c4eb68e8f5cbc71677b1a",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 5848,
+    "inputTokens": 292,
+    "outputTokens": 709
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.273
+ },
+ "C05": {
+  "job_id": "9ca634b501304bea8a14d9599e3e533f",
+  "status": "done",
+  "flags": [
+   {
+    "fingerprint": "disclosure:screen-label:ayurboost",
+    "startMs": 2160,
+    "severity": "high",
+    "title": "No Ad label on screen",
+    "suggestedFix": "Put \"Ad\" on screen from 0:02, when you first mention AyurBoost, and keep it up for at least a third of the video (6.6 s here).",
+    "evidence": "You say \"this is my grandmother's kadha recipe now available as Ayur Boost capsules\", but no label such as Ad appears on screen. ASCI expects it on screen for at least a third of the video (6.6 s here).",
+    "sourceQuote": {
+     "text": "For videos longer than 15 seconds, but less than 2 minutes, the disclosure label should stay for 1/3rd the length of the video.",
+     "source": "ASCI Influencer Guidelines, 1.2(d)(II)"
+    },
+    "category": "disclosure",
+    "id": "f1",
+    "endMs": 7800,
+    "citation": {
+     "publisher": "ASCI",
+     "authority": "self_regulatory",
+     "clause": "1.2(d)(II)",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "instrument": "ASCI Influencer Guidelines",
+     "title": "Guidelines for Influencer Advertising in Digital Media",
+     "clauseId": "asci-ig/1.2(d)(II)"
+    }
+   },
+   {
+    "id": "f2",
+    "sourceQuote": {
+     "text": "Subject to the provisions of this Act, no person shall take any part in the publication of any advertisement referring to any drug in terms which suggest or are calculated to lead to the use of that drug for the diagnosis, cure, mitigation, treatment or prevention of any disease, disorder or condition specified in the Schedule, or any other disease, disorder or condition (by whatsoever name called) which may be specified in the rules made under this Act.",
+     "source": "Drugs and Magic Remedies Act, s. 3(d)"
+    },
+    "citation": {
+     "clause": "s. 3(d)",
+     "authority": "statutory",
+     "instrument": "Drugs and Magic Remedies Act",
+     "title": "The Drugs and Magic Remedies (Objectionable Advertisements) Act, 1954",
+     "url": "https://www.indiacode.nic.in/handle/123456789/1412",
+     "clauseId": "dmr-act/3(d)",
+     "publisher": "Government of India"
+    },
+    "title": "Exaggerated health claims",
+    "evidence": "You claimed \"you will never fall sick again, not even once\" and \"Your immunity becomes 100% strong.\" These claims suggest the product prevents any disease or condition, which violates the Drugs and Magic Remedies Act, s. 3(d).",
+    "category": "claims",
+    "endMs": 17080,
+    "startMs": 10600,
+    "suggestedFix": "Remove the claims \"you will never fall sick again, not even once\" and \"Your immunity becomes 100% strong\" from your video.",
+    "fingerprint": "claims:dmr-act-3-d:ayur-boost-capsules",
+    "severity": "high"
+   },
+   {
+    "title": "Ayur Boost capsules do not completely prevent sickness",
+    "uncertain": true,
+    "severity": "high",
+    "factLabel": "contradicted",
+    "fingerprint": "factcheck:ayur-boost-capsules-prevent-sickness-completely",
+    "suggestedFix": "Ayur Boost capsules help boost immunity and reduce the chances of frequent colds and coughs.",
+    "endMs": 13840,
+    "startMs": 10600,
+    "id": "f3",
+    "evidence": "Your claim that Ayur Boost capsules prevent sickness completely is not supported by the available information. Manufacturers and scientific reviews indicate that these capsules aim to boost immunity and help fight illness, but they do not claim to prevent sickness entirely.",
+    "category": "factcheck"
+   },
+   {
+    "startMs": 14120,
+    "severity": "high",
+    "id": "f4",
+    "title": "Ayur Boost capsules do not make immunity 100% strong",
+    "fingerprint": "factcheck:ayur-boost-capsules-make-immunity-100-strong",
+    "uncertain": true,
+    "evidence": "Your claim that Ayur Boost capsules make immunity 100% strong is not supported by evidence. Product disclaimers explicitly state that these statements have not been evaluated by regulatory bodies and the product is not intended to diagnose, treat, cure, or prevent any disease. Furthermore, achieving '100% strong immunity' is not a scientifically recognized or achievable state for any supplement.",
+    "category": "factcheck",
+    "factLabel": "contradicted",
+    "suggestedFix": "Ayur Boost capsules may support immune function, but they do not make immunity 100% strong.",
+    "endMs": 17080
+   },
+   {
+    "severity": "medium",
+    "sourceQuote": {
+     "text": "For posts related to health and nutrition, the influencer must have relevant qualifications such as a medical degree, or be a certified nurse, nutritionist, dietician, physiotherapist, psychologist etc. depending on the specific advice being given.",
+     "source": "ASCI Influencer Guidelines, Addendum II, I.2"
+    },
+    "title": "Lack of health qualification",
+    "startMs": 17400,
+    "suggestedFix": "Either remove this personal testimonial or ensure you have the necessary medical qualifications to make such health-related statements.",
+    "evidence": "You stated \"Everyone in my family takes it\" in relation to a health product. For health-related claims, you must have relevant qualifications, which is a requirement of ASCI Influencer Guidelines, Addendum II, I.2.",
+    "endMs": 19160,
+    "category": "claims",
+    "fingerprint": "claims:asci-ig-add2-i-2:ayur-boost-capsules",
+    "citation": {
+     "title": "Guidelines for Influencer Advertising in Digital Media",
+     "instrument": "ASCI Influencer Guidelines",
+     "clause": "Addendum II, I.2",
+     "clauseId": "asci-ig/add2-I.2",
+     "publisher": "ASCI",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "authority": "self_regulatory"
+    },
+    "id": "f5"
+   }
+  ],
+  "error": null,
+  "total_ms": 26012,
+  "stages": {
+   "extract": {
+    "ms": 4931,
+    "inputTokens": 3569,
+    "outputTokens": 111,
+    "speechMs": 2304,
+    "visualMs": 4658
+   },
+   "claims": {
+    "ms": 8145,
+    "inputTokens": 663,
+    "outputTokens": 1331
+   },
+   "checking": {
+    "ms": 11222,
+    "inputTokens": 3511,
+    "outputTokens": 3256
+   },
+   "evidence": {
+    "ms": 449,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 47,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "9ca634b501304bea8a14d9599e3e533f",
+    "n": 0,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.97"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "9ca634b501304bea8a14d9599e3e533f",
+    "n": 1,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.99"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "9ca634b501304bea8a14d9599e3e533f",
+    "n": 2,
+    "category": "disclosure",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "9ca634b501304bea8a14d9599e3e533f",
+    "n": 3,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 3/4",
+     "ms: search+verdict 6725, pages 3035",
+     "page: source not available"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "9ca634b501304bea8a14d9599e3e533f",
+    "n": 4,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 2/3",
+     "ms: search+verdict 7990, pages 364",
+     "page: source not available"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "9ca634b501304bea8a14d9599e3e533f",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4657,
+    "inputTokens": 3569,
+    "outputTokens": 111
+   },
+   {
+    "event": "model_call",
+    "jobId": "9ca634b501304bea8a14d9599e3e533f",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 7926,
+    "inputTokens": 663,
+    "outputTokens": 1331
+   },
+   {
+    "event": "model_call",
+    "jobId": "9ca634b501304bea8a14d9599e3e533f",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1385,
+    "inputTokens": 290,
+    "outputTokens": 107
+   },
+   {
+    "event": "model_call",
+    "jobId": "9ca634b501304bea8a14d9599e3e533f",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 7407,
+    "inputTokens": 2644,
+    "outputTokens": 1345
+   },
+   {
+    "event": "model_call",
+    "jobId": "9ca634b501304bea8a14d9599e3e533f",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 6037,
+    "inputTokens": 286,
+    "outputTokens": 796
+   },
+   {
+    "event": "model_call",
+    "jobId": "9ca634b501304bea8a14d9599e3e533f",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 7513,
+    "inputTokens": 291,
+    "outputTokens": 1008
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.33
+ },
+ "C06": {
+  "job_id": "1ca0203f1a9d4932971846d560a7264f",
+  "status": "done",
+  "flags": [
+   {
+    "fingerprint": "claims:dmr-act-3-d:diabetes",
+    "category": "claims",
+    "title": "Claiming cure for diabetes",
+    "evidence": "You stated, \"My father had diabetes for 10 years. Then he started drinking sugar free karela juice every morning. In 3 months his diabetes reversed completely and he stopped taking insulin. If you have diabetes, try this juice before any medicine.\" This suggests the juice can cure or treat diabetes, which is a condition specified in the Drugs and Magic Remedies Act Schedule.",
+    "suggestedFix": "Remove all claims that the juice can cure, mitigate, or treat diabetes, and do not advise viewers to use it instead of medicine.",
+    "startMs": 0,
+    "sourceQuote": {
+     "text": "Subject to the provisions of this Act, no person shall take any part in the publication of any advertisement referring to any drug in terms which suggest or are calculated to lead to the use of that drug for the diagnosis, cure, mitigation, treatment or prevention of any disease, disorder or condition specified in the Schedule, or any other disease, disorder or condition (by whatsoever name called) which may be specified in the rules made under this Act.",
+     "source": "Drugs and Magic Remedies Act, s. 3(d)"
+    },
+    "endMs": 18000,
+    "severity": "high",
+    "citation": {
+     "clause": "s. 3(d)",
+     "publisher": "Government of India",
+     "url": "https://www.indiacode.nic.in/handle/123456789/1412",
+     "title": "The Drugs and Magic Remedies (Objectionable Advertisements) Act, 1954",
+     "authority": "statutory",
+     "instrument": "Drugs and Magic Remedies Act",
+     "clauseId": "dmr-act/3(d)"
+    },
+    "id": "f1"
+   },
+   {
+    "startMs": 0,
+    "sourceQuote": {
+     "source": "ASCI Influencer Guidelines, 1.2(d)(II)",
+     "text": "For videos longer than 15 seconds, but less than 2 minutes, the disclosure label should stay for 1/3rd the length of the video."
+    },
+    "suggestedFix": "Put \"Ad\" on screen from 0:00, when you first mention SugarFree Karela, and keep it up for at least a third of the video (6.2 s here).",
+    "severity": "high",
+    "citation": {
+     "title": "Guidelines for Influencer Advertising in Digital Media",
+     "publisher": "ASCI",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "clause": "1.2(d)(II)",
+     "authority": "self_regulatory",
+     "instrument": "ASCI Influencer Guidelines",
+     "clauseId": "asci-ig/1.2(d)(II)"
+    },
+    "endMs": 17000,
+    "category": "disclosure",
+    "id": "f2",
+    "title": "No Ad label on screen",
+    "evidence": "The video shows \"SugarFree Karela juice\", but no label such as Ad appears on screen. ASCI expects it on screen for at least a third of the video (6.2 s here).",
+    "fingerprint": "disclosure:screen-label:sugarfree-karela"
+   },
+   {
+    "startMs": 8119,
+    "sourceQuote": {
+     "text": "Special care and restraint has to be exercised in advertisements addressed to those suffering from weakness, any real or perceived inadequacy of any physical attributes such as height or bust development, obesity, illness, impotence, infertility, baldness and the like, to ensure that claims or representations, directly or by implication, do not exceed what is considered prudent by generally accepted standards of medical practice and the actual efficacy of the product.",
+     "source": "ASCI Code, Chapter I, example (d)"
+    },
+    "endMs": 18000,
+    "id": "f3",
+    "citation": {
+     "publisher": "ASCI",
+     "clause": "example (d)",
+     "instrument": "ASCI Code, Chapter I",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "authority": "self_regulatory",
+     "title": "The ASCI Code, Chapter I: Truthful and honest representation",
+     "clauseId": "asci-code/I.ex(d)"
+    },
+    "severity": "high",
+    "title": "Irresponsible health claims for illness",
+    "category": "claims",
+    "suggestedFix": "Remove claims of complete reversal of diabetes and the advice to use the juice before medicine. Always recommend consulting a doctor for medical conditions.",
+    "evidence": "You claimed, \"In 3 months his diabetes reversed completely and he stopped taking insulin\" and advised, \"If you have diabetes, try this juice before any medicine.\" These claims do not exercise special care and restraint for those suffering from illness, and they exceed prudent medical standards.",
+    "fingerprint": "claims:asci-code-i-ex-d:diabetes"
+   },
+   {
+    "title": "Lack of qualification for health advice",
+    "startMs": 8119,
+    "sourceQuote": {
+     "text": "For posts related to health and nutrition, the influencer must have relevant qualifications such as a medical degree, or be a certified nurse, nutritionist, dietician, physiotherapist, psychologist etc. depending on the specific advice being given.",
+     "source": "ASCI Influencer Guidelines, Addendum II, I.2"
+    },
+    "citation": {
+     "instrument": "ASCI Influencer Guidelines",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "authority": "self_regulatory",
+     "clauseId": "asci-ig/add2-I.2",
+     "clause": "Addendum II, I.2",
+     "title": "Guidelines for Influencer Advertising in Digital Media",
+     "publisher": "ASCI"
+    },
+    "severity": "medium",
+    "evidence": "You provided specific health advice regarding diabetes treatment by stating, \"In 3 months his diabetes reversed completely and he stopped taking insulin\" and \"If you have diabetes, try this juice before any medicine.\" You do not appear to have the relevant medical qualifications to give such advice.",
+    "id": "f4",
+    "suggestedFix": "Remove all specific medical advice and claims of curing or treating diabetes. Include a disclaimer advising viewers to consult a qualified healthcare professional.",
+    "endMs": 18000,
+    "category": "claims",
+    "fingerprint": "claims:asci-ig-add2-i-2:diabetes"
+   },
+   {
+    "title": "Karela juice cannot cure diabetes",
+    "category": "factcheck",
+    "suggestedFix": "Consider rephrasing your claim to state that Karela juice may help manage or control blood sugar levels as part of a broader diabetes management plan, rather than reversing it completely.",
+    "evidence": "Your claim that Karela juice can reverse diabetes completely is contradicted by multiple sources. While Karela juice may help manage blood sugar levels, diabetes is a chronic condition that currently has no cure and requires medical supervision.",
+    "uncertain": true,
+    "endMs": 18000,
+    "factLabel": "contradicted",
+    "fingerprint": "factcheck:karela-juice-can-reverse-diabetes-completely",
+    "startMs": 14000,
+    "id": "f5",
+    "severity": "high"
+   }
+  ],
+  "error": null,
+  "total_ms": 58031,
+  "stages": {
+   "extract": {
+    "ms": 10071,
+    "inputTokens": 3346,
+    "outputTokens": 110,
+    "speechMs": 2154,
+    "visualMs": 9817
+   },
+   "claims": {
+    "ms": 13814,
+    "inputTokens": 654,
+    "outputTokens": 1230
+   },
+   "checking": {
+    "ms": 32959,
+    "inputTokens": 4185,
+    "outputTokens": 3398
+   },
+   "evidence": {
+    "ms": 511,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 46,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "1ca0203f1a9d4932971846d560a7264f",
+    "n": 0,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.98"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "1ca0203f1a9d4932971846d560a7264f",
+    "n": 1,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.99"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "1ca0203f1a9d4932971846d560a7264f",
+    "n": 2,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.99"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "1ca0203f1a9d4932971846d560a7264f",
+    "n": 3,
+    "category": "disclosure",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "1ca0203f1a9d4932971846d560a7264f",
+    "n": 4,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 0/0",
+     "ms: search+verdict 31078, pages 0",
+     "page: source not available"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "1ca0203f1a9d4932971846d560a7264f",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 9816,
+    "inputTokens": 3346,
+    "outputTokens": 110
+   },
+   {
+    "event": "model_call",
+    "jobId": "1ca0203f1a9d4932971846d560a7264f",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 13591,
+    "inputTokens": 654,
+    "outputTokens": 1230
+   },
+   {
+    "event": "model_call",
+    "jobId": "1ca0203f1a9d4932971846d560a7264f",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1769,
+    "inputTokens": 279,
+    "outputTokens": 158
+   },
+   {
+    "event": "model_call",
+    "jobId": "1ca0203f1a9d4932971846d560a7264f",
+    "stage": "checking",
+    "requests": 2,
+    "round": 1,
+    "search": false,
+    "ms": 18158,
+    "inputTokens": 3336,
+    "outputTokens": 1653
+   },
+   {
+    "event": "model_call",
+    "jobId": "1ca0203f1a9d4932971846d560a7264f",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 18095,
+    "inputTokens": 286,
+    "outputTokens": 780
+   },
+   {
+    "event": "model_call",
+    "jobId": "1ca0203f1a9d4932971846d560a7264f",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 12375,
+    "inputTokens": 284,
+    "outputTokens": 807
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.311
+ },
+ "C07": {
+  "job_id": "cecb050997bf43229c3600c56d9d976e",
+  "status": "done",
+  "flags": [
+   {
+    "category": "claims",
+    "endMs": 9560,
+    "suggestedFix": "Remove the claim of \"guaranteed 15% returns every year with zero risk.\"",
+    "id": "f1",
+    "evidence": "You said, \"you get guaranteed 15% returns every year with zero risk.\" This statement misleads consumers about the security offered and rates of return, which violates the rule that investment advertisements must not mislead.",
+    "title": "Misleading investment returns",
+    "severity": "high",
+    "fingerprint": "claims:asci-code-i-ex-e:growfast",
+    "citation": {
+     "clauseId": "asci-code/I.ex(e)",
+     "publisher": "ASCI",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "title": "The ASCI Code, Chapter I: Truthful and honest representation",
+     "instrument": "ASCI Code, Chapter I",
+     "authority": "self_regulatory",
+     "clause": "example (e)"
+    },
+    "startMs": 4960,
+    "sourceQuote": {
+     "text": "Advertisements inviting the public to invest money shall not contain statements which may mislead the consumer in respect of the security offered, rates of return or terms of amortisation; where any of the foregoing elements are contingent upon the continuance of, or change in existing conditions, or any other assumptions, such conditions or assumptions must be clearly indicated in the advertisement.",
+     "source": "ASCI Code, Chapter I, example (e)"
+    }
+   },
+   {
+    "citation": {
+     "title": "GrowFast – Your Smart Investment Partner",
+     "publisher": "growfast.in",
+     "url": "https://www.growfast.in/"
+    },
+    "id": "f2",
+    "severity": "high",
+    "startMs": 4960,
+    "sourceQuote": {
+     "source": "GrowFast – Your Smart Investment Partner",
+     "text": "GrowFast does not provide any guaranteed returns and is not responsible for any financial losses incurred by users."
+    },
+    "factLabel": "contradicted",
+    "category": "factcheck",
+    "endMs": 9560,
+    "suggestedFix": "You should state that investments carry market risks and that returns are not guaranteed.",
+    "title": "GrowFast app does not guarantee returns or zero risk",
+    "fingerprint": "factcheck:the-growfast-app-gives-guaranteed-15-returns-every",
+    "evidence": "The GrowFast app, specifically the investment platform found at growfast.in, explicitly states that it does not provide any guaranteed returns and is not responsible for financial losses. You should be aware that investments in the securities market are subject to market risks."
+   },
+   {
+    "startMs": 9840,
+    "fingerprint": "claims:asci-code-i-1-4:my-money-doubled-in-5-years",
+    "sourceQuote": {
+     "source": "ASCI Code, Chapter I, 1.4",
+     "text": "Advertisements shall neither distort facts nor mislead the consumer by means of implications or omissions. Advertisements shall not contain statements or visual presentation, which directly, or by implication or by omission or by ambiguity or by exaggeration, are likely to mislead the consumer about the product advertised or the advertiser, or about any other product or advertiser."
+    },
+    "citation": {
+     "title": "The ASCI Code, Chapter I: Truthful and honest representation",
+     "clause": "1.4",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "publisher": "ASCI",
+     "authority": "self_regulatory",
+     "instrument": "ASCI Code, Chapter I",
+     "clauseId": "asci-code/I.1.4"
+    },
+    "severity": "medium",
+    "evidence": "You stated, \"My money doubled in 5 years.\" This personal result can mislead consumers by implying similar outcomes without necessary disclaimers, which violates the rule against misleading by implication or omission.",
+    "endMs": 12040,
+    "title": "Personal results can mislead",
+    "id": "f3",
+    "category": "claims",
+    "suggestedFix": "Add a clear disclaimer that past performance is not indicative of future results and individual results may vary."
+   },
+   {
+    "id": "f4",
+    "citation": {
+     "publisher": "ASCI",
+     "clauseId": "asci-ig/1.2(d)(II)",
+     "clause": "1.2(d)(II)",
+     "instrument": "ASCI Influencer Guidelines",
+     "authority": "self_regulatory",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "title": "Guidelines for Influencer Advertising in Digital Media"
+    },
+    "severity": "high",
+    "startMs": 13440,
+    "suggestedFix": "Put \"Ad\" on screen from 0:13, when you first mention GrowFast, and keep it up for at least a third of the video (5.7 s here).",
+    "fingerprint": "disclosure:screen-label:growfast",
+    "title": "No Ad label on screen",
+    "category": "disclosure",
+    "evidence": "You say \"from my link\", but no label such as Ad appears on screen. ASCI expects it on screen for at least a third of the video (5.7 s here).",
+    "endMs": 14200,
+    "sourceQuote": {
+     "text": "For videos longer than 15 seconds, but less than 2 minutes, the disclosure label should stay for 1/3rd the length of the video.",
+     "source": "ASCI Influencer Guidelines, 1.2(d)(II)"
+    }
+   }
+  ],
+  "error": null,
+  "total_ms": 23401,
+  "stages": {
+   "extract": {
+    "ms": 4840,
+    "inputTokens": 3098,
+    "outputTokens": 55,
+    "speechMs": 2236,
+    "visualMs": 4550
+   },
+   "claims": {
+    "ms": 5788,
+    "inputTokens": 635,
+    "outputTokens": 1272
+   },
+   "checking": {
+    "ms": 9773,
+    "inputTokens": 2208,
+    "outputTokens": 2181
+   },
+   "evidence": {
+    "ms": 430,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 56,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "cecb050997bf43229c3600c56d9d976e",
+    "n": 0,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.99"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "cecb050997bf43229c3600c56d9d976e",
+    "n": 1,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.98"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "cecb050997bf43229c3600c56d9d976e",
+    "n": 2,
+    "category": "disclosure",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "cecb050997bf43229c3600c56d9d976e",
+    "n": 3,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": [
+     "pages read: 1/1",
+     "ms: search+verdict 6479, pages 1968",
+     "grounding 0.70"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "cecb050997bf43229c3600c56d9d976e",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4548,
+    "inputTokens": 3098,
+    "outputTokens": 55
+   },
+   {
+    "event": "model_call",
+    "jobId": "cecb050997bf43229c3600c56d9d976e",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 5585,
+    "inputTokens": 635,
+    "outputTokens": 1272
+   },
+   {
+    "event": "model_call",
+    "jobId": "cecb050997bf43229c3600c56d9d976e",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1229,
+    "inputTokens": 242,
+    "outputTokens": 67
+   },
+   {
+    "event": "model_call",
+    "jobId": "cecb050997bf43229c3600c56d9d976e",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 6755,
+    "inputTokens": 1671,
+    "outputTokens": 1228
+   },
+   {
+    "event": "model_call",
+    "jobId": "cecb050997bf43229c3600c56d9d976e",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 6156,
+    "inputTokens": 295,
+    "outputTokens": 886
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.282
+ },
+ "C08": {
+  "job_id": "b6de6f882ba14cec894da465d7b989ef",
+  "status": "done",
+  "flags": [
+   {
+    "startMs": 0,
+    "citation": {
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "clauseId": "asci-ig/1.2(d)(II)",
+     "publisher": "ASCI",
+     "clause": "1.2(d)(II)",
+     "instrument": "ASCI Influencer Guidelines",
+     "authority": "self_regulatory",
+     "title": "Guidelines for Influencer Advertising in Digital Media"
+    },
+    "endMs": 5000,
+    "category": "disclosure",
+    "severity": "high",
+    "evidence": "This is a paid partnership, but no label such as Ad appears on screen. ASCI expects it on screen for at least a third of the video (5.4 s here).",
+    "fingerprint": "disclosure:screen-label:slimleaf",
+    "id": "f1",
+    "title": "No Ad label on screen",
+    "suggestedFix": "Put \"Ad\" on screen from 0:00, when you first mention SlimLeaf, and keep it up for at least a third of the video (5.4 s here).",
+    "sourceQuote": {
+     "source": "ASCI Influencer Guidelines, 1.2(d)(II)",
+     "text": "For videos longer than 15 seconds, but less than 2 minutes, the disclosure label should stay for 1/3rd the length of the video."
+    }
+   },
+   {
+    "title": "Unsubstantiated weight loss claims",
+    "category": "claims",
+    "fingerprint": "claims:dmr-act-schedule:slim-leaf-tea",
+    "citation": {
+     "authority": "statutory",
+     "title": "The Drugs and Magic Remedies (Objectionable Advertisements) Act, 1954",
+     "instrument": "Drugs and Magic Remedies Act",
+     "clauseId": "dmr-act/schedule",
+     "publisher": "Government of India",
+     "url": "https://www.indiacode.nic.in/handle/123456789/1412",
+     "clause": "Schedule"
+    },
+    "sourceQuote": {
+     "text": "Obesity",
+     "source": "Drugs and Magic Remedies Act, Schedule"
+    },
+    "id": "f2",
+    "suggestedFix": "Remove all claims about weight loss, fat reduction, or treating obesity from the video.",
+    "evidence": "You claimed 'I lost 10 kg in just 7 days with Slim Leaf tea', 'No gym, no diet, just one cup at night', and 'This tea melts belly fat while you sleep'. These claims suggest the product treats obesity, which is listed in the Drugs and Magic Remedies Act Schedule.",
+    "endMs": 15520,
+    "severity": "high",
+    "startMs": 3240
+   },
+   {
+    "id": "f3",
+    "category": "factcheck",
+    "severity": "high",
+    "startMs": 12640,
+    "title": "Slimming teas do not melt belly fat",
+    "uncertain": true,
+    "factLabel": "contradicted",
+    "citation": {
+     "url": "https://www.hindustantimes.com/lifestyle/health/woman-who-lost-25-kg-shares-5-detox-teas-to-melt-belly-fat-but-do-these-actually-work-gastroenterologists-reveal-101749726420281.html",
+     "title": "Do detox teas really burn belly fat? Experts weigh in",
+     "publisher": "Hindustan Times"
+    },
+    "endMs": 15520,
+    "sourceQuote": {
+     "source": "Do detox teas really burn belly fat? Experts weigh in",
+     "text": "“Detox teas don't melt belly fat, but the right ingredients can complement a healthy lifestyle. For true, lasting fat loss: focus on a calorie-conscious, nutrient-dense diet, stay physically active, stay well-hydrated and use herbal teas as enjoyable, functional support, not as a replacement for real lifestyle changes.”"
+    },
+    "suggestedFix": "Remove the claim that Slim Leaf tea melts belly fat while you sleep. Instead, you could state that certain teas may complement a healthy lifestyle when combined with diet and exercise.",
+    "evidence": "Your claim that Slim Leaf tea melts belly fat while you sleep is not supported by scientific evidence. Experts state that detox teas do not melt belly fat, and any temporary weight loss is typically due to water loss, not fat reduction.",
+    "fingerprint": "factcheck:slim-leaf-tea-melts-belly-fat-while-you-sleep"
+   }
+  ],
+  "error": null,
+  "total_ms": 24674,
+  "stages": {
+   "extract": {
+    "ms": 5036,
+    "inputTokens": 3032,
+    "outputTokens": 161,
+    "speechMs": 1971,
+    "visualMs": 4714
+   },
+   "claims": {
+    "ms": 5291,
+    "inputTokens": 662,
+    "outputTokens": 1106
+   },
+   "checking": {
+    "ms": 11262,
+    "inputTokens": 3024,
+    "outputTokens": 2119
+   },
+   "evidence": {
+    "ms": 413,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 51,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "b6de6f882ba14cec894da465d7b989ef",
+    "n": 0,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.98"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "b6de6f882ba14cec894da465d7b989ef",
+    "n": 1,
+    "category": "disclosure",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "b6de6f882ba14cec894da465d7b989ef",
+    "n": 2,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 3/4",
+     "ms: search+verdict 9047, pages 654",
+     "grounding: support 0.33"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "b6de6f882ba14cec894da465d7b989ef",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4713,
+    "inputTokens": 3032,
+    "outputTokens": 161
+   },
+   {
+    "event": "model_call",
+    "jobId": "b6de6f882ba14cec894da465d7b989ef",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 5066,
+    "inputTokens": 662,
+    "outputTokens": 1106
+   },
+   {
+    "event": "model_call",
+    "jobId": "b6de6f882ba14cec894da465d7b989ef",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1478,
+    "inputTokens": 282,
+    "outputTokens": 169
+   },
+   {
+    "event": "model_call",
+    "jobId": "b6de6f882ba14cec894da465d7b989ef",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 5282,
+    "inputTokens": 2454,
+    "outputTokens": 1017
+   },
+   {
+    "event": "model_call",
+    "jobId": "b6de6f882ba14cec894da465d7b989ef",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 8302,
+    "inputTokens": 288,
+    "outputTokens": 933
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.271
+ },
+ "C09": {
+  "job_id": "b6d20f47993745d794683285740593bd",
+  "status": "done",
+  "flags": [
+   {
+    "fingerprint": "disclosure:caption-label:amazon-affiliate",
+    "title": "No Ad label for your Amazon affiliate connection",
+    "endMs": 15900,
+    "severity": "high",
+    "startMs": 7900,
+    "id": "f1",
+    "suggestedFix": "Start your caption with \"Ad:\" or \"Collaboration with Amazon affiliate:\".",
+    "sourceQuote": {
+     "text": "All advertisements published by social media influencers or their representatives, on such influencers' accounts must carry a disclosure label that clearly identifies it as an advertisement.",
+     "source": "ASCI Influencer Guidelines, 1"
+    },
+    "category": "disclosure",
+    "evidence": "The video shows \"Links in bio, code RAHUL10\", but the caption has no label such as Ad, Sponsored or Collaboration.",
+    "citation": {
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "title": "Guidelines for Influencer Advertising in Digital Media",
+     "clauseId": "asci-ig/1",
+     "publisher": "ASCI",
+     "authority": "self_regulatory",
+     "instrument": "ASCI Influencer Guidelines",
+     "clause": "1"
+    }
+   },
+   {
+    "id": "f2",
+    "startMs": 7900,
+    "citation": {
+     "clause": "1.2(d)(II)",
+     "authority": "self_regulatory",
+     "clauseId": "asci-ig/1.2(d)(II)",
+     "publisher": "ASCI",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "title": "Guidelines for Influencer Advertising in Digital Media",
+     "instrument": "ASCI Influencer Guidelines"
+    },
+    "fingerprint": "disclosure:screen-label:amazon-affiliate",
+    "evidence": "The video shows \"Links in bio, code RAHUL10\", but no label such as Ad appears on screen. ASCI expects it on screen for at least a third of the video (5.8 s here).",
+    "category": "disclosure",
+    "endMs": 15900,
+    "sourceQuote": {
+     "text": "For videos longer than 15 seconds, but less than 2 minutes, the disclosure label should stay for 1/3rd the length of the video.",
+     "source": "ASCI Influencer Guidelines, 1.2(d)(II)"
+    },
+    "suggestedFix": "Put \"Ad\" on screen from 0:07, when you first mention Amazon affiliate, and keep it up for at least a third of the video (5.8 s here).",
+    "title": "No Ad label on screen",
+    "severity": "high"
+   },
+   {
+    "severity": "low",
+    "uncertain": true,
+    "citation": {
+     "title": "3 CRAZY Amazon Gadgets That Actually Deserve A Spot On Your Desk!",
+     "publisher": "YouTube",
+     "url": "https://www.youtube.com/watch?v=E3IqVNzgO-c"
+    },
+    "evidence": "Without knowing which specific three gadgets your video refers to, it is not possible to confirm if all of them are available on Amazon. While many Indian creators showcase gadgets available on Amazon, including videos specifically featuring three gadgets, the exact items in your video are unknown.",
+    "endMs": 11720,
+    "factLabel": "insufficient_evidence",
+    "fingerprint": "factcheck:all-three-gadgets-are-on-amazon",
+    "startMs": 10080,
+    "id": "f3",
+    "suggestedFix": "Please specify the names of the three gadgets you are referring to.",
+    "category": "factcheck",
+    "sourceQuote": {
+     "text": "Found 3 CRAZY Amazon gadgets that actually deserve a spot on your desk — a cordless mood lamp, a floating Lambo, and a tiny keychain charger/tracker combo.",
+     "source": "3 CRAZY Amazon Gadgets That Actually Deserve A Spot On Your Desk!, as matched by Google Search grounding"
+    },
+    "title": "Specific gadgets not identified for fact-check"
+   }
+  ],
+  "error": null,
+  "total_ms": 25816,
+  "stages": {
+   "extract": {
+    "ms": 4362,
+    "inputTokens": 3189,
+    "outputTokens": 124,
+    "speechMs": 2251,
+    "visualMs": 4149
+   },
+   "claims": {
+    "ms": 6388,
+    "inputTokens": 657,
+    "outputTokens": 1251
+   },
+   "checking": {
+    "ms": 12123,
+    "inputTokens": 1548,
+    "outputTokens": 1523
+   },
+   "evidence": {
+    "ms": 1625,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 26,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "b6d20f47993745d794683285740593bd",
+    "n": 0,
+    "category": "disclosure",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "b6d20f47993745d794683285740593bd",
+    "n": 1,
+    "category": "disclosure",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "b6d20f47993745d794683285740593bd",
+    "n": 2,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 4/4",
+     "quote matched by grounding support",
+     "ms: search+verdict 8290, pages 2479",
+     "grounding: support 0.00"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "b6d20f47993745d794683285740593bd",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4145,
+    "inputTokens": 3189,
+    "outputTokens": 124
+   },
+   {
+    "event": "model_call",
+    "jobId": "b6d20f47993745d794683285740593bd",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 6122,
+    "inputTokens": 657,
+    "outputTokens": 1251
+   },
+   {
+    "event": "model_call",
+    "jobId": "b6d20f47993745d794683285740593bd",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1270,
+    "inputTokens": 231,
+    "outputTokens": 57
+   },
+   {
+    "event": "model_call",
+    "jobId": "b6d20f47993745d794683285740593bd",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4777,
+    "inputTokens": 1032,
+    "outputTokens": 449
+   },
+   {
+    "event": "model_call",
+    "jobId": "b6d20f47993745d794683285740593bd",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 7840,
+    "inputTokens": 285,
+    "outputTokens": 1017
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.287
+ },
+ "C10": {
+  "job_id": "f4a06a1737d441228c03a7227e3f5bab",
+  "status": "done",
+  "flags": [
+   {
+    "category": "disclosure",
+    "evidence": "\"Ad\" shows for 0.5 s, but ASCI expects at least 3 seconds.",
+    "endMs": 1500,
+    "title": "On-screen Ad label is too short",
+    "citation": {
+     "instrument": "ASCI Influencer Guidelines",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "title": "Guidelines for Influencer Advertising in Digital Media",
+     "authority": "self_regulatory",
+     "publisher": "ASCI",
+     "clause": "1.2(d)(I)",
+     "clauseId": "asci-ig/1.2(d)(I)"
+    },
+    "severity": "high",
+    "startMs": 1000,
+    "sourceQuote": {
+     "source": "ASCI Influencer Guidelines, 1.2(d)(I)",
+     "text": "For videos that last 15 seconds or lesser, the disclosure label must stay for a minimum of 3 seconds."
+    },
+    "id": "f1",
+    "suggestedFix": "Put \"Ad\" on screen from 0:04, when you first mention PeachPop, and keep it up for at least 3 seconds.",
+    "fingerprint": "disclosure:screen-label-timing:peachpop"
+   },
+   {
+    "fingerprint": "factcheck:one-swipe-of-peach-pop-lip-tint-lasts-all-day",
+    "startMs": 5680,
+    "suggestedFix": "One swipe of Peach Pop Lip Tint can last up to 12 hours.",
+    "factLabel": "supported",
+    "id": "f2",
+    "sourceQuote": {
+     "source": "LANEIGE Juice Box Lip Tint (4.5g)",
+     "text": "This unique lip tint features Water-Oil Remix Technology, transforming from a water-based stain into a nourishing oil that delivers up to 12 hours of vibrant, glossy colour."
+    },
+    "title": "Peach Pop Lip Tint can last up to 12 hours",
+    "endMs": 8600,
+    "citation": {
+     "url": "https://www.cultbeauty.com/p/laneige-juice-box-lip-tint-pop-star-peach-4.5g/17651174/",
+     "title": "LANEIGE Juice Box Lip Tint (4.5g)",
+     "publisher": "Cult Beauty"
+    },
+    "category": "factcheck",
+    "evidence": "Your claim that one swipe of Peach Pop Lip Tint lasts all day is supported by product descriptions and user reviews for the LANEIGE JuicePop Box Lip Tint in Pop-Star Peach. Several sources indicate that this specific lip tint can deliver vibrant color for up to 12 hours."
+   }
+  ],
+  "error": null,
+  "total_ms": 22135,
+  "stages": {
+   "extract": {
+    "ms": 4143,
+    "inputTokens": 1933,
+    "outputTokens": 107,
+    "speechMs": 1382,
+    "visualMs": 3911
+   },
+   "claims": {
+    "ms": 4452,
+    "inputTokens": 607,
+    "outputTokens": 744
+   },
+   "checking": {
+    "ms": 10401,
+    "inputTokens": 495,
+    "outputTokens": 877
+   },
+   "evidence": {
+    "ms": 315,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 37,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "f4a06a1737d441228c03a7227e3f5bab",
+    "n": 0,
+    "category": "disclosure",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "f4a06a1737d441228c03a7227e3f5bab",
+    "n": 1,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": [
+     "pages read: 3/3",
+     "ms: search+verdict 7740, pages 1955",
+     "grounding 0.97"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "f4a06a1737d441228c03a7227e3f5bab",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 3817,
+    "inputTokens": 1933,
+    "outputTokens": 107
+   },
+   {
+    "event": "model_call",
+    "jobId": "f4a06a1737d441228c03a7227e3f5bab",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4204,
+    "inputTokens": 607,
+    "outputTokens": 744
+   },
+   {
+    "event": "model_call",
+    "jobId": "f4a06a1737d441228c03a7227e3f5bab",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 635,
+    "inputTokens": 206,
+    "outputTokens": 39
+   },
+   {
+    "event": "model_call",
+    "jobId": "f4a06a1737d441228c03a7227e3f5bab",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 7301,
+    "inputTokens": 289,
+    "outputTokens": 838
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.154
+ },
+ "C11": {
+  "job_id": "44b6b627df794bd990e0eeb04101272c",
+  "status": "done",
+  "flags": [
+   {
+    "startMs": 2240,
+    "suggestedFix": "Remove all specific stock recommendations and predictions. If you wish to provide financial advice, ensure you have the necessary SEBI registration and display it clearly.",
+    "endMs": 10080,
+    "id": "f1",
+    "title": "Unqualified financial advice",
+    "fingerprint": "claims:asci-ig-add2-i-1:kaveri-infra",
+    "sourceQuote": {
+     "source": "ASCI Influencer Guidelines, Addendum II, I.1",
+     "text": "In the area of BFSI related to stock or investments, they should be registered with SEBI and their SEBI registration number should be stated with their name & qualifications. For other financial advice, the influencer must have suitable qualifications such as an IRDAI insurance license, CA, CS etc. In addition, they must abide by all disclosure requirements as mandated by financial sector regulators from time to time."
+    },
+    "citation": {
+     "clause": "Addendum II, I.1",
+     "clauseId": "asci-ig/add2-I.1",
+     "publisher": "ASCI",
+     "authority": "self_regulatory",
+     "title": "Guidelines for Influencer Advertising in Digital Media",
+     "instrument": "ASCI Influencer Guidelines",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf"
+    },
+    "evidence": "You advised viewers to 'Buy Kaveri Infra shares tomorrow morning before the market opens' and claimed 'This small cap stock will double in 1 month'. Giving specific stock recommendations and predictions requires you to be registered with SEBI, as stated in the ASCI Influencer Guidelines, Addendum II, I.1.",
+    "category": "claims",
+    "severity": "high"
+   },
+   {
+    "suggestedFix": "Remove the direct instruction to buy and the prediction of the stock doubling. Financial advice must be balanced and not make exaggerated claims.",
+    "id": "f2",
+    "startMs": 2240,
+    "fingerprint": "claims:asci-code-i-1-5:kaveri-infra",
+    "sourceQuote": {
+     "source": "ASCI Code, Chapter I, 1.5",
+     "text": "Advertisements shall not be so framed as to abuse the trust of consumers, or exploit their lack of experience or knowledge. No advertisement shall be permitted to contain any claim so exaggerated as to lead to grave or widespread disappointment in the minds of consumers."
+    },
+    "endMs": 10080,
+    "category": "claims",
+    "severity": "high",
+    "citation": {
+     "clause": "1.5",
+     "clauseId": "asci-code/I.1.5",
+     "publisher": "ASCI",
+     "authority": "self_regulatory",
+     "instrument": "ASCI Code, Chapter I",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "title": "The ASCI Code, Chapter I: Truthful and honest representation"
+    },
+    "evidence": "You told viewers to 'Buy Kaveri Infra shares tomorrow morning before the market opens' and predicted 'This small cap stock will double in 1 month'. These claims are highly exaggerated and exploit consumers' lack of experience, which violates ASCI Code, Chapter I, 1.5.",
+    "title": "Exaggerated and misleading claims"
+   },
+   {
+    "id": "f3",
+    "citation": {
+     "title": "Kavveri Telecom Share Price Today, Live NSE/BSE Stock Price and News - IndiaTimes",
+     "publisher": "IndiaTimes",
+     "url": "https://economictimes.indiatimes.com/kavveri-defence-wireless-technologies-ltd/stocks/companyid-5036.cms"
+    },
+    "fingerprint": "factcheck:kaveri-infra-s-small-cap-stock-will-double-in-1-mo",
+    "evidence": "The claim that Kaveri Infra's small cap stock will double in one month is not supported by available financial data. While Kavveri Defence & Wireless Technologies Ltd. (which fits the description of a 'Kaveri Infra' small cap stock) has shown significant past returns over longer periods, its recent performance and analyst forecasts do not indicate a doubling in a single month. For example, as of October 14, 2026, its one-month return was 45.89%, not 100%.",
+    "category": "factcheck",
+    "startMs": 6960,
+    "severity": "high",
+    "title": "Kavveri Defence & Wireless Technologies stock is not predicted to double in one ",
+    "factLabel": "contradicted",
+    "uncertain": true,
+    "endMs": 10080,
+    "suggestedFix": "You should avoid making specific short-term stock price predictions, as they are highly speculative and rarely supported by credible financial analysis."
+   },
+   {
+    "startMs": 12200,
+    "category": "claims",
+    "severity": "medium",
+    "id": "f4",
+    "suggestedFix": "Remove the statement about investing your entire savings. Avoid sharing personal investment decisions that could influence viewers unduly.",
+    "endMs": 14720,
+    "citation": {
+     "instrument": "ASCI Code, Chapter I",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "clause": "1.5",
+     "title": "The ASCI Code, Chapter I: Truthful and honest representation",
+     "publisher": "ASCI",
+     "authority": "self_regulatory",
+     "clauseId": "asci-code/I.1.5"
+    },
+    "evidence": "You stated, 'I have put my entire savings in it'. This personal disclosure, especially when combined with investment advice, can exploit the trust and lack of experience of consumers, which violates ASCI Code, Chapter I, 1.5.",
+    "title": "Exploiting trust with personal investment",
+    "fingerprint": "claims:asci-code-i-1-5:kaveri-infra",
+    "sourceQuote": {
+     "source": "ASCI Code, Chapter I, 1.5",
+     "text": "Advertisements shall not be so framed as to abuse the trust of consumers, or exploit their lack of experience or knowledge. No advertisement shall be permitted to contain any claim so exaggerated as to lead to grave or widespread disappointment in the minds of consumers."
+    }
+   }
+  ],
+  "error": null,
+  "total_ms": 43817,
+  "stages": {
+   "extract": {
+    "ms": 21148,
+    "inputTokens": 3189,
+    "outputTokens": 111,
+    "speechMs": 2124,
+    "visualMs": 20944
+   },
+   "claims": {
+    "ms": 8295,
+    "inputTokens": 673,
+    "outputTokens": 1202
+   },
+   "checking": {
+    "ms": 12939,
+    "inputTokens": 2412,
+    "outputTokens": 2658
+   },
+   "evidence": {
+    "ms": 610,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 37,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "44b6b627df794bd990e0eeb04101272c",
+    "n": 0,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.98"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "44b6b627df794bd990e0eeb04101272c",
+    "n": 1,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.98"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "44b6b627df794bd990e0eeb04101272c",
+    "n": 2,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.97"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "44b6b627df794bd990e0eeb04101272c",
+    "n": 3,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 3/5",
+     "quote matched by grounding support",
+     "ms: search+verdict 10604, pages 1245",
+     "grounding: quote not found"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "44b6b627df794bd990e0eeb04101272c",
+    "stage": "extract",
+    "requests": 2,
+    "round": 1,
+    "search": false,
+    "ms": 20939,
+    "inputTokens": 3189,
+    "outputTokens": 111
+   },
+   {
+    "event": "model_call",
+    "jobId": "44b6b627df794bd990e0eeb04101272c",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 7991,
+    "inputTokens": 673,
+    "outputTokens": 1202
+   },
+   {
+    "event": "model_call",
+    "jobId": "44b6b627df794bd990e0eeb04101272c",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 994,
+    "inputTokens": 276,
+    "outputTokens": 116
+   },
+   {
+    "event": "model_call",
+    "jobId": "44b6b627df794bd990e0eeb04101272c",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 8701,
+    "inputTokens": 1843,
+    "outputTokens": 1446
+   },
+   {
+    "event": "model_call",
+    "jobId": "44b6b627df794bd990e0eeb04101272c",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 10084,
+    "inputTokens": 293,
+    "outputTokens": 1096
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.287
+ },
+ "C12": {
+  "job_id": "0d8103460c3f4822805fb935795ccbee",
+  "status": "done",
+  "flags": [
+   {
+    "evidence": "You said, \"My blood pressure was always high... my BP is normal... I do not need my blood pressure tablets anymore... say goodbye to BP medicines.\" These statements suggest that a product can cure or mitigate high blood pressure, which is a condition listed in the Drugs and Magic Remedies Act Schedule.",
+    "startMs": 0,
+    "citation": {
+     "clause": "s. 3(d)",
+     "url": "https://www.indiacode.nic.in/handle/123456789/1412",
+     "title": "The Drugs and Magic Remedies (Objectionable Advertisements) Act, 1954",
+     "publisher": "Government of India",
+     "instrument": "Drugs and Magic Remedies Act",
+     "clauseId": "dmr-act/3(d)",
+     "authority": "statutory"
+    },
+    "id": "f1",
+    "sourceQuote": {
+     "text": "Subject to the provisions of this Act, no person shall take any part in the publication of any advertisement referring to any drug in terms which suggest or are calculated to lead to the use of that drug for the diagnosis, cure, mitigation, treatment or prevention of any disease, disorder or condition specified in the Schedule, or any other disease, disorder or condition (by whatsoever name called) which may be specified in the rules made under this Act.",
+     "source": "Drugs and Magic Remedies Act, s. 3(d)"
+    },
+    "suggestedFix": "Remove all claims that suggest a product can cure, mitigate, or treat high blood pressure, or that it can replace prescribed medication.",
+    "severity": "high",
+    "title": "Claims to cure high blood pressure",
+    "endMs": 14520,
+    "category": "claims",
+    "fingerprint": "claims:dmr-act-3-d:blood-pressure"
+   },
+   {
+    "endMs": 3080,
+    "citation": {
+     "publisher": "ASCI",
+     "title": "Guidelines for Influencer Advertising in Digital Media",
+     "clause": "1.2(d)(II)",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "clauseId": "asci-ig/1.2(d)(II)",
+     "authority": "self_regulatory",
+     "instrument": "ASCI Influencer Guidelines"
+    },
+    "sourceQuote": {
+     "text": "For videos longer than 15 seconds, but less than 2 minutes, the disclosure label should stay for 1/3rd the length of the video.",
+     "source": "ASCI Influencer Guidelines, 1.2(d)(II)"
+    },
+    "title": "No Ad label on screen",
+    "startMs": 0,
+    "suggestedFix": "Put \"Ad\" on screen from 0:00, when you first mention HeartPure, and keep it up for at least a third of the video (5 s here).",
+    "evidence": "You say \"My blood pressure was always high\", but no label such as Ad appears on screen. ASCI expects it on screen for at least a third of the video (5 s here).",
+    "id": "f2",
+    "category": "disclosure",
+    "fingerprint": "disclosure:screen-label:heartpure",
+    "severity": "high"
+   },
+   {
+    "category": "factcheck",
+    "factLabel": "contradicted",
+    "title": "Stopping BP medication requires medical supervision",
+    "fingerprint": "factcheck:people-can-stop-taking-bp-medicines",
+    "severity": "high",
+    "endMs": 14520,
+    "id": "f3",
+    "startMs": 12400,
+    "citation": {
+     "publisher": "pillo.care",
+     "title": "Can You Ever Stop Blood Pressure Medication? The Real Odds",
+     "url": "https://pillo.care/blog/can-you-ever-stop-blood-pressure-medication"
+    },
+    "evidence": "You should never stop taking blood pressure medication on your own, as doing so can lead to dangerous health complications like rebound hypertension, stroke, or heart attack. While some individuals might be able to reduce or discontinue their medication, this must always be done gradually and under the strict guidance and supervision of a healthcare professional.",
+    "suggestedFix": "Consider rewording your claim to emphasize that stopping blood pressure medication is only possible for some individuals, and always requires medical supervision and a gradual approach.",
+    "sourceQuote": {
+     "source": "Can You Ever Stop Blood Pressure Medication? The Real Odds",
+     "text": "Never stop or reduce a blood pressure medication on your own. Everything below describes what prescribers weigh and what the research shows. It is general information, not medical advice, and it cannot tell you whether stopping is safe for you. Talk to your doctor or pharmacist first."
+    }
+   }
+  ],
+  "error": null,
+  "total_ms": 33496,
+  "stages": {
+   "extract": {
+    "ms": 4523,
+    "inputTokens": 2784,
+    "outputTokens": 115,
+    "speechMs": 2168,
+    "visualMs": 4302
+   },
+   "claims": {
+    "ms": 6888,
+    "inputTokens": 636,
+    "outputTokens": 1366
+   },
+   "checking": {
+    "ms": 19559,
+    "inputTokens": 4230,
+    "outputTokens": 3082
+   },
+   "evidence": {
+    "ms": 646,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 37,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "0d8103460c3f4822805fb935795ccbee",
+    "n": 0,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.98"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "0d8103460c3f4822805fb935795ccbee",
+    "n": 1,
+    "category": "disclosure",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "0d8103460c3f4822805fb935795ccbee",
+    "n": 2,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": [
+     "pages read: 5/12",
+     "ms: search+verdict 16834, pages 1484",
+     "grounding 0.53"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "0d8103460c3f4822805fb935795ccbee",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4301,
+    "inputTokens": 2784,
+    "outputTokens": 115
+   },
+   {
+    "event": "model_call",
+    "jobId": "0d8103460c3f4822805fb935795ccbee",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 6654,
+    "inputTokens": 636,
+    "outputTokens": 1366
+   },
+   {
+    "event": "model_call",
+    "jobId": "0d8103460c3f4822805fb935795ccbee",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1152,
+    "inputTokens": 281,
+    "outputTokens": 136
+   },
+   {
+    "event": "model_call",
+    "jobId": "0d8103460c3f4822805fb935795ccbee",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 6414,
+    "inputTokens": 3381,
+    "outputTokens": 1129
+   },
+   {
+    "event": "model_call",
+    "jobId": "0d8103460c3f4822805fb935795ccbee",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 9038,
+    "inputTokens": 285,
+    "outputTokens": 863
+   },
+   {
+    "event": "model_call",
+    "jobId": "0d8103460c3f4822805fb935795ccbee",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 7282,
+    "inputTokens": 283,
+    "outputTokens": 954
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.253
+ },
+ "K1": {
+  "job_id": "60a01ff5aa3a4e2693891bac33ea634c",
+  "status": "done",
+  "flags": [
+   {
+    "category": "factcheck",
+    "title": "Jeera rice can be made in under 15 minutes",
+    "evidence": "Your claim that Jeera rice can be made in 15 minutes is supported by several online recipes. While some recipes indicate a total time closer to 20-30 minutes due to prep and resting, the active cooking time for Jeera rice can indeed be as short as 15 minutes or even less, especially when using methods like an Instant Pot or focusing solely on the simmering phase.",
+    "startMs": 0,
+    "uncertain": true,
+    "endMs": 15000,
+    "citation": {
+     "url": "https://www.lathiskitchen.org/jeera-rice-recipe/",
+     "publisher": "Lathi's Kitchen",
+     "title": "Jeera Rice (Cumin Rice) - Instant Pot & Stovetop"
+    },
+    "sourceQuote": {
+     "text": "Jeera Rice/ Cumin Rice is a popular dish to order in Indian Restaurants and it will be in the Buffet. This recipe is so easy to make in your kitchen. Let's learn how to make restaurant-style, Vegan, Gluten-free, Jeera rice in under 15 minutes.",
+     "source": "Jeera Rice (Cumin Rice) - Instant Pot & Stovetop"
+    },
+    "fingerprint": "factcheck:jeera-rice-can-be-made-in-15-minutes",
+    "suggestedFix": "You could specify that this refers to the active cooking time, or that it's achievable with certain methods like an Instant Pot.",
+    "factLabel": "supported",
+    "id": "f1"
+   },
+   {
+    "id": "f2",
+    "title": "Many recipes, especially for rice, require two cups of water",
+    "suggestedFix": "Specify the recipe you are referring to, for example, \"Two cups of water are needed for this rice recipe.\"",
+    "sourceQuote": {
+     "source": "How to Cook Brown Rice",
+     "text": "I use 2 cups of water for every cup of rice."
+    },
+    "startMs": 10240,
+    "fingerprint": "factcheck:two-cups-of-water-are-needed-for-this-recipe",
+    "uncertain": true,
+    "endMs": 11480,
+    "category": "factcheck",
+    "evidence": "Your claim that two cups of water are needed for \"this recipe\" is supported, as many common recipes, particularly for cooking rice, specify a 2:1 water-to-rice ratio. For example, a recipe for brown rice uses 2 cups of water for every cup of rice.",
+    "factLabel": "supported",
+    "citation": {
+     "url": "https://www.loveandlemons.com/how-to-cook-brown-rice/",
+     "title": "How to Cook Brown Rice",
+     "publisher": "Love & Lemons"
+    }
+   },
+   {
+    "title": "Jeera Rice Can Be Cooked on Low for 15 Minutes",
+    "startMs": 11640,
+    "endMs": 13800,
+    "id": "f3",
+    "uncertain": true,
+    "suggestedFix": "You can confidently state that jeera rice should be cooked on low for 15 minutes after boiling.",
+    "category": "factcheck",
+    "evidence": "Your claim that jeera rice should be cooked on low for 15 minutes is supported by several culinary sources. For example, Chef Not Required states, \"Once boiling, cover with a tight-fitting lid and cook over low heat for 15 minutes (without peeking!).\" Other sources also suggest a 15-minute cooking time on low heat after bringing the water to a boil.",
+    "factLabel": "supported",
+    "sourceQuote": {
+     "source": "Easy Jeera Rice - Cumin Rice",
+     "text": "Once boiling, cover with a tight-fitting lid and cook over low heat for 15 minutes (without peeking!)."
+    },
+    "fingerprint": "factcheck:jeera-rice-should-be-cooked-on-low-for-15-minutes",
+    "citation": {
+     "publisher": "chefnotrequired.com",
+     "title": "Easy Jeera Rice - Cumin Rice",
+     "url": "https://www.chefnotrequired.com/jeera-rice/"
+    }
+   }
+  ],
+  "error": null,
+  "total_ms": 33175,
+  "stages": {
+   "extract": {
+    "ms": 5641,
+    "inputTokens": 2941,
+    "outputTokens": 111,
+    "speechMs": 2187,
+    "visualMs": 5400
+   },
+   "claims": {
+    "ms": 6782,
+    "inputTokens": 648,
+    "outputTokens": 952
+   },
+   "checking": {
+    "ms": 19741,
+    "inputTokens": 2007,
+    "outputTokens": 5228
+   },
+   "evidence": {
+    "ms": 364,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 40,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "60a01ff5aa3a4e2693891bac33ea634c",
+    "n": 0,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 6/8",
+     "ms: search+verdict 13482, pages 3398",
+     "grounding: support 0.02"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "60a01ff5aa3a4e2693891bac33ea634c",
+    "n": 1,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 3/4",
+     "ms: search+verdict 16880, pages 1013",
+     "grounding: support 0.12"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "60a01ff5aa3a4e2693891bac33ea634c",
+    "n": 2,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 4/4",
+     "ms: search+verdict 14062, pages 4457",
+     "grounding: support 0.01"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "60a01ff5aa3a4e2693891bac33ea634c",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 5399,
+    "inputTokens": 2941,
+    "outputTokens": 111
+   },
+   {
+    "event": "model_call",
+    "jobId": "60a01ff5aa3a4e2693891bac33ea634c",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 6323,
+    "inputTokens": 648,
+    "outputTokens": 952
+   },
+   {
+    "event": "model_call",
+    "jobId": "60a01ff5aa3a4e2693891bac33ea634c",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1104,
+    "inputTokens": 273,
+    "outputTokens": 112
+   },
+   {
+    "event": "model_call",
+    "jobId": "60a01ff5aa3a4e2693891bac33ea634c",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 6454,
+    "inputTokens": 290,
+    "outputTokens": 859
+   },
+   {
+    "event": "model_call",
+    "jobId": "60a01ff5aa3a4e2693891bac33ea634c",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 6941,
+    "inputTokens": 292,
+    "outputTokens": 823
+   },
+   {
+    "event": "model_call",
+    "jobId": "60a01ff5aa3a4e2693891bac33ea634c",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 10427,
+    "inputTokens": 288,
+    "outputTokens": 1023
+   },
+   {
+    "event": "model_call",
+    "jobId": "60a01ff5aa3a4e2693891bac33ea634c",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 6546,
+    "inputTokens": 288,
+    "outputTokens": 934
+   },
+   {
+    "event": "model_call",
+    "jobId": "60a01ff5aa3a4e2693891bac33ea634c",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 6547,
+    "inputTokens": 290,
+    "outputTokens": 898
+   },
+   {
+    "event": "model_call",
+    "jobId": "60a01ff5aa3a4e2693891bac33ea634c",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 6060,
+    "inputTokens": 286,
+    "outputTokens": 579
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.265
+ },
+ "K2": {
+  "job_id": "8d5b4c9d60d04fdaa9e85c953548a906",
+  "status": "done",
+  "flags": [
+   {
+    "id": "f1",
+    "title": "Masala chai premix can be prepared in 1 to 2 minutes",
+    "suggestedFix": "You could say, 'The masala chai premix can be prepared in 1 to 2 minutes.'",
+    "endMs": 8920,
+    "fingerprint": "factcheck:the-masala-chai-premix-takes-2-minutes-to-prepare",
+    "category": "factcheck",
+    "citation": {
+     "title": "Chai Premix Recipe | how to make instant tea premix",
+     "publisher": "Hebbar's Kitchen",
+     "url": "https://hebbarskitchen.com/chai-tea-mix-recipe-instant-chai-spice/"
+    },
+    "factLabel": "supported",
+    "startMs": 7240,
+    "uncertain": true,
+    "evidence": "Your claim that masala chai premix takes 2 minutes to prepare is supported by several sources. Some recipes indicate it can be ready in as little as 1 minute, while others suggest a 2-minute simmer or steeping time.",
+    "sourceQuote": {
+     "source": "Chai Premix Recipe | how to make instant tea premix",
+     "text": "To prepare chai, take 1 tbsp chai premix and add 1 cup hot water. Mix well and rest for 1 minute."
+    }
+   }
+  ],
+  "error": null,
+  "total_ms": 21995,
+  "stages": {
+   "extract": {
+    "ms": 4278,
+    "inputTokens": 2875,
+    "outputTokens": 117,
+    "speechMs": 2118,
+    "visualMs": 4022
+   },
+   "claims": {
+    "ms": 6574,
+    "inputTokens": 673,
+    "outputTokens": 1361
+   },
+   "checking": {
+    "ms": 10292,
+    "inputTokens": 2212,
+    "outputTokens": 1520
+   },
+   "evidence": {
+    "ms": 339,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 37,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "8d5b4c9d60d04fdaa9e85c953548a906",
+    "n": 0,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 3/3",
+     "ms: search+verdict 7988, pages 977",
+     "grounding: support 0.02"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "8d5b4c9d60d04fdaa9e85c953548a906",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4020,
+    "inputTokens": 2875,
+    "outputTokens": 117
+   },
+   {
+    "event": "model_call",
+    "jobId": "8d5b4c9d60d04fdaa9e85c953548a906",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 6365,
+    "inputTokens": 673,
+    "outputTokens": 1361
+   },
+   {
+    "event": "model_call",
+    "jobId": "8d5b4c9d60d04fdaa9e85c953548a906",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1177,
+    "inputTokens": 238,
+    "outputTokens": 40
+   },
+   {
+    "event": "model_call",
+    "jobId": "8d5b4c9d60d04fdaa9e85c953548a906",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 5515,
+    "inputTokens": 1684,
+    "outputTokens": 655
+   },
+   {
+    "event": "model_call",
+    "jobId": "8d5b4c9d60d04fdaa9e85c953548a906",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 7563,
+    "inputTokens": 290,
+    "outputTokens": 825
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.26
+ },
+ "K3": {
+  "job_id": "b177e4a0359c4a8eb074e1af35540ffe",
+  "status": "done",
+  "flags": [
+   {
+    "factLabel": "supported",
+    "uncertain": true,
+    "evidence": "Your claim that Jaipur is the capital of Rajasthan is accurate. Official government sources for Rajasthan confirm this information.",
+    "sourceQuote": {
+     "text": "Jaipur is the capital of Rajasthan which was founded by Maharaja Sawai Jai Singh II on November 18, 1727.",
+     "source": "About Us, as matched by Google Search grounding"
+    },
+    "suggestedFix": "No change is needed, as the claim is factually correct.",
+    "citation": {
+     "publisher": "rajasthan.gov.in",
+     "title": "About Us",
+     "url": "https://jaipur.rajasthan.gov.in/home/district-info/37"
+    },
+    "startMs": 1840,
+    "id": "f1",
+    "category": "factcheck",
+    "fingerprint": "factcheck:jaipur-is-the-capital-of-rajasthan",
+    "endMs": 4600,
+    "title": "Jaipur is the capital of Rajasthan"
+   },
+   {
+    "sourceQuote": {
+     "source": "Jaipur - Wikipedia",
+     "text": "Jaipur is also known as the Pink City due to the dominant colour scheme of its buildings in the old city."
+    },
+    "title": "Jaipur is known as the Pink City",
+    "endMs": 6640,
+    "evidence": "Your claim that Jaipur is called the Pink City is accurate. The city earned this nickname in 1876 when Maharaja Sawai Ram Singh II ordered its buildings painted terracotta pink to welcome Prince Albert Edward, the Prince of Wales, as pink symbolized hospitality.",
+    "id": "f2",
+    "fingerprint": "factcheck:jaipur-is-called-the-pink-city",
+    "suggestedFix": "No fix is needed, as the claim is correct.",
+    "category": "factcheck",
+    "startMs": 4840,
+    "factLabel": "supported",
+    "citation": {
+     "title": "Jaipur - Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Jaipur",
+     "publisher": "wikipedia.org"
+    }
+   },
+   {
+    "endMs": 10520,
+    "title": "Jaipur's Old City Buildings Are Painted Pink",
+    "evidence": "Your claim is accurate; many buildings in the old city of Jaipur are indeed painted pink. This tradition dates back to 1876 when the city was painted pink to welcome Prince Albert, and a law was later passed to maintain this color in the walled city.",
+    "startMs": 7120,
+    "fingerprint": "factcheck:many-buildings-in-the-old-city-of-jaipur-are-paint",
+    "citation": {
+     "url": "https://www.jaipur-travel-guide.com/Jaipur-guide/jaipur-pink-city-reason-why.html",
+     "publisher": "jaipur-travel-guide.com",
+     "title": "Why Is Jaipur The Pink City? - Jaipur Travel Guide"
+    },
+    "factLabel": "supported",
+    "suggestedFix": "No change needed, the claim is correct.",
+    "sourceQuote": {
+     "source": "Why Is Jaipur The Pink City? - Jaipur Travel Guide",
+     "text": "Every building within the walled historic centre is painted a terracotta “pink” colour and there are few exceptions to this uniformly colour scheme."
+    },
+    "category": "factcheck",
+    "id": "f3"
+   }
+  ],
+  "error": null,
+  "total_ms": 29687,
+  "stages": {
+   "extract": {
+    "ms": 5463,
+    "inputTokens": 3032,
+    "outputTokens": 110,
+    "speechMs": 2016,
+    "visualMs": 5219
+   },
+   "claims": {
+    "ms": 7114,
+    "inputTokens": 635,
+    "outputTokens": 1476
+   },
+   "checking": {
+    "ms": 15603,
+    "inputTokens": 1472,
+    "outputTokens": 3134
+   },
+   "evidence": {
+    "ms": 500,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 43,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "b177e4a0359c4a8eb074e1af35540ffe",
+    "n": 0,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 2/3",
+     "quote matched by grounding support",
+     "ms: search+verdict 5497, pages 3298",
+     "grounding: support 0.01"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "b177e4a0359c4a8eb074e1af35540ffe",
+    "n": 1,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": [
+     "pages read: 5/9",
+     "ms: search+verdict 5239, pages 1700",
+     "grounding 0.86"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "b177e4a0359c4a8eb074e1af35540ffe",
+    "n": 2,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": [
+     "pages read: 5/8",
+     "ms: search+verdict 12840, pages 1024",
+     "grounding 0.75"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "b177e4a0359c4a8eb074e1af35540ffe",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 5218,
+    "inputTokens": 3032,
+    "outputTokens": 110
+   },
+   {
+    "event": "model_call",
+    "jobId": "b177e4a0359c4a8eb074e1af35540ffe",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 6905,
+    "inputTokens": 635,
+    "outputTokens": 1476
+   },
+   {
+    "event": "model_call",
+    "jobId": "b177e4a0359c4a8eb074e1af35540ffe",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1655,
+    "inputTokens": 324,
+    "outputTokens": 292
+   },
+   {
+    "event": "model_call",
+    "jobId": "b177e4a0359c4a8eb074e1af35540ffe",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 4927,
+    "inputTokens": 285,
+    "outputTokens": 607
+   },
+   {
+    "event": "model_call",
+    "jobId": "b177e4a0359c4a8eb074e1af35540ffe",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 4761,
+    "inputTokens": 285,
+    "outputTokens": 588
+   },
+   {
+    "event": "model_call",
+    "jobId": "b177e4a0359c4a8eb074e1af35540ffe",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 6046,
+    "inputTokens": 290,
+    "outputTokens": 819
+   },
+   {
+    "event": "model_call",
+    "jobId": "b177e4a0359c4a8eb074e1af35540ffe",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 5928,
+    "inputTokens": 288,
+    "outputTokens": 828
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.276
+ },
+ "K4": {
+  "job_id": "d4d9f88f0b2e4bcfa5b11a36f6b0280c",
+  "status": "done",
+  "flags": [],
+  "error": null,
+  "total_ms": 16940,
+  "stages": {
+   "extract": {
+    "ms": 3732,
+    "inputTokens": 2784,
+    "outputTokens": 106,
+    "speechMs": 1984,
+    "visualMs": 3487
+   },
+   "claims": {
+    "ms": 7624,
+    "inputTokens": 643,
+    "outputTokens": 1202
+   },
+   "checking": {
+    "ms": 4762,
+    "inputTokens": 3100,
+    "outputTokens": 884
+   },
+   "evidence": {
+    "ms": 110,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 35,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "d4d9f88f0b2e4bcfa5b11a36f6b0280c",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 3486,
+    "inputTokens": 2784,
+    "outputTokens": 106
+   },
+   {
+    "event": "model_call",
+    "jobId": "d4d9f88f0b2e4bcfa5b11a36f6b0280c",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 7424,
+    "inputTokens": 643,
+    "outputTokens": 1202
+   },
+   {
+    "event": "model_call",
+    "jobId": "d4d9f88f0b2e4bcfa5b11a36f6b0280c",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 761,
+    "inputTokens": 231,
+    "outputTokens": 38
+   },
+   {
+    "event": "model_call",
+    "jobId": "d4d9f88f0b2e4bcfa5b11a36f6b0280c",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4508,
+    "inputTokens": 2869,
+    "outputTokens": 846
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.25
+ },
+ "F01": {
+  "job_id": "25fac885397043ef967b353ac9349798",
+  "status": "done",
+  "flags": [
+   {
+    "severity": "high",
+    "endMs": 7500,
+    "startMs": 1500,
+    "evidence": "Your claim that all UPI payments above 2000 rupees will be charged 1.1% from April is incorrect. The 1.1% charge applies specifically to merchant transactions above ₹2,000 made using Prepaid Payment Instruments (PPIs) like wallets, and this fee is paid by the merchant, not the customer. Person-to-person UPI transactions and most bank-account-based merchant transactions remain free.",
+    "fingerprint": "factcheck:all-upi-payments-above-2000-rupees-will-be-charged",
+    "title": "UPI 1.1% charge applies only to merchant payments via PPIs, not all transactions",
+    "category": "factcheck",
+    "id": "f1",
+    "suggestedFix": "Clarify that the 1.1% charge is an interchange fee on merchant transactions above ₹2,000 made via Prepaid Payment Instruments (PPIs) and is borne by the merchant, not the customer.",
+    "factLabel": "contradicted",
+    "sourceQuote": {
+     "text": "NPCI separately introduced an interchange fee on UPI payments made using Prepaid Payment Instruments (PPIs), effective from 1 April 2023. For PPI transactions above ₹2,000, the interchange fee can be up to 1.1% and varies from 0.5% to 1.1% by merchant category. The merchant pays this fee to the payment service provider; it is not charged directly to the customer.",
+     "source": "UPI Charges Above 2000: What You Need To Know"
+    },
+    "citation": {
+     "title": "UPI Charges Above 2000: What You Need To Know",
+     "publisher": "GKToday",
+     "url": "https://www.gktoday.in/npci-defers-proposed-upi-merchant-fee-until-after-diwali/"
+    }
+   },
+   {
+    "title": "UPI payments above ₹2,000 are not charged 1.1% to customers",
+    "id": "f2",
+    "startMs": 2080,
+    "fingerprint": "factcheck:all-upi-payments-above-2000-rupees-will-be-charged",
+    "severity": "high",
+    "uncertain": true,
+    "category": "factcheck",
+    "endMs": 8680,
+    "sourceQuote": {
+     "source": "New UPI MDR Rules 2026: Charges Above ₹2,000 Explained",
+     "text": "From 15 October 2026, a Merchant Discount Rate (MDR) of 0.4% will apply to eligible Person-to-Merchant (P2M) UPI payments above ₹2,000."
+    },
+    "factLabel": "contradicted",
+    "citation": {
+     "publisher": "ujjivansfb.bank.in",
+     "url": "https://www.ujjivansfb.bank.in/banking-blogs/personal-finance/new-upi-2000-rupees-charges-limit-rule",
+     "title": "New UPI MDR Rules 2026: Charges Above ₹2,000 Explained"
+    },
+    "suggestedFix": "Clarify that the 0.4% MDR applies to merchants for eligible Person-to-Merchant (P2M) transactions above ₹2,000, and that a 1.1% interchange fee applies specifically to merchants for PPI-based UPI transactions above ₹2,000.",
+    "evidence": "Your claim that all UPI payments above 2000 rupees will be charged 1.1% from April is incorrect. The 0.4% Merchant Discount Rate (MDR) applies to eligible Person-to-Merchant (P2M) transactions above ₹2,000, and this charge is borne by the merchant, not the customer. A 1.1% interchange fee was introduced for merchant transactions above ₹2,000 only when made using Prepaid Payment Instruments (PPIs) like mobile wallets, and this also applies to merchants."
+   }
+  ],
+  "error": null,
+  "total_ms": 32000,
+  "stages": {
+   "extract": {
+    "ms": 4367,
+    "inputTokens": 2247,
+    "outputTokens": 245,
+    "speechMs": 1490,
+    "visualMs": 4127
+   },
+   "claims": {
+    "ms": 6469,
+    "inputTokens": 669,
+    "outputTokens": 1228
+   },
+   "checking": {
+    "ms": 18840,
+    "inputTokens": 1191,
+    "outputTokens": 3524
+   },
+   "evidence": {
+    "ms": 427,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 284,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "25fac885397043ef967b353ac9349798",
+    "n": 0,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": [
+     "pages read: 5/6",
+     "ms: search+verdict 15318, pages 1538",
+     "grounding 0.94"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "25fac885397043ef967b353ac9349798",
+    "n": 1,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 4/15",
+     "ms: search+verdict 7251, pages 2532",
+     "grounding: support 0.06"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "25fac885397043ef967b353ac9349798",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4126,
+    "inputTokens": 2247,
+    "outputTokens": 245
+   },
+   {
+    "event": "model_call",
+    "jobId": "25fac885397043ef967b353ac9349798",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 6183,
+    "inputTokens": 669,
+    "outputTokens": 1228
+   },
+   {
+    "event": "model_call",
+    "jobId": "25fac885397043ef967b353ac9349798",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1859,
+    "inputTokens": 296,
+    "outputTokens": 222
+   },
+   {
+    "event": "model_call",
+    "jobId": "25fac885397043ef967b353ac9349798",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 6931,
+    "inputTokens": 299,
+    "outputTokens": 1122
+   },
+   {
+    "event": "model_call",
+    "jobId": "25fac885397043ef967b353ac9349798",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 7557,
+    "inputTokens": 299,
+    "outputTokens": 1118
+   },
+   {
+    "event": "model_call",
+    "jobId": "25fac885397043ef967b353ac9349798",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 6596,
+    "inputTokens": 297,
+    "outputTokens": 1062
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.191
+ },
+ "F02": {
+  "job_id": "5755e7855893492ba97a7dd242070059",
+  "status": "done",
+  "flags": [
+   {
+    "startMs": 0,
+    "severity": "high",
+    "evidence": "\"Reminder for everyone as per the new RBI rule, banks will be closed every Saturday and Sunday from now on.\" matches a claim The Quint rated: False.",
+    "id": "f1",
+    "fingerprint": "factcheck:as-per-the-new-rbi-rule-banks-will-be-closed-every",
+    "endMs": 8920,
+    "suggestedFix": "Read the fact check and change or cut the line to match what it found.",
+    "title": "The Quint has fact-checked this before",
+    "citation": {
+     "url": "https://www.thequint.com/news/webqoof/bank-holidays-saturday-sunday-viral-fact-check",
+     "title": "Fact-Check: Banks Closed Every Saturday-Sunday? Claim is False!",
+     "publisher": "The Quint"
+    },
+    "factLabel": "previously_fact_checked",
+    "category": "factcheck",
+    "sourceQuote": {
+     "text": "Banks in India will be closed every Saturday and Sunday, as per new RBI rules.",
+     "source": "The Quint, via Google Fact Check Tools"
+    }
+   },
+   {
+    "citation": {
+     "publisher": "chinimandi.com",
+     "url": "https://www.chinimandi.com/rbis-new-forex-rules-will-raise-importers-hedging-costs-and-ease-pressure-on-rupee-report/",
+     "title": "RBI's new foreign exchange rules to raise hedging costs for importers, reduce dollar demand: ICICI Bank"
+    },
+    "fingerprint": "factcheck:there-is-a-new-rbi-rule",
+    "endMs": 4000,
+    "category": "factcheck",
+    "sourceQuote": {
+     "source": "RBI's new foreign exchange rules to raise hedging costs for importers, reduce dollar demand: ICICI Bank",
+     "text": "The Reserve Bank of India's (RBI) new foreign exchange rules are expected to raise hedging costs for importers and reduce excessive demand for dollars, easing pressure on the rupee, according to a report by ICICI Bank."
+    },
+    "title": "RBI has introduced several new rules recently",
+    "suggestedFix": "You could specify which new RBI rule you are referring to, as there have been multiple recent announcements.",
+    "startMs": 3000,
+    "factLabel": "supported",
+    "id": "f2",
+    "evidence": "Your claim that there is a new RBI rule is supported, as the Reserve Bank of India has introduced several new regulations and guidelines recently, particularly concerning foreign exchange and banking operations. For example, new foreign exchange rules were announced in October 2026 to stabilize the rupee."
+   },
+   {
+    "fingerprint": "factcheck:banks-will-be-closed-every-saturday-and-sunday-fro",
+    "category": "factcheck",
+    "id": "f3",
+    "suggestedFix": "Read the fact check and change or cut the line to match what it found.",
+    "citation": {
+     "url": "https://www.thequint.com/news/webqoof/bank-holidays-saturday-sunday-viral-fact-check",
+     "title": "Fact-Check: Banks Closed Every Saturday-Sunday? Claim is False!",
+     "publisher": "The Quint"
+    },
+    "title": "The Quint has fact-checked this before",
+    "sourceQuote": {
+     "text": "Banks in India will be closed every Saturday and Sunday, as per new RBI rules.",
+     "source": "The Quint, via Google Fact Check Tools"
+    },
+    "factLabel": "previously_fact_checked",
+    "endMs": 8000,
+    "evidence": "\"Banks will be closed every Saturday and Sunday from now on.\" matches a claim The Quint rated: False.",
+    "severity": "high",
+    "startMs": 5000
+   }
+  ],
+  "error": null,
+  "total_ms": 42241,
+  "stages": {
+   "extract": {
+    "ms": 15862,
+    "inputTokens": 2247,
+    "outputTokens": 279,
+    "speechMs": 2883,
+    "visualMs": 15607
+   },
+   "claims": {
+    "ms": 8233,
+    "inputTokens": 677,
+    "outputTokens": 1091
+   },
+   "checking": {
+    "ms": 17236,
+    "inputTokens": 837,
+    "outputTokens": 1960
+   },
+   "evidence": {
+    "ms": 338,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 32,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "5755e7855893492ba97a7dd242070059",
+    "n": 0,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "5755e7855893492ba97a7dd242070059",
+    "n": 1,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": [
+     "pages read: 6/10",
+     "ms: search+verdict 14215, pages 1866",
+     "grounding 0.48"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "5755e7855893492ba97a7dd242070059",
+    "n": 2,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": []
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "5755e7855893492ba97a7dd242070059",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 15424,
+    "inputTokens": 2247,
+    "outputTokens": 279
+   },
+   {
+    "event": "model_call",
+    "jobId": "5755e7855893492ba97a7dd242070059",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 8005,
+    "inputTokens": 677,
+    "outputTokens": 1091
+   },
+   {
+    "event": "model_call",
+    "jobId": "5755e7855893492ba97a7dd242070059",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1071,
+    "inputTokens": 269,
+    "outputTokens": 164
+   },
+   {
+    "event": "model_call",
+    "jobId": "5755e7855893492ba97a7dd242070059",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 6326,
+    "inputTokens": 285,
+    "outputTokens": 800
+   },
+   {
+    "event": "model_call",
+    "jobId": "5755e7855893492ba97a7dd242070059",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 7394,
+    "inputTokens": 283,
+    "outputTokens": 996
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.19
+ },
+ "F03": {
+  "job_id": "f34c0ba7fb2245cebdf1a123c56d9db9",
+  "status": "done",
+  "flags": [
+   {
+    "startMs": 6520,
+    "sourceQuote": {
+     "text": "Special care and restraint has to be exercised in advertisements addressed to those suffering from weakness, any real or perceived inadequacy of any physical attributes such as height or bust development, obesity, illness, impotence, infertility, baldness and the like, to ensure that claims or representations, directly or by implication, do not exceed what is considered prudent by generally accepted standards of medical practice and the actual efficacy of the product.",
+     "source": "ASCI Code, Chapter I, example (d)"
+    },
+    "fingerprint": "claims:asci-code-i-ex-d:onions-bacteria",
+    "evidence": "You claimed that 'Onions absorb bacteria from the air' and 'prevent the flu.' These claims exceed what is considered prudent by generally accepted standards of medical practice.",
+    "category": "claims",
+    "severity": "high",
+    "citation": {
+     "title": "The ASCI Code, Chapter I: Truthful and honest representation",
+     "clause": "example (d)",
+     "authority": "self_regulatory",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "clauseId": "asci-code/I.ex(d)",
+     "publisher": "ASCI",
+     "instrument": "ASCI Code, Chapter I"
+    },
+    "id": "f1",
+    "title": "Unsubstantiated health claims about onions",
+    "suggestedFix": "Remove the claims that onions absorb bacteria or prevent the flu from your video.",
+    "endMs": 10520
+   },
+   {
+    "sourceQuote": {
+     "text": "For posts related to health and nutrition, the influencer must have relevant qualifications such as a medical degree, or be a certified nurse, nutritionist, dietician, physiotherapist, psychologist etc. depending on the specific advice being given.",
+     "source": "ASCI Influencer Guidelines, Addendum II, I.2"
+    },
+    "citation": {
+     "instrument": "ASCI Influencer Guidelines",
+     "clause": "Addendum II, I.2",
+     "title": "Guidelines for Influencer Advertising in Digital Media",
+     "publisher": "ASCI",
+     "clauseId": "asci-ig/add2-I.2",
+     "authority": "self_regulatory",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf"
+    },
+    "endMs": 10520,
+    "startMs": 6520,
+    "fingerprint": "claims:asci-ig-add2-i-2:onions-bacteria",
+    "severity": "high",
+    "suggestedFix": "Ensure you have the necessary qualifications before providing health advice, or refrain from making such claims.",
+    "id": "f2",
+    "evidence": "You provided health advice by claiming onions absorb bacteria and prevent flu. You must have relevant qualifications to give such specific health advice.",
+    "title": "Health advice without qualifications",
+    "category": "claims"
+   },
+   {
+    "factLabel": "previously_fact_checked",
+    "endMs": 9200,
+    "sourceQuote": {
+     "text": "Onions Absorb Bacteria To Prevent Flu",
+     "source": "a fact-checker, via Google Fact Check Tools"
+    },
+    "title": "a fact-checker has fact-checked this before",
+    "startMs": 6520,
+    "id": "f3",
+    "fingerprint": "factcheck:onions-absorb-bacteria-from-the-air",
+    "category": "factcheck",
+    "evidence": "\"Onions absorb bacteria from the air\" matches a claim a fact-checker rated: False.",
+    "severity": "high",
+    "suggestedFix": "Read the fact check and change or cut the line to match what it found.",
+    "citation": {
+     "publisher": "a fact-checker",
+     "url": "https://www.vishvasnews.com/english/health/fact-check-post-claiming-onions-absorb-bacteria-to-prevent-flu-is-fake/",
+     "title": "Fact Check: Post Claiming Onions Absorb Bacteria To Prevent Flu Is ..."
+    }
+   },
+   {
+    "sourceQuote": {
+     "source": "a fact-checker, via Google Fact Check Tools",
+     "text": "Onions Absorb Bacteria To Prevent Flu"
+    },
+    "startMs": 9440,
+    "category": "factcheck",
+    "title": "a fact-checker has fact-checked this before",
+    "fingerprint": "factcheck:onions-prevent-the-flu",
+    "evidence": "\"prevent the flu.\" matches a claim a fact-checker rated: False.",
+    "severity": "high",
+    "endMs": 10520,
+    "citation": {
+     "url": "https://www.vishvasnews.com/english/health/fact-check-post-claiming-onions-absorb-bacteria-to-prevent-flu-is-fake/",
+     "publisher": "a fact-checker",
+     "title": "Fact Check: Post Claiming Onions Absorb Bacteria To Prevent Flu Is ..."
+    },
+    "factLabel": "previously_fact_checked",
+    "suggestedFix": "Read the fact check and change or cut the line to match what it found.",
+    "id": "f4"
+   }
+  ],
+  "error": null,
+  "total_ms": 19309,
+  "stages": {
+   "extract": {
+    "ms": 4816,
+    "inputTokens": 2247,
+    "outputTokens": 50,
+    "speechMs": 1528,
+    "visualMs": 4600
+   },
+   "claims": {
+    "ms": 3472,
+    "inputTokens": 583,
+    "outputTokens": 554
+   },
+   "checking": {
+    "ms": 8855,
+    "inputTokens": 1525,
+    "outputTokens": 1379
+   },
+   "evidence": {
+    "ms": 354,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 135,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "f34c0ba7fb2245cebdf1a123c56d9db9",
+    "n": 0,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.99"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "f34c0ba7fb2245cebdf1a123c56d9db9",
+    "n": 1,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.99"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "f34c0ba7fb2245cebdf1a123c56d9db9",
+    "n": 2,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "f34c0ba7fb2245cebdf1a123c56d9db9",
+    "n": 3,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": []
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "f34c0ba7fb2245cebdf1a123c56d9db9",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4599,
+    "inputTokens": 2247,
+    "outputTokens": 50
+   },
+   {
+    "event": "model_call",
+    "jobId": "f34c0ba7fb2245cebdf1a123c56d9db9",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 3234,
+    "inputTokens": 583,
+    "outputTokens": 554
+   },
+   {
+    "event": "model_call",
+    "jobId": "f34c0ba7fb2245cebdf1a123c56d9db9",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1469,
+    "inputTokens": 229,
+    "outputTokens": 102
+   },
+   {
+    "event": "model_call",
+    "jobId": "f34c0ba7fb2245cebdf1a123c56d9db9",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 8554,
+    "inputTokens": 1296,
+    "outputTokens": 1277
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.188
+ },
+ "F04": {
+  "job_id": "931c893b9f3546de8249a2fd61d1d7e6",
+  "status": "done",
+  "flags": [
+   {
+    "startMs": 3800,
+    "sourceQuote": {
+     "text": "Subject to the provisions of this Act, no person shall take any part in the publication of any advertisement referring to any drug in terms which suggest or are calculated to lead to the use of that drug for the diagnosis, cure, mitigation, treatment or prevention of any disease, disorder or condition specified in the Schedule, or any other disease, disorder or condition (by whatsoever name called) which may be specified in the rules made under this Act.",
+     "source": "Drugs and Magic Remedies Act, s. 3(d)"
+    },
+    "endMs": 7080,
+    "id": "f1",
+    "citation": {
+     "instrument": "Drugs and Magic Remedies Act",
+     "authority": "statutory",
+     "url": "https://www.indiacode.nic.in/handle/123456789/1412",
+     "clause": "s. 3(d)",
+     "clauseId": "dmr-act/3(d)",
+     "title": "The Drugs and Magic Remedies (Objectionable Advertisements) Act, 1954",
+     "publisher": "Government of India"
+    },
+    "title": "Claiming hot lemon water kills cancer cells",
+    "fingerprint": "claims:dmr-act-3-d:hot-lemon-water",
+    "suggestedFix": "Remove the claim that hot lemon water kills cancer cells.",
+    "severity": "high",
+    "evidence": "You said, \"Drinking hot lemon water kills cancer cells.\" This suggests using hot lemon water for the \"treatment\" or \"cure\" of \"Cancer,\" which is prohibited by the Drugs and Magic Remedies Act.",
+    "category": "claims"
+   },
+   {
+    "id": "f2",
+    "title": "AFP Fact Check has fact-checked this before",
+    "citation": {
+     "title": "Drinking hot lemon water doesn't kill cancer cells",
+     "publisher": "AFP Fact Check",
+     "url": "https://factcheck.afp.com/doc.afp.com.9JA8ZM"
+    },
+    "suggestedFix": "Read the fact check and change or cut the line to match what it found.",
+    "fingerprint": "factcheck:drinking-hot-lemon-water-kills-cancer-cells",
+    "category": "factcheck",
+    "factLabel": "previously_fact_checked",
+    "startMs": 3800,
+    "evidence": "\"Drinking hot lemon water kills cancer cells.\" matches a claim AFP Fact Check rated: False.",
+    "severity": "high",
+    "sourceQuote": {
+     "text": "Hot lemon water kills cancer cells",
+     "source": "AFP Fact Check, via Google Fact Check Tools"
+    },
+    "endMs": 7080
+   }
+  ],
+  "error": null,
+  "total_ms": 15460,
+  "stages": {
+   "extract": {
+    "ms": 6315,
+    "inputTokens": 1933,
+    "outputTokens": 50,
+    "speechMs": 1407,
+    "visualMs": 6079
+   },
+   "claims": {
+    "ms": 3573,
+    "inputTokens": 588,
+    "outputTokens": 444
+   },
+   "checking": {
+    "ms": 4748,
+    "inputTokens": 1356,
+    "outputTokens": 977
+   },
+   "evidence": {
+    "ms": 353,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 41,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "931c893b9f3546de8249a2fd61d1d7e6",
+    "n": 0,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.97"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "931c893b9f3546de8249a2fd61d1d7e6",
+    "n": 1,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": []
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "931c893b9f3546de8249a2fd61d1d7e6",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 6078,
+    "inputTokens": 1933,
+    "outputTokens": 50
+   },
+   {
+    "event": "model_call",
+    "jobId": "931c893b9f3546de8249a2fd61d1d7e6",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 3380,
+    "inputTokens": 588,
+    "outputTokens": 444
+   },
+   {
+    "event": "model_call",
+    "jobId": "931c893b9f3546de8249a2fd61d1d7e6",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1215,
+    "inputTokens": 227,
+    "outputTokens": 110
+   },
+   {
+    "event": "model_call",
+    "jobId": "931c893b9f3546de8249a2fd61d1d7e6",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4581,
+    "inputTokens": 1129,
+    "outputTokens": 867
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.16
+ },
+ "F05": {
+  "job_id": "b01c4a4c2f0f48809e5a27d4ec232336",
+  "status": "done",
+  "flags": [
+   {
+    "suggestedFix": "Remove the unqualified instruction to withdraw cash. If you intend to give financial advice, ensure you are qualified and provide necessary context and disclaimers.",
+    "title": "Urgent financial advice without context",
+    "severity": "high",
+    "fingerprint": "claims:asci-code-i-1-5:cash",
+    "category": "claims",
+    "startMs": 0,
+    "id": "f1",
+    "endMs": 2560,
+    "evidence": "You said, \"Withdraw your cash now.\" This statement could exploit consumers' lack of experience or knowledge, which violates the rule that advertisements should not abuse trust or exploit lack of knowledge.",
+    "citation": {
+     "authority": "self_regulatory",
+     "clauseId": "asci-code/I.1.5",
+     "title": "The ASCI Code, Chapter I: Truthful and honest representation",
+     "publisher": "ASCI",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "instrument": "ASCI Code, Chapter I",
+     "clause": "1.5"
+    },
+    "sourceQuote": {
+     "source": "ASCI Code, Chapter I, 1.5",
+     "text": "Advertisements shall not be so framed as to abuse the trust of consumers, or exploit their lack of experience or knowledge. No advertisement shall be permitted to contain any claim so exaggerated as to lead to grave or widespread disappointment in the minds of consumers."
+    }
+   },
+   {
+    "startMs": 2680,
+    "fingerprint": "factcheck:the-rbi-has-asked-banks-to-stop-giving-rs-500-note",
+    "evidence": "\"RBI has asked banks to stop giving Rs 500 notes from ATMs by September.\" matches a claim Alt News rated: False.",
+    "citation": {
+     "publisher": "Alt News",
+     "url": "https://www.altnews.in/fact-check-did-rbi-ban-500-rupee-note-again-false-claim/",
+     "title": "RBI has not asked banks to stop disbursing ₹500 notes; viral claim ..."
+    },
+    "suggestedFix": "Read the fact check and change or cut the line to match what it found.",
+    "title": "Alt News has fact-checked this before",
+    "sourceQuote": {
+     "text": "RBI asked banks to stop disbursing Rs 500 notes",
+     "source": "Alt News, via Google Fact Check Tools"
+    },
+    "category": "factcheck",
+    "endMs": 8880,
+    "id": "f2",
+    "severity": "high",
+    "factLabel": "previously_fact_checked"
+   }
+  ],
+  "error": null,
+  "total_ms": 16798,
+  "stages": {
+   "extract": {
+    "ms": 3294,
+    "inputTokens": 1933,
+    "outputTokens": 50,
+    "speechMs": 1438,
+    "visualMs": 3094
+   },
+   "claims": {
+    "ms": 5244,
+    "inputTokens": 577,
+    "outputTokens": 670
+   },
+   "checking": {
+    "ms": 5448,
+    "inputTokens": 1024,
+    "outputTokens": 1070
+   },
+   "evidence": {
+    "ms": 341,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 43,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "b01c4a4c2f0f48809e5a27d4ec232336",
+    "n": 0,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.97"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "b01c4a4c2f0f48809e5a27d4ec232336",
+    "n": 1,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": []
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "b01c4a4c2f0f48809e5a27d4ec232336",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 3091,
+    "inputTokens": 1933,
+    "outputTokens": 50
+   },
+   {
+    "event": "model_call",
+    "jobId": "b01c4a4c2f0f48809e5a27d4ec232336",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4972,
+    "inputTokens": 577,
+    "outputTokens": 670
+   },
+   {
+    "event": "model_call",
+    "jobId": "b01c4a4c2f0f48809e5a27d4ec232336",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 899,
+    "inputTokens": 238,
+    "outputTokens": 112
+   },
+   {
+    "event": "model_call",
+    "jobId": "b01c4a4c2f0f48809e5a27d4ec232336",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 5269,
+    "inputTokens": 786,
+    "outputTokens": 958
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.159
+ },
+ "F06": {
+  "job_id": "9c2dcc1793bf45f8b84bad225037e59b",
+  "status": "done",
+  "flags": [
+   {
+    "category": "claims",
+    "startMs": 3280,
+    "severity": "high",
+    "title": "Claiming to cure cancer",
+    "endMs": 9840,
+    "fingerprint": "claims:dmr-act-3-d:cancer",
+    "suggestedFix": "Remove the claim that turmeric juice and cow urine can cure cancer completely.",
+    "citation": {
+     "authority": "statutory",
+     "instrument": "Drugs and Magic Remedies Act",
+     "title": "The Drugs and Magic Remedies (Objectionable Advertisements) Act, 1954",
+     "publisher": "Government of India",
+     "clauseId": "dmr-act/3(d)",
+     "url": "https://www.indiacode.nic.in/handle/123456789/1412",
+     "clause": "s. 3(d)"
+    },
+    "sourceQuote": {
+     "text": "no person shall take any part in the publication of any advertisement referring to any drug in terms which suggest or are calculated to lead to the use of that drug for the diagnosis, cure, mitigation, treatment or prevention of any disease, disorder or condition specified in the Schedule, or any other disease, disorder or condition (by whatsoever name called) which may be specified in the rules made under this Act.",
+     "source": "Drugs and Magic Remedies Act, s. 3(d)"
+    },
+    "id": "f1",
+    "evidence": "You said, 'Turmeric juice mixed with cow urine in the right proportion can cure cancer completely.' This suggests a cure for a disease listed in the Drugs and Magic Remedies Act Schedule, which breaks the rule that 'no person shall take any part in the publication of any advertisement referring to any drug in terms which suggest or are calculated to lead to the use of that drug for the diagnosis, cure, mitigation, treatment or prevention of any disease, disorder or condition specified in the Schedule, or any other disease, disorder or condition (by whatsoever name called) which may be specified in the rules made under this Act.'"
+   },
+   {
+    "citation": {
+     "title": "Fact Check: Post claiming that consuming turmeric juice, cow urine ...",
+     "url": "https://www.vishvasnews.com/english/health/fact-check-post-claiming-that-consuming-turmeric-juice-cow-urine-in-certain-proportions-can-cure-cancer-completely-is-fake/",
+     "publisher": "a fact-checker"
+    },
+    "title": "a fact-checker has fact-checked this before",
+    "endMs": 9840,
+    "startMs": 3280,
+    "fingerprint": "factcheck:turmeric-juice-mixed-with-cow-urine-in-the-right-p",
+    "id": "f2",
+    "suggestedFix": "Read the fact check and change or cut the line to match what it found.",
+    "evidence": "\"Turmeric juice mixed with cow urine in the right proportion can cure cancer completely.\" matches a claim a fact-checker rated: False.",
+    "category": "factcheck",
+    "severity": "high",
+    "sourceQuote": {
+     "text": "consuming turmeric juice, cow urine in certain proportions can cure cancer completely",
+     "source": "a fact-checker, via Google Fact Check Tools"
+    },
+    "factLabel": "previously_fact_checked"
+   }
+  ],
+  "error": null,
+  "total_ms": 13081,
+  "stages": {
+   "extract": {
+    "ms": 3447,
+    "inputTokens": 2090,
+    "outputTokens": 50,
+    "speechMs": 1383,
+    "visualMs": 3252
+   },
+   "claims": {
+    "ms": 2348,
+    "inputTokens": 576,
+    "outputTokens": 471
+   },
+   "checking": {
+    "ms": 6357,
+    "inputTokens": 1364,
+    "outputTokens": 1345
+   },
+   "evidence": {
+    "ms": 335,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 26,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "9c2dcc1793bf45f8b84bad225037e59b",
+    "n": 0,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.97"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "9c2dcc1793bf45f8b84bad225037e59b",
+    "n": 1,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": []
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "9c2dcc1793bf45f8b84bad225037e59b",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 3250,
+    "inputTokens": 2090,
+    "outputTokens": 50
+   },
+   {
+    "event": "model_call",
+    "jobId": "9c2dcc1793bf45f8b84bad225037e59b",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 2100,
+    "inputTokens": 576,
+    "outputTokens": 471
+   },
+   {
+    "event": "model_call",
+    "jobId": "9c2dcc1793bf45f8b84bad225037e59b",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 909,
+    "inputTokens": 229,
+    "outputTokens": 110
+   },
+   {
+    "event": "model_call",
+    "jobId": "9c2dcc1793bf45f8b84bad225037e59b",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 6169,
+    "inputTokens": 1135,
+    "outputTokens": 1235
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.175
+ },
+ "F07": {
+  "job_id": "51846bd4119d4a588686d4902cc96cc4",
+  "status": "done",
+  "flags": [
+   {
+    "citation": {
+     "title": "The Drugs and Magic Remedies (Objectionable Advertisements) Act, 1954",
+     "url": "https://www.indiacode.nic.in/handle/123456789/1412",
+     "authority": "statutory",
+     "publisher": "Government of India",
+     "instrument": "Drugs and Magic Remedies Act",
+     "clauseId": "dmr-act/3(d)",
+     "clause": "s. 3(d)"
+    },
+    "startMs": 0,
+    "category": "claims",
+    "fingerprint": "claims:dmr-act-3-d:dengue",
+    "endMs": 4440,
+    "evidence": "You said, 'If someone has dengue, give them papaya leaf juice.' This suggests using papaya leaf juice to treat dengue, which is a fever and listed in the Drugs and Magic Remedies Act Schedule.",
+    "suggestedFix": "Remove the claim that papaya leaf juice can be given for dengue.",
+    "sourceQuote": {
+     "text": "Subject to the provisions of this Act, no person shall take any part in the publication of any advertisement referring to any drug in terms which suggest or are calculated to lead to the use of that drug for the diagnosis, cure, mitigation, treatment or prevention of any disease, disorder or condition specified in the Schedule, or any other disease, disorder or condition (by whatsoever name called) which may be specified in the rules made under this Act.",
+     "source": "Drugs and Magic Remedies Act, s. 3(d)"
+    },
+    "title": "Suggesting treatment for scheduled disease",
+    "severity": "high",
+    "id": "f1"
+   },
+   {
+    "uncertain": true,
+    "id": "f2",
+    "factLabel": "supported",
+    "category": "factcheck",
+    "fingerprint": "factcheck:papaya-leaf-juice-should-be-given-to-someone-who-h",
+    "endMs": 4440,
+    "suggestedFix": "Clarify that papaya leaf juice is a supportive treatment, not a cure, and should be used under medical supervision.",
+    "startMs": 0,
+    "title": "Papaya leaf extract is recommended as a supportive treatment for dengue",
+    "evidence": "Your claim that papaya leaf juice should be given to someone with dengue is supported by some medical research and official recommendations. The AYUSH Ministry, Government of India, recommends Carica papaya leaf extract for dengue fever, and studies suggest it can help increase platelet count and reduce hospitalization days. However, it is crucial to understand that it is a supportive treatment, not a cure, and should always be used under medical supervision alongside conventional care."
+   },
+   {
+    "startMs": 4520,
+    "category": "claims",
+    "sourceQuote": {
+     "text": "Advertisements must be truthful. All descriptions, claims and comparisons, which relate to matters of objectively ascertainable fact, should be capable of substantiation. Advertisers and advertising agencies are required to produce such substantiation as and when called upon to do so by The Advertising Standards Council of India.",
+     "source": "ASCI Code, Chapter I, 1.1"
+    },
+    "title": "Unsubstantiated health claim",
+    "endMs": 8240,
+    "citation": {
+     "clause": "1.1",
+     "clauseId": "asci-code/I.1.1",
+     "instrument": "ASCI Code, Chapter I",
+     "authority": "self_regulatory",
+     "publisher": "ASCI",
+     "title": "The ASCI Code, Chapter I: Truthful and honest representation",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf"
+    },
+    "id": "f3",
+    "suggestedFix": "Remove the claim about papaya leaves increasing platelets in 12 hours, or provide robust scientific evidence to support it.",
+    "severity": "medium",
+    "evidence": "You claimed, 'Papaya leaves increase platelets in just 12 hours.' This is a specific health claim that requires scientific substantiation.",
+    "fingerprint": "claims:asci-code-i-1-1:papaya-leaves"
+   },
+   {
+    "evidence": "\"Papaya leaves increase platelets in just 12 hours.\" matches a claim THIP Media rated: Half True.",
+    "sourceQuote": {
+     "text": "papaya leaves can increase platelet in just 12 hrs",
+     "source": "THIP Media, via Google Fact Check Tools"
+    },
+    "severity": "high",
+    "id": "f4",
+    "factLabel": "previously_fact_checked",
+    "citation": {
+     "publisher": "THIP Media",
+     "title": "Fact Check: Do papaya leaves increase platelet in just 12 hrs?",
+     "url": "https://www.thip.media/health-news-fact-check/fact-check-do-papaya-leaves-increase-platelet-in-just-12-hrs/85226/"
+    },
+    "fingerprint": "factcheck:papaya-leaves-increase-platelets-in-just-12-hours",
+    "endMs": 8240,
+    "title": "THIP Media has fact-checked this before",
+    "category": "factcheck",
+    "startMs": 4520,
+    "suggestedFix": "Read the fact check and change or cut the line to match what it found."
+   }
+  ],
+  "error": null,
+  "total_ms": 25469,
+  "stages": {
+   "extract": {
+    "ms": 3651,
+    "inputTokens": 1842,
+    "outputTokens": 50,
+    "speechMs": 1352,
+    "visualMs": 3445
+   },
+   "claims": {
+    "ms": 4392,
+    "inputTokens": 577,
+    "outputTokens": 925
+   },
+   "checking": {
+    "ms": 16186,
+    "inputTokens": 2694,
+    "outputTokens": 3021
+   },
+   "evidence": {
+    "ms": 372,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 31,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "51846bd4119d4a588686d4902cc96cc4",
+    "n": 0,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.97"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "51846bd4119d4a588686d4902cc96cc4",
+    "n": 1,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.98"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "51846bd4119d4a588686d4902cc96cc4",
+    "n": 2,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 0/0",
+     "ms: search+verdict 15174, pages 0",
+     "page: source not available"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "51846bd4119d4a588686d4902cc96cc4",
+    "n": 3,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": []
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "51846bd4119d4a588686d4902cc96cc4",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 3443,
+    "inputTokens": 1842,
+    "outputTokens": 50
+   },
+   {
+    "event": "model_call",
+    "jobId": "51846bd4119d4a588686d4902cc96cc4",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4182,
+    "inputTokens": 577,
+    "outputTokens": 925
+   },
+   {
+    "event": "model_call",
+    "jobId": "51846bd4119d4a588686d4902cc96cc4",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 828,
+    "inputTokens": 232,
+    "outputTokens": 113
+   },
+   {
+    "event": "model_call",
+    "jobId": "51846bd4119d4a588686d4902cc96cc4",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 7048,
+    "inputTokens": 1882,
+    "outputTokens": 1189
+   },
+   {
+    "event": "model_call",
+    "jobId": "51846bd4119d4a588686d4902cc96cc4",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 6695,
+    "inputTokens": 291,
+    "outputTokens": 802
+   },
+   {
+    "event": "model_call",
+    "jobId": "51846bd4119d4a588686d4902cc96cc4",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 7605,
+    "inputTokens": 289,
+    "outputTokens": 917
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.149
+ },
+ "F08": {
+  "job_id": "cdeb53f0caf4460c97368e038a627131",
+  "status": "done",
+  "flags": [
+   {
+    "title": "Claiming to cure dengue",
+    "startMs": 3440,
+    "category": "claims",
+    "suggestedFix": "Remove all claims that papaya leaf extract can cure dengue or that it negates the need for hospital care.",
+    "severity": "high",
+    "evidence": "You said, \"Medicines made from papaya leaf extract cure dengue.\" This suggests a cure for a disease (dengue, a type of fever) which is prohibited by the Drugs and Magic Remedies Act. You also said, \"So you don't need the hospital,\" which is dangerous advice.",
+    "sourceQuote": {
+     "text": "Subject to the provisions of this Act, no person shall take any part in the publication of any advertisement referring to any drug in terms which suggest or are calculated to lead to the use of that drug for the diagnosis, cure, mitigation, treatment or prevention of any disease, disorder or condition specified in the Schedule, or any other disease, disorder or condition (by whatsoever name called) which may be specified in the rules made under this Act.",
+     "source": "Drugs and Magic Remedies Act, s. 3(d)"
+    },
+    "citation": {
+     "publisher": "Government of India",
+     "authority": "statutory",
+     "clause": "s. 3(d)",
+     "url": "https://www.indiacode.nic.in/handle/123456789/1412",
+     "title": "The Drugs and Magic Remedies (Objectionable Advertisements) Act, 1954",
+     "clauseId": "dmr-act/3(d)",
+     "instrument": "Drugs and Magic Remedies Act"
+    },
+    "endMs": 9760,
+    "id": "f1",
+    "fingerprint": "claims:dmr-act-3-d:papaya-leaf-extract"
+   },
+   {
+    "id": "f2",
+    "endMs": 7600,
+    "startMs": 3440,
+    "fingerprint": "factcheck:medicines-made-from-papaya-leaf-extract-cure-dengu",
+    "factLabel": "previously_fact_checked",
+    "category": "factcheck",
+    "sourceQuote": {
+     "text": "Medicines from papaya leaf extract cure dengue",
+     "source": "Boom Live, via Google Fact Check Tools"
+    },
+    "title": "Boom Live has fact-checked this before",
+    "citation": {
+     "url": "https://www.boomlive.in/do-pepaero-and-caripill-cure-dengue-a-factcheck",
+     "publisher": "Boom Live",
+     "title": "Do Pepaero And Caripill Cure Dengue? A FactCheck | BOOM"
+    },
+    "evidence": "\"Medicines made from papaya leaf extract cure dengue.\" matches a claim Boom Live rated: Misleading.",
+    "severity": "high",
+    "suggestedFix": "Read the fact check and change or cut the line to match what it found."
+   },
+   {
+    "severity": "high",
+    "id": "f3",
+    "uncertain": true,
+    "startMs": 7720,
+    "factLabel": "contradicted",
+    "sourceQuote": {
+     "source": "Dengue Treatment and Management, as matched by Google Search grounding",
+     "text": "Most people with mild dengue recover completely with supportive care, while patients with severe dengue or warning signs may require hospitalisation for close observation and advanced medical management."
+    },
+    "title": "Hospitalization is needed for severe dengue cases",
+    "evidence": "Your claim that hospitalization is not needed for dengue is incorrect. While mild cases can be managed at home, severe dengue or dengue with warning signs often requires hospitalization for close observation and advanced medical management.",
+    "citation": {
+     "publisher": "Max Healthcare",
+     "title": "Dengue Treatment and Management",
+     "url": "https://www.maxhealthcare.in/our-specialities/internal-medicine/conditions-treatments/dengue"
+    },
+    "endMs": 9760,
+    "suggestedFix": "Consider stating that hospitalization is necessary for severe dengue or dengue with warning signs.",
+    "fingerprint": "factcheck:hospitalization-is-not-needed-for-dengue",
+    "category": "factcheck"
+   }
+  ],
+  "error": null,
+  "total_ms": 16753,
+  "stages": {
+   "extract": {
+    "ms": 3105,
+    "inputTokens": 2090,
+    "outputTokens": 55,
+    "speechMs": 1432,
+    "visualMs": 2881
+   },
+   "claims": {
+    "ms": 3954,
+    "inputTokens": 588,
+    "outputTokens": 496
+   },
+   "checking": {
+    "ms": 9002,
+    "inputTokens": 2440,
+    "outputTokens": 1834
+   },
+   "evidence": {
+    "ms": 396,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 27,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "cdeb53f0caf4460c97368e038a627131",
+    "n": 0,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.97"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "cdeb53f0caf4460c97368e038a627131",
+    "n": 1,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "cdeb53f0caf4460c97368e038a627131",
+    "n": 2,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 2/18",
+     "quote matched by grounding support",
+     "ms: search+verdict 5717, pages 2296",
+     "grounding: support 0.09"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "cdeb53f0caf4460c97368e038a627131",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 2880,
+    "inputTokens": 2090,
+    "outputTokens": 55
+   },
+   {
+    "event": "model_call",
+    "jobId": "cdeb53f0caf4460c97368e038a627131",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 3754,
+    "inputTokens": 588,
+    "outputTokens": 496
+   },
+   {
+    "event": "model_call",
+    "jobId": "cdeb53f0caf4460c97368e038a627131",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 910,
+    "inputTokens": 232,
+    "outputTokens": 70
+   },
+   {
+    "event": "model_call",
+    "jobId": "cdeb53f0caf4460c97368e038a627131",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 5381,
+    "inputTokens": 286,
+    "outputTokens": 726
+   },
+   {
+    "event": "model_call",
+    "jobId": "cdeb53f0caf4460c97368e038a627131",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 7221,
+    "inputTokens": 1922,
+    "outputTokens": 1038
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.174
+ },
+ "B01": {
+  "job_id": "4c960b71a31546a697eb582112aca3d3",
+  "status": "done",
+  "flags": [
+   {
+    "startMs": 0,
+    "title": "Clip joins parts said at different moments",
+    "endMs": 7320,
+    "evidence": "Your clip of Health Matters podcast, Dr. Meera Iyer skips \"But if you have diabetes, you should never try it without your doctor. Low blood sugar can be dangerous.\" between two parts, so it sounds like one statement.",
+    "diff": {
+     "originalTranscript": "Fasting for 16 hours can help some adults lose weight. But if you have diabetes, you should never try it without your doctor. Low blood sugar can be dangerous. Most people see results in about a month.",
+     "segments": [
+      {
+       "op": "equal",
+       "text": "Fasting for 16 hours can help some adults lose weight."
+      },
+      {
+       "text": " But if you have diabetes, you should never try it without your doctor. Low blood sugar can be dangerous.",
+       "op": "delete"
+      },
+      {
+       "op": "equal",
+       "text": " Most people see results in about a month."
+      }
+     ],
+     "clipTranscript": "Fasting for 16 hours can help some adults lose weight. Most people see results in about a month."
+    },
+    "severity": "high",
+    "citation": {
+     "title": "Health Matters podcast, Dr. Meera Iyer"
+    },
+    "category": "borrowed",
+    "fingerprint": "borrowed:clip:health-matters-podcast-dr-meer",
+    "suggestedFix": "Use the full passage, or say in your own words what the speaker added.",
+    "id": "f1",
+    "sourceQuote": {
+     "source": "Health Matters podcast, Dr. Meera Iyer, original",
+     "text": "Fasting for 16 hours can help some adults lose weight. But if you have diabetes, you should never try it without your doctor. Low blood sugar can be dangerous. Most people see results in about a month."
+    }
+   },
+   {
+    "fingerprint": "claims:asci-code-i-1-1:fasting-for-weight-loss",
+    "sourceQuote": {
+     "source": "ASCI Code, Chapter I, 1.1",
+     "text": "Advertisements must be truthful. All descriptions, claims and comparisons, which relate to matters of objectively ascertainable fact, should be capable of substantiation. Advertisers and advertising agencies are required to produce such substantiation as and when called upon to do so by The Advertising Standards Council of India."
+    },
+    "citation": {
+     "clause": "1.1",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "clauseId": "asci-code/I.1.1",
+     "publisher": "ASCI",
+     "authority": "self_regulatory",
+     "title": "The ASCI Code, Chapter I: Truthful and honest representation",
+     "instrument": "ASCI Code, Chapter I"
+    },
+    "category": "claims",
+    "suggestedFix": "Provide scientific evidence or research to substantiate your claim about fasting and weight loss.",
+    "severity": "high",
+    "title": "Health claim needs substantiation",
+    "endMs": 4240,
+    "id": "f2",
+    "evidence": "You claimed, \"Fasting for 16 hours can help some adults lose weight.\" This is a health claim that needs to be substantiated with evidence.",
+    "startMs": 0
+   },
+   {
+    "startMs": 0,
+    "title": "Fasting for 16 hours can aid weight loss in adults",
+    "endMs": 4240,
+    "category": "factcheck",
+    "citation": {
+     "publisher": "Harvard T.H. Chan School of Public Health",
+     "title": "Intermittent fasting: The science-backed health benefits",
+     "url": "https://hsph.harvard.edu/news/the-health-benefits-of-intermittent-fasting/"
+    },
+    "factLabel": "supported",
+    "suggestedFix": "Fasting for 16 hours can help some adults lose weight.",
+    "uncertain": true,
+    "evidence": "Your claim that fasting for 16 hours can help some adults lose weight is supported by research. Studies indicate that this form of intermittent fasting can lead to weight loss by helping individuals consume fewer calories.",
+    "fingerprint": "factcheck:fasting-for-16-hours-can-help-some-adults-lose-wei",
+    "sourceQuote": {
+     "source": "Intermittent fasting: The science-backed health benefits",
+     "text": "We've found that daily intermittent fasting—eating regular meals during a specific window, for example, between 8 a.m. and 4 p.m. or 11 a.m. and 7 p.m., and fasting for at least 16 hours a day—does help people lose weight, the equivalent of about 250 calories a day, or half a pound a week."
+    },
+    "id": "f3"
+   },
+   {
+    "factLabel": "supported",
+    "category": "factcheck",
+    "citation": {
+     "title": "Intermittent Fasting: Health Benefits, Types, and How It Works",
+     "url": "https://familydoctor.org/intermittent-fasting/",
+     "publisher": "familydoctor.org"
+    },
+    "id": "f4",
+    "fingerprint": "factcheck:most-people-see-results-from-fasting-in-about-a-mo",
+    "sourceQuote": {
+     "source": "Intermittent Fasting: Health Benefits, Types, and How It Works",
+     "text": "You may need to wait between 2 and 4 weeks to see or feel any results."
+    },
+    "evidence": "Your claim that most people see results from fasting in about a month is supported by multiple sources, which indicate that noticeable changes, including weight loss and metabolic adjustments, typically occur within 2 to 4 weeks. Some benefits, like increased energy and focus, might even be noticed sooner.",
+    "endMs": 7320,
+    "suggestedFix": "You could say, \"Most people begin to see results from fasting within 2 to 4 weeks.\"",
+    "startMs": 4520,
+    "title": "Fasting results often appear within 2 to 4 weeks"
+   }
+  ],
+  "error": null,
+  "total_ms": 35943,
+  "stages": {
+   "extract": {
+    "ms": 4041,
+    "inputTokens": 1619,
+    "outputTokens": 111,
+    "speechMs": 1275,
+    "visualMs": 3812
+   },
+   "claims": {
+    "ms": 6541,
+    "inputTokens": 607,
+    "outputTokens": 1117
+   },
+   "checking": {
+    "ms": 22742,
+    "inputTokens": 2305,
+    "outputTokens": 4450
+   },
+   "evidence": {
+    "ms": 423,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 28,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "4c960b71a31546a697eb582112aca3d3",
+    "n": 0,
+    "category": "borrowed",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "4c960b71a31546a697eb582112aca3d3",
+    "n": 1,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.98"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "4c960b71a31546a697eb582112aca3d3",
+    "n": 2,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 3/4",
+     "ms: search+verdict 21116, pages 474",
+     "grounding: support 0.07"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "4c960b71a31546a697eb582112aca3d3",
+    "n": 3,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": [
+     "pages read: 5/8",
+     "ms: search+verdict 11645, pages 2543",
+     "grounding 0.68"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "4c960b71a31546a697eb582112aca3d3",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 3811,
+    "inputTokens": 1619,
+    "outputTokens": 111
+   },
+   {
+    "event": "model_call",
+    "jobId": "4c960b71a31546a697eb582112aca3d3",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 6226,
+    "inputTokens": 607,
+    "outputTokens": 1117
+   },
+   {
+    "event": "model_call",
+    "jobId": "4c960b71a31546a697eb582112aca3d3",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1072,
+    "inputTokens": 259,
+    "outputTokens": 113
+   },
+   {
+    "event": "model_call",
+    "jobId": "4c960b71a31546a697eb582112aca3d3",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 5830,
+    "inputTokens": 888,
+    "outputTokens": 1031
+   },
+   {
+    "event": "model_call",
+    "jobId": "4c960b71a31546a697eb582112aca3d3",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 5036,
+    "inputTokens": 289,
+    "outputTokens": 783
+   },
+   {
+    "event": "model_call",
+    "jobId": "4c960b71a31546a697eb582112aca3d3",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 6175,
+    "inputTokens": 287,
+    "outputTokens": 856
+   },
+   {
+    "event": "model_call",
+    "jobId": "4c960b71a31546a697eb582112aca3d3",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 13996,
+    "inputTokens": 292,
+    "outputTokens": 757
+   },
+   {
+    "event": "model_call",
+    "jobId": "4c960b71a31546a697eb582112aca3d3",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 6700,
+    "inputTokens": 290,
+    "outputTokens": 910
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.54
+ },
+ "B02": {
+  "job_id": "49d3310601824fc3834c87a2b472d625",
+  "status": "done",
+  "flags": [
+   {
+    "sourceQuote": {
+     "text": "Small cap funds have given high returns over the last 5 years, but only for investors who could stay invested through big falls.",
+     "source": "Money Talks show, episode 40, original"
+    },
+    "id": "f1",
+    "category": "borrowed",
+    "suggestedFix": "Use the full passage, or say in your own words what the speaker added.",
+    "endMs": 4400,
+    "evidence": "Your clip of Money Talks show, episode 40 cuts the speaker off mid-sentence, which changes what they meant.",
+    "fingerprint": "borrowed:clip:money-talks-show-episode-40",
+    "citation": {
+     "title": "Money Talks show, episode 40"
+    },
+    "severity": "medium",
+    "diff": {
+     "segments": [
+      {
+       "text": "Small cap funds have given high returns over the last 5 years,",
+       "op": "equal"
+      },
+      {
+       "op": "delete",
+       "text": " but only for investors who could stay invested through big falls."
+      }
+     ],
+     "originalTranscript": "Small cap funds have given high returns over the last 5 years, but only for investors who could stay invested through big falls.",
+     "clipTranscript": "Small cap funds have given high returns over the last 5 years."
+    },
+    "title": "Clip stops before the sentence ends",
+    "startMs": 0
+   },
+   {
+    "sourceQuote": {
+     "text": "Advertisements inviting the public to invest money shall not contain statements which may mislead the consumer in respect of the security offered, rates of return or terms of amortisation; where any of the foregoing elements are contingent upon the continuance of, or change in existing conditions, or any other assumptions, such conditions or assumptions must be clearly indicated in the advertisement.",
+     "source": "ASCI Code, Chapter I, example (e)"
+    },
+    "suggestedFix": "Add a clear disclaimer stating that past performance is not a guarantee of future returns and that investments are subject to market risks.",
+    "fingerprint": "claims:asci-code-i-ex-e:small-cap-funds",
+    "citation": {
+     "publisher": "ASCI",
+     "instrument": "ASCI Code, Chapter I",
+     "title": "The ASCI Code, Chapter I: Truthful and honest representation",
+     "clauseId": "asci-code/I.ex(e)",
+     "clause": "example (e)",
+     "url": "https://www.ascionline.in/wp-content/uploads/2023/07/Code-Book.pdf",
+     "authority": "self_regulatory"
+    },
+    "severity": "high",
+    "endMs": 4400,
+    "id": "f2",
+    "startMs": 0,
+    "evidence": "You said, \"Small cap funds have given high returns over the last 5 years.\" This statement about past returns can mislead consumers if you do not clearly indicate that past performance is not indicative of future results, as required by the clause.",
+    "title": "Misleading statement about rates of return",
+    "category": "claims"
+   },
+   {
+    "sourceQuote": {
+     "text": "Over 5 years, small-cap funds have taken the lead, delivering returns of 13.99%, compared with 12.69% for mid-cap funds.",
+     "source": "Which small-cap and mid-cap funds lead over five years?"
+    },
+    "evidence": "Your claim that small cap funds have given high returns over the last 5 years is supported by various financial reports. The Nifty Smallcap 250 Index has shown significant absolute and annualized returns, and the average returns for small-cap mutual funds have been in the double digits over this period.",
+    "factLabel": "supported",
+    "category": "factcheck",
+    "id": "f3",
+    "fingerprint": "factcheck:small-cap-funds-have-given-high-returns-over-the-l",
+    "title": "Small cap funds have shown high returns over the last 5 years",
+    "endMs": 4400,
+    "suggestedFix": "You could specify that small cap funds in India have delivered high returns, often outperforming other categories over the last five years.",
+    "startMs": 0,
+    "citation": {
+     "publisher": "livemint.com",
+     "title": "Which small-cap and mid-cap funds lead over five years?",
+     "url": "https://www.livemint.com/money/personal-finance/smallcap-mutual-funds-gain-10-in-2026-mid-cap-slip-top-schemes-by-returns-11791543203944.html"
+    }
+   }
+  ],
+  "error": null,
+  "total_ms": 19322,
+  "stages": {
+   "extract": {
+    "ms": 4791,
+    "inputTokens": 1148,
+    "outputTokens": 113,
+    "speechMs": 1018,
+    "visualMs": 4579
+   },
+   "claims": {
+    "ms": 2981,
+    "inputTokens": 586,
+    "outputTokens": 342
+   },
+   "checking": {
+    "ms": 8742,
+    "inputTokens": 1303,
+    "outputTokens": 2007
+   },
+   "evidence": {
+    "ms": 524,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 43,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "49d3310601824fc3834c87a2b472d625",
+    "n": 0,
+    "category": "borrowed",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "49d3310601824fc3834c87a2b472d625",
+    "n": 1,
+    "category": "claims",
+    "uncertain": false,
+    "notes": [
+     "grounding 0.99"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "49d3310601824fc3834c87a2b472d625",
+    "n": 2,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": [
+     "pages read: 3/4",
+     "ms: search+verdict 6167, pages 1625",
+     "grounding 0.55"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "49d3310601824fc3834c87a2b472d625",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4578,
+    "inputTokens": 1148,
+    "outputTokens": 113
+   },
+   {
+    "event": "model_call",
+    "jobId": "49d3310601824fc3834c87a2b472d625",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 2780,
+    "inputTokens": 586,
+    "outputTokens": 342
+   },
+   {
+    "event": "model_call",
+    "jobId": "49d3310601824fc3834c87a2b472d625",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 847,
+    "inputTokens": 205,
+    "outputTokens": 64
+   },
+   {
+    "event": "model_call",
+    "jobId": "49d3310601824fc3834c87a2b472d625",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 5861,
+    "inputTokens": 806,
+    "outputTokens": 1055
+   },
+   {
+    "event": "model_call",
+    "jobId": "49d3310601824fc3834c87a2b472d625",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 5716,
+    "inputTokens": 292,
+    "outputTokens": 888
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.422
+ },
+ "B03": {
+  "job_id": "01c8037be9854b3a9264bd472c2b1f98",
+  "status": "done",
+  "flags": [
+   {
+    "evidence": "In City news bulletin the next line is \"However, residents of ward 12 should boil water for one more week.\", which your clip leaves out.",
+    "fingerprint": "borrowed:clip:city-news-bulletin",
+    "startMs": 0,
+    "diff": {
+     "segments": [
+      {
+       "text": "The city corporation says tap water in the northern wards is safe to drink.",
+       "op": "equal"
+      }
+     ],
+     "clipTranscript": "The city corporation says tap water in the northern wards is safe to drink.",
+     "originalTranscript": "The city corporation says tap water in the northern wards is safe to drink. However, residents of ward 12 should boil water for one more week."
+    },
+    "id": "f1",
+    "category": "borrowed",
+    "endMs": 5560,
+    "sourceQuote": {
+     "text": "The city corporation says tap water in the northern wards is safe to drink. However, residents of ward 12 should boil water for one more week.",
+     "source": "City news bulletin, original"
+    },
+    "severity": "medium",
+    "title": "Clip leaves out the condition that follows",
+    "suggestedFix": "Use the full passage, or say in your own words what the speaker added.",
+    "citation": {
+     "title": "City news bulletin"
+    }
+   },
+   {
+    "sourceQuote": {
+     "source": "Can You Drink Tap Water in India? - Complete Drinking Water Safety Information for India",
+     "text": "Tap water in India is unsafe for drinking in virtually all areas, including major cities like Delhi, Mumbai, Bangalore, and Kolkata."
+    },
+    "evidence": "Your claim that tap water in the northern wards is safe to drink is contradicted by multiple sources. Generally, tap water in India is considered unsafe for direct consumption due to widespread contamination and infrastructure issues, even in major cities.",
+    "suggestedFix": "You should clarify that tap water in India, including in northern wards, is generally not safe to drink directly and often requires purification.",
+    "endMs": 5560,
+    "title": "Tap water in India is generally unsafe to drink directly",
+    "startMs": 0,
+    "category": "factcheck",
+    "factLabel": "contradicted",
+    "fingerprint": "factcheck:tap-water-in-the-northern-wards-is-safe-to-drink",
+    "severity": "medium",
+    "id": "f2",
+    "citation": {
+     "title": "Can You Drink Tap Water in India? - Complete Drinking Water Safety Information for India",
+     "publisher": "canidrinkthetapwater.com",
+     "url": "https://www.canidrinkthetapwater.com/countries/india"
+    }
+   }
+  ],
+  "error": null,
+  "total_ms": 29726,
+  "stages": {
+   "extract": {
+    "ms": 4462,
+    "inputTokens": 1371,
+    "outputTokens": 107,
+    "speechMs": 1227,
+    "visualMs": 3949
+   },
+   "claims": {
+    "ms": 2730,
+    "inputTokens": 577,
+    "outputTokens": 353
+   },
+   "checking": {
+    "ms": 20674,
+    "inputTokens": 786,
+    "outputTokens": 2012
+   },
+   "evidence": {
+    "ms": 300,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 30,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "01c8037be9854b3a9264bd472c2b1f98",
+    "n": 0,
+    "category": "borrowed",
+    "uncertain": false,
+    "notes": []
+   },
+   {
+    "event": "gate",
+    "jobId": "01c8037be9854b3a9264bd472c2b1f98",
+    "n": 1,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": [
+     "pages read: 3/4",
+     "ms: search+verdict 18516, pages 1415",
+     "grounding 0.82"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "01c8037be9854b3a9264bd472c2b1f98",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 3948,
+    "inputTokens": 1371,
+    "outputTokens": 107
+   },
+   {
+    "event": "model_call",
+    "jobId": "01c8037be9854b3a9264bd472c2b1f98",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 2517,
+    "inputTokens": 577,
+    "outputTokens": 353
+   },
+   {
+    "event": "model_call",
+    "jobId": "01c8037be9854b3a9264bd472c2b1f98",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 670,
+    "inputTokens": 210,
+    "outputTokens": 61
+   },
+   {
+    "event": "model_call",
+    "jobId": "01c8037be9854b3a9264bd472c2b1f98",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 9045,
+    "inputTokens": 289,
+    "outputTokens": 874
+   },
+   {
+    "event": "model_call",
+    "jobId": "01c8037be9854b3a9264bd472c2b1f98",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 8731,
+    "inputTokens": 287,
+    "outputTokens": 1077
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.402
+ },
+ "B04": {
+  "job_id": "58b253d76beb4713b45e7d211cf0da7f",
+  "status": "done",
+  "flags": [
+   {
+    "severity": "high",
+    "suggestedFix": "Use the full passage, or say in your own words what the speaker added.",
+    "id": "f1",
+    "category": "borrowed",
+    "title": "Clip starts after words that change the meaning",
+    "fingerprint": "borrowed:clip:cricket-post-match-interview",
+    "diff": {
+     "clipTranscript": "We deserved to win this match.",
+     "originalTranscript": "I don't think we deserved to win this match.",
+     "segments": [
+      {
+       "text": "I don't think",
+       "op": "delete"
+      },
+      {
+       "text": " we deserved to win this match.",
+       "op": "equal"
+      }
+     ]
+    },
+    "endMs": 1960,
+    "evidence": "Your clip of Cricket post-match interview starts after \"I don't think\", which changes what the speaker said.",
+    "citation": {
+     "title": "Cricket post-match interview"
+    },
+    "sourceQuote": {
+     "text": "I don't think we deserved to win this match.",
+     "source": "Cricket post-match interview, original"
+    },
+    "startMs": 0
+   }
+  ],
+  "error": null,
+  "total_ms": 10369,
+  "stages": {
+   "extract": {
+    "ms": 3562,
+    "inputTokens": 743,
+    "outputTokens": 113,
+    "speechMs": 927,
+    "visualMs": 3352
+   },
+   "claims": {
+    "ms": 2393,
+    "inputTokens": 573,
+    "outputTokens": 279
+   },
+   "checking": {
+    "ms": 2756,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "evidence": {
+    "ms": 73,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 51,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "58b253d76beb4713b45e7d211cf0da7f",
+    "n": 0,
+    "category": "borrowed",
+    "uncertain": false,
+    "notes": []
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "58b253d76beb4713b45e7d211cf0da7f",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 3351,
+    "inputTokens": 743,
+    "outputTokens": 113
+   },
+   {
+    "event": "model_call",
+    "jobId": "58b253d76beb4713b45e7d211cf0da7f",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 2115,
+    "inputTokens": 573,
+    "outputTokens": 279
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.326
+ },
+ "B05": {
+  "job_id": "cb49df61d7b247a284d774dcfc4b3ded",
+  "status": "done",
+  "flags": [
+   {
+    "fingerprint": "factcheck:flattened-rice-turns-mushy-if-not-rinsed-quickly",
+    "endMs": 4120,
+    "title": "Flattened rice turns mushy if not rinsed quickly",
+    "category": "factcheck",
+    "factLabel": "supported",
+    "suggestedFix": "You could reword it to emphasize that quick rinsing and proper draining are key to preventing mushiness.",
+    "uncertain": true,
+    "startMs": 0,
+    "id": "f1",
+    "evidence": "Your claim is supported. Flattened rice (poha) is pre-cooked and absorbs water very quickly, making it prone to becoming mushy if it is soaked for too long or not rinsed quickly and drained properly."
+   }
+  ],
+  "error": null,
+  "total_ms": 19521,
+  "stages": {
+   "extract": {
+    "ms": 4459,
+    "inputTokens": 1933,
+    "outputTokens": 108,
+    "speechMs": 1515,
+    "visualMs": 4189
+   },
+   "claims": {
+    "ms": 4192,
+    "inputTokens": 603,
+    "outputTokens": 392
+   },
+   "checking": {
+    "ms": 8512,
+    "inputTokens": 504,
+    "outputTokens": 755
+   },
+   "evidence": {
+    "ms": 71,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 38,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "cb49df61d7b247a284d774dcfc4b3ded",
+    "n": 0,
+    "category": "factcheck",
+    "uncertain": true,
+    "notes": [
+     "pages read: 3/6",
+     "ms: search+verdict 5719, pages 1937",
+     "page: source not available"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "cb49df61d7b247a284d774dcfc4b3ded",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4189,
+    "inputTokens": 1933,
+    "outputTokens": 108
+   },
+   {
+    "event": "model_call",
+    "jobId": "cb49df61d7b247a284d774dcfc4b3ded",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 3774,
+    "inputTokens": 603,
+    "outputTokens": 392
+   },
+   {
+    "event": "model_call",
+    "jobId": "cb49df61d7b247a284d774dcfc4b3ded",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 771,
+    "inputTokens": 215,
+    "outputTokens": 39
+   },
+   {
+    "event": "model_call",
+    "jobId": "cb49df61d7b247a284d774dcfc4b3ded",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 5458,
+    "inputTokens": 289,
+    "outputTokens": 716
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.473
+ },
+ "B06": {
+  "job_id": "eb3839f56b4645ef9327529ad1ee13e9",
+  "status": "done",
+  "flags": [
+   {
+    "suggestedFix": "You can confidently state that the monsoon typically reaches Kerala in early June.",
+    "citation": {
+     "title": "Monsoon",
+     "publisher": "India Meteorological Department",
+     "url": "https://mausam.imd.gov.in/responsive/monsooninformation_onset.php"
+    },
+    "id": "f1",
+    "sourceQuote": {
+     "source": "Monsoon",
+     "text": "Southwest monsoon normally sets in over Kerala around 1st June."
+    },
+    "evidence": "Your claim that the monsoon reaches Kerala in early June every year is accurate. The India Meteorological Department (IMD) states that the southwest monsoon normally sets in over Kerala around June 1st. While there can be slight variations in the exact date each year, early June is considered the typical onset period.",
+    "category": "factcheck",
+    "fingerprint": "factcheck:the-monsoon-reaches-kerala-in-early-june-every-yea",
+    "startMs": 0,
+    "title": "Monsoon reaches Kerala around June 1st",
+    "endMs": 4360,
+    "factLabel": "supported"
+   },
+   {
+    "suggestedFix": "No change needed, your claim is accurate.",
+    "title": "Monsoons are driven by land and sea temperature differences",
+    "id": "f2",
+    "factLabel": "supported",
+    "endMs": 9320,
+    "startMs": 4880,
+    "category": "factcheck",
+    "evidence": "Your claim that the monsoon is driven by the difference in temperature between land and sea is accurate. Multiple sources confirm that this temperature differential is a primary cause of monsoon systems.",
+    "fingerprint": "factcheck:the-monsoon-is-driven-by-the-difference-in-tempera",
+    "citation": {
+     "url": "https://brainly.com/question/40713366",
+     "title": "Monsoons are mainly driven by temperature differences between land and sea, causing winds to shift between land and ocean based on seasonal heating. During summer, low pressure over land draws moist air from the ocean, while winter reverses the flow with high pressure. Thus, the correct answer is option A.",
+     "publisher": "brainly.com"
+    },
+    "sourceQuote": {
+     "source": "Monsoons are mainly driven by temperature differences between land and sea, causing winds to shift between land and ocean based on seasonal heating. During summer, low pressure over land draws moist air from the ocean, while winter reverses the flow with high pressure. Thus, the correct answer is option A., as matched by Google Search grounding",
+     "text": "Monsoons are mainly driven by temperature differences between land and sea, causing winds to shift between land and ocean based on seasonal heating."
+    }
+   }
+  ],
+  "error": null,
+  "total_ms": 37293,
+  "stages": {
+   "extract": {
+    "ms": 4532,
+    "inputTokens": 1933,
+    "outputTokens": 108,
+    "speechMs": 1445,
+    "visualMs": 4308
+   },
+   "claims": {
+    "ms": 5423,
+    "inputTokens": 599,
+    "outputTokens": 705
+   },
+   "checking": {
+    "ms": 25329,
+    "inputTokens": 811,
+    "outputTokens": 1539
+   },
+   "evidence": {
+    "ms": 328,
+    "inputTokens": 0,
+    "outputTokens": 0
+   },
+   "report": {
+    "ms": 27,
+    "inputTokens": 0,
+    "outputTokens": 0
+   }
+  },
+  "tokens": {},
+  "gate": [
+   {
+    "event": "gate",
+    "jobId": "eb3839f56b4645ef9327529ad1ee13e9",
+    "n": 0,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": [
+     "pages read: 2/2",
+     "ms: search+verdict 17601, pages 2388",
+     "grounding 0.98"
+    ]
+   },
+   {
+    "event": "gate",
+    "jobId": "eb3839f56b4645ef9327529ad1ee13e9",
+    "n": 1,
+    "category": "factcheck",
+    "uncertain": false,
+    "notes": [
+     "pages read: 4/8",
+     "quote matched by grounding support",
+     "ms: search+verdict 16658, pages 6885",
+     "grounding 0.86"
+    ]
+   }
+  ],
+  "calls": [
+   {
+    "event": "model_call",
+    "jobId": "eb3839f56b4645ef9327529ad1ee13e9",
+    "stage": "extract",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 4307,
+    "inputTokens": 1933,
+    "outputTokens": 108
+   },
+   {
+    "event": "model_call",
+    "jobId": "eb3839f56b4645ef9327529ad1ee13e9",
+    "stage": "claims",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 5235,
+    "inputTokens": 599,
+    "outputTokens": 705
+   },
+   {
+    "event": "model_call",
+    "jobId": "eb3839f56b4645ef9327529ad1ee13e9",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": false,
+    "ms": 1683,
+    "inputTokens": 231,
+    "outputTokens": 76
+   },
+   {
+    "event": "model_call",
+    "jobId": "eb3839f56b4645ef9327529ad1ee13e9",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 16310,
+    "inputTokens": 292,
+    "outputTokens": 841
+   },
+   {
+    "event": "model_call",
+    "jobId": "eb3839f56b4645ef9327529ad1ee13e9",
+    "stage": "checking",
+    "requests": 1,
+    "round": 1,
+    "search": true,
+    "ms": 17151,
+    "inputTokens": 288,
+    "outputTokens": 622
+   }
+  ],
+  "pipeline": "real:gemini-2.5-flash",
+  "skipped": [],
+  "audioMinutes": 0.474
+ }
+}

@@ -17,6 +17,8 @@ _WINDOW_SLACK = 0.5
 _MIN_SCORE = 60.0
 # Dropping this many source words between two kept parts is a splice.
 _SPLICE_WORDS = 3
+# Dropping this many words from the start of a sentence can flip it.
+_CUT_START_WORDS = 2
 _QUALIFIER = re.compile(r"^(but|only|if|unless|however|except|although|though|provided|as long as)\b", re.IGNORECASE)
 _SENTENCE = re.compile(r"(?<=[.?!])\s+")
 
@@ -29,12 +31,14 @@ class Alignment:
     segments: list[dict] = field(default_factory=list)
     splices: list[str] = field(default_factory=list)
     cut_mid_sentence: bool = False
+    # Words dropped from the start of the first sentence ("I don't think").
+    cut_start: str | None = None
     omitted_next: str | None = None
     original: str = ""
 
     @property
     def changes_meaning(self) -> bool:
-        return bool(self.splices) or self.cut_mid_sentence or self.omitted_next is not None
+        return bool(self.splices) or self.cut_mid_sentence or self.cut_start is not None or self.omitted_next is not None
 
 
 def _window(clip: list[str], source: list[str]) -> tuple[int, int, float]:
@@ -125,9 +129,11 @@ def align(clip_text: str, source_text: str) -> Alignment | None:
     for segment in segments[1:]:
         segment["text"] = " " + segment["text"]
 
+    lead = blocks[0].a if blocks else 0
+    cut_start = " ".join(window_shown[:lead]) if lead >= _CUT_START_WORDS else None
     matched_end = lo + (blocks[-1].a + blocks[-1].size if blocks else 0)
     cut_mid = bool(last) and matched_end < hi and hi - matched_end >= _SPLICE_WORDS
     following = next((s for s in sentences if s[0] == hi), None)
     omitted_next = following[2] if following and _QUALIFIER.match(following[2]) else None
     original = " ".join(s[2] for s in sentences if s[0] >= lo and s[1] <= hi)
-    return Alignment(score, lo, hi, segments, splices, cut_mid, omitted_next, original)
+    return Alignment(score, lo, hi, segments, splices, cut_mid, cut_start, omitted_next, original)

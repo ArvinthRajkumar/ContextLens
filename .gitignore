@@ -50,3 +50,4 @@ app.*.map.json
 # Release symbols
 build/symbols/
 *.symbols
+benchmark/media/
