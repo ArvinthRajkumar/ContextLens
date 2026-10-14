@@ -215,6 +215,9 @@ class _RunPageState extends ConsumerState<RunPage>
       }
     });
     final jobId = _jobId;
+    final failed =
+        jobId != null &&
+        ref.watch(jobStreamProvider(jobId)).value?.status == JobStatus.failed;
     if (jobId != null) {
       ref.listen(jobStreamProvider(jobId), (_, next) {
         final job = next.value;
@@ -230,7 +233,11 @@ class _RunPageState extends ConsumerState<RunPage>
       child: Scaffold(
         appBar: AppBar(
           // Stays "Uploading" until the disc has landed on the lens.
-          title: Text(_view == _View.stages ? 'Checking' : 'Uploading'),
+          title: Text(switch (_view) {
+            _View.stages when failed => 'Check failed',
+            _View.stages => 'Checking',
+            _ => 'Uploading',
+          }),
         ),
         body: LayoutBuilder(
           builder: (context, constraints) {
@@ -310,6 +317,11 @@ class _UploadLayer extends ConsumerWidget {
     final upload = ref.watch(uploadControllerProvider);
     final controller = ref.read(uploadControllerProvider.notifier);
     if (upload == null) {
+      // The upload starts right after the first frame; keep that frame
+      // empty instead of flashing the idle message.
+      if (ref.watch(pendingSubmissionProvider) != null) {
+        return const SizedBox.shrink();
+      }
       return const Center(child: Text('Nothing is uploading.'));
     }
     final phase = upload.phase;

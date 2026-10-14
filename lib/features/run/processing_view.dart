@@ -43,9 +43,20 @@ class _ProcessingViewState extends State<ProcessingView> {
   late int _stage = stageIndexOf(widget.job.stage);
   DateTime _stageStart = DateTime.now();
 
+  /// When the check finished, so the clock stops there.
+  late DateTime? _endedAt = _ended(widget.job)
+      ? widget.job.updatedAt ?? DateTime.now()
+      : null;
+
+  static bool _ended(Job job) =>
+      job.status == JobStatus.done || job.status == JobStatus.failed;
+
   @override
   void didUpdateWidget(ProcessingView old) {
     super.didUpdateWidget(old);
+    if (_endedAt == null && _ended(widget.job)) {
+      _endedAt = widget.job.updatedAt ?? DateTime.now();
+    }
     final stage = stageIndexOf(widget.job.stage);
     if (stage > _stage) {
       _stage = stage;
@@ -111,12 +122,15 @@ class _ProcessingViewState extends State<ProcessingView> {
                   title: phase == OrbitPhase.failed ? 'Check failed' : title,
                   detail: phase == OrbitPhase.running ? job.stageDetail : null,
                 ),
-                const SizedBox(height: Spacing.space3),
-                Text(
-                  'Usually 1 to 3 minutes. You can leave, we will notify you.',
-                  style: muted,
-                  textAlign: TextAlign.center,
-                ),
+                if (phase == OrbitPhase.running) ...[
+                  const SizedBox(height: Spacing.space3),
+                  Text(
+                    'Usually 1 to 3 minutes. You can leave, we will notify '
+                    'you.',
+                    style: muted,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
                 if (error != null) ...[
                   const SizedBox(height: Spacing.space5),
                   _FailedCard(message: error.message),
@@ -127,6 +141,7 @@ class _ProcessingViewState extends State<ProcessingView> {
                   stage: _stage,
                   stageStart: _stageStart,
                   since: job.createdAt,
+                  until: _endedAt,
                   done: job.status == JobStatus.done,
                   failed: job.status == JobStatus.failed,
                 ),
@@ -208,6 +223,7 @@ class _ProgressStrip extends StatefulWidget {
     required this.stage,
     required this.stageStart,
     required this.since,
+    required this.until,
     required this.done,
     required this.failed,
   });
@@ -215,6 +231,7 @@ class _ProgressStrip extends StatefulWidget {
   final int stage;
   final DateTime stageStart;
   final DateTime since;
+  final DateTime? until;
   final bool done;
   final bool failed;
 
@@ -263,7 +280,7 @@ class _ProgressStripState extends State<_ProgressStrip>
             done: widget.done,
           ),
         );
-        final elapsed = now.difference(widget.since);
+        final elapsed = (widget.until ?? now).difference(widget.since);
         final percent = (value * 100).round();
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -20,9 +20,11 @@ Lawyers and agency review do not scale to every reel. ContextLens is the pre-pub
 - **Web app:** https://contextlens-tekken.web.app (pick a video, resumable upload, live progress, report; no share sheet or push on the web)
 - **Android APK:** https://contextlens-tekken.web.app/download/contextlens.apk (release build, obfuscated; allow installs from your browser, Android 7 or later; SHA-256 `aa9aa012fd70a0226fcc493179a54da1d7a43ce52a0998e2797a4b8ebf740d52`)
 
-| Checking | Report | Flag detail | Borrowed clip |
+| Checking | Report | Flag card | Flag detail |
 |---|---|---|---|
-| ![Processing](docs/screenshots/phase-7/processing-dark.png) | ![Report](docs/screenshots/phase-6c/1-report-top.png) | ![Diabetes flag](docs/screenshots/phase-6c/5-diabetes-detail.png) | ![Clip diff](docs/screenshots/phase-7a/borrowed-diff.png) |
+| ![Processing](docs/screenshots/phase-7/processing-light.png) | ![Report](docs/screenshots/redesign/05_report.png) | ![Flag card](docs/screenshots/redesign/06_report_flag_expanded.png) | ![Flag detail](docs/screenshots/redesign/07_flag_detail.png) |
+
+The processing loader in motion: [processing-loader.mp4](docs/screenshots/phase-7/processing-loader.mp4). Every screen of the redesign is in [docs/screenshots/redesign](docs/screenshots/redesign).
 
 ## How it works
 
