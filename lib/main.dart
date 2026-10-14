@@ -17,12 +17,13 @@ Future<void> main() async {
   }
   WidgetsFlutterBinding.ensureInitialized();
 
-  FlutterError.onError = (details) {
-    FlutterError.presentError(details);
-  };
+  // Release builds write nothing to the device log: error messages can
+  // carry signed URLs or file paths. Debug keeps the framework report and,
+  // for uncaught errors, only the type and stack.
+  FlutterError.onError = kReleaseMode ? (_) {} : FlutterError.presentError;
   PlatformDispatcher.instance.onError = (error, stack) {
     if (kDebugMode) {
-      debugPrint('Uncaught: $error\n$stack');
+      debugPrint('Uncaught ${error.runtimeType}\n$stack');
     }
     return true;
   };

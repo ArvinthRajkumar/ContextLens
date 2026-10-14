@@ -5,6 +5,7 @@ import 'package:contextlens/core/utils/formatters.dart';
 import 'package:contextlens/core/widgets/app_button.dart';
 import 'package:contextlens/core/widgets/app_card.dart';
 import 'package:contextlens/core/widgets/info_pill.dart';
+import 'package:contextlens/core/widgets/privacy_screen.dart';
 import 'package:contextlens/core/widgets/section_header.dart';
 import 'package:contextlens/features/report/clause_chips.dart';
 import 'package:contextlens/features/report/flag_presentation.dart';
@@ -22,9 +23,11 @@ class FlagDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(flag.category.label)),
-      body: FlagDetailContent(flag: flag),
+    return PrivacyScreen(
+      child: Scaffold(
+        appBar: AppBar(title: Text(flag.category.label)),
+        body: FlagDetailContent(flag: flag),
+      ),
     );
   }
 }

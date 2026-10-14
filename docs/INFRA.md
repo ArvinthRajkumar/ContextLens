@@ -65,6 +65,8 @@ Runtime SA roles: custom `projects/contextlens-tekken/roles/groundingChecker` (o
 |---|---|
 | Fact Check Tools key | API key `factcheck-backend-2`, restricted to `factchecktools.googleapis.com` (the first key was deleted after it appeared in request logs; httpx URL logging is now off and the key travels in the `X-Goog-Api-Key` header) |
 | Secret | `factcheck-api-key` (version 2 enabled, version 1 disabled); the runtime SA has `roles/secretmanager.secretAccessor` on it |
+| Firebase client keys (2026-10-14) | Public by design, but restricted: "Browser key" to referrers `https://contextlens-tekken.web.app/*`, `https://contextlens-tekken.firebaseapp.com/*`, `http://localhost/*`, `http://localhost:*/*`; "Android key" to package `app.contextlens.contextlens` with the debug and release SHA-1s (`1E:D4:...:00:02`, `35:9B:A5:75:C2:84:C6:81:71:C6:AD:C3:CB:27:88:16:33:16:2A:49`). Both keep their 27 Firebase API targets. Scripts that call Firebase REST with the Android key (`backend/tests/smoke_api.py`, `benchmark/client.py`) send `X-Android-Package` and `X-Android-Cert`. The iOS key is unrestricted until there is an iOS build. |
+| Release scan (2026-10-14) | The release APK and `build/web` contain only the Android and browser Firebase keys: no App Check debug token, keystore password, private key or service account. Before each release, rerun the release scan: unzip the APK and grep it and `build/web` for `AIza` keys, the App Check debug token, the keystore password and `PRIVATE KEY`. |
 
 ## Build
 | Item | Value |

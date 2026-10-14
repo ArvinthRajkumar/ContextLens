@@ -7,6 +7,7 @@ import 'package:contextlens/core/utils/formatters.dart';
 import 'package:contextlens/core/widgets/app_button.dart';
 import 'package:contextlens/core/widgets/app_card.dart';
 import 'package:contextlens/core/widgets/empty_state.dart';
+import 'package:contextlens/core/widgets/privacy_screen.dart';
 import 'package:contextlens/core/widgets/reorder_slide.dart';
 import 'package:contextlens/core/widgets/section_header.dart';
 import 'package:contextlens/features/report/category_chip.dart';
@@ -46,21 +47,23 @@ class ReportPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final job = ref.watch(jobProvider(jobId));
 
-    return switch (job) {
-      AsyncData(value: final Job job) when job.status == JobStatus.failed =>
-        _FailedReport(job: job),
-      AsyncData(value: final Job job) => _Report(job: job),
-      AsyncData() => const _Message(
-        icon: Icons.search_off,
-        title: 'Report not found',
-        body: 'It may have expired. Reports are kept for 24 hours.',
-      ),
-      AsyncError() => const _Message(
-        icon: Icons.cloud_off_outlined,
-        title: "Couldn't load this report",
-      ),
-      _ => const Scaffold(body: Center(child: CircularProgressIndicator())),
-    };
+    return PrivacyScreen(
+      child: switch (job) {
+        AsyncData(value: final Job job) when job.status == JobStatus.failed =>
+          _FailedReport(job: job),
+        AsyncData(value: final Job job) => _Report(job: job),
+        AsyncData() => const _Message(
+          icon: Icons.search_off,
+          title: 'Report not found',
+          body: 'It may have expired. Reports are kept for 24 hours.',
+        ),
+        AsyncError() => const _Message(
+          icon: Icons.cloud_off_outlined,
+          title: "Couldn't load this report",
+        ),
+        _ => const Scaffold(body: Center(child: CircularProgressIndicator())),
+      },
+    );
   }
 }
 

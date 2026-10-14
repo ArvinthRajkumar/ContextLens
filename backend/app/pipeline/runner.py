@@ -3,6 +3,7 @@
 import json
 import logging
 import time
+import traceback
 from datetime import datetime, timezone
 from typing import Any
 
@@ -76,7 +77,13 @@ async def run_check(
             done["comparison"] = compare(ctx.parent, ctx.parent["id"], ctx.flags)
         update(done)
     except Exception as error:
-        log.exception("Check failed for job %s", ctx.job_id)
+        # Type and stack only: messages can quote the transcript or a URL.
+        log.error(
+            "Check failed for job %s: %s %s",
+            ctx.job_id,
+            type(error).__name__,
+            "".join(traceback.format_tb(error.__traceback__)),
+        )
         code = error.code if isinstance(error, MediaError) else "pipeline_error"
         update({"status": "failed", "stageDetail": None, "error": {"code": code, "message": _FAILURE_COPY[code]}})
         return

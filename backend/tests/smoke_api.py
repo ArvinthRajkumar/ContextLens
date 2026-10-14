@@ -26,11 +26,23 @@ ANDROID_APP = "1:115890664288:android:1a18e65980c62d3ff16405"
 TINY_MP4 = bytes.fromhex("000000206674797069736f6d0000020069736f6d69736f32617663316d703431") + b"\0" * 2048
 
 
+# Sent with requests that use the Android Firebase key, as the Android SDK
+# does: the key is restricted to this package and the debug signing cert.
+ANDROID_CLIENT = {
+    "X-Android-Package": "app.contextlens.contextlens",
+    "X-Android-Cert": "1ED4168DB6ACD0312915323B4521D4AC88CC0002",
+}
+
+
 def call(method, url, body=None, headers=None, raw=None):
     data = raw if raw is not None else (json.dumps(body).encode() if body is not None else None)
     req = urllib.request.Request(url, data=data, method=method, headers=headers or {})
     if body is not None:
         req.add_header("Content-Type", "application/json")
+    if "key=" in url:
+        # The Android key only answers the app's package and signing cert.
+        for name, value in ANDROID_CLIENT.items():
+            req.add_header(name, value)
     try:
         with urllib.request.urlopen(req) as res:
             text = res.read().decode() or "{}"

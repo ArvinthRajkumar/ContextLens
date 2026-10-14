@@ -23,11 +23,23 @@ GCLOUD = os.environ.get("GCLOUD", r"C:\Program Files (x86)\Google\Cloud SDK\goog
 FFMPEG = os.environ.get("FFMPEG", "ffmpeg")
 
 
+# Sent with requests that use the Android Firebase key, as the Android SDK
+# does: the key is restricted to this package and the debug signing cert.
+ANDROID_CLIENT = {
+    "X-Android-Package": "app.contextlens.contextlens",
+    "X-Android-Cert": "1ED4168DB6ACD0312915323B4521D4AC88CC0002",
+}
+
+
 def call(method: str, url: str, body=None, headers=None, raw: bytes | None = None, timeout: int = 60):
     data = raw if raw is not None else (json.dumps(body).encode() if body is not None else None)
     request = urllib.request.Request(url, data=data, method=method, headers=headers or {})
     if body is not None:
         request.add_header("Content-Type", "application/json")
+    if "key=" in url:
+        # The Android key only answers the app's package and signing cert.
+        for name, value in ANDROID_CLIENT.items():
+            request.add_header(name, value)
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
             text = response.read().decode() or "{}"
