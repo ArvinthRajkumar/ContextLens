@@ -143,20 +143,20 @@ def generate(
     schema: type[T],
     system: str,
     *,
-    thinking_budget: int | None = None,
+    thinking_budget: int = 0,
     media_resolution: types.MediaResolution | None = None,
     attempt_seconds: float | None = None,
 ) -> T:
     """One call that must come back as `schema`, at temperature 0 so the
-    same video gives the same result. A small thinking budget keeps
-    extraction-style calls fast; None leaves the model's default."""
+    same video gives the same result. No thinking by default: it is billed
+    as output and adds seconds; a call that needs it asks for a budget."""
     config = types.GenerateContentConfig(
         system_instruction=system,
         temperature=0,
         response_mime_type="application/json",
         response_schema=schema,
         media_resolution=media_resolution,
-        thinking_config=None if thinking_budget is None else types.ThinkingConfig(thinking_budget=thinking_budget),
+        thinking_config=types.ThinkingConfig(thinking_budget=thinking_budget),
     )
     response = _call(ctx, stage, contents, config, attempt_seconds)
     parsed = response.parsed
@@ -192,8 +192,8 @@ def generate_grounded(
         system_instruction=system,
         temperature=0,
         tools=[types.Tool(google_search=types.GoogleSearch())],
-        # Search does the work; long reasoning on top only adds seconds.
-        thinking_config=types.ThinkingConfig(thinking_budget=512),
+        # Search does the work; reasoning on top only adds cost and seconds.
+        thinking_config=types.ThinkingConfig(thinking_budget=0),
     )
     response = _call(ctx, stage, [prompt], config, 60.0, hedge=False)
     text = _FENCE.sub("", (response.text or "").strip())

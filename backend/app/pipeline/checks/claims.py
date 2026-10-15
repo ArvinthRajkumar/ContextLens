@@ -199,7 +199,11 @@ def check(ctx: CheckContext, stage: str, ledger: list[dict], declaration: dict) 
         item["id"]: _candidates(item, hits, declaration.get("category") or "general")
         for item, hits in zip(items, retrieved, strict=True)
     }
-    findings = generate(ctx, stage, [_prompt(items, options, declaration)], Findings, _SYSTEM, thinking_budget=1024).findings
+    # The one judgement that keeps a thinking budget: without it, one claim
+    # comes back as several findings (benchmark C05).
+    findings = generate(
+        ctx, stage, [_prompt(items, options, declaration)], Findings, _SYSTEM, thinking_budget=1024
+    ).findings
 
     by_id = {i["id"]: i for i in items}
     kept: list[tuple[Finding, list[dict]]] = []

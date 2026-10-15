@@ -77,15 +77,15 @@ void main() {
     });
   });
 
-  test('checkVideoDuration enforces 3 s to 10 min', () {
+  test('checkVideoDuration enforces 3 s to 3 min', () {
     expect(
       checkVideoDuration(const Duration(seconds: 2)),
       isA<VideoTooShort>(),
     );
     expect(checkVideoDuration(const Duration(seconds: 3)), isNull);
-    expect(checkVideoDuration(const Duration(minutes: 10)), isNull);
+    expect(checkVideoDuration(const Duration(minutes: 3)), isNull);
     expect(
-      checkVideoDuration(const Duration(minutes: 10, seconds: 1)),
+      checkVideoDuration(const Duration(minutes: 3, seconds: 1)),
       isA<VideoTooLong>(),
     );
   });

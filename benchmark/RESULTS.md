@@ -43,6 +43,18 @@ Labels live in `benchmark/cases.json`; `benchmark/generate.py` rebuilds every re
 - **Abstention is real**: about one flag in four ends as "needs a human look", mostly fact checks of passing remarks in the controls and cure reels whose quote could not be found word for word on a fetched page. That is the gate working as designed, at the cost of some noise in the report.
 - **Latency** rose to 36 s at the median from 26 s in the previous run, with every stage slower by a similar share; the code path is the same apart from claims merging, so we read it as Vertex latency on the day, not a code change. It is still under a minute for most reels. A 40 s reel with five claims (supplements_hinglish) took 39 s to 87 s over the last three runs; the slow tail is Vertex returning 429 and 504 under shared capacity, which the hedged retries and the global fallback absorb.
 
+## Thinking budget (2026-10-15)
+
+Thinking was turned off for every Gemini call except the claims judgement, then five cases were rerun (C02, C05, C08, K1, N01; revisions 00028 and 00029). With the claims judgement at 0 too, C05 split one cure claim into two claims flags (a false positive), so that call keeps 1024 thinking tokens. Final run against the baseline:
+
+| | Before | After |
+|---|---|---|
+| Mean cost per check (these 5 cases) | USD 0.072 | USD 0.052 |
+| Flags | | identical on C02, C05, C08 and N01 (C08's fact check now verified, not uncertain); K1, a clean control, no longer gets three uncertain "supported" fact checks |
+| Evidence audit failures | 0 | 0 |
+
+Most of the remaining cost is Google Search grounding for fact checks (USD 0.035 per search), not tokens. The tables above are from the full run before this change.
+
 ## Known gaps
 
 - No real creator videos, and a small set: real reels have music, cuts, noise and code-switching that synthetic voices do not.

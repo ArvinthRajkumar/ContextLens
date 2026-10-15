@@ -133,7 +133,7 @@ void main() {
       expect(find.text(title), findsOneWidget, reason: '$problem');
       if (problem is VideoTooLarge) {
         expect(
-          find.text('This video is 600 MB. The limit is 500 MB.'),
+          find.text('This video is 600 MB. The limit is 200 MB.'),
           findsOneWidget,
         );
       }

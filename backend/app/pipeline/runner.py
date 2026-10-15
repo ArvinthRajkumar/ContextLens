@@ -97,6 +97,7 @@ _FAILURE_COPY = {
     "pipeline_error": "Something went wrong while checking your video. Try again.",
     "audio_unreadable": "We couldn't read the audio track. Export the video again as MP4 and try once more.",
     "video_unreadable": "We couldn't read this video. Export it again as MP4 and try once more.",
+    "video_too_long": "Videos can be up to 3 minutes long. Trim it and try again.",
 }
 
 

@@ -49,10 +49,12 @@ def jobs(cases: dict) -> list[dict]:
 
 
 def run_all(cases: dict, only: tuple[str, ...] | None = None) -> dict:
-    client = Client(api_key())
     todo = [j for j in jobs(cases) if not only or j["id"].startswith(only)]
+    # One anonymous user per case: the API allows 10 checks per user per day.
+    clients = {job["id"]: Client(api_key()) for job in todo}
 
     def one(job: dict) -> tuple[str, Result]:
+        client = clients[job["id"]]
         clips = {0: str(job["clip"])} if job.get("clip") else None
         for attempt in range(2):
             try:
@@ -68,9 +70,9 @@ def run_all(cases: dict, only: tuple[str, ...] | None = None) -> dict:
         results = dict(pool.map(one, todo))
     time.sleep(30)
     stage_logs([r for r in results.values() if r.job_id], minutes=180)
-    for result in results.values():
+    for case_id, result in results.items():
         if result.job_id:
-            client.delete(result.job_id)
+            clients[case_id].delete(result.job_id)
     raw = {case_id: asdict(result) for case_id, result in results.items()}
     from client import probe
 

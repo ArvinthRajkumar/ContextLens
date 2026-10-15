@@ -9,6 +9,7 @@ import tempfile
 import time
 
 from .. import storage
+from ..config import settings
 from .base import CheckContext, StageResult
 from .checks import gate, router
 from .checks.candidate import Candidate
@@ -54,6 +55,8 @@ class RealExtract:
                 video = os.path.join(tmp, "source")
                 await asyncio.to_thread(storage.download, ctx.object_name, video)
                 duration_ms, has_audio = await asyncio.to_thread(probe, video)
+                if duration_ms is not None and duration_ms > settings.max_video_ms:
+                    raise MediaError("video_too_long")
                 if duration_ms is None:
                     raise MediaError("video_unreadable")
                 ctx.duration_ms = ctx.duration_ms or duration_ms

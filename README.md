@@ -18,7 +18,7 @@ Lawyers and agency review do not scale to every reel. ContextLens is the pre-pub
 
 - Demo video: _link to be added_
 - **Web app:** https://contextlens-tekken.web.app (pick a video, resumable upload, live progress, report; no share sheet or push on the web)
-- **Android APK:** https://contextlens-tekken.web.app/download/contextlens.apk (release build, obfuscated; allow installs from your browser, Android 7 or later; SHA-256 `b031d950694a317eadaed92452ac93de1e293ea5a4e918183f5fa54ad9924adb`)
+- **Android APK:** https://contextlens-tekken.web.app/download/contextlens.apk (version 0.1.1, built 2026-10-15; release build, obfuscated; allow installs from your browser, Android 7 or later; SHA-256 `3f31ea8662ef783733817dd9e3d7dad3fb1204369da9d3c63c56ec032eba9efc`)
 
 | Checking | Report | Flag card | Flag detail |
 |---|---|---|---|
@@ -122,6 +122,7 @@ Every compliance citation names its clause and says whether it is **statutory** 
 - Median 36 s from submit to report on the benchmark reels (p90 65 s); the 40 s supplements reel takes 39 to 87 s.
 - Median by stage: extract 6.3 s, claim ledger 8.3 s, checking 14.8 s, evidence gate 0.3 s.
 - About USD 0.05 per reel at list prices (about 5,100 input and 3,100 output Gemini tokens, one search-grounded call, Chirp audio). Check Grounding is not included.
+- Thinking is off for every model call except the claims judgement (1024 tokens): on five benchmark cases the mean cost fell from USD 0.072 to 0.052 per check with identical flags. Most of what remains is Google Search grounding for fact checks (USD 0.035 per search).
 - The slow tail is Vertex returning 429 or 504 under shared capacity. Model calls are hedged (a second request after 35% of the deadline), retried with backoff, and fall back to the global endpoint; a checker that still fails is skipped and the report says so.
 
 ## Security and privacy
@@ -130,6 +131,7 @@ Every compliance citation names its clause and says whether it is **statutory** 
 - Videos go to Cloud Storage through V4 signed URLs signed by the service account through IAM (no keys anywhere); clients have no direct storage access.
 - Firestore rules: a user can read only their own jobs; nothing can be written from the app.
 - Secrets live in Secret Manager. No keys in the app or the repo (the Firebase client config is public by design). The API never logs URLs with query strings, tokens, captions or file paths.
+- Caps against abuse and runaway cost, enforced by the API (`POST /v1/uploads` and submit, counters in Firestore): 10 checks per user per day, 3 running at once per user, 150 checks per day across everyone, videos up to 3 minutes and 200 MB. The app shows "Daily limit reached, try again tomorrow" or "ContextLens is busy, try later" when a cap is hit. Budget alerts at INR 500, 750 and 1500 warn the team.
 - Videos, transcripts and reports are deleted after 24 hours (GCS lifecycle and Firestore TTL). **Delete my data** in Settings deletes every job and video, unregisters push and signs out.
 
 ## Repo structure and how to run

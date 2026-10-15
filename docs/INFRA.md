@@ -9,7 +9,7 @@ Everything lives in one Google Cloud / Firebase project. Created on 2026-10-13.
 | Project number | `115890664288` |
 | Billing account | `01FA9C-7BE321-D68E71` ("My Billing Account", INR), linked |
 | Budget | "contextlens-tekken 1000 INR", id `bf3e279e-1730-4d31-b510-f3087d789813`, alerts at 50%, 90%, 100% |
-| Budget alerts (2026-10-14) | "contextlens-tekken-alert-INR-500" (`5ed999d1-a2e7-44df-8deb-62a6b24d5319`) and "contextlens-tekken-alert-INR-750" (`c1d4f0ce-3f94-4b8d-a3cd-0085194e312f`), filtered to this project, one alert at 100% each, emailed to the billing account's admins (the owner). Budgets only warn: they do not cap or stop spending. |
+| Budget alerts (2026-10-14) | "contextlens-tekken-alert-INR-500" (`5ed999d1-a2e7-44df-8deb-62a6b24d5319`) and "contextlens-tekken-alert-INR-750" (`c1d4f0ce-3f94-4b8d-a3cd-0085194e312f`), filtered to this project, one alert at 100% each, emailed to the billing account's admins (the owner). "contextlens-tekken-alert-INR-1500" (`1f0d0b6e-8e28-457b-ad10-482186f87207`) added 2026-10-15, same setup. Budgets only warn: they do not cap or stop spending; the API caps below do. Also on the account: "contextlens-tekken 1000 INR" and "Zero spend budget" (INR 500). |
 | Owner account | arvinth2002ra@gmail.com |
 
 ## Enabled APIs
@@ -32,7 +32,8 @@ run, cloudbuild, artifactregistry, firestore, storage, iam, iamcredentials, aipl
 | Item | Value |
 |---|---|
 | Database | `(default)`, Native mode, `nam5` |
-| TTL | `jobs.expiresAt` (collection group `jobs`) |
+| TTL | `jobs.expiresAt` (collection group `jobs`) and `usage.expiresAt` (collection group `usage`, since 2026-10-15) |
+| Usage counters | `usage/{day}_{uid}` and `usage/{day}` (UTC day), written only by the API in a transaction at submit (`backend/app/limits.py`); clients cannot read them (catch-all deny rule). Each expires two days later. |
 | Rules | `firebase/firestore.rules`: the owner reads `jobs/{id}` when `ownerUid == request.auth.uid`; no client writes; everything else denied |
 | Collections | `jobs/{jobId}` (backend writes), `devices/{uid}` (FCM tokens, backend only) |
 
@@ -57,6 +58,8 @@ run, cloudbuild, artifactregistry, firestore, storage, iam, iamcredentials, aipl
 | Expected cost | Idle: zero per day, because min instances is 0 and the service scales to zero with no traffic. Per check: Cloud Run instance time is about 1 vCPU and 2 GiB for the check (30 to 90 s) plus up to about 15 minutes kept warm afterwards, roughly USD 0.002 active and at most about USD 0.02 if the instance idles out alone (list price about USD 0.08 per hour at 1 vCPU and 2 GiB, before the monthly free tier, which covered all Cloud Run usage so far). Models and APIs add about USD 0.05 per check (benchmark/RESULTS.md). So about USD 0.05 to 0.07, or roughly INR 4 to 6, per check. |
 | CORS | The API allows the two Hosting origins (`CORS_ORIGINS`, default in `backend/app/config.py`), methods GET, POST, DELETE, headers Authorization, Content-Type, X-Firebase-AppCheck (since revision 00025). Rejected auth logs `auth_rejected reason=...` (no token values) since revision 00026. |
 | Env | `GOOGLE_CLOUD_PROJECT`, `BUCKET`, `SERVICE_ACCOUNT`, `ENFORCE_APP_CHECK=true` (since revision 00007, 2026-10-13), `STUB_STAGE_SECONDS=5`. Memory 2 GiB (videos are downloaded to the in-memory /tmp). `FACTCHECK_API_KEY` from Secret Manager `factcheck-api-key:latest`. Pipeline: `PIPELINE_MODE=real` (since revision 00008; `stub` walks fixtures), `GEMINI_MODEL=gemini-2.5-flash`, `GEMINI_LOCATION=us-central1`, `SPEECH_LOCATION=us`, `SPEECH_LANGUAGES=auto` (defaults in `backend/app/config.py`) |
+| Caps (since revision 00028, 2026-10-15) | `DAILY_CHECKS_PER_USER=10`, `CONCURRENT_CHECKS_PER_USER=3`, `DAILY_CHECKS_TOTAL=150` (defaults in `config.py`, change with an env var and a redeploy, no code change). `POST /v1/uploads` checks every cap without counting; submit counts the check against both daily caps in one transaction after every other validation. Running jobs are the user's queued or processing jobs updated in the last 15 minutes. Videos: up to 200 MB (uploads) and 3 minutes (submit, and again from the file's own duration in the pipeline). Errors: 429 `daily_limit`, 429 `too_many_running`, 503 `busy` (not retryable, so the app shows it), 413 `too_large`, 413 `video_too_long`. |
+| Gemini thinking (revision 00029) | Budget 0 for every call (on-screen text, ledger, fact-check filter and search-grounded verdict, clip transcription) except the claims judgement at 1024: at 0 it split one claim into several findings (benchmark C05). |
 
 Runtime SA roles: custom `projects/contextlens-tekken/roles/groundingChecker` (only `discoveryengine.groundingConfigs.check`, for Vertex Check Grounding), `roles/datastore.user`, `roles/aiplatform.user`, `roles/speech.client`, `roles/firebaseauth.viewer`, `roles/firebaseappcheck.tokenVerifier`, `roles/firebasecloudmessaging.admin`, `roles/logging.logWriter` (project); `roles/storage.objectAdmin` (bucket); `roles/iam.serviceAccountTokenCreator` on itself, so it can sign V4 URLs through IAM signBlob.
 

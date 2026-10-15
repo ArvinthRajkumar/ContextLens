@@ -1,7 +1,7 @@
 /// Upload size limit, checked before any network call.
-const kMaxUploadBytes = 500 * 1024 * 1024;
+const kMaxUploadBytes = 200 * 1024 * 1024;
 const kMinVideoDuration = Duration(seconds: 3);
-const kMaxVideoDuration = Duration(minutes: 10);
+const kMaxVideoDuration = Duration(minutes: 3);
 
 const kCaptionMaxLength = 2200;
 const kBrandMinLength = 2;

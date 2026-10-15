@@ -7,7 +7,15 @@ extension UploadFailureCopy on UploadFailure {
   String get message => switch (this) {
     UploadNetworkError() => 'The connection dropped.',
     UploadExpired() => 'The upload link expired. Start the upload again.',
-    UploadRejected() => "The server didn't accept this upload.",
+    UploadRejected(:final code) => switch (code) {
+      'daily_limit' => 'Daily limit reached, try again tomorrow.',
+      'too_many_running' =>
+        'You have 3 checks running. Wait for one to finish, then try again.',
+      'busy' => 'ContextLens is busy, try later.',
+      'too_large' => 'Videos can be up to 200 MB.',
+      'video_too_long' => 'Videos can be up to 3 minutes long.',
+      _ => "The server didn't accept this upload.",
+    },
   };
 }
 

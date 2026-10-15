@@ -27,7 +27,13 @@ class Settings:
         ).split(",")
         if o.strip()
     )
-    max_upload_bytes: int = 500 * 1024 * 1024
+    max_upload_bytes: int = 200 * 1024 * 1024
+    max_video_ms: int = 3 * 60 * 1000
+    # Caps for the judging period: per user per day, per user at once, and
+    # across everyone per day (UTC days).
+    daily_checks_per_user: int = int(os.environ.get("DAILY_CHECKS_PER_USER", "10"))
+    concurrent_checks_per_user: int = int(os.environ.get("CONCURRENT_CHECKS_PER_USER", "3"))
+    daily_checks_total: int = int(os.environ.get("DAILY_CHECKS_TOTAL", "150"))
     # 8 MiB: a multiple of 256 KiB, as GCS resumable uploads require.
     chunk_size: int = 8 * 1024 * 1024
     signed_url_minutes: int = 15

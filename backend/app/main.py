@@ -13,7 +13,7 @@ from fastapi.exceptions import RequestValidationError
 from google.cloud import firestore
 from pydantic import BaseModel, Field
 
-from . import storage
+from . import limits, storage
 from .auth import Caller, verify_caller
 from .config import settings
 from .errors import (
@@ -90,7 +90,8 @@ def create_upload(body: UploadRequest, caller: Caller = Depends(verify_caller)) 
     if body.contentType not in ALLOWED_TYPES:
         raise ApiError(400, "unsupported_type", "Use an MP4, MOV or WebM video.")
     if body.sizeBytes > settings.max_upload_bytes:
-        raise ApiError(413, "too_large", "Videos can be up to 500 MB.")
+        raise ApiError(413, "too_large", "Videos can be up to 200 MB.")
+    limits.check(db, caller.uid, _now())
 
     job_id = uuid.uuid4().hex
     object_name = storage.source_object(caller.uid, job_id)
@@ -200,6 +201,9 @@ def submit(
     if size != job.get("sizeBytes"):
         raise ApiError(409, "upload_mismatch", "The uploaded file doesn't match. Upload it again.")
 
+    if body.video and body.video.durationMs > settings.max_video_ms:
+        raise ApiError(413, "video_too_long", "Videos can be up to 3 minutes long.")
+
     declaration = body.declaration
     if declaration.isPaid and not declaration.brandName:
         raise ApiError(400, "invalid_request", "Name the brand or partner.")
@@ -218,6 +222,9 @@ def submit(
     if body.parentJobId:
         _, parent = _owned_job(body.parentJobId, caller)
         parent["id"] = body.parentJobId
+
+    # Last, after every validation: a rejected submit uses none of the quota.
+    limits.claim(db, caller.uid, _now())
 
     fields: dict[str, Any] = {
         "status": "queued",

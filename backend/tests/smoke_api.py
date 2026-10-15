@@ -98,6 +98,9 @@ def main(api, key, enforced):
     status, _, body = call("POST", f"{api}/v1/uploads", {"fileName": "a.mp4", "contentType": "video/mp4", "sizeBytes": 10}, {})
     step("uploads without a token is refused", status == 401 and body["error"]["code"] == "unauthenticated", f"[{status}]")
 
+    status, _, body = call("POST", f"{api}/v1/uploads", {"fileName": "big.mp4", "contentType": "video/mp4", "sizeBytes": 200 * 1024 * 1024 + 1}, auth)
+    step("a video over 200 MB is refused", status == 413 and body["error"]["code"] == "too_large", f"[{status}]")
+
     size = len(TINY_MP4)
     status, _, up = call("POST", f"{api}/v1/uploads", {"fileName": "smoke.mp4", "contentType": "video/mp4", "sizeBytes": size}, auth)
     step("POST /v1/uploads", status == 201 and up["chunkSize"] % 262144 == 0, f"[{status}] job {up.get('jobId')}")
@@ -114,6 +117,14 @@ def main(api, key, enforced):
 
     status, _, _ = call("PUT", session, raw=TINY_MP4, headers={"Content-Range": f"bytes 0-{size - 1}/{size}"})
     step("upload the file", status in (200, 201), f"[{status}]")
+
+    status, _, body = call(
+        "POST",
+        f"{api}/v1/jobs/{job}/submit",
+        {"declaration": {"caption": "Smoke test, please ignore", "category": "general"}, "video": {"durationMs": 180_001, "width": 1280, "height": 720}},
+        auth,
+    )
+    step("a video over 3 minutes is refused at submit", status == 413 and body["error"]["code"] == "video_too_long", f"[{status}]")
 
     status, _, body = call(
         "POST",
