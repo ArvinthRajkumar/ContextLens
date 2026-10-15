@@ -175,7 +175,32 @@ def main(api, key, enforced):
     step("DELETE /v1/jobs/{id}", status == 204, f"[{status}]")
     status, _, _ = call("GET", f"{api}/v1/jobs/{job}/video-url", headers=auth)
     step("deleted job is gone", status == 404, f"[{status}]")
-    print(f"\nAll checks passed (uid {uid[:6]}...).")
+
+    status, _, listing = call("GET", f"{api}/v1/samples", headers=auth)
+    items = listing.get("samples", []) if isinstance(listing, dict) else []
+    step("GET /v1/samples", status == 200 and len(items) >= 6 and all("expect" not in i for i in items),
+         f"[{status}] {len(items)} samples")
+    with urllib.request.urlopen(items[0]["thumbnailUrl"]) as res:
+        head = res.read(3)
+        step("sample thumbnail URL serves the image", res.status == 200 and head == bytes([0xFF, 0xD8, 0xFF]), f"[{res.status}]")
+    status, _, body = call("POST", f"{api}/v1/samples/..%2Fsamples.json/start", {}, auth)
+    step("an unlisted sample id is refused", status == 404, f"[{status}]")
+    clip_sample = next((i for i in items if i.get("clip")), None)
+    status, _, started = call("POST", f"{api}/v1/samples/{clip_sample['id']}/start", {}, auth) if clip_sample else (0, None, {})
+    step("POST /v1/samples/{id}/start", status == 201 and bool(started.get("jobId")), f"[{status}]")
+    if status == 201:
+        sample_doc = f"https://firestore.googleapis.com/v1/projects/{PROJECT}/databases/(default)/documents/jobs/{started['jobId']}"
+        status, _, doc = call("GET", sample_doc, headers=auth)
+        fields = doc.get("fields", {}) if isinstance(doc, dict) else {}
+        step("the copied sample is an uploading job of the caller",
+             status == 200 and fields.get("status", {}).get("stringValue") == "uploading"
+             and fields.get("sampleId", {}).get("stringValue") == clip_sample["id"], f"[{status}]")
+        status, _, _ = call("DELETE", f"{api}/v1/jobs/{started['jobId']}", headers=auth)
+        step("the sample job can be deleted", status == 204, f"[{status}]")
+    # Leave no test users behind (their jobs are deleted above).
+    for id_token in (token, other):
+        call("POST", f"https://identitytoolkit.googleapis.com/v1/accounts:delete?key={key}", {"idToken": id_token})
+    print(f"\nAll checks passed (uid {uid[:6]}..., test users deleted).")
 
 
 if __name__ == "__main__":

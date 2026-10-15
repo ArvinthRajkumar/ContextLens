@@ -4,6 +4,7 @@ import 'package:contextlens/features/compose/declaration.dart';
 import 'package:contextlens/features/compose/video_inspector.dart';
 import 'package:contextlens/features/compose/video_source.dart';
 import 'package:contextlens/features/drafts/draft.dart';
+import 'package:contextlens/features/samples/sample.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -137,6 +138,22 @@ class ComposeController extends Notifier<ComposeState> {
           ? const VideoEmpty()
           : VideoReady(video, draft.videoName ?? video.name),
       declaration: draft.declaration,
+    );
+  }
+
+  /// Fills the form from a Try a sample video. Everything stays editable;
+  /// Run check copies the sample server side instead of uploading it.
+  void useSample(Sample sample, {Uint8List? thumbnail}) {
+    _pickToken++;
+    _draftId = null;
+    _submitted = false;
+    final declaration = sample.toDraft();
+    for (final clip in declaration.clips) {
+      if (clip.id >= _nextClipId) _nextClipId = clip.id + 1;
+    }
+    state = ComposeState(
+      video: VideoReady(sample.toVideo(thumbnail: thumbnail), sample.title),
+      declaration: declaration,
     );
   }
 

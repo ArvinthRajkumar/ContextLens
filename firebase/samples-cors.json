@@ -1,0 +1,8 @@
+[
+  {
+    "origin": ["https://contextlens-tekken.web.app", "https://contextlens-tekken.firebaseapp.com"],
+    "method": ["GET", "HEAD"],
+    "responseHeader": ["Content-Type", "Content-Length", "Range", "Accept-Ranges"],
+    "maxAgeSeconds": 3600
+  }
+]

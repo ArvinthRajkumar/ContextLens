@@ -4,6 +4,26 @@
 
 Built by team **Tekken** for the Google Cloud AI Builder Cup 2026.
 
+## How to test in 2 minutes
+
+1. Open https://contextlens-tekken.web.app (or install the [Android APK](https://contextlens-tekken.web.app/download/contextlens.apk)).
+2. Tap **Try a sample video** and pick one. The video and its caption, brand and topic fill in; you can edit any of them.
+3. Tap **Run check**. The sample is copied on the server, so nothing uploads; the report is ready in under a minute.
+4. Tap a category chip to bring those flags to the top, tap a marker on the seek bar to jump to that moment, and open a flag for the rule it breaks and how to fix it.
+
+Each sample has a **Download** button if you want to test the normal upload path with the same file. All samples are synthetic: Cloud Text-to-Speech voices over plain backgrounds, with fictional brands and people.
+
+| Sample | What it should flag |
+|---|---|
+| Hinglish supplement reel | Disclosure (#ad only at the end, Ad on screen too late), claims (diabetes, Drugs and Magic Remedies Act), fact check (vitamin C and colds) |
+| Gifted supplement with health claims | Disclosure (#ad buried, no Ad on screen), claims ("controls blood sugar"), fact check ("vitamin C prevents the common cold") |
+| Finance app promising guaranteed returns | Disclosure (no label), claims (guaranteed 20% monthly returns, no qualifications) |
+| Paid promo with no label | Disclosure only (brand deal and discount code, no label anywhere) |
+| Clip that drops the doctor's warning | Borrowed clip (the reel stops before "but only if a blood test shows you are deficient"); a claims or fact-check flag can join it |
+| Clean paid post | Nothing to fix: "Ad" in the caption and on screen for the whole video, no risky claims |
+
+Fact checks depend on live web search, so some runs list them under "Needs a human look" instead of as issues. `tool/samples/verify.py` runs every sample through the deployed pipeline and checks these expectations; the last run passed all six.
+
 ## The problem
 
 Indian creators and the agencies and brands behind them publish under rules most of them have never read:
@@ -18,7 +38,7 @@ Lawyers and agency review do not scale to every reel. ContextLens is the pre-pub
 
 - Demo video: _link to be added_
 - **Web app:** https://contextlens-tekken.web.app (pick a video, resumable upload, live progress, report; no share sheet or push on the web)
-- **Android APK:** https://contextlens-tekken.web.app/download/contextlens.apk (version 0.1.1, built 2026-10-15; release build, obfuscated; allow installs from your browser, Android 7 or later; SHA-256 `3f31ea8662ef783733817dd9e3d7dad3fb1204369da9d3c63c56ec032eba9efc`)
+- **Android APK:** https://contextlens-tekken.web.app/download/contextlens.apk (version 0.1.2, built 2026-10-15; release build, obfuscated; allow installs from your browser, Android 7 or later; SHA-256 `f18a066eec9149c382258c10d4460c955fc913467743858af0950b451145dca6`)
 
 | Checking | Report | Flag card | Flag detail |
 |---|---|---|---|
@@ -131,7 +151,7 @@ Every compliance citation names its clause and says whether it is **statutory** 
 - Videos go to Cloud Storage through V4 signed URLs signed by the service account through IAM (no keys anywhere); clients have no direct storage access.
 - Firestore rules: a user can read only their own jobs; nothing can be written from the app.
 - Secrets live in Secret Manager. No keys in the app or the repo (the Firebase client config is public by design). The API never logs URLs with query strings, tokens, captions or file paths.
-- Caps against abuse and runaway cost, enforced by the API (`POST /v1/uploads` and submit, counters in Firestore): 10 checks per user per day, 3 running at once per user, 150 checks per day across everyone, videos up to 3 minutes and 200 MB. The app shows "Daily limit reached, try again tomorrow" or "ContextLens is busy, try later" when a cap is hit. Budget alerts at INR 500, 750 and 1500 warn the team.
+- Caps against abuse and runaway cost, enforced by the API (`POST /v1/uploads` and submit, counters in Firestore): 10 checks per user per day, 3 running at once per user, 150 checks per day across everyone, videos up to 3 minutes and 200 MB. The app shows "Daily limit reached, try again tomorrow" or "ContextLens is busy, try later" when a cap is hit. Budget alerts at INR 500, 750 and 1500 warn the team. Uploads and sample starts are also capped at 20 per day per network (client IP, stored only as a hash), since anonymous accounts are free to make; the global daily cap is counted in a Firestore transaction, so parallel requests cannot overshoot it.
 - Videos, transcripts and reports are deleted after 24 hours (GCS lifecycle and Firestore TTL). **Delete my data** in Settings deletes every job and video, unregisters push and signs out.
 
 ## Repo structure and how to run

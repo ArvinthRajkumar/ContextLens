@@ -7,13 +7,13 @@ from datetime import datetime, timedelta, timezone
 from typing import Any, Literal
 
 import firebase_admin
-from fastapi import BackgroundTasks, Depends, FastAPI, Response
+from fastapi import BackgroundTasks, Depends, FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from google.cloud import firestore
 from pydantic import BaseModel, Field
 
-from . import limits, storage
+from . import limits, samples, storage
 from .auth import Caller, verify_caller
 from .config import settings
 from .errors import (
@@ -85,17 +85,15 @@ class UploadRequest(BaseModel):
     sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
 
 
-@app.post("/v1/uploads", status_code=201)
-def create_upload(body: UploadRequest, caller: Caller = Depends(verify_caller)) -> dict:
-    if body.contentType not in ALLOWED_TYPES:
-        raise ApiError(400, "unsupported_type", "Use an MP4, MOV or WebM video.")
-    if body.sizeBytes > settings.max_upload_bytes:
-        raise ApiError(413, "too_large", "Videos can be up to 200 MB.")
-    limits.check(db, caller.uid, _now())
+def _start_allowed(request: Request, caller: Caller, now: datetime) -> None:
+    """Every cap a new check would hit, then one start counted against the
+    caller's network."""
+    limits.check(db, caller.uid, now)
+    peer = request.client.host if request.client else None
+    limits.count_start(db, limits.client_ip(request.headers.get("x-forwarded-for"), peer), now)
 
-    job_id = uuid.uuid4().hex
-    object_name = storage.source_object(caller.uid, job_id)
-    now = _now()
+
+def _new_job(caller: Caller, job_id: str, now: datetime, content_type: str, size: int, **extra: Any) -> None:
     db.collection("jobs").document(job_id).set(
         {
             "ownerUid": caller.uid,
@@ -104,11 +102,26 @@ def create_upload(body: UploadRequest, caller: Caller = Depends(verify_caller)) 
             "updatedAt": now,
             "expiresAt": now + timedelta(hours=settings.job_ttl_hours),
             "version": 1,
-            "objectName": object_name,
-            "contentType": body.contentType,
-            "sizeBytes": body.sizeBytes,
+            "objectName": storage.source_object(caller.uid, job_id),
+            "contentType": content_type,
+            "sizeBytes": size,
+            **extra,
         }
     )
+
+
+@app.post("/v1/uploads", status_code=201)
+def create_upload(body: UploadRequest, request: Request, caller: Caller = Depends(verify_caller)) -> dict:
+    if body.contentType not in ALLOWED_TYPES:
+        raise ApiError(400, "unsupported_type", "Use an MP4, MOV or WebM video.")
+    if body.sizeBytes > settings.max_upload_bytes:
+        raise ApiError(413, "too_large", "Videos can be up to 200 MB.")
+    now = _now()
+    _start_allowed(request, caller, now)
+
+    job_id = uuid.uuid4().hex
+    object_name = storage.source_object(caller.uid, job_id)
+    _new_job(caller, job_id, now, body.contentType, body.sizeBytes)
     return {
         "jobId": job_id,
         "uploadUrl": storage.resumable_start_url(object_name, body.contentType, body.sizeBytes),
@@ -116,6 +129,30 @@ def create_upload(body: UploadRequest, caller: Caller = Depends(verify_caller)) 
         "maxBytes": settings.max_upload_bytes,
         "chunkSize": settings.chunk_size,
     }
+
+
+@app.get("/v1/samples")
+def list_samples(caller: Caller = Depends(verify_caller)) -> dict:
+    """Synthetic test videos anyone can run a check on, with short-lived
+    signed URLs for their thumbnails, previews and downloads."""
+    return {
+        "samples": samples.listing(),
+        "urlsExpireAt": _iso(_now() + timedelta(minutes=settings.signed_url_minutes)),
+    }
+
+
+@app.post("/v1/samples/{sample_id}/start", status_code=201)
+def start_sample(sample_id: str, request: Request, caller: Caller = Depends(verify_caller)) -> dict:
+    """Copies a sample into a new job server side (no upload), attaching its
+    borrowed-clip source when it has one. The job then goes through submit
+    like any other, and counts against the same caps."""
+    sample = samples.find(sample_id)
+    now = _now()
+    _start_allowed(request, caller, now)
+    job_id = uuid.uuid4().hex
+    size = samples.copy_into(sample, caller.uid, job_id)
+    _new_job(caller, job_id, now, "video/mp4", size, sampleId=sample_id)
+    return {"jobId": job_id, "sizeBytes": size}
 
 
 CLIP_TYPES = {"video/mp4", "video/quicktime", "video/webm", "audio/mpeg", "audio/mp4", "audio/aac", "audio/wav", "audio/x-wav"}

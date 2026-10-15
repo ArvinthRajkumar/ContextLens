@@ -97,7 +97,13 @@ class Client:
         if status != 200:
             raise RuntimeError(f"sign-up failed [{status}]")
         self.uid = body["localId"]
+        self._api_key = api_key
+        self._id_token = body["idToken"]
         self.headers = {"Authorization": f"Bearer {body['idToken']}"}
+        log = os.environ.get("TEST_USERS_LOG")
+        if log:
+            with open(log, "a", encoding="utf-8") as f:
+                print(self.uid, file=f)
         token = os.environ.get("APP_CHECK_DEBUG_TOKEN") or open(
             os.path.expanduser("~/.contextlens/appcheck-debug-token"), encoding="utf-8").read().strip()
         status, _, body = call(
@@ -164,6 +170,11 @@ class Client:
 
     def delete(self, job: str) -> None:
         call("DELETE", f"{self.api}/v1/jobs/{job}", headers=self.headers)
+
+    def delete_account(self) -> None:
+        """Removes this anonymous test user (delete its jobs first)."""
+        call("POST", f"https://identitytoolkit.googleapis.com/v1/accounts:delete?key={self._api_key}",
+             {"idToken": self._id_token})
 
 
 def stage_logs(results: list[Result], minutes: int = 60) -> None:

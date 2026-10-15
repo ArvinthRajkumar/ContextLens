@@ -55,3 +55,6 @@ benchmark/media/
 # Firebase deploy cache and stray Gradle output
 .firebase/
 android/build/
+
+# Sample videos live in gs://contextlens-tekken-samples, not in git
+tool/samples/out/

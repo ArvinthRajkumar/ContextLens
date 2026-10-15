@@ -3,6 +3,7 @@ user, and checks per day across everyone. Counters live in Firestore under
 usage/{day} and usage/{day}_{uid}, one document per day (UTC), and expire
 with the jobs."""
 
+import hashlib
 from datetime import datetime, timedelta, timezone
 
 from google.cloud import firestore
@@ -19,6 +20,7 @@ TOO_MANY_RUNNING = ApiError(
     429, "too_many_running", "You have 3 checks running. Wait for one to finish, then try again."
 )
 BUSY = ApiError(503, "busy", "ContextLens is busy, try later.")
+IP_LIMIT = ApiError(429, "ip_limit", "Too many checks from this network today, try again tomorrow.")
 
 
 def _day(now: datetime) -> str:
@@ -81,5 +83,30 @@ def claim(db: firestore.Client, uid: str, now: datetime) -> None:
         verdict(mine_count, all_count, running)
         transaction.set(mine, {"count": mine_count + 1, "uid": uid, "expiresAt": expires})
         transaction.set(everyone, {"count": all_count + 1, "expiresAt": expires})
+
+    take(db.transaction())
+
+
+def client_ip(forwarded_for: str | None, peer: str | None) -> str:
+    """The caller's address as Google's front end saw it: the last entry of
+    X-Forwarded-For (anything before it was sent by the client and can be
+    forged), else the socket peer."""
+    hops = [h.strip() for h in (forwarded_for or "").split(",") if h.strip()]
+    return hops[-1] if hops else (peer or "unknown")
+
+
+def count_start(db: firestore.Client, ip: str, now: datetime) -> None:
+    """Counts an upload or sample start against the caller's network, and
+    refuses past the daily limit. The address is stored only as a hash."""
+    key = hashlib.sha256(ip.encode()).hexdigest()[:20]
+    ref = db.collection("usage").document(f"{_day(now)}_ip_{key}")
+    expires = now + timedelta(days=2)
+
+    @firestore.transactional
+    def take(transaction: firestore.Transaction) -> None:
+        count = (ref.get(transaction=transaction).to_dict() or {}).get("count", 0)
+        if count >= settings.daily_starts_per_ip:
+            raise IP_LIMIT
+        transaction.set(ref, {"count": count + 1, "expiresAt": expires})
 
     take(db.transaction())

@@ -11,6 +11,7 @@ import 'package:contextlens/core/widgets/video_thumbnail.dart';
 import 'package:contextlens/features/compose/compose_controller.dart';
 import 'package:contextlens/features/compose/video_inspector.dart';
 import 'package:contextlens/features/compose/video_problem_copy.dart';
+import 'package:contextlens/features/samples/sample_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:video_player/video_player.dart';
@@ -117,6 +118,12 @@ class _EmptyPicker extends ConsumerWidget {
             icon: Icons.folder_open_outlined,
             variant: AppButtonVariant.text,
             onPressed: controller.pickFromFiles,
+          ),
+          AppButton(
+            label: 'Try a sample video',
+            icon: Icons.play_circle_outline,
+            variant: AppButtonVariant.text,
+            onPressed: () => showSampleSheet(context),
           ),
         ],
       ),

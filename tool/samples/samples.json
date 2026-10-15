@@ -1,0 +1,147 @@
+{
+  "_about": "Try a sample: synthetic test videos for judges and testers. Upload the videos, thumbnails and this file to gs://contextlens-tekken-samples (tool/samples/README.md). The API reads this manifest from the bucket; ids not listed here are rejected.",
+  "version": 1,
+  "samples": [
+    {
+      "id": "supplements_hinglish",
+      "title": "Hinglish supplement reel",
+      "hint": "Code and price on screen, #ad only at the end, health claims",
+      "language": "Hinglish",
+      "durationMs": 40400,
+      "synthetic": true,
+      "declaration": {
+        "caption": "3 supplements I take every morning. Code GLOW20 #ad",
+        "isPaid": true,
+        "brandName": "GlowVita",
+        "category": "health"
+      },
+      "expect": [
+        "disclosure",
+        "claims",
+        "factcheck"
+      ],
+      "allow": [],
+      "sizeBytes": 9770629,
+      "width": 720,
+      "height": 1280
+    },
+    {
+      "id": "glucoleaf",
+      "title": "Gifted supplement with health claims",
+      "hint": "Gifted product, code on screen, #ad buried, cure claims",
+      "language": "English",
+      "durationMs": 34720,
+      "synthetic": true,
+      "declaration": {
+        "caption": "My morning routine with GlucoLeaf! Use code GLUCO15 #morning #health #wellness #routine #ad",
+        "isPaid": true,
+        "brandName": "GlucoLeaf",
+        "category": "health"
+      },
+      "expect": [
+        "disclosure",
+        "claims",
+        "factcheck"
+      ],
+      "allow": [],
+      "sizeBytes": 1192624,
+      "width": 720,
+      "height": 1280
+    },
+    {
+      "id": "tridentx",
+      "title": "Finance app promising guaranteed returns",
+      "hint": "Guaranteed 20% monthly returns, no Ad label",
+      "language": "English",
+      "durationMs": 25130,
+      "synthetic": true,
+      "declaration": {
+        "caption": "This app changed my finances. Link in bio #money #investing #passiveincome",
+        "isPaid": true,
+        "brandName": "TridentX",
+        "category": "finance"
+      },
+      "expect": [
+        "disclosure",
+        "claims"
+      ],
+      "allow": [
+        "factcheck"
+      ],
+      "sizeBytes": 903372,
+      "width": 720,
+      "height": 1280
+    },
+    {
+      "id": "strydo",
+      "title": "Paid promo with no label",
+      "hint": "Brand deal and discount code, no label anywhere",
+      "language": "English",
+      "durationMs": 26680,
+      "synthetic": true,
+      "declaration": {
+        "caption": "Weekend walks in my new Strydo runners. Code WALK20 for 20% off #sneakers #ootd",
+        "isPaid": true,
+        "brandName": "Strydo",
+        "category": "general"
+      },
+      "expect": [
+        "disclosure"
+      ],
+      "allow": [],
+      "sizeBytes": 738786,
+      "width": 720,
+      "height": 1280
+    },
+    {
+      "id": "vitamind",
+      "title": "Clip that drops the doctor's warning",
+      "hint": "Reel cut from a 2 minute interview, stops before the doctor's condition",
+      "language": "English",
+      "durationMs": 23110,
+      "synthetic": true,
+      "declaration": {
+        "caption": "Doctor says everyone needs vitamin D every day #health #vitamind",
+        "isPaid": false,
+        "category": "health"
+      },
+      "clip": {
+        "id": "vitamind_source",
+        "label": "Morning Health Chat interview",
+        "durationMs": 112780,
+        "sizeBytes": 3325072,
+        "width": 1280,
+        "height": 720
+      },
+      "expect": [
+        "borrowed"
+      ],
+      "allow": [
+        "claims",
+        "factcheck"
+      ],
+      "sizeBytes": 499743,
+      "width": 720,
+      "height": 1280
+    },
+    {
+      "id": "kaapiwren",
+      "title": "Clean paid post",
+      "hint": "Ad label up front and on screen, no risky claims",
+      "language": "English",
+      "durationMs": 26000,
+      "synthetic": true,
+      "declaration": {
+        "caption": "Ad: Overnight cold coffee with the Kaapiwren brew kit #coffee #homecafe",
+        "isPaid": true,
+        "brandName": "Kaapiwren",
+        "category": "general"
+      },
+      "expect": [],
+      "allow": [],
+      "sizeBytes": 1045186,
+      "width": 720,
+      "height": 1280
+    }
+  ]
+}

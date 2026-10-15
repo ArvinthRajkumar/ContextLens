@@ -29,6 +29,10 @@ class Settings:
     )
     max_upload_bytes: int = 200 * 1024 * 1024
     max_video_ms: int = 3 * 60 * 1000
+    samples_bucket: str = os.environ.get("SAMPLES_BUCKET", "contextlens-tekken-samples")
+    # Uploads and sample starts per client IP per day: anonymous accounts are
+    # free to make, so the per-user cap alone is easy to step around.
+    daily_starts_per_ip: int = int(os.environ.get("DAILY_STARTS_PER_IP", "20"))
     # Caps for the judging period: per user per day, per user at once, and
     # across everyone per day (UTC days).
     daily_checks_per_user: int = int(os.environ.get("DAILY_CHECKS_PER_USER", "10"))

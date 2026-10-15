@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:contextlens/core/log.dart';
 import 'package:contextlens/core/theme/colors.dart';
 import 'package:contextlens/core/theme/spacing.dart';
 import 'package:contextlens/core/widgets/app_button.dart';
@@ -10,6 +11,8 @@ import 'package:contextlens/features/compose/declaration_form.dart';
 import 'package:contextlens/features/compose/video_preview_card.dart';
 import 'package:contextlens/features/drafts/drafts_controller.dart';
 import 'package:contextlens/features/report/job_repository.dart';
+import 'package:contextlens/features/samples/sample.dart';
+import 'package:contextlens/features/samples/sample_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -48,7 +51,18 @@ class _ComposePageState extends ConsumerState<ComposePage> {
   Future<void> _restore(String draftId) async {
     await ref.read(draftsControllerProvider.future);
     if (!mounted) return;
-    final draft = ref.read(draftsControllerProvider.notifier).byId(draftId);
+    var draft = ref.read(draftsControllerProvider.notifier).byId(draftId);
+    // A sample draft keeps only the sample's id: its signed URLs have
+    // expired, so fetch fresh ones.
+    if (draft?.video case final video? when video.isSample) {
+      final fresh = await _freshSample(video.sampleId!);
+      if (!mounted) return;
+      if (fresh != null) {
+        draft = draft!.copyWith(
+          video: fresh.toVideo(thumbnail: video.thumbnail),
+        );
+      }
+    }
     final compose = ref.read(composeControllerProvider.notifier);
     if (draft == null) {
       compose.reset();
@@ -56,6 +70,16 @@ class _ComposePageState extends ConsumerState<ComposePage> {
       compose.restore(draft);
     }
     setState(() => _ready = true);
+  }
+
+  Future<Sample?> _freshSample(String id) async {
+    try {
+      final samples = await ref.read(sampleRepositoryProvider).list();
+      return samples.where((s) => s.id == id).firstOrNull;
+    } on Object catch (error) {
+      log('Samples unavailable: ${error.runtimeType}');
+      return null;
+    }
   }
 
   /// Leaving with something worth keeping saves it as a draft. At the

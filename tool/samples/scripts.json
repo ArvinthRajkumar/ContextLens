@@ -1,0 +1,429 @@
+{
+  "_about": "Scripts for the Try a sample videos. Every video is synthetic: Cloud Text-to-Speech voices (en-IN), ffmpeg gradient backgrounds and burned-in text. Brands and people are fictional. Lines are spoken in order with a short pause; overlays name the lines they span (inclusive, 0-based) or 'end'. Rebuild with tool/samples/generate.py.",
+  "samples": [
+    {
+      "id": "glucoleaf",
+      "title": "Gifted supplement with health claims",
+      "hint": "Gifted product, code on screen, #ad buried, cure claims",
+      "voice": "en-IN-Chirp3-HD-Kore",
+      "scenes": [
+        {
+          "until": 2,
+          "colors": [
+            "0x0F766E",
+            "0x99F6E4"
+          ]
+        },
+        {
+          "until": 5,
+          "colors": [
+            "0x1E3A8A",
+            "0x93C5FD"
+          ]
+        },
+        {
+          "until": "end",
+          "colors": [
+            "0x7C2D12",
+            "0xFDBA74"
+          ]
+        }
+      ],
+      "lines": [
+        "Good morning everyone, quick look at my new morning routine.",
+        "GlucoLeaf sent me their daily capsules for free last week.",
+        "I take two with breakfast and that's it.",
+        "Honestly, GlucoLeaf controls blood sugar, so I don't worry about diabetes anymore.",
+        "And the vitamin C in it prevents the common cold. I haven't caught a cold in months.",
+        "The pack is twelve ninety nine rupees for a month.",
+        "Use my code GLUCO15 for fifteen percent off.",
+        "Link is in my bio. See you tomorrow!"
+      ],
+      "overlays": [
+        {
+          "text": "GlucoLeaf daily capsules",
+          "lines": [
+            1,
+            2
+          ],
+          "pos": "top"
+        },
+        {
+          "text": "Rs 1,299 / month",
+          "lines": [
+            5,
+            5
+          ],
+          "pos": "top"
+        },
+        {
+          "text": "Code GLUCO15",
+          "lines": [
+            6,
+            "end"
+          ],
+          "pos": "top",
+          "size": 64
+        }
+      ],
+      "declaration": {
+        "caption": "My morning routine with GlucoLeaf! Use code GLUCO15 #morning #health #wellness #routine #ad",
+        "isPaid": true,
+        "brandName": "GlucoLeaf",
+        "category": "health"
+      },
+      "expect": [
+        "disclosure",
+        "claims",
+        "factcheck"
+      ],
+      "allow": []
+    },
+    {
+      "id": "tridentx",
+      "title": "Finance app promising guaranteed returns",
+      "hint": "Guaranteed 20% monthly returns, no Ad label",
+      "voice": "en-IN-Chirp3-HD-Charon",
+      "scenes": [
+        {
+          "until": 1,
+          "colors": [
+            "0x111827",
+            "0x6366F1"
+          ]
+        },
+        {
+          "until": 4,
+          "colors": [
+            "0x064E3B",
+            "0x34D399"
+          ]
+        },
+        {
+          "until": "end",
+          "colors": [
+            "0x1F2937",
+            "0xF59E0B"
+          ]
+        }
+      ],
+      "lines": [
+        "Stop keeping your money in a savings account.",
+        "I moved everything to the TridentX app three months ago.",
+        "Their auto trading gives guaranteed twenty percent returns every month.",
+        "Zero risk, because the algorithm never loses.",
+        "My friend doubled her salary in one quarter.",
+        "Sign up with my link and get your first trade free.",
+        "Do it today, this offer closes on Sunday."
+      ],
+      "overlays": [
+        {
+          "text": "TridentX",
+          "lines": [
+            1,
+            1
+          ],
+          "pos": "top",
+          "size": 72
+        },
+        {
+          "text": "20% every month, guaranteed",
+          "lines": [
+            2,
+            3
+          ],
+          "pos": "top"
+        },
+        {
+          "text": "First trade free",
+          "lines": [
+            5,
+            "end"
+          ],
+          "pos": "top"
+        }
+      ],
+      "declaration": {
+        "caption": "This app changed my finances. Link in bio #money #investing #passiveincome",
+        "isPaid": true,
+        "brandName": "TridentX",
+        "category": "finance"
+      },
+      "expect": [
+        "disclosure",
+        "claims"
+      ],
+      "allow": [
+        "factcheck"
+      ]
+    },
+    {
+      "id": "strydo",
+      "title": "Paid promo with no label",
+      "hint": "Brand deal and discount code, no label anywhere",
+      "voice": "en-IN-Chirp3-HD-Puck",
+      "scenes": [
+        {
+          "until": 2,
+          "colors": [
+            "0x312E81",
+            "0xA5B4FC"
+          ]
+        },
+        {
+          "until": "end",
+          "colors": [
+            "0x9D174D",
+            "0xF9A8D4"
+          ]
+        }
+      ],
+      "lines": [
+        "New shoes day!",
+        "These are the Strydo City runners in sand grey.",
+        "Strydo is paying for this video, and they gave me a code for you.",
+        "I wore them all weekend for my morning walks.",
+        "The sole is soft and they are light enough to pack in a small bag.",
+        "They come in six colours and the laces are reflective.",
+        "Use code WALK20 for twenty percent off at the Strydo store.",
+        "Tell me which colour I should get next."
+      ],
+      "overlays": [
+        {
+          "text": "Strydo City runners",
+          "lines": [
+            1,
+            2
+          ],
+          "pos": "top"
+        },
+        {
+          "text": "Code WALK20",
+          "lines": [
+            6,
+            "end"
+          ],
+          "pos": "top",
+          "size": 64
+        }
+      ],
+      "declaration": {
+        "caption": "Weekend walks in my new Strydo runners. Code WALK20 for 20% off #sneakers #ootd",
+        "isPaid": true,
+        "brandName": "Strydo",
+        "category": "general"
+      },
+      "expect": [
+        "disclosure"
+      ],
+      "allow": []
+    },
+    {
+      "id": "kaapiwren",
+      "title": "Clean paid post",
+      "hint": "Ad label up front and on screen, no risky claims",
+      "voice": "en-IN-Chirp3-HD-Aoede",
+      "scenes": [
+        {
+          "until": 2,
+          "colors": [
+            "0x78350F",
+            "0xFCD34D"
+          ]
+        },
+        {
+          "until": "end",
+          "colors": [
+            "0x134E4A",
+            "0x5EEAD4"
+          ]
+        }
+      ],
+      "lines": [
+        "This is a paid partnership with Kaapiwren.",
+        "Today I'm making cold coffee at home with their brew kit.",
+        "Add the ground coffee to the jar and pour in cold water.",
+        "Close the lid and leave it in the fridge overnight.",
+        "In the morning, press the filter down and pour.",
+        "I like mine with milk and a little ice.",
+        "Give it a stir and taste it before you add any sugar.",
+        "Tag me if you try this at home."
+      ],
+      "overlays": [
+        {
+          "text": "Ad | Paid partnership with Kaapiwren",
+          "lines": [
+            0,
+            "end"
+          ],
+          "pos": "top",
+          "size": 40
+        },
+        {
+          "text": "Kaapiwren cold brew kit",
+          "lines": [
+            1,
+            2
+          ],
+          "pos": "middle"
+        }
+      ],
+      "declaration": {
+        "caption": "Ad: Overnight cold coffee with the Kaapiwren brew kit #coffee #homecafe",
+        "isPaid": true,
+        "brandName": "Kaapiwren",
+        "category": "general"
+      },
+      "expect": [],
+      "allow": []
+    }
+  ],
+  "borrowed": {
+    "id": "vitamind",
+    "title": "Clip that drops the doctor's warning",
+    "hint": "Reel cut from a 2 minute interview, stops before the doctor's condition",
+    "sourceId": "vitamind_source",
+    "sourceTitle": "Morning Health Chat, full interview",
+    "voices": {
+      "host": "en-IN-Chirp3-HD-Leda",
+      "expert": "en-IN-Chirp3-HD-Iapetus"
+    },
+    "lines": [
+      [
+        "host",
+        "Welcome back to Morning Health Chat. Today we're talking about vitamin D with Doctor Arun Mehta."
+      ],
+      [
+        "expert",
+        "Thank you for having me. It's a topic I get asked about every single week."
+      ],
+      [
+        "host",
+        "Let's start simple. Why does vitamin D matter?"
+      ],
+      [
+        "expert",
+        "It helps your body absorb calcium, so it matters for bones and muscles."
+      ],
+      [
+        "host",
+        "A lot of people take a supplement every day. Should everyone?"
+      ],
+      [
+        "expert",
+        "Everyone should take vitamin D daily."
+      ],
+      [
+        "expert",
+        "But only if a blood test shows you are deficient. Otherwise you can take too much and harm your kidneys."
+      ],
+      [
+        "host",
+        "So the test comes first."
+      ],
+      [
+        "expert",
+        "Exactly. Ask your doctor for a simple blood test before you start anything."
+      ],
+      [
+        "host",
+        "How do people usually get vitamin D without tablets?"
+      ],
+      [
+        "expert",
+        "Sunlight is the main source. Fifteen to twenty minutes of morning sun on your arms helps most people."
+      ],
+      [
+        "host",
+        "And food?"
+      ],
+      [
+        "expert",
+        "Eggs, fish and fortified milk give you some, but it's hard to get enough from food alone."
+      ],
+      [
+        "host",
+        "What happens if someone takes high doses for months without checking?"
+      ],
+      [
+        "expert",
+        "Calcium can build up in the blood. That can cause nausea, weakness and kidney problems."
+      ],
+      [
+        "host",
+        "Is there a best time of day to take it, if your doctor says you need it?"
+      ],
+      [
+        "expert",
+        "With a meal that has some fat in it, because vitamin D is absorbed better that way."
+      ],
+      [
+        "host",
+        "Do children need it too?"
+      ],
+      [
+        "expert",
+        "Some do, but the dose is different, so that is always a question for their paediatrician."
+      ],
+      [
+        "host",
+        "And what about people who work indoors all day?"
+      ],
+      [
+        "expert",
+        "They are more likely to be low, which is exactly why a test is worth doing for them."
+      ],
+      [
+        "host",
+        "How often should someone get retested?"
+      ],
+      [
+        "expert",
+        "Usually after three months of treatment, then as your doctor advises."
+      ],
+      [
+        "host",
+        "That's important. Any last advice for our listeners?"
+      ],
+      [
+        "expert",
+        "Get tested, follow the dose your doctor gives you, and get some sun."
+      ],
+      [
+        "host",
+        "Thank you, Doctor Mehta. That's all for today's Morning Health Chat."
+      ]
+    ],
+    "reelLines": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "omitted": [
+      6
+    ],
+    "reelColors": [
+      "0x0C4A6E",
+      "0x7DD3FC"
+    ],
+    "sourceColors": [
+      "0x1F2937",
+      "0x9CA3AF"
+    ],
+    "declaration": {
+      "caption": "Doctor says everyone needs vitamin D every day #health #vitamind",
+      "isPaid": false,
+      "category": "health",
+      "clipLabel": "Morning Health Chat interview"
+    },
+    "expect": [
+      "borrowed"
+    ],
+    "allow": [
+      "claims",
+      "factcheck"
+    ]
+  }
+}

@@ -5,6 +5,7 @@ import 'package:contextlens/core/widgets/app_card.dart';
 import 'package:contextlens/features/compose/compose_controller.dart';
 import 'package:contextlens/features/report/flag_presentation.dart';
 import 'package:contextlens/features/report/models.dart';
+import 'package:contextlens/features/samples/sample_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -63,6 +64,14 @@ class CheckVideoCard extends ConsumerWidget {
               ref.read(composeControllerProvider.notifier).reset();
               context.push('/new');
             },
+          ),
+          const SizedBox(height: Spacing.space2),
+          AppButton(
+            label: 'Try a sample video',
+            icon: Icons.play_circle_outline,
+            variant: AppButtonVariant.secondary,
+            expand: true,
+            onPressed: () => showSampleSheet(context, openCompose: true),
           ),
         ],
       ),

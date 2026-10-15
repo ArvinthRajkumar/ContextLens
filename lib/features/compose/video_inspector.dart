@@ -19,6 +19,7 @@ class PickedVideo {
     required this.width,
     required this.height,
     this.thumbnail,
+    this.sampleId,
   });
 
   final String path;
@@ -30,6 +31,12 @@ class PickedVideo {
   final int height;
   final Uint8List? thumbnail;
 
+  /// Set for a Try a sample video: [path] is then its signed preview URL and
+  /// the check copies the sample server side instead of uploading it.
+  final String? sampleId;
+
+  bool get isSample => sampleId != null;
+
   /// The same video at another path (a draft's private copy).
   PickedVideo atPath(String path) => PickedVideo(
     path: path,
@@ -40,6 +47,7 @@ class PickedVideo {
     width: width,
     height: height,
     thumbnail: thumbnail,
+    sampleId: sampleId,
   );
 }
 

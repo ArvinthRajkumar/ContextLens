@@ -27,7 +27,15 @@ def clip_object(uid: str, job_id: str, index: int) -> str:
     return f"uploads/{uid}/{job_id}/clips/{index}"
 
 
-def _signing_kwargs() -> dict:
+def client() -> storage.Client:
+    return _client
+
+
+def uploads_bucket() -> storage.Bucket:
+    return _bucket
+
+
+def signing_kwargs() -> dict:
     if not _credentials.valid:
         _credentials.refresh(google_requests.Request())
     return {
@@ -49,7 +57,7 @@ def resumable_start_url(object_name: str, content_type: str, size_bytes: int) ->
             "content-type": content_type,
             "x-upload-content-length": str(size_bytes),
         },
-        **_signing_kwargs(),
+        **signing_kwargs(),
     )
 
 
@@ -58,7 +66,7 @@ def playback_url(object_name: str) -> str:
         version="v4",
         method="GET",
         expiration=timedelta(minutes=settings.signed_url_minutes),
-        **_signing_kwargs(),
+        **signing_kwargs(),
     )
 
 

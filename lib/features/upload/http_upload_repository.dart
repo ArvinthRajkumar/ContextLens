@@ -53,8 +53,23 @@ class HttpUploadRepository implements UploadRepository {
       ) ??
       response.statusCode;
 
+  /// Jobs started from a sample: copied server side, nothing to upload.
+  final _sampleJobs = <String, int>{};
+
   @override
   Future<UploadSession> createSession(PickedVideo video) async {
+    if (video.sampleId case final sampleId?) {
+      final Map<String, dynamic> started;
+      try {
+        started = await _api.post('/v1/samples/$sampleId/start', const {});
+      } on ApiException catch (e) {
+        throw UploadException(_failureFor(e));
+      }
+      final jobId = started['jobId'] as String;
+      final size = started['sizeBytes'] as int? ?? video.sizeBytes;
+      _sampleJobs[jobId] = size;
+      return UploadSession(jobId: jobId, totalBytes: size);
+    }
     final Map<String, dynamic> created;
     try {
       created = await _api.post('/v1/uploads', {
@@ -109,6 +124,7 @@ class HttpUploadRepository implements UploadRepository {
 
   @override
   Future<int> committedBytes(UploadSession session) async {
+    if (_sampleJobs[session.jobId] case final size?) return size;
     final stored = _require(session.jobId);
     try {
       final response = await _gcs.put<void>(
@@ -134,6 +150,9 @@ class HttpUploadRepository implements UploadRepository {
     required int fromByte,
     required UploadCancelToken cancel,
   }) {
+    if (_sampleJobs[session.jobId] case final size?) {
+      return Stream.value(size);
+    }
     final stored = _require(session.jobId);
     final controller = StreamController<int>();
     final dioCancel = CancelToken();
@@ -209,6 +228,7 @@ class HttpUploadRepository implements UploadRepository {
       throw UploadException(_failureFor(e));
     }
     _sessions.remove(session.jobId);
+    _sampleJobs.remove(session.jobId);
     await _store.clear();
     return session.jobId;
   }
@@ -268,6 +288,7 @@ class HttpUploadRepository implements UploadRepository {
 
   @override
   Future<void> discard(UploadSession session) async {
+    _sampleJobs.remove(session.jobId);
     final stored = _sessions.remove(session.jobId);
     await _store.clear();
     if (stored != null) {

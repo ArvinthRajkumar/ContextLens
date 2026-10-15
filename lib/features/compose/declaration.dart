@@ -19,6 +19,7 @@ class ClipDraft {
     this.url = '',
     this.filePath,
     this.fileName,
+    this.sampleSourceId,
   });
 
   /// Stable key for the row's widgets while rows are added and removed.
@@ -28,7 +29,13 @@ class ClipDraft {
   final String? filePath;
   final String? fileName;
 
-  bool get hasSource => sanitizeText(url).isNotEmpty || filePath != null;
+  /// The original of a Try a sample clip, attached server side.
+  final String? sampleSourceId;
+
+  bool get hasSource =>
+      sanitizeText(url).isNotEmpty ||
+      filePath != null ||
+      sampleSourceId != null;
 
   /// First problem with the row, or null when it can be submitted.
   String? get error =>
@@ -49,6 +56,7 @@ class ClipDraft {
       url: url ?? this.url,
       filePath: clearFile ? null : (filePath ?? this.filePath),
       fileName: clearFile ? null : (fileName ?? this.fileName),
+      sampleSourceId: clearFile ? null : sampleSourceId,
     );
   }
 

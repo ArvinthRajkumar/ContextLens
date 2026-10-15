@@ -61,6 +61,7 @@ class Draft {
         'durationMs': v.duration.inMilliseconds,
         'width': v.width,
         'height': v.height,
+        'sampleId': v.sampleId,
       },
     'declaration': {
       'caption': declaration.caption,
@@ -75,6 +76,7 @@ class Draft {
             'url': clip.url,
             'filePath': clip.filePath,
             'fileName': clip.fileName,
+            'sampleSourceId': clip.sampleSourceId,
           },
       ],
     },
@@ -100,6 +102,7 @@ class Draft {
               width: video['width']! as int,
               height: video['height']! as int,
               thumbnail: thumbnail,
+              sampleId: video['sampleId'] as String?,
             ),
       declaration: DeclarationDraft(
         caption: d['caption']! as String,
@@ -114,6 +117,7 @@ class Draft {
               url: raw['url']! as String,
               filePath: raw['filePath'] as String?,
               fileName: raw['fileName'] as String?,
+              sampleSourceId: raw['sampleSourceId'] as String?,
             ),
         ],
       ),

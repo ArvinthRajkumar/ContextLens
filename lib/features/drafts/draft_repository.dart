@@ -78,8 +78,11 @@ class FileDraftRepository implements DraftRepository {
     var stored = draft;
     final video = draft.video;
     if (video != null) {
-      final path = await _keep(video.path, dir, 'video');
-      stored = stored.copyWith(video: video.atPath(path));
+      // A sample stays in its bucket; the draft keeps only its id.
+      if (!video.isSample) {
+        final path = await _keep(video.path, dir, 'video');
+        stored = stored.copyWith(video: video.atPath(path));
+      }
       final thumb = video.thumbnail;
       if (thumb != null) await File('${dir.path}/$_thumb').writeAsBytes(thumb);
     }
