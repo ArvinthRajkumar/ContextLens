@@ -1,6 +1,6 @@
 # ContextLens
 
-**Check a creator video before it goes live.** ContextLens is an Android app (Flutter) that reads a reel the way a regulator would: it finds the brand deal without a label, the supplement that "cures" diabetes, the podcast clip that leaves out the doctor's warning and the statistic a fact-checker has already debunked, then cites the exact rule or source for each one and suggests a fix.
+**Check a creator video before it goes live.** ContextLens is a Flutter app for Android and the web that reads a reel the way a regulator would: it finds the brand deal without a label, the supplement that "cures" diabetes, the podcast clip that leaves out the doctor's warning and the statistic a fact-checker has already debunked, then cites the exact rule or source for each one and suggests a fix.
 
 Built by team **Tekken** for the Google Cloud AI Builder Cup 2026.
 
