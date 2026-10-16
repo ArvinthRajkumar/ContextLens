@@ -2,7 +2,9 @@
 voiceover. The voice drives the timing: sections run back to back and every
 shot is fitted to its section's speech.
 
-    python edit.py FFMPEG
+    python edit.py FFMPEG [SHOT ...]
+
+With shot numbers it renders only those shots (to check one quickly).
 
 Run it with a Python that has Pillow (the overlays are drawn with it).
 Inputs (all under out/, gitignored): rec/rec1.webm, rec2.webm, rec5.webm from
@@ -42,9 +44,6 @@ PHONE_W, PHONE_H = 450, 1000
 PHONE_X, PHONE_Y = 1380 - PHONE_W // 2, (H - PHONE_H) // 2
 RADIUS = 44
 SHADOW = 80
-# The phone floats a few pixels on a slow cycle (in absolute time, so cuts
-# line up), which also keeps still screens from reading as frozen.
-FLOAT = "{y}+7*sin(2*PI*(t+{start:.3f})/7)"
 LEFT_X, LEFT_W = 120, 840
 CAPTION_Y = 800
 
@@ -75,12 +74,11 @@ SECTIONS = [
      "chips": [("Missing ad labels", "A missing ad label"), ("Cure claims, clipped quotes", "a cure claim"),
                ("98% of investigated ads needed changes", "ninety-eight percent")],
      "shots": [deck(1, until=4.0),
-               phone(1, [(2.5, 11.0, None)], zoom=[("We are team Tekken", 1.25, 0.5, 0.2)])]},
+               phone(1, [(2.5, 11.0, None)])]},
     {"key": "S2", "label": "TRY A SAMPLE", "headline": "Fifteen seconds of context",
      "chips": [("Android and web", "It runs on Android"), ("Caption, paid, clips, topic", "the caption you plan"),
                ("Stricter health and finance checks", "Health and finance")],
-     "shots": [phone(1, [(11.0, 17.0, 1.0), (17.0, 26.3, None)],
-                     zoom=[("the caption you plan", 1.15, 0.5, 0.36), ("any borrowed clips", 1.15, 0.5, 0.66)])]},
+     "shots": [phone(1, [(11.0, 17.0, 1.0), (17.0, 26.3, None)])]},
     {"key": "S3", "label": "LIVE CHECK", "headline": "From upload to report, live",
      "chips": [("Chirp 3", "Chirp 3"), ("Gemini 2.5 Flash on Vertex AI", "Gemini 2.5"),
                ("4 checkers in parallel", "four checkers")],
@@ -89,26 +87,25 @@ SECTIONS = [
      "chips": [("Tap a timestamp to jump", "timestamp you can tap"), ("ASCI clause 1.2(c)", "quotes clause"),
                ("A fix you can apply", "suggests the fix")],
      "shots": [phone(2, [(47.5, 62.0, None)], until="This first one",
-                     zoom=[("how many issues", 1.35, 0.37, 0.6), ("Every flag has", 1.0, 0.5, 0.5)]),
+                     zoom=[("how many issues", 1.3, 0.5, 0.6), ("Every flag has", 1.0, 0.5, 0.5)]),
                phone(2, [(66.0, 82.0, None)],
-                     zoom=[("ASCI's influencer", 1.35, 0.37, 0.22), ("suggests the fix", 1.35, 0.37, 0.78)])]},
+                     zoom=[("ASCI's influencer", 1.3, 0.5, 0.22), ("suggests the fix", 1.3, 0.5, 0.78)])]},
     {"key": "S5", "label": "CLAIMS AND FACTS", "headline": "Statute or self-regulation, with sources",
      "chips": [("ASCI Code and the DMR Act", "clause index"), ("Fact Check Tools API", "Fact Check Tools"),
                ("Google Search grounding", "Google Search grounding")],
      "shots": [phone(2, [(84.0, 88.8, None)], until="and every flag says"),
-               phone(2, [(104.8, 106.8, None)], until="For facts", zoom=[(0.0, 1.35, 0.37, 0.62)]),
-               phone(2, [(19.0, 37.2, None)], zoom=[("quotes the source", 1.35, 0.37, 0.6)])]},
+               phone(2, [(104.8, 106.8, None)], until="For facts", zoom=[(0.0, 1.3, 0.5, 0.62)]),
+               phone(2, [(19.0, 37.2, None)], zoom=[("quotes the source", 1.3, 0.5, 0.6)])]},
     {"key": "S6", "label": "EVIDENCE GATE", "headline": "No evidence, no verdict",
      "chips": [("Quote found in the source", "quote is actually found"),
                ("Vertex AI Check Grounding", "Vertex AI Check Grounding"), ("Needs a human look", "needs a human look")],
-     "shots": [phone(2, [(107.0, 121.2, None)], zoom=[("needs a human look", 1.35, 0.37, 0.2)])]},
+     "shots": [phone(2, [(107.0, 121.2, None)], zoom=[("needs a human look", 1.3, 0.5, 0.2)])]},
     {"key": "S7", "label": "BORROWED CLIPS", "headline": "See what the clip left out",
      "chips": [("Word by word alignment", "word by word"), ("The missing sentence, highlighted", "highlights exactly")],
-     "shots": [phone(5, [(47.5, 67.0, None)], zoom=[("highlights exactly", 1.35, 0.37, 0.72)])]},
+     "shots": [phone(5, [(47.5, 67.0, None)], zoom=[("highlights exactly", 1.3, 0.5, 0.72)])]},
     {"key": "S8", "label": "RE-CHECK", "headline": "Fix, upload again, compare",
      "chips": [("Resolved and still open", "what was resolved")],
-     "shots": [phone(2, [(9.0, 17.5, None)], until="Under the hood",
-                     zoom=[("what was resolved", 1.35, 0.37, 0.74)]),
+     "shots": [phone(2, [(9.0, 17.5, None)], until="Under the hood"),
                deck(7)]},
     {"key": "S9", "label": None, "headline": None, "chips": [],
      "shots": [deck(11, until="ContextLens is live"), deck("links_slide_for_video.png")]},
@@ -323,10 +320,9 @@ def eased(keys: list[tuple[float, float]], base: float, now: str = "t") -> str:
     return expr
 
 
-def phone_video(shot: dict, length: float, zoom: list) -> tuple[list[str], list[str], int]:
+def phone_video(shot: dict, length: float) -> tuple[list[str], list[str], int]:
     """Input arguments and the filter chain that make the phone screen
-    stream [scr]: the recording fitted to the shot, zoomed per keyframe, with
-    a slow push-in so the picture never stands still."""
+    stream [scr]: the recording fitted to the shot, always the full width."""
     segs = shot["segments"]
     fixed = sum((b - a) / s for a, b, s in segs if s)
     stretch = sum(b - a for a, b, s in segs if not s)
@@ -336,19 +332,30 @@ def phone_video(shot: dict, length: float, zoom: list) -> tuple[list[str], list[
         speed = s or 1 / max(fill, 1e-6)
         args += ["-ss", f"{a:.3f}", "-t", f"{b - a:.3f}", "-i", str((OUT / "rec" / f"rec{shot['take']}.webm").resolve())]
         chain.append(f"[{i}:v]{CROP},setsar=1,setpts=(PTS-STARTPTS)/{speed:.5f},fps={FPS},"
-                     f"scale=900:2000:flags=lanczos[s{i}]")
+                     f"scale={PHONE_W}:{PHONE_H}:flags=lanczos[s{i}]")
     joined = "".join(f"[s{i}]" for i in range(len(segs)))
-    # zoompan, not scale and crop: crop loses the timestamp when its input
-    # size changes every frame. Its clock is the output frame number.
-    now = f"(on/{FPS})"
-    z = f"((1+0.05*{now}/{length:.3f})*({eased([(t, k[0]) for t, *k in zoom], 1.0, now)}))"
-    fx = eased([(t, k[1]) for t, *k in zoom], 0.5, now)
-    fy = eased([(t, k[2]) for t, *k in zoom], 0.5, now)
     chain.append(
         f"{joined}concat=n={len(segs)}:v=1:a=0,tpad=stop_mode=clone:stop_duration=2,trim=duration={length:.3f},"
-        f"zoompan=z='{z}':x='clip(({fx})*iw-iw/zoom/2,0,iw-iw/zoom)':y='clip(({fy})*ih-ih/zoom/2,0,ih-ih/zoom)':"
-        f"d=1:s={PHONE_W}x{PHONE_H}:fps={FPS},format=rgba[scr]")
+        "format=rgba[scr]")
     return args, chain, len(segs)
+
+
+def phone_motion(zoom: list, length: float, start: float) -> tuple[str, str]:
+    """Scale and top edge of the whole phone (frame, screen and shadow) as
+    expressions in t. A zoom keyframe scales it and slides it so the card at
+    height y of the screen sits in the middle of the canvas; the sides stay
+    on the canvas. A slow 6% growth and a few pixels of float (two cycles, so it never
+    stalls) keep still
+    screens from reading as frozen."""
+    drift = f"(1+0.06*t/{length:.3f})"
+    z = f"({eased([(t, z) for t, z, _, _ in zoom], 1.0)})"
+    scale = f"({drift}*{z})"
+    tops = [(t, PHONE_Y if z == 1.0 else H / 2 - y * PHONE_H * z) for t, z, _, y in zoom]
+    # The growth is about the phone's centre, so the unzoomed phone stays on
+    # the canvas.
+    top = (f"({eased(tops, PHONE_Y)})-{PHONE_H / 2}*{z}*({drift}-1)"
+           f"+6*sin(2*PI*(t+{start:.3f})/7)+4*sin(2*PI*(t+{start:.3f})/4.3)")
+    return scale, top
 
 
 def render_shot(shot: dict, index: int, start: float, length: float, overlays: list, zoom: list) -> None:
@@ -361,17 +368,19 @@ def render_shot(shot: dict, index: int, start: float, length: float, overlays: l
                      f"crop={W}:{H}:x='(iw-{W})/2':y='(ih-{H})/2',format=rgba[v0]")
         n = 1
     else:
-        args, chain, n = phone_video(shot, length, zoom)
+        args, chain, n = phone_video(shot, length)
         extra += args + ["-loop", "1", "-framerate", str(FPS), "-t", f"{length:.3f}", "-i", "stage.png",
                          "-i", "mask.png", "-loop", "1", "-framerate", str(FPS), "-t", f"{length:.3f}",
                          "-i", "shadow.png"]
         graph += chain
-        float_y = FLOAT.format(y=PHONE_Y, start=start)
-        shadow_y = FLOAT.format(y=PHONE_Y - SHADOW, start=start)
+        scale, top = phone_motion(zoom, length, start)
+        lw, lh = PHONE_W + 2 * SHADOW, PHONE_H + 2 * SHADOW
         graph += [f"[{n + 1}:v]format=gray[mask]", "[scr][mask]alphamerge[ph]", f"[{n}:v]format=rgba[bg]",
                   f"[{n + 2}:v]format=rgba[sh]",
-                  f"[bg][sh]overlay=x={PHONE_X - SHADOW}:y='{shadow_y}'[bs]",
-                  f"[bs][ph]overlay=x={PHONE_X}:y='{float_y}'[v0]"]
+                  f"[sh][ph]overlay=x={SHADOW}:y={SHADOW}[layer]",
+                  f"[layer]scale=w='2*trunc({lw / 2}*{scale})':h='2*trunc({lh / 2}*{scale})':eval=frame:"
+                  "flags=bicubic[big]",
+                  f"[bg][big]overlay=x='{PHONE_X + PHONE_W // 2}-overlay_w/2':y='{top}-{SHADOW}*{scale}'[v0]"]
         n += 3
     label = "v0"
     for j, item in enumerate(overlays):
@@ -441,7 +450,10 @@ def main() -> None:
                 voice[key]["start"] + voice[key]["length"] + GAP
             captions.append((a, b, text))
 
+    only = [int(a) for a in sys.argv[2:]]
     for index, (section, shot) in enumerate(shots):
+        if only and index not in only:
+            continue
         start, end = shot["begin"], shot["end"]
         length = end - start + (XFADE if index + 1 < len(shots) else 0)
         overlays = []
@@ -477,6 +489,9 @@ def main() -> None:
             zoom.append((max(0.0, local - EASE / 2), z, fx, fy))
         render_shot(shot, index, start, length, overlays, zoom)
         print(f"shot {index} {section['key']} {start:.2f}-{end:.2f}", flush=True)
+
+    if only:
+        return
 
     # Crossfade every shot into the next: shot i starts at its begin time.
     inputs, vgraph, prev = [], [], "0:v"
