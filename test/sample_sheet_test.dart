@@ -88,6 +88,21 @@ void main() {
     expect(find.text('Morning Health Chat interview'), findsOneWidget);
   });
 
+  testWidgets('a sample with a borrowed clip passes the form and runs', (
+    tester,
+  ) async {
+    final container = await pump(tester);
+    await tester.tap(find.text('Try a sample video'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text("Clip that drops the doctor's warning"));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Run check'));
+    await tester.pump();
+    expect(find.text('Add a link or attach the clip'), findsNothing);
+    expect(container.read(pendingSubmissionProvider), isNotNull);
+  });
+
   testWidgets('New check offers samples too', (tester) async {
     final container = await pump(tester);
     container.read(composeControllerProvider.notifier).reset();

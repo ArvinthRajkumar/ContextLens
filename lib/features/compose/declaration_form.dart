@@ -258,7 +258,7 @@ class _ClipRowState extends ConsumerState<_ClipRow> {
               validator: (value) {
                 final text = value ?? '';
                 return validateClipUrl(text) ??
-                    (sanitizeText(text).isEmpty && clip.filePath == null
+                    (sanitizeText(text).isEmpty && !clip.hasSource
                         ? 'Add a link or attach the clip'
                         : null);
               },

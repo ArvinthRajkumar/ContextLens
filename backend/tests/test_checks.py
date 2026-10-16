@@ -325,3 +325,20 @@ def test_generic_and_specific_moments_apart_merge():
     b = {"id": "L2", "text": "everyone in my family takes it", "startMs": 4000, "endMs": 5000, "subject": "family"}
     merged = merge([(_finding("dmr-act/3(d)", ["L1"]), [a]), (_finding("asci-code/I.1.1", ["L2"]), [b])])
     assert len(merged) == 1 and merged[0][0].clause_id == "dmr-act/3(d)"
+
+
+def test_omitted_condition_is_highlighted_in_the_comparison():
+    from app.pipeline.checks.alignment import Alignment
+    from app.pipeline.checks.borrowed import _flag
+
+    result = Alignment(
+        score=0.95, source_start=0, source_end=10,
+        segments=[{"op": "equal", "text": "Everyone should take vitamin D daily."}],
+        omitted_next="But only if a blood test shows you are deficient.",
+        original="Everyone should take vitamin D daily.",
+    )
+    flag = _flag({"text": "Everyone should take vitamin D daily.", "startMs": 0, "endMs": 4000},
+                 "Morning Health Chat", "", result).flag
+    assert flag["title"] == "Clip leaves out the condition that follows"
+    assert flag["diff"]["segments"][-1] == {"op": "delete", "text": "But only if a blood test shows you are deficient."}
+    assert flag["diff"]["originalTranscript"].endswith("you are deficient.")

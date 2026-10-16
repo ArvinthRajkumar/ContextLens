@@ -82,6 +82,11 @@ def _flag(item: dict, label: str, url: str, result: Alignment) -> Candidate:
         evidence = f'In {label} the next line is "{result.omitted_next}", which your clip leaves out.'
     slug = re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-")[:30]
     original = result.original + (f" {result.omitted_next}" if result.omitted_next else "")
+    # The comparison ends where the clip ends; show the sentence it left out
+    # as removed, so the report highlights it.
+    segments = list(result.segments)
+    if result.omitted_next:
+        segments.append({"op": "delete", "text": result.omitted_next})
     return Candidate(
         {
             "fingerprint": f"borrowed:clip:{slug}",
@@ -94,7 +99,7 @@ def _flag(item: dict, label: str, url: str, result: Alignment) -> Candidate:
             "citation": {"title": label, **({"url": url} if url.startswith("https://") else {})},
             "sourceQuote": {"text": original, "source": f"{label}, original"},
             "suggestedFix": "Use the full passage, or say in your own words what the speaker added.",
-            "diff": {"clipTranscript": item["text"], "originalTranscript": original, "segments": result.segments},
+            "diff": {"clipTranscript": item["text"], "originalTranscript": original, "segments": segments},
         },
         [Evidence("source_transcript", original, url), Evidence("transcript", item["text"])],
     )

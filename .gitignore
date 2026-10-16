@@ -58,3 +58,7 @@ android/build/
 
 # Sample videos live in gs://contextlens-tekken-samples, not in git
 tool/samples/out/
+
+# Demo video build: recordings, audio, renders and the final MP4 never go in git
+demo-video/out/
+demo-video/node_modules/
